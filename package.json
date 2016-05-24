@@ -1,10 +1,7 @@
 {
   "name": "fepper",
-  "version": "0.0.0",
-  "description": "A Front End Prototyper for the rapid prototyping of websites",
-  "scripts": {
-    "test": "gulp --gulpfile tasker.js test"
-  },
+  "description": "A frontend prototyper for the rapid prototyping of websites",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
