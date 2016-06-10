@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.7.2
+* Extend updates
+
 ##v0.7.1
 * Adding missing extend files
 
