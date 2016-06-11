@@ -1,5 +1,9 @@
 #Fepper Changelog
 
+##v0.8.2
+* Templater does not maintain directory nesting for exceptional targets
+* Frontend-copier does not maintain directory nesting for exceptional targets
+
 ##v0.8.1
 * .gitignore update
 
@@ -45,7 +49,7 @@
 * Replacing abandoned gulp-livereload with supported gulp-refresh
 * Scraper refinements
 * Better scraper success msg
-* templates\_dir override and unit tests
+* templates_dir override and unit tests
 
 ##v0.2.4
 * Updating multisite Pattern Lab
