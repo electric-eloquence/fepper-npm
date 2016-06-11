@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.3
+* Allowing yml newlines to be configurable
+
 ##v0.8.2
 * Templater does not maintain directory nesting for exceptional targets
 * Frontend-copier does not maintain directory nesting for exceptional targets
