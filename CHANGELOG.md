@@ -1,7 +1,7 @@
 #Fepper Changelog
 
 ##v0.8.3
-* Allowing yml newlines to be configurable
+* Templater strips leading newline from multiline yaml strings
 
 ##v0.8.2
 * Templater does not maintain directory nesting for exceptional targets
