@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.1
+* .gitignore update
+
 ##v0.8.0
 * Using tilde in extend filenames as a namespace
 
