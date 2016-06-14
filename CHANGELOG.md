@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.6
+* package.json update
+
 ##v0.8.5
 * Correcting multisite directory
 
