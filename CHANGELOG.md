@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.5
+* Correcting multisite directory
+
 ##v0.8.4
 * Renaming multisite to fp-multisite
 
