@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.4
+* Renaming multisite to fp-multisite
+
 ##v0.8.3
 * Templater strips leading newline from multiline yaml strings
 
