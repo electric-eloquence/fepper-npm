@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.7
+* fp arguments can contain spaces
+
 ##v0.8.6
 * package.json update
 
