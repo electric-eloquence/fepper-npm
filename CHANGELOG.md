@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.8
+* Adding fp-import extension
+
 ##v0.8.7
 * fp arguments can contain spaces
 
