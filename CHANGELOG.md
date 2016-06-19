@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.8.9
+* fp-import update
+
 ##v0.8.8
 * Adding fp-import extension
 
