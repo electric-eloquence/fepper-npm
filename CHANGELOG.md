@@ -1,5 +1,8 @@
 #Fepper Changelog
 
+##v0.9.1
+* fp-multisite update
+
 ##v0.9.0
 * YAML and extension convention updates
 
