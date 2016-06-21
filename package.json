@@ -1,5 +1,6 @@
 {
   "name": "fepper",
+  "version": "0.10.0",
   "description": "A frontend prototyper for the rapid prototyping of websites",
   "version": "0.9.1",
   "repository": {
