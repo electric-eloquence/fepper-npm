@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.1
+* Working data watcher and fp restart tasks
+
 ### v0.10.0
 * Namespacing frontend directories from backend directories
 
