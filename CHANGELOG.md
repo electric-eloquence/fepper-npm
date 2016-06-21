@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.2
+* Deleting fp-import
+
 ### v0.10.1
 * Working data watcher and fp restart tasks
 
