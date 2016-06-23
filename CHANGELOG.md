@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.4
+* Templater more flexible
+
 ### v0.10.3
 * Templater exposes method to export single files
 
