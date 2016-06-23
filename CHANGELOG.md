@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.3
+* Templater exposes method to export single files
+
 ### v0.10.2
 * Deleting fp-import
 
