@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.5
+* Fixing static links
+
 ### v0.10.4
 * Templater more flexible
 
