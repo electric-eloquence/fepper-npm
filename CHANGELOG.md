@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.10.6
+* HTML Scraper to only open in new tab in Pattern Lab UI
+
 ### v0.10.5
 * Fixing static links
 
