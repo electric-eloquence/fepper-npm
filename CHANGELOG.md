@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.11.1
+* Better error prevention
+
 ### v0.11.0
 * Working fp publish
 
