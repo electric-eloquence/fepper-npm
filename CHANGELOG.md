@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.11.0
+* Working fp publish
+
 ### v0.10.6
 * HTML Scraper to only open in new tab in Pattern Lab UI
 
