@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.11.2
+* fp once before publishing to GitHub Pages
+* No-cache meta tags in pattern header
+* Readme updates
+
 ### v0.11.1
 * Better error prevention
 
