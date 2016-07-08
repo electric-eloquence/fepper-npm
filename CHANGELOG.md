@@ -1,10 +1,10 @@
 # Fepper Changelog
 
 ### v0.12.0
-* new indexing convention for page variants
-* title says Fepper
-* reinstating no-cache meta tags
-* replace tildes with hyphens in patternlab paths
+* New indexing convention for page variants
+* Title says Fepper
+* Reinstating no-cache meta tags
+* Replace tildes with hyphens in patternlab paths
 
 ### v0.11.2
 * fp once before publishing to GitHub Pages
