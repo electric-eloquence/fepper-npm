@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.12.1
+* camelCase -> snake_case
+* Fixing "undefined" in title
+* Specific gulp version
+
 ### v0.12.0
 * New indexing convention for page variants
 * Title says Fepper
