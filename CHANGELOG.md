@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.12.2
+* User-controlled no-cache meta tags
+
 ### v0.12.1
 * camelCase -> snake_case
 * Fixing "undefined" in title
