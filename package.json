@@ -1,8 +1,12 @@
 {
   "name": "fepper",
-  "version": "0.12.0",
-  "description": "A frontend prototyper for the rapid prototyping of websites",
-  "version": "0.9.1",
+  "version": "0.12.1",
+  "description": "A Front End Prototyper for the rapid prototyping of websites",
+  "main": "./index.js",
+  "scripts": {
+    "postinstall": "if [ ! -d extend ]; then cp -pR excludes/extend extend; fi && if [ ! -f conf.yml ]; then cp excludes/default.conf.yml conf.yml; fi && if [ ! -f pref.yml ]; then cp excludes/default.pref.yml pref.yml; fi && gulp install > install.log",
+    "test": "gulp test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
