@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.12.3
+* patternlab-config.json update
+* Params more json-like
+* Footer copyright update
+* Stylus syntax update
+
 ### v0.12.2
 * User-controlled no-cache meta tags
 
