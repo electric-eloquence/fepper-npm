@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.12.4
+* Readme update
+* Deleting favicon
+
 ### v0.12.3
 * patternlab-config.json update
 * Params more json-like
