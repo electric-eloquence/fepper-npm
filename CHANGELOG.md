@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.13.0
+* Removing excludes/extend/node_modules from version control
+* Removing public/data/annotations.js from version control
+* Working npm run install-base
+* core/lib/webserved/style.css -> core/webserved/style.css
+
 ### v0.12.4
 * Readme update
 * Deleting favicon
