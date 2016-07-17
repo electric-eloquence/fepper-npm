@@ -1,5 +1,12 @@
 # Fepper Changelog
 
+### v0.15.0
+* source/_scripts/README update
+* fp-ui -> ui
+* Deleting legacy file
+* source/_scripts/README update
+* gulp -> tasker
+
 ### v0.14.1
 * Readme update
 * patternlab-node -> ui
