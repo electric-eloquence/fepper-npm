@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.15.1
+* Updated travis test
+* Updated npm test
+
 ### v0.15.0
 * source/_scripts/README update
 * fp-ui -> ui
