@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.15.2
+* 01-compounds/06-components -> 01-compounds/06-widgets
+
 ### v0.15.1
 * Updated travis test
 * Updated npm test
