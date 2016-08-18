@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.16.0
+* Upgrade to Pattern Lab v2
+
 ### v0.15.2
 * 01-compounds/06-components -> 01-compounds/06-widgets
 
