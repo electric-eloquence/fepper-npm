@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.16.1
+* Toolbar reverted to Pattern Lab v1
+* Working Mustache Browser
+
 ### v0.16.0
 * Upgrade to Pattern Lab v2
 
