@@ -1,5 +1,12 @@
 # Fepper Changelog
 
+### v0.16.2
+* Hidden patterns can have shown pseudopatterns
+* JSON compiler bug fix
+* Reverting to old minified patternlab-viewer.min.js
+* HTTP caching controlled by user
+* Working viewall
+
 ### v0.16.1
 * Toolbar reverted to Pattern Lab v1
 * Working Mustache Browser
