@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.16.3
+* Working templater
+
 ### v0.16.2
 * Hidden patterns can have shown pseudopatterns
 * JSON compiler bug fix
