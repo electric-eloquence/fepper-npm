@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.16.4
+* Pointing patternlab-config.json defaultPattern to pages-homepage
+* Checks partial names in both pattern lab php and node syntax
+
 ### v0.16.3
 * Working templater
 
