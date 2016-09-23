@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.16.5
+* Fixed links
+* Fixed scraper
+* Nav refreshes without restart
+* Fixed unit tests
+
 ### v0.16.4
 * Pointing patternlab-config.json defaultPattern to pages-homepage
 * Checks partial names in both pattern lab php and node syntax
