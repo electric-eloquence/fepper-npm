@@ -1,5 +1,12 @@
 # Fepper Changelog
 
+### v0.16.6
+* Deleted unused js
+* Deleted minified js and css
+* Hard-coded title
+* defaultPattern navigable
+* Working viewall heading links
+
 ### v0.16.5
 * Fixed links
 * Fixed scraper
