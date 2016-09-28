@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.16.7
+* Fixed pseudopatterns
+* Stronger static generator
+* cacheBuster in footer
+
 ### v0.16.6
 * Deleted unused js
 * Deleted minified js and css
