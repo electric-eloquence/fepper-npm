@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.16.8
+* Fixed prism-typeahead.css and styleguide.css
+
 ### v0.16.7
 * Fixed pseudopatterns
 * Stronger static generator
