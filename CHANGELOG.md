@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.17.0
+* Massive performance enhancements
+
 ### v0.16.8
 * Fixed prism-typeahead.css and styleguide.css
 
