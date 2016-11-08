@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.17.1
+* Using json-eval npm
+
 ### v0.17.0
 * Massive performance enhancements
 
