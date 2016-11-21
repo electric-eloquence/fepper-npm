@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.17.2
+* Working unit tests and linting for forked Pattern Lab codebase
+
 ### v0.17.1
 * Using json-eval npm
 
