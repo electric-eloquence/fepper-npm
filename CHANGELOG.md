@@ -1,6 +1,6 @@
 # Fepper Changelog
 
-### v0.17.3
+### v0.17.4
 * JS Beautifier minimum version bump
 
 ### v0.17.3
