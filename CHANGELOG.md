@@ -1,6 +1,9 @@
 # Fepper Changelog
 
 ### v0.17.3
+* JS Beautifier minimum version bump
+
+### v0.17.3
 * Retaining Mustache false conditions so their vars don't need to be explicitly defined as false
 
 ### v0.17.2
