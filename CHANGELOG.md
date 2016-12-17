@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.18.0
+* Fewer large NPMs
+* Moved non-essential core tasks to extensions
+* Better gulp.watch
+
 ### v0.17.4
 * JS Beautifier minimum version bump
 
