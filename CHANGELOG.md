@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.18.1
+* Extensible appDir location
+* Beautifying static output
+* Working hamburger menu in Pattern Lab demo
+
 ### v0.18.0
 * Fewer large NPMs
 * Moved non-essential core tasks to extensions
