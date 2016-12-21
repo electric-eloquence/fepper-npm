@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.18.5
+* Fixing empty param syntax for document.querySelectorAll
+
 ### v0.18.4
 * Reverted updated json annotations
 * annotations.js for base profile
