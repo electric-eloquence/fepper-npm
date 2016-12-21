@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.18.3
+* Updated json annotations
+* Resolving patternlab paths
+
 ### v0.18.2
 * Using absolute paths for Fepper tasks for portability
 * Using absolute paths for Pattern Lab tasks for portability
