@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.18.2
+* Using absolute paths for Fepper tasks for portability
+* Using absolute paths for Pattern Lab tasks for portability
+* Using promises in installer scripts for more linear listing of execution steps
+
 ### v0.18.1
 * Extensible appDir location
 * Beautifying static output
