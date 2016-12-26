@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.18.6
+* Configurable backend, extend, and static dir locations
+* Pattern Lab can be invoked from any working dir
+* Style updates
+
 ### v0.18.5
 * Fixing empty param syntax for document.querySelectorAll
 
