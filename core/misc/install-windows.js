@@ -2,6 +2,7 @@
 
 const exec = require('child_process').exec;
 const fs = require('fs-extra');
+const path = require('path');
 
 new Promise(function (resolve) {
   // Run npm install.
