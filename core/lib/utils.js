@@ -85,8 +85,14 @@ exports.conf = function (isHeadless) {
 
   // Update Pattern Lab paths.
   try {
+    var appDirShort = global.appDir.replace(global.rootDir, '');
+
+    if (appDirShort) {
+      appDirShort += '/';
+    }
+
     conf.ui.paths.core = {
-      lib: 'app/ui/core/lib'
+      lib: `${appDirShort}ui/core/lib`
     };
   }
   catch (err) {

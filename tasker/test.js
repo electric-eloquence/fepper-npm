@@ -2,9 +2,9 @@
 
 var fs = require('fs');
 if (
-  !fs.existsSync('../node_modules/gulp-eslint') ||
-  !fs.existsSync('../node_modules/gulp-mocha') ||
-  !fs.existsSync('../node_modules/chai')
+  !fs.existsSync('node_modules/gulp-eslint') ||
+  !fs.existsSync('node_modules/gulp-mocha') ||
+  !fs.existsSync('node_modules/chai')
 ) {
   return;
 }
