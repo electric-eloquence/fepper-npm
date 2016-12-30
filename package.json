@@ -2,22 +2,19 @@
   "name": "fepper",
   "version": "0.0.0",
   "description": "A Front End Prototyper for the rapid prototyping of websites",
-  "main": "app/index.js",
+  "main": "index.js",
   "scripts": {
-    "install-base": "node app/core/misc/install-base.js",
-    "install-windows": "node app/core/misc/install-windows.js",
-    "postinstall": "node app/core/misc/install.js",
-    "test": "gulp --gulpfile app/tasker.js test"
+    "test": "gulp --gulpfile ./tasker.js test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electric-eloquence/fepper.git"
+    "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
   },
   "license": "MIT",
   "engines": {
     "node": ">=4.0.0"
   },
-  "devDependencies": {
+  "dependencies": {
     "body-parser": "^1.6.3",
     "diveSync": "^0.3.0",
     "express": "^4.8.3",
