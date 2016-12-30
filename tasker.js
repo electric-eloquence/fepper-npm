@@ -249,7 +249,6 @@ gulp.task('template', function (cb) {
   runSequence.apply(null, args);
 });
 
-console.info(gulp);
 gulp.task('test', function (cb) {
   runSequence(
     'test:eslint-extend',
