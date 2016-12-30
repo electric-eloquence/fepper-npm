@@ -6,7 +6,7 @@ const path = require('path');
 
 const copy = require('./copy');
 
-const excludesDir = 'node_modules/fepper-npm/excludes';
+const excludesDir = 'node_modules/fepper/excludes';
 
 new Promise(function (resolve) {
   copy.file('conf.yml', excludesDir, resolve);
@@ -28,7 +28,7 @@ new Promise(function (resolve) {
 })
 .then(function () {
   var binGulp = path.resolve('node_modules', '.bin', 'gulp');
-  exec(`${binGulp} --gulpfile node_modules/fepper-npm/tasker.js install`, (err, stdout, stderr) => {
+  exec(`${binGulp} --gulpfile node_modules/fepper/tasker.js install`, (err, stdout, stderr) => {
     if (err) {
       throw err;
     }
