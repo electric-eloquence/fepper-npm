@@ -29,7 +29,7 @@ exports.conf = function (isHeadless) {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed app/excludes/conf.yml! Exiting!');
+    exports.error('Missing or malformed excludes/conf.yml! Exiting!');
     return;
   }
 
@@ -41,7 +41,7 @@ exports.conf = function (isHeadless) {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed app/excludes/patternlab-config.json! Exiting!');
+    exports.error('Missing or malformed excludes/patternlab-config.json! Exiting!');
     return;
   }
 
@@ -96,7 +96,7 @@ exports.conf = function (isHeadless) {
     };
   }
   catch (err) {
-    exports.error('Missing or malformed app/excludes/patternlab-config.json! Exiting!');
+    exports.error('Missing or malformed excludes/patternlab-config.json! Exiting!');
     return;
   }
 
