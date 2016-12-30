@@ -1,10 +1,7 @@
 'use strict';
 
 const exec = require('child_process').exec;
-
-const copy = require('./copy');
-
-const excludesDir = 'app/excludes/profiles/windows';
+const fs = require('fs-extra');
 
 new Promise(function (resolve) {
   // Run npm install.
@@ -31,7 +28,9 @@ new Promise(function (resolve) {
     'fepper.vbs'
   ];
 
+  var srcDir = 'node_modules/fepper/excludes/profiles/windows';
+
   windowsFiles.forEach(function (windowsFile) {
-    copy.file(windowsFile, excludesDir, function () {});
+    fs.copySync(path.resolve(srcDir, windowsFile), windowsFile);
   });
 });
