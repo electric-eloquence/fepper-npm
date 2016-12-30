@@ -17,11 +17,23 @@ const utils = require('./core/lib/utils');
 
 // Set global.conf, global.pref, global.rootDir, and global.workDir.
 global.appDir = slash(__dirname);
-global.rootDir = slash(utils.findup('fepper.command', __dirname));
-global.workDir = slash(global.rootDir);
 
-utils.conf();
-utils.pref();
+// Determine rootDir whether running headless or whether running a full implementation.
+var rootDir = utils.findup('fepper.command', __dirname);
+var isHeadless = false;
+
+if (!rootDir) {
+  rootDir = utils.findup('tasker.js', __dirname);
+  if (rootDir) {
+    isHeadless = true;
+  }
+}
+
+global.rootDir = slash(rootDir);
+global.workDir = slash(rootDir);
+
+utils.conf(isHeadless);
+utils.pref(isHeadless);
 
 // Require tasks in task directories.
 requireDir('./tasker');
