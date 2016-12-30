@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.18.7
+* Full Windows support
+
 ### v0.18.6
 * Configurable backend, extend, and static dir locations
 * Pattern Lab can be invoked from any working dir
