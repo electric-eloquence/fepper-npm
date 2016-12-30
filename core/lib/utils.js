@@ -10,7 +10,7 @@ const enc = 'utf8';
 // ///////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
 // ///////////////////////////////////////////////////////////////////////////
-exports.conf = function () {
+exports.conf = function (isHeadless) {
   var conf;
   var confStr;
   var defaults;
@@ -49,26 +49,38 @@ exports.conf = function () {
   defaults.enc = enc;
 
   // Get custom confs for Fepper core.
-  try {
-    yml = fs.readFileSync(`${global.workDir}/conf.yml`, enc);
-    conf = yaml.safeLoad(yml);
+  if (isHeadless) {
+    conf = {};
   }
-  catch (err) {
-    exports.error(err);
-    exports.error('Missing or malformed conf.yml! Exiting!');
-    return;
+  else {
+    try {
+      yml = fs.readFileSync(`${global.workDir}/conf.yml`, enc);
+      conf = yaml.safeLoad(yml);
+    }
+    catch (err) {
+      exports.error(err);
+      exports.error('Missing or malformed conf.yml! Exiting!');
+      return;
+    }
   }
 
   // Retrieve custom values for UI.
-  try {
-    confStr = fs.readFileSync(`${global.workDir}/patternlab-config.json`, enc);
-    conf.ui = JSON.parse(confStr);
-    exports.normalizeUiPaths(conf.ui);
+  if (isHeadless) {
+    conf.ui = {
+      paths: {}
+    };
   }
-  catch (err) {
-    exports.error(err);
-    exports.error('Missing or malformed patternlab-config.json! Exiting!');
-    return;
+  else {
+    try {
+      confStr = fs.readFileSync(`${global.workDir}/patternlab-config.json`, enc);
+      conf.ui = JSON.parse(confStr);
+      exports.normalizeUiPaths(conf.ui);
+    }
+    catch (err) {
+      exports.error(err);
+      exports.error('Missing or malformed patternlab-config.json! Exiting!');
+      return;
+    }
   }
 
   // Update Pattern Lab paths.
@@ -89,8 +101,8 @@ exports.conf = function () {
   return conf;
 };
 
-// The difference between confs and prefs is that confs are mandatory.
-exports.pref = function () {
+// The difference between confs and prefs is that confs are mandatory. However, the file must still exist even if blank.
+exports.pref = function (isHeadless) {
   var pref;
   var defaults;
   var yml;
@@ -105,16 +117,19 @@ exports.pref = function () {
     return;
   }
 
-  defaults.gh_pages_src = null;
-
-  try {
-    yml = fs.readFileSync(`${global.workDir}/pref.yml`, enc);
-    pref = yaml.safeLoad(yml);
+  if (isHeadless) {
+    pref = {};
   }
-  catch (err) {
-    exports.error(err);
-    exports.error('Missing or malformed pref.yml! Exiting!');
-    return;
+  else {
+    try {
+      yml = fs.readFileSync(`${global.workDir}/pref.yml`, enc);
+      pref = yaml.safeLoad(yml);
+    }
+    catch (err) {
+      exports.error(err);
+      exports.error('Missing or malformed pref.yml! Exiting!');
+      return;
+    }
   }
 
   exports.mergeObjects(defaults, pref);
@@ -267,16 +282,22 @@ exports.pathResolve = function (relPath, normalize) {
   }
 };
 
-exports.findup = function (fileName, workDirParam) {
+exports.findup = function (fileName, workDir) {
   var dirMatch = null;
-  var workDir = path.normalize(`${workDirParam}/..`);
   var files = fs.readdirSync(workDir);
 
   if (files.indexOf(fileName) > -1) {
     return workDir;
   }
-  else if (workDir !== '/') {
-    dirMatch = exports.findup(fileName, workDir);
+
+  var workDirUp = path.normalize(`${workDir}/..`);
+  files = fs.readdirSync(workDirUp);
+
+  if (files.indexOf(fileName) > -1) {
+    return workDirUp;
+  }
+  else if (workDirUp !== '/') {
+    dirMatch = exports.findup(fileName, workDirUp);
   }
   else {
     return null;
