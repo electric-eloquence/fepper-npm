@@ -1,17 +1,17 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 if (
-  !fs.existsSync('node_modules/gulp-eslint') ||
-  !fs.existsSync('node_modules/gulp-mocha') ||
-  !fs.existsSync('node_modules/chai')
+  !fs.existsSync(`${global.workDir}/node_modules/gulp-eslint`) ||
+  !fs.existsSync(`${global.workDir}/node_modules/gulp-mocha`) ||
+  !fs.existsSync(`${global.workDir}/node_modules/chai`)
 ) {
   return;
 }
 
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var mocha = require('gulp-mocha');
+const gulp = require('gulp');
+const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
 
 gulp.task('test:eslint-extend', function () {
   return gulp.src(['./excludes/extend/*.js', './excludes/extend/*/*.js', './excludes/extend/*/*/*.js'])

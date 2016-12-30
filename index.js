@@ -3,7 +3,8 @@
 const cp = require('child_process');
 const path = require('path');
 
-var argv = ['--gulpfile', 'tasker.js'];
+var appDir = __dirname.replace(`${process.cwd}`, '');
+var argv = ['--gulpfile', `${appDir}/tasker.js`];
 
 // Set up array of args for submission to Gulp.
 argv[2] = process.argv[2] ? process.argv[2] : 'default';
