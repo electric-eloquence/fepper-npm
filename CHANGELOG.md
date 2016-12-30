@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.0
+* Fepper core installed and updated via NPM
+
 ### v0.18.7
 * Full Windows support
 
