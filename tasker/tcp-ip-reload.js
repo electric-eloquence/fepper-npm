@@ -43,7 +43,6 @@ gulp.task('tcp-ip-reload:scripts', function () {
     .pipe(plugins.refresh());
 });
 
-// console.info(srcDir.patterns);
 gulp.task('tcp-ip-reload:watch', function () {
   // An option to delay launch in case other asynchronous tasks need to complete.
   setTimeout(function () {
