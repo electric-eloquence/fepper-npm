@@ -1,13 +1,7 @@
 .*.swp
 .DS_Store
 .publish/
-/conf.yml
-/install.log
+/test/**/pattern-overrider.js
 /npm-debug.log
-Thumbs.db
 ignore/
 node_modules/
-!/excludes/extend/node_modules/
-patternlab-node/public/*
-!patternlab-node/public/data/annotations.js
-!patternlab-node/public/styleguide/

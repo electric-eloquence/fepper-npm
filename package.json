@@ -2,10 +2,9 @@
   "name": "fepper",
   "version": "0.19.1",
   "description": "A Front End Prototyper for the rapid prototyping of websites",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
-    "postinstall": "if [ ! -d extend ]; then cp -pR excludes/extend extend; fi && if [ ! -f conf.yml ]; then cp excludes/default.conf.yml conf.yml; fi && if [ ! -f pref.yml ]; then cp excludes/default.pref.yml pref.yml; fi && gulp install > install.log",
-    "test": "gulp test"
+    "test": "gulp --gulpfile tasker.js test"
   },
   "repository": {
     "type": "git",
