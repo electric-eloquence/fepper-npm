@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.1
+* Correct node_module name
+
 ### v0.19.0
 * Fepper core installed and updated via NPM
 
