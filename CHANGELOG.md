@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.6
+* Installers out of npm
+
 ### v0.19.5
 * Consulting conf to install extend, public and source dirs
 
