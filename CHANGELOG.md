@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.7
+* Fixing paths
+
 ### v0.19.6
 * Installers out of npm
 
