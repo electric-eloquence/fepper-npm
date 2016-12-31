@@ -2,6 +2,6 @@
 .DS_Store
 .publish/
 /test/**/pattern-overrider.js
+/node_modules/
 /npm-debug.log
 ignore/
-node_modules/
