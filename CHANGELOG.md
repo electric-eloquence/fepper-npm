@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.3
+* Including patternlab engines
+
 ### v0.19.2
 * Installation scripts refactored for fepper-npm
 * fepper-npm refactored to work with refactored fepper-cli
