@@ -8,6 +8,7 @@ const json2html = require('html2json').json2html;
 const request = require('request');
 
 const utils = require('../lib/utils');
+
 const conf = global.conf;
 
 var req;

@@ -1,11 +1,11 @@
 'use strict';
 
-const conf = global.conf;
-
 const gulp = require('gulp');
 
 const Tasks = require('../core/tasks/tasks');
 const TcpIp = require('../core/tcp-ip/tcp-ip');
+
+const conf = global.conf;
 
 var tasks = new Tasks();
 

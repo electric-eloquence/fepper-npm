@@ -1,9 +1,9 @@
 'use strict';
 
-const conf = global.conf;
-
 const fs = require('fs-extra');
 const open = require('open');
+
+const conf = global.conf;
 
 exports.main = function () {
   var origin = 'http://localhost:' + conf.express_port;
