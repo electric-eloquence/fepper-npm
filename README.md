@@ -37,6 +37,6 @@ Fepper exposes these methods on the `patternlab` object:
 * help: function ()
 * patternsonly: function (callback, deletePatternDir)
 
-Fepper is 100% compatible with Pattern Lab PHP frontend code. It aims to 
+Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
 maintain parity with the PHP project in terms of functionality and performance. 
 Please report any bugs and submit contributions at https://github.com/electric-eloquence/fepper-npm
