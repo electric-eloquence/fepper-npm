@@ -59,40 +59,6 @@ function findEngineModulesInDirectory(dir) {
   return foundEngines;
 }
 
-// Try to load engines! We scan for engines at each path specified above. This
-// function is kind of a big deal.
-function loadAllEngines(enginesObject) {
-
-  enginesDirectories.forEach(function (engineDirectory) {
-    var enginesInThisDir;
-    try {
-      enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
-    } catch (err) {
-      return;
-    }
-
-    // find all engine-named things in this directory and try to load them,
-    // unless it's already been loaded.
-    enginesInThisDir.forEach(function (engineDiscovery) {
-      try {
-        // give it a try! load 'er up. But not if we already have, of course.
-        if (enginesObject[engineDiscovery.name]) {
-          throw new Error('already loaded, skipping.');
-        }
-        enginesObject[engineDiscovery.name] = require(engineDiscovery.modulePath);
-      } catch (err) {
-        console.error(err.message);
-      }
-    });
-  });
-
-  // Complain if for some reason we haven't loaded any engines.
-  if (Object.keys(enginesObject).length === 0) {
-    throw new Error('No engines loaded! Something is seriously wrong.');
-  }
-}
-
-
 // produce a mapping between file extension and engine name for each of the
 // loaded engines
 function createFileExtensionToEngineNameMap(enginesObject) {
@@ -114,7 +80,7 @@ function createFileExtensionToEngineNameMap(enginesObject) {
 // intention here is to make this return an object that can be used to obtain
 // any loaded PatternEngine by addressing them like this:
 //
-//   var PatternEngines = require('./pattern_engines/pattern_engines');
+//   var PatternEngines = require('./pattern_engines');
 //   var Mustache = PatternEngines['mustache'];
 //
 // Object.create lets us create an object with a specified prototype. We want
@@ -184,8 +150,8 @@ PatternEngines = Object.create({
 });
 
 
-// load up the engines we found
-loadAllEngines(PatternEngines);
+// load up the Mustache engine
+PatternEngines['mustache'] = require('./engine_mustache');
 
 // mapping of file extensions to engine names, for lookup use
 engineNameForExtension = createFileExtensionToEngineNameMap(PatternEngines);
