@@ -8,30 +8,26 @@ const gulp = require('gulp');
 
 const utils = require('../core/lib/utils');
 
-const extendDir = global.conf.extend_dir;
-const publicDir = global.conf.ui.paths.public.root;
-const sourceDir = global.conf.ui.paths.source.root;
+const extendDir = utils.pathResolve(global.conf.extend_dir);
+const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
+const sourceDir = utils.pathResolve(global.conf.ui.paths.source.root);
 
 gulp.task('install:copy', function (cb) {
-  if (!fs.existsSync(utils.pathResolve(extendDir))) {
-    return gulp.src('./excludes/extend/**')
-      .pipe(gulp.dest(utils.pathResolve(extendDir)));
+  if (!fs.existsSync(extendDir)) {
+    fs.copySync('excludes/extend', extendDir)
   }
-  if (!fs.existsSync(utils.pathResolve(publicDir))) {
-    return gulp.src('./excludes/public/**')
-      .pipe(gulp.dest(utils.pathResolve(publicDir)));
+  if (!fs.existsSync(publicDir)) {
+    fs.copySync('excludes/public', publicDir)
   }
-  if (!fs.existsSync(utils.pathResolve(sourceDir))) {
-    return gulp.src('./excludes/profiles/main/source/**')
-      .pipe(gulp.dest(utils.pathResolve(sourceDir)));
+  if (!fs.existsSync(sourceDir)) {
+    fs.copySync('excludes/profiles/main/source', sourceDir);
   }
   cb();
 });
 
 gulp.task('install:copy-base', function (cb) {
   if (!fs.existsSync(utils.pathResolve(sourceDir))) {
-    return gulp.src('./excludes/profiles/base/source/**')
-      .pipe(gulp.dest(utils.pathResolve(sourceDir)));
+    fs.copySync('excludes/profiles/base/source', sourceDir);
   }
   cb();
 });
