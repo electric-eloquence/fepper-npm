@@ -14,10 +14,10 @@ const sourceDir = utils.pathResolve(global.conf.ui.paths.source.root);
 
 gulp.task('install:copy', function (cb) {
   if (!fs.existsSync(extendDir)) {
-    fs.copySync('excludes/extend', extendDir)
+    fs.copySync('excludes/extend', extendDir);
   }
   if (!fs.existsSync(publicDir)) {
-    fs.copySync('excludes/public', publicDir)
+    fs.copySync('excludes/public', publicDir);
   }
   if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/main/source', sourceDir);
