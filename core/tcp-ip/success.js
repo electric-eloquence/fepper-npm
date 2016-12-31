@@ -3,10 +3,10 @@
 const fs = require('fs');
 const marked = require('marked');
 
-const utils = require('../lib/utils');
-const conf = global.conf;
-
 const htmlObj = require('../lib/html');
+const utils = require('../lib/utils');
+
+const conf = global.conf;
 
 exports.main = function (req, res) {
   fs.readFile(utils.pathResolve('README.md'), conf.enc, function (err, dat) {

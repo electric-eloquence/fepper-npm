@@ -1,8 +1,5 @@
 'use strict';
 
-const conf = global.conf;
-const pref = global.pref;
-
 const beautify = require('js-beautify').html;
 const diveSync = require('diveSync');
 const fs = require('fs-extra');
@@ -11,6 +8,9 @@ const path = require('path');
 const RcLoader = require('rcloader');
 
 const utils = require('../lib/utils');
+
+const conf = global.conf;
+const pref = global.pref;
 
 const appDir = global.appDir;
 const patternsDir = utils.pathResolve(conf.ui.paths.public.patterns);

@@ -1,14 +1,14 @@
 'use strict';
 
-const conf = global.conf;
-const pref = global.pref;
-
 const fs = require('fs-extra');
 const glob = require('glob');
 const path = require('path');
 const yaml = require('js-yaml');
 
 const utils = require('../lib/utils');
+
+const conf = global.conf;
+const pref = global.pref;
 
 const sourceDir = utils.pathResolve(conf.ui.paths.source.root);
 

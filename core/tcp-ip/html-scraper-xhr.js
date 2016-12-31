@@ -1,10 +1,10 @@
 'use strict';
 
-const conf = global.conf;
-
 const path = require('path');
 
 const htmlObj = require('../lib/html');
+
+const conf = global.conf;
 
 exports.main = function (req, res) {
   var message = '';

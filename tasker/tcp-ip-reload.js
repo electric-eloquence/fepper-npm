@@ -1,13 +1,14 @@
 'use strict';
 
-const conf = global.conf;
-const pubDir = global.conf.ui.paths.public;
-const srcDir = global.conf.ui.paths.source;
-
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 
 const utils = require('../core/lib/utils');
+
+const conf = global.conf;
+
+const pubDir = global.conf.ui.paths.public;
+const srcDir = global.conf.ui.paths.source;
 
 gulp.task('tcp-ip-reload:listen', function () {
   plugins.refresh.listen({port: conf.livereload_port});
