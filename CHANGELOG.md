@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.5
+* Consulting conf to install extend, public and source dirs
+
 ### v0.19.4
 * Including patternlab mustache engine
 
