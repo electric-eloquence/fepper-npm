@@ -18,12 +18,6 @@ if (fs.existsSync(extendDirSrc)) {
   fs.copySync(extendDirSrc, extendDir);
 }
 
-var fepperFile = 'fepper.command';
-var fepperFileSrc = path.resolve(excludesDir, fepperFile);
-if (fs.existsSync(fepperFileSrc)) {
-  fs.copySync(fepperFileSrc, fepperFile);
-}
-
 var plConfFile = 'patternlab-config.json';
 var plConfFileSrc = path.resolve(excludesDir, plConfFile);
 if (fs.existsSync(plConfFileSrc)) {
