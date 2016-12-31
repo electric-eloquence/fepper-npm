@@ -2,7 +2,7 @@
 
 # A frontend prototyper for the rapid prototyping of websites
 
-### This is the NPM which powers these Fepper prototyper variants:
+### This is the NPM that powers these Fepper prototyper variants:
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no unnecessary assets, styles, or Pattern Lab demo.
 * [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - templates configured for Drupal 8, along with a Drupal theme built to accommodate those templates.
@@ -27,7 +27,7 @@ const patternlab = require(path.resolve(cwd, 'ui/core/lib/patternlab))(config, c
 
 The Fepper variant of the `patternlab` constructor recognizes a second parameter 
 (a working directory parameter) for instantiating the `patternlab` object. This 
-allows it to be instantiated from any directory from any task runner or 
+allows it to be instantiated from any directory within any task runner or 
 third-party framework.
 
 Fepper exposes these methods on the `patternlab` object:
@@ -38,5 +38,5 @@ Fepper exposes these methods on the `patternlab` object:
 * patternsonly: function (callback, deletePatternDir)
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
-maintain parity with the PHP project in terms of functionality and performance. 
+maintain parity with the PHP project with respect to features and performance. 
 Please report any bugs and submit contributions at https://github.com/electric-eloquence/fepper-npm
