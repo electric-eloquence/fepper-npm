@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.19.4
+* Including patternlab mustache engine
+
 ### v0.19.3
 * Including patternlab engines
 
