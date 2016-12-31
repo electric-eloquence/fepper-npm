@@ -12,12 +12,6 @@ if (fs.existsSync(confFileSrc)) {
   fs.copySync(confFileSrc, confFile);
 }
 
-var extendDir = 'extend';
-var extendDirSrc = path.resolve(excludesDir, extendDir);
-if (fs.existsSync(extendDirSrc)) {
-  fs.copySync(extendDirSrc, extendDir);
-}
-
 var plConfFile = 'patternlab-config.json';
 var plConfFileSrc = path.resolve(excludesDir, plConfFile);
 if (fs.existsSync(plConfFileSrc)) {
@@ -28,12 +22,6 @@ var prefFile = 'pref.yml';
 var prefFileSrc = path.resolve(excludesDir, prefFile);
 if (fs.existsSync(prefFileSrc)) {
   fs.copySync(prefFileSrc, prefFile);
-}
-
-var publicDir = 'public';
-var publicDirSrc = path.resolve(excludesDir, publicDir);
-if (fs.existsSync(publicDirSrc)) {
-  fs.copySync(publicDirSrc, publicDir);
 }
 
 var binGulp = path.resolve('node_modules', '.bin', 'gulp');
