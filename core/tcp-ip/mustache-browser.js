@@ -1,11 +1,11 @@
 'use strict';
 
-const conf = global.conf;
-
 const fs = require('fs');
 
 const htmlObj = require('../lib/html');
 const utils = require('../lib/utils');
+
+const conf = global.conf;
 
 module.exports = class {
 

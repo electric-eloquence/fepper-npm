@@ -8,12 +8,12 @@
  */
 'use strict';
 
-const conf = global.conf;
-
 const fs = require('fs-extra');
 const glob = require('glob');
 
 const utils = require('../lib/utils');
+
+const conf = global.conf;
 
 exports.main = function () {
   var appendixTest = {};

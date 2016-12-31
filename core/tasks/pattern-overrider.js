@@ -7,12 +7,12 @@
  */
 'use strict';
 
-const conf = global.conf;
-
 const fs = require('fs-extra');
 const path = require('path');
 
 const utils = require('../lib/utils');
+
+const conf = global.conf;
 
 exports.main = function () {
   var dest = utils.pathResolve(`${conf.ui.paths.public.js}/pattern-overrider.js`);
