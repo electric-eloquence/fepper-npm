@@ -21,7 +21,7 @@ if ($whereNode -Like "*\node.exe")
     $argList = "$argList $args[$i]"
   }
 
-  node_modules\.bin\gulp --gulpfile app\tasker.js $argList
+  node_modules\.bin\gulp --gulpfile node_modules\fepper\tasker.js $argList
 }
 else
 {
