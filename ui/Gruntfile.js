@@ -16,7 +16,6 @@ module.exports = function (grunt) {
       },
       target: [
         './core/lib/*',
-        './node_modules/patternengine-node-mustache/lib/*',
         './test/*.js'
       ]
     }
