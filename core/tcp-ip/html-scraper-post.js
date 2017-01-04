@@ -265,7 +265,7 @@ exports.htmlToJsons = function (targetHtml) {
  * @return {boolean} True or false.
  */
 exports.isFilenameValid = function (fileName) {
-  return fileName.match(/^[A-Za-z0-9][\w\-\.]*$/) ? true : false;
+  return /^[A-Za-z0-9][\w\-\.]*$/.test(fileName);
 };
 
 exports.jsonRecurse = function (jsonObj, dataObj, dataKeys, incParam) {
@@ -426,7 +426,7 @@ exports.targetValidate = function (targetParam) {
   }
 
   // Validate that targetName is a css selector.
-  if (!targetName.match(/^(#|\.)?[a-z][\w#\-\.]*$/i)) {
+  if (!/^(#|\.)?[a-z][\w#\-\.]*$/i.test(targetName)) {
     if (req) {
       exports.redirectWithMsg('error', 'Incorrect+submission.', req.body.target, req.body.url);
     }
@@ -435,7 +435,7 @@ exports.targetValidate = function (targetParam) {
 
   // If targetIndexStr if submitted, validate it is an integer.
   if (targetIndexStr) {
-    if (targetIndexStr.match(/\d+/)) {
+    if (/^\d+$/.test(targetIndexStr)) {
       targetIndex = parseInt(targetIndexStr, 10);
     }
     else {
