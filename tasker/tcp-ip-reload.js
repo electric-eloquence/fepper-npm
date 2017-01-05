@@ -34,8 +34,10 @@ gulp.task('tcp-ip-reload:injectStyles', function () {
     .pipe(plugins.refresh());
 });
 
+// Watch in the srcDir so we don't pick up css changes from patternlab:copy-styles.
+// Assuming the copy completes before the browser refreshes.
 gulp.task('tcp-ip-reload:otherStyles', function () {
-  return gulp.src(utils.pathResolve(pubDir.css) + '/**/*!(.css)')
+  return gulp.src(utils.pathResolve(srcDir.css) + '/**/!(*.css)')
     .pipe(plugins.refresh());
 });
 
@@ -50,6 +52,7 @@ gulp.task('tcp-ip-reload:watch', function () {
     // We cannot use absolute paths in the first param for gulp.watch. Therefore we must specify cwd in the 2nd.
     gulp.watch(srcDir.annotations + '/**', {cwd: global.workDir}, ['patternlab:build']);
     gulp.watch(srcDir.cssBld + '/**', {cwd: global.workDir}, ['patternlab:copy-styles']);
+    gulp.watch(srcDir.cssBld + '/**/!(*.css)', {cwd: global.workDir}, ['tcp-ip-reload:otherStyles']);
     gulp.watch(srcDir.data + '/_data.json', {cwd: global.workDir}, ['data']);
     gulp.watch(srcDir.data + '/listitems.json', {cwd: global.workDir}, ['patternlab:build']);
     gulp.watch(srcDir.images + '/**', {cwd: global.workDir}, ['patternlab:copy']);
@@ -59,7 +62,6 @@ gulp.task('tcp-ip-reload:watch', function () {
     gulp.watch(srcDir.static + '/**', {cwd: global.workDir}, ['patternlab:copy']);
     gulp.watch(pubDir.annotations + '/**', {cwd: global.workDir}, ['tcp-ip-reload:annotations']);
     gulp.watch(pubDir.css + '/**/*.css', {cwd: global.workDir}, ['tcp-ip-reload:injectStyles']);
-    gulp.watch(pubDir.css + '/**/*!(.css)', {cwd: global.workDir}, ['tcp-ip-reload:otherStyles']);
     gulp.watch(pubDir.images + '/**', {cwd: global.workDir}, ['tcp-ip-reload:assets']);
     gulp.watch(pubDir.js + '/**', {cwd: global.workDir}, ['tcp-ip-reload:scripts']);
     gulp.watch(pubDir.root + '/index.html', {cwd: global.workDir}, ['tcp-ip-reload:index']);
