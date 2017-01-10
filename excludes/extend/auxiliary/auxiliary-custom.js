@@ -1,7 +1,7 @@
 /**
  * Separating auxiliary custom tasks into this file to reduce the amount of
- * noise in custom.js. The primary custom tasks in custom.js are preprocess 
- * tasks. This means the they will run BEFORE the core Fepper task. The tasks 
+ * noise in custom.js. The primary custom tasks in custom.js are preprocess
+ * tasks. This means the they will run BEFORE the core Fepper task. The tasks
  * here are postprocess tasks. This means that they will run AFTER.
  */
 'use strict';
