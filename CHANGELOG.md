@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.20.3
+* Correcting order of extend and auxiliary extend tasks
+
 ### v0.20.2
 * Uniform extend and auxiliary extend tasks
 
