@@ -1,35 +1,32 @@
 /**
  * Separating auxiliary contrib tasks into this file to reduce the amount of
- * noise in contrib.js. Preprocess means the task will run before the core
- * Fepper task. Postprocess means it will run after.
+ * noise in contrib.js. The primary contrib tasks in contrib.js are preprocess 
+ * tasks. This means the they will run BEFORE the core Fepper task. The tasks 
+ * here are postprocess tasks. This means that they will run AFTER.
  */
 'use strict';
 
 var gulp = require('gulp');
 
-gulp.task('contrib:data:preprocess', [
+gulp.task('contrib:data:postprocess', [
 ]);
 
-gulp.task('contrib:frontend-copy:preprocess', [
+gulp.task('contrib:frontend-copy:postprocess', [
 ]);
 
-gulp.task('contrib:once:preprocess', [
-// Uncomment if you're enabling multisite.
-//  'multisite:patternlab-override'
+gulp.task('contrib:once:postprocess', [
 ]);
 
-gulp.task('contrib:static:preprocess', [
+gulp.task('contrib:static:postprocess', [
 ]);
 
-gulp.task('contrib:syncback:preprocess', [
+gulp.task('contrib:syncback:postprocess', [
 ]);
 
-// TCP-IP overrides need to run after tcp-ip-load:init in order for there to
-// be a global.express object to override. They must then override it before
-// it starts listening and tcp-ip-reload starts watching. Hence, the default
-// contrib task is a preprocess and this auxiliary task is a postprocess.
 gulp.task('contrib:tcp-ip:postprocess', [
 ]);
 
-gulp.task('contrib:template:preprocess', [
+gulp.task('contrib:template:postprocess', [
 ]);
+
+// No postprocessing of watch tasks.
