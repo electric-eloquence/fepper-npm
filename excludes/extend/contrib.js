@@ -31,7 +31,6 @@ gulp.task('contrib:tcp-ip', [
 gulp.task('contrib:template', [
 ]);
 
-// No pre or postprocessing for watch tasks.
 gulp.task('contrib:watch', [
 // Uncomment if you wish to enable this.
 //  'stylus:watch'
