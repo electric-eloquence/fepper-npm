@@ -95,7 +95,7 @@ gulp.task('data', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:data:preprocess', 'custom:data:preprocess']);
+    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
   }
 
   args.push('fepper:data');
@@ -114,7 +114,7 @@ gulp.task('frontend-copy', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:frontend-copy:preprocess', 'custom:frontend-copy:preprocess']);
+    args.push(['contrib:frontend-copy:postprocess', 'custom:frontend-copy:postprocess']);
   }
 
   args.push(['fepper:copy-assets', 'fepper:copy-scripts', 'fepper:copy-styles']);
@@ -140,8 +140,8 @@ gulp.task('once', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:once:preprocess', 'custom:once:preprocess']);
-    args.push(['contrib:data:preprocess', 'custom:data:preprocess']);
+    args.push(['contrib:once:postprocess', 'custom:once:postprocess']);
+    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
   }
 
   args.push(['fepper:data', 'fepper:pattern-override']);
@@ -197,7 +197,7 @@ gulp.task('static', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:static:preprocess', 'custom:static:preprocess']);
+    args.push(['contrib:static:postprocess', 'custom:static:postprocess']);
   }
 
   args.push('once');
@@ -216,7 +216,7 @@ gulp.task('syncback', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:syncback:preprocess', 'custom:syncback:preprocess']);
+    args.push(['contrib:syncback:postprocess', 'custom:syncback:postprocess']);
   }
 
   args.push('frontend-copy');
@@ -235,7 +235,7 @@ gulp.task('template', function (cb) {
   let args = [];
 
   if (conExists && cusExists) {
-    args.push(['contrib:template:preprocess', 'custom:template:preprocess']);
+    args.push(['contrib:template:postprocess', 'custom:template:postprocess']);
   }
 
   args.push('fepper:template');
