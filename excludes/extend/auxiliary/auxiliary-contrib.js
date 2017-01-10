@@ -1,7 +1,7 @@
 /**
  * Separating auxiliary contrib tasks into this file to reduce the amount of
- * noise in contrib.js. The primary contrib tasks in contrib.js are preprocess 
- * tasks. This means the they will run BEFORE the core Fepper task. The tasks 
+ * noise in contrib.js. The primary contrib tasks in contrib.js are preprocess
+ * tasks. This means the they will run BEFORE the core Fepper task. The tasks
  * here are postprocess tasks. This means that they will run AFTER.
  */
 'use strict';
