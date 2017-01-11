@@ -6,7 +6,7 @@ var path = require('path');
 var util = {
   // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
   shuffle: function (o) {
-    /* eslint-disable curly */
+    // eslint-disable-next-line curly
     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   },
@@ -28,29 +28,31 @@ var util = {
    * @returns {Object} obj2
    */
   mergeData: function (obj1, obj2) {
-    /* eslint-disable no-param-reassign, guard-for-in */
     if (typeof obj2 === 'undefined') {
+      // eslint-disable-next-line no-param-reassign
       obj2 = {};
     }
     for (var p in obj1) {
-      try {
-        // Only recurse if obj1[p] is an object.
-        if (obj1[p].constructor === Object) {
-          // Requires 2 objects as params; create obj2[p] if undefined.
-          if (typeof obj2[p] === 'undefined') {
-            obj2[p] = {};
-          }
-          obj2[p] = util.mergeData(obj1[p], obj2[p]);
+      if (obj1.hasOwnProperty(p)) {
+        try {
+          // Only recurse if obj1[p] is an object.
+          if (obj1[p].constructor === Object) {
+            // Requires 2 objects as params; create obj2[p] if undefined.
+            if (typeof obj2[p] === 'undefined') {
+              obj2[p] = {};
+            }
+            obj2[p] = util.mergeData(obj1[p], obj2[p]);
 
-          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
-          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
-        } else if (typeof obj2[p] === 'undefined') {
-          obj2[p] = obj1[p];
-        }
-      } catch (e) {
-        // Property in destination object not set; create it and set its value.
-        if (typeof obj2[p] === 'undefined') {
-          obj2[p] = obj1[p];
+            // Pop when recursion meets a non-object. If obj1[p] is a non-object,
+            // only copy to undefined obj2[p]. This way, obj2 maintains priority.
+          } else if (typeof obj2[p] === 'undefined') {
+            obj2[p] = obj1[p];
+          }
+        } catch (e) {
+          // Property in destination object not set; create it and set its value.
+          if (typeof obj2[p] === 'undefined') {
+            obj2[p] = obj1[p];
+          }
         }
       }
     }

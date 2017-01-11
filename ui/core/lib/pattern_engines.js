@@ -11,53 +11,11 @@
 'use strict';
 
 var path = require('path');
-var diveSync = require('diveSync');
-var engineMatcher = /^patternengine-node-(.*)$/;
-var enginesDirectories = [
-  {
-    displayName: 'the core',
-    path: path.resolve(__dirname, '..', '..', 'node_modules')
-  },
-  {
-    displayName: 'the edition or test directory',
-    path: path.join(process.cwd(), 'node_modules')
-  }
-];
 var PatternEngines; // the main export object
 var engineNameForExtension; // generated mapping of extension to engine name
 
 
 // free "private" functions, for internal setup only
-
-// given a path: return the engine name if the path points to a valid engine
-// module directory, or false if it doesn't
-function isEngineModule(filePath) {
-  var baseName = path.basename(filePath);
-  var engineMatch = baseName.match(engineMatcher);
-
-  if (engineMatch) { return engineMatch[1]; }
-  return false;
-}
-
-function findEngineModulesInDirectory(dir) {
-  var foundEngines = [];
-
-  diveSync(dir, {
-    recursive: false,
-    directories: true
-  }, function (err, filePath) {
-    if (err) { throw err; }
-    var foundEngineName = isEngineModule(filePath);
-    if (foundEngineName) {
-      foundEngines.push({
-        name: foundEngineName,
-        modulePath: filePath
-      });
-    }
-  });
-
-  return foundEngines;
-}
 
 // produce a mapping between file extension and engine name for each of the
 // loaded engines
@@ -151,7 +109,7 @@ PatternEngines = Object.create({
 
 
 // load up the Mustache engine
-PatternEngines['mustache'] = require('./engine_mustache');
+PatternEngines.mustache = require('./engine_mustache');
 
 // mapping of file extensions to engine names, for lookup use
 engineNameForExtension = createFileExtensionToEngineNameMap(PatternEngines);
