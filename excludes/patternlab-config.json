@@ -46,10 +46,6 @@
   "ignored-directories": [],
   "debug": false,
   "ishControlsHide": {
-    "s": false,
-    "m": false,
-    "l": false,
-    "full": false,
     "random": true,
     "disco": true,
     "hay": true,

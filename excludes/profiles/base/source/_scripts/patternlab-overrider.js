@@ -12,12 +12,11 @@ var bpBtnClone;
 
 // Feel free to create more breakpoints, but Fepper only has resize buttons
 // for the lg, md, and sm breakpoints.
-var minWidthL = bps.lg.minWidth;
-var minWidthM = bps.md.minWidth;
-var median = (minWidthL - minWidthM) / 2;
-bpObj.l = minWidthL + median;
-bpObj.m = minWidthM + median;
-bpObj.s = minWidthM - median;
+var median = (bps.lg.maxWidth - bps.md.maxWidth) / 2;
+bpObj.l = bps.md.maxWidth + median;
+bpObj.m = bps.md.maxWidth;
+bpObj.s = bps.sm.maxWidth;
+bpObj.x = bps.xs.maxWidth;
 
 // ///////////////////////////////////////////////////////////////////////////
 // VIEWPORT RESIZER
