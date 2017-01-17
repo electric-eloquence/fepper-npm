@@ -66,7 +66,7 @@ gulp.task('default', function (cb) {
   let args = [];
 
   args.push('once');
-  args.push('fepper:pattern-override');
+  args.push('fepper:pattern-configure');
   args.push('tcp-ip-load:init');
 
   if (conExists && cusExists) {
@@ -144,7 +144,7 @@ gulp.task('once', function (cb) {
     args.push(['contrib:data', 'custom:data']);
   }
 
-  args.push(['fepper:data', 'fepper:pattern-override']);
+  args.push(['fepper:data', 'fepper:pattern-configure']);
 
   if (conExists && cusExists) {
     args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
@@ -168,7 +168,7 @@ gulp.task('restart', function (cb) {
   let args = [];
 
   args.push('once');
-  args.push('fepper:pattern-override');
+  args.push('fepper:pattern-configure');
   args.push('tcp-ip-load:init');
 
   if (conExists && cusExists) {
