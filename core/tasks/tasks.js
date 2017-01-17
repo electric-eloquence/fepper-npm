@@ -17,8 +17,8 @@ module.exports = class {
     require('./opener').main();
   }
 
-  patternOverride() {
-    require('./pattern-overrider').main();
+  patternConfigure() {
+    require('./pattern-configurer').main();
   }
 
   staticGenerate() {

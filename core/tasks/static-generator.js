@@ -98,8 +98,6 @@ exports.pagesDirCompile = function () {
       tmpStr = tmpStr.replace(/((href|src)="[^"]*)\?\d*"/g, '$1"');
       // Fix paths.
       tmpStr = tmpStr.replace(/(href|src)\s*=\s*("|')..\/..\//g, '$1=$2');
-      // Strip addition js.
-      tmpStr = tmpStr.replace(/\s*<script src="_scripts\/pattern\-overrider.js"><\/script>/, '');
       // Replace homepage filename with "index.html"
       if (dataJson.homepage) {
         let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*(\\/|&#x2F;)' + dataJson.homepage, 'g');

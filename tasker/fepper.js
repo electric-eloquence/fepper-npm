@@ -27,8 +27,8 @@ gulp.task('fepper:data', function (cb) {
   cb();
 });
 
-gulp.task('fepper:pattern-override', function (cb) {
-  tasks.patternOverride();
+gulp.task('fepper:pattern-configure', function (cb) {
+  tasks.patternConfigure();
   cb();
 });
 
