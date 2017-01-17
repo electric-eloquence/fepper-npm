@@ -441,7 +441,7 @@ function buildFrontEnd(patternlab) {
   );
 
   fs.outputFileSync(
-    path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
+    path.resolve(paths.public.styleguide, 'markup/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   // build the viewall pages
   buildViewAllPages(headerHTML, patternlab, styleguidePatterns);

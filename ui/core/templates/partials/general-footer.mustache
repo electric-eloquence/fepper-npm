@@ -50,7 +50,7 @@
       var cb = '{{ cacheBuster}}';
       var js = [];
       if (typeof document !== 'undefined' && !('classList' in document.documentElement)) {
-        js.push('styleguide/bower_components/classList.min.js');
+        js.push('bower_components/classlist/classList.min.js');
       }
       scriptLoader.run(js,cb,'pl-js-polyfill-insert');
     }
@@ -61,14 +61,16 @@
   (function() {
     if (self != top) {
       var cb = '{{ cacheBuster}}';
-      var js = [ { 'src': 'styleguide/bower_components/jwerty.min.js', 'dep': [ 'styleguide/js/patternlab-pattern.js' ] } ];
+      var js = [ { 'src': 'bower_components/jwerty/jwerty.js', 'dep': [ 'bower_components/fepper-ui/scripts/patternlab-pattern.js' ] } ];
       scriptLoader.run(js,cb,'pl-js-insert');
     }
   })();
 </script>
 
-<script src="../../styleguide/bower_components/jwerty.min.js?{{ cacheBuster }}"></script>
-<script src="../../styleguide/js/postmessage.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/jwerty/jwerty.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/fepper-ui/scripts/postmessage.js?{{ cacheBuster }}"></script>
 <script src="../../annotations/annotations.js?{{ cacheBuster }}"></script>
-<script src="../../styleguide/js/annotations-pattern.js?{{ cacheBuster }}"></script>
-<script src="../../styleguide/js/code-pattern.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/fepper-ui/scripts/annotations-pattern.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/fepper-ui/scripts/code-pattern.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/fepper-ui/scripts/mustache-browser.js?{{ cacheBuster }}"></script>
+<script src="../../bower_components/fepper-ui/scripts/pattern-configurer.js?{{ cacheBuster }}"></script>
