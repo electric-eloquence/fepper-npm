@@ -14,6 +14,7 @@ if ($whereNode -Like "*\node.exe")
   if (-Not (Test-Path node_modules))
   {
     echo "npm installing..."
+    npm install -g bower
     npm install
   }
 
