@@ -80,9 +80,17 @@ input[type="search"]::-webkit-search-decoration
 /* Search Form */
 .search-field
   padding-right: 3em
+  @media all and (max-width: $bp-sm-max)
+    float: right
+    padding-right: 5rem
+    width: 24rem
 .inline-form .search-submit
   background: none
   padding: 0.78em 1em
   border: 0
   border-left: 1px solid $gray
   color: $gray
+  @media all and (max-width: $bp-sm-max)
+    padding: 0
+    width: 4.5rem
+    height: 3.6rem
