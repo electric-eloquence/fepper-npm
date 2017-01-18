@@ -110,6 +110,7 @@ module.exports = class {
           output += code;
           output += htmlObj.foot;
           output = output.replace('{{ title }}', 'Fepper Mustache Browser');
+          output = output.replace('{{ main_id }}', 'mustache-browser');
           res.end(output);
         }
         catch (err) {
@@ -135,6 +136,7 @@ module.exports = class {
               output += entitiesAndLinks;
               output += htmlObj.foot;
               output = output.replace('{{ title }}', 'Fepper Mustache Browser');
+              output = output.replace('{{ main_id }}', 'mustache-browser');
               res.end(output);
             }.bind(this));
           }
