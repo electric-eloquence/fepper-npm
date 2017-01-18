@@ -69,7 +69,7 @@ module.exports = class {
   }
 
   /**
-   * Make angle brackets and newlines viewable as HTML and hotlink partials.
+   * Make angle brackets, indentation, and newlines viewable as HTML and hotlink partials.
    *
    * @param {string} data - HTML/Mustache.
    * @return {string} Viewable and linkable code.
@@ -79,6 +79,15 @@ module.exports = class {
     entitiesAndLinks = entitiesAndLinks.replace(/</g, '&lt;');
     entitiesAndLinks = entitiesAndLinks.replace(/>/g, '&gt;');
     entitiesAndLinks = entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&">$&</a>');
+
+    // Render indentation whitespace as HTML entities.
+    entitiesAndLinks = entitiesAndLinks.replace(/^ /gm, '&nbsp;');
+    entitiesAndLinks = entitiesAndLinks.replace(/^\t/gm, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    while (/^(&nbsp;)+ /m.test(entitiesAndLinks) || /^(&nbsp;)+\t/m.test(entitiesAndLinks)) {
+      entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+) /gm, '$1&nbsp;');
+      entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+)\t/gm, '$1&nbsp;&nbsp;&nbsp;&nbsp;');
+    }
+
     entitiesAndLinks = entitiesAndLinks.replace(/\n/g, '<br>');
 
     return entitiesAndLinks;
