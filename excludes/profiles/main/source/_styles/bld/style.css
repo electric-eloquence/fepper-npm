@@ -349,12 +349,26 @@ input[type="search"]::-webkit-search-decoration {
 .search-field {
   padding-right: 3em;
 }
+@media all and (max-width: 768px) {
+  .search-field {
+    float: right;
+    padding-right: 5rem;
+    width: 24rem;
+  }
+}
 .inline-form .search-submit {
   background: none;
   padding: 0.78em 1em;
   border: 0;
   border-left: 1px solid #808080;
   color: #808080;
+}
+@media all and (max-width: 768px) {
+  .inline-form .search-submit {
+    padding: 0;
+    width: 4.5rem;
+    height: 3.6rem;
+  }
 }
 table {
   border-collapse: collapse;
@@ -631,10 +645,6 @@ footer [role=main] {
 @media all and (max-width: 768px) {
   .search-form.active {
     max-height: none;
-  }
-  .search-form fieldset {
-    display: flex;
-    justify-content: flex-end;
   }
 }
 @media all and (min-width: 769px) {
