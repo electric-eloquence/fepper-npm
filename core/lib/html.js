@@ -23,7 +23,7 @@ exports.head = `
   </head>
 
   <body style="width: 100%;" class="text">
-    <main>`;
+    <main id="{{ main_id }}">`;
 
 exports.headWithMsg = exports.head + '\n      <div class="message {{ msg_class }}">{{ message }}</div>';
 
