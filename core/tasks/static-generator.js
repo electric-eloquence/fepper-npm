@@ -11,8 +11,8 @@ const utils = require('../lib/utils');
 
 const conf = global.conf;
 const pref = global.pref;
+const workDir = global.workDir;
 
-const appDir = global.appDir;
 const patternsDir = utils.pathResolve(conf.ui.paths.public.patterns);
 const sourceDir = utils.pathResolve(conf.ui.paths.public.root);
 const staticDir = utils.pathResolve(conf.ui.paths.source.static);
@@ -70,7 +70,7 @@ exports.pagesDirCompile = function () {
 
   // Load js-beautify with options configured in .jsbeautifyrc
   var rcLoader = new RcLoader('.jsbeautifyrc', {});
-  var rcOpts = rcLoader.for(appDir, {lookup: true});
+  var rcOpts = rcLoader.for(workDir, {lookup: true});
 
   // Glob page files in public/patterns.
   dirs = glob.sync(`${patternsDir}/${pagesPrefix}-*`);
