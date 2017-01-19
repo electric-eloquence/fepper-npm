@@ -357,5 +357,9 @@ td {
 }
 
 #mustache-browser {
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: "Lucida Console", Monaco, monospace !important;
+  font-size: 13px !important;
+}
+#mustache-browser h1 {
+  font-size: 32px !important;
 }
