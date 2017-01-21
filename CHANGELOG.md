@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.20.5
+* Bower -> NPM
+
 ### v0.20.4
 * Better sharing of vars in variables.styl
 * Viewport resizer buttons use user-configured bps
