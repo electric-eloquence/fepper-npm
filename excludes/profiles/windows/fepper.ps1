@@ -29,7 +29,7 @@ else
 {
   iwr -o $nodeMsi https://nodejs.org/dist/$nodeVersion/$nodeMsi
   msiexec /i $nodeMsi
-  echo "After Node.js has finished installing, restart your computer."
+  echo "You need to install Node.js to continue. After it has finished installing, restart your computer."
 }
 
 PAUSE
