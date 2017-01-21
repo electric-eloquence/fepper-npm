@@ -25,7 +25,7 @@ gulp.task('install:copy', function (cb) {
     resolve();
   })
   .then(function () {
-    if (!fs.existsSync(`${publicDir}/bower_components`)) {
+    if (!fs.existsSync(`${publicDir}/node_modules`)) {
       new Promise(function (resolve) {
         process.chdir(publicDir);
         utils.log(`Working directory changed to ${publicDir}`);
