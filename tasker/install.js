@@ -33,7 +33,7 @@ gulp.task('install:copy', function (cb) {
       })
       .then(function () {
         return new Promise(function (resolve) {
-          exec('bower install', (err, stdout, stderr) => {
+          exec('npm install', (err, stdout, stderr) => {
             if (err) {
               throw err;
             }
