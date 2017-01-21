@@ -26,9 +26,9 @@
     "public": {
       "root": "public",
       "patterns": "public/patterns",
-      "data": "public/bower_components/fepper-ui/data",
+      "data": "public/node_modules/fepper-ui/data",
       "annotations": "public/annotations",
-      "styleguide": "public/bower_components/fepper-ui",
+      "styleguide": "public/node_modules/fepper-ui",
       "js": "public/_scripts",
       "images": "public/_assets",
       "fonts": "public/_styles/bld/fonts",
