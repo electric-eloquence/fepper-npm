@@ -39,5 +39,7 @@ Fepper exposes these methods on the `patternlab` object:
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
 maintain parity with the PHP project with respect to performance and core 
-features. Please report any bugs and submit contributions at 
+features.
+
+Please report any bugs and submit contributions at 
 https://github.com/electric-eloquence/fepper-npm
