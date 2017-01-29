@@ -7,7 +7,7 @@ const utils = require('../lib/utils');
 const conf = global.conf;
 const workDir = global.workDir;
 
-const patternlab = require(utils.pathResolve(`${conf.ui.paths.core.lib}/patternlab.js`))(conf.ui, workDir);
+const patternlab = new require(utils.pathResolve(`${conf.ui.paths.core.lib}/patternlab.js`))(conf.ui, workDir);
 const pubDir = conf.ui.paths.public;
 const srcDir = conf.ui.paths.source;
 
