@@ -19,10 +19,10 @@ object as follows:
 const fs = require('fs');
 const path = require('path');
 
-var cwd = process.cwd();
-var config = fs.readFileSync(path.resolve(cwd, 'patternlab-config.json'), 'utf8');
+const cwd = process.cwd();
+const config = fs.readFileSync(path.resolve(cwd, 'patternlab-config.json'), 'utf8');
 
-const patternlab = require(path.resolve(cwd, 'ui/core/lib/patternlab))(config, cwd);
+const patternlab = new require(path.resolve(cwd, 'ui/core/lib/patternlab))(config, cwd);
 ```
 
 The Fepper variant of the `patternlab` constructor recognizes a second parameter 
