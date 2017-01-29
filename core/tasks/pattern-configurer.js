@@ -24,5 +24,5 @@ if (window.location.port === '${conf.express_port}') {
 }
 `;
   // Write out the LiveReloader.
-  fs.appendFileSync(dest, output);
+  fs.writeFileSync(dest, output);
 };
