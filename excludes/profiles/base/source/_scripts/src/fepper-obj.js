@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var FEPPER = window.FEPPER = {
+  var FEPPER = {
     breakpoints: {
       lg: {
         maxWidth: window.bp_lg_max || -1,
@@ -25,4 +25,6 @@
       }
     }
   };
+
+  window.FEPPER = FEPPER;
 })();
