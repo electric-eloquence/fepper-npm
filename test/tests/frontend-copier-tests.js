@@ -42,16 +42,16 @@ frontendCopier.main('styles');
 
 describe('Frontend Copier', function () {
   it('should copy frontend files to the backend', function () {
-    var assetCopied = fs.existsSync(`${assetsTargetDir}/logo.png`);
-    var scriptCopied = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);
-    var scriptCopied1 = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
-    var scriptCopied2 = fs.existsSync(`${scriptsTargetDir}-alt/variables-alt.styl`);
-    var styleCopied = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
-    var styleCopied1 = fs.existsSync(`${stylesTargetDir}-alt/style-alt.css`);
-    var styleCopied2 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);
-    var styleCopied3 = fs.existsSync(`${stylesTargetDir}/fonts-alt/icons-alt.svg`);
-    var styleCopied4 = fs.existsSync(`${stylesTargetDir}/bld/fonts/nested/icons.nested.svg`);
-    var styleCopied5 = fs.existsSync(`${stylesTargetDir}/fonts-alt/nested-alt/icons.nested-alt.svg`);
+    const assetCopied = fs.existsSync(`${assetsTargetDir}/logo.png`);
+    const scriptCopied = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);
+    const scriptCopied1 = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
+    const scriptCopied2 = fs.existsSync(`${scriptsTargetDir}-alt/variables-alt.styl`);
+    const styleCopied = fs.existsSync(`${stylesTargetDir}/style.css`);
+    const styleCopied1 = fs.existsSync(`${stylesTargetDir}-alt/style-alt.css`);
+    const styleCopied2 = fs.existsSync(`${stylesTargetDir}/fonts/icons.svg`);
+    const styleCopied3 = fs.existsSync(`${stylesTargetDir}/fonts-alt/icons-alt.svg`);
+    const styleCopied4 = fs.existsSync(`${stylesTargetDir}/fonts/nested/icons.nested.svg`);
+    const styleCopied5 = fs.existsSync(`${stylesTargetDir}/fonts-alt/nested-alt/icons.nested-alt.svg`);
 
     expect(assetCopied).to.equal(true);
     expect(scriptCopied).to.equal(true);
@@ -66,29 +66,29 @@ describe('Frontend Copier', function () {
   });
 
   it('should ignore frontend files prefixed with two undercores', function () {
-    var src = fs.existsSync(`${stylesBldDir}/__style.dev.css`);
-    var ignored = fs.existsSync(`${stylesTargetDir}/__style.dev.css`);
+    const src = fs.existsSync(`${stylesBldDir}/__style.dev.css`);
+    const ignored = fs.existsSync(`${stylesTargetDir}/__style.dev.css`);
 
     expect(src).to.equal(true);
     expect(ignored).to.equal(false);
   });
 
   it('should ignore frontend files in a _nosync directory', function () {
-    var src = fs.existsSync(`${assetsDir}/_nosync/nosync.png`);
-    var ignored = fs.existsSync(`${assetsTargetDir}/_nosync/nosync.png`);
+    const src = fs.existsSync(`${assetsDir}/_nosync/nosync.png`);
+    const ignored = fs.existsSync(`${assetsTargetDir}/_nosync/nosync.png`);
 
     expect(src).to.equal(true);
     expect(ignored).to.equal(false);
   });
 
   it('should write to the default target directory', function () {
-    var output = fs.readFileSync(`${scriptsTargetDir}/src/variables.styl`, conf.enc).trim();
+    const output = fs.readFileSync(`${scriptsTargetDir}/src/variables.styl`, conf.enc).trim();
 
     expect(output).to.equal('bp_lg_max = -1\nbp_lg_min = 1024\nbp_md_min = 768\nbp_sm_min = 480\nbp_xs_min = 0');
   });
 
   it('should write to the alternate target directory', function () {
-    var output = fs.readFileSync(scriptsTargetAlt + '/variables-alt.styl', conf.enc).trim();
+    const output = fs.readFileSync(scriptsTargetAlt + '/variables-alt.styl', conf.enc).trim();
 
     expect(output).to.equal('bp_lg_max = -1\nbp_lg_min = 1024\nbp_md_min = 768\nbp_sm_min = 480\nbp_xs_min = 0');
   });
