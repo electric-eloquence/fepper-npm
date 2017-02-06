@@ -440,9 +440,11 @@ function buildFrontEnd(patternlab) {
     }
   );
 
-  var styleguideMarkupPath = path.resolve(paths.public.styleguide, 'markup');
-  // Allow fallback to stock Pattern Lab's language-specific naming convention.
-  if (!fs.existsSync(styleguideMarkupPath)) {
+  var styleguideMarkupPath;
+  if (typeof paths.public.styleguideHtml === 'string') {
+    styleguideMarkupPath = path.resolve(paths.public.styleguideHtml);
+  } else {
+    // Allow fallback to stock Pattern Lab's language-specific naming convention.
     styleguideMarkupPath = path.resolve(paths.public.styleguide, 'html');
   }
 
