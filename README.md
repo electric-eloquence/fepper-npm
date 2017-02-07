@@ -16,9 +16,6 @@ To just run a Node.js variant of Pattern Lab, instantiate the `patternlab`
 object as follows:
 
 ```
-const fs = require('fs');
-const path = require('path');
-
 const config = require('./patternlab-config.json');
 const cwd = process.cwd();
 const patternlab = new require('fepper/ui/core/lib/patternlab)(config, cwd);
