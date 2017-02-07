@@ -440,16 +440,16 @@ function buildFrontEnd(patternlab) {
     }
   );
 
-  var styleguideMarkupPath;
+  var styleguideHtmlPath;
   if (typeof paths.public.styleguideHtml === 'string') {
-    styleguideMarkupPath = path.resolve(paths.public.styleguideHtml);
+    styleguideHtmlPath = path.resolve(paths.public.styleguideHtml);
   } else {
     // Allow fallback to stock Pattern Lab's language-specific naming convention.
-    styleguideMarkupPath = path.resolve(paths.public.styleguide, 'html');
+    styleguideHtmlPath = path.resolve(paths.public.styleguide, 'html');
   }
 
   fs.outputFileSync(
-    path.resolve(styleguideMarkupPath, 'styleguide.html'), headerHTML + styleguideHtml + footerHTML);
+    path.resolve(styleguideHtmlPath, 'styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   // build the viewall pages
   buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
