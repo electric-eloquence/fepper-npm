@@ -1,8 +1,11 @@
 # Fepper Changelog
 
+### v0.21.4
+* README corrections
+
 ### v0.21.3
 * Minor update to bp defaults
-* new paths.public.styleguideHtml property in patternlab-config.json
+* New paths.public.styleguideHtml property in patternlab-config.json
 
 ### v0.21.2
 * fs.appendFileSync -> fs.writeFileSync in pattern-configurer.js
