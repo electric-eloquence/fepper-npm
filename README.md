@@ -19,7 +19,7 @@ object as follows:
 const fs = require('fs');
 const path = require('path');
 
-const config = fs.readFileSync('./patternlab-config.json', 'utf8');
+const config = require('./patternlab-config.json');
 const cwd = process.cwd();
 const patternlab = new require('fepper/ui/core/lib/patternlab)(config, cwd);
 ```
