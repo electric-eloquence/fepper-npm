@@ -14,11 +14,9 @@ utils.conf();
 utils.pref();
 const conf = global.conf;
 const pref = global.pref;
-const enc = conf.enc;
 
 const staticGenerator = require(`${global.appDir}/core/tasks/static-generator`);
 
-const patternsDir = `${global.workDir}/${conf.ui.paths.source.patterns}`;
 const staticDir = path.normalize(`${global.workDir}/${conf.ui.paths.source.static}`);
 
 const assetsSrc = path.normalize(`${global.workDir}/${conf.ui.paths.source.images}`);

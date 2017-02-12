@@ -13,9 +13,7 @@ const utils = require(`${global.appDir}/core/lib/utils`);
 utils.conf();
 utils.pref();
 const conf = global.conf;
-const enc = conf.enc;
 
-//const testDir = rootDir + '/' + conf.test_dir;
 const appendixFile = `${global.workDir}/${conf.ui.paths.source.data}/_appendix.json`;
 const dataFile = `${global.workDir}/${conf.ui.paths.source.data}/data.json`;
 const Tasks = require(`${global.appDir}/core/tasks/tasks`);
@@ -40,7 +38,8 @@ describe('JSON Compiler', function () {
     // Fail gracefully.
   }
 
-  function stripBraces(jsonStr) {
+  function stripBraces(jsonStr_) {
+    let jsonStr = jsonStr_;
     jsonStr = jsonStr.replace(/^\s*{\s*/, '');
     jsonStr = jsonStr.replace(/\s*}\s*$/, '');
     return jsonStr;

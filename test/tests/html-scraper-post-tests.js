@@ -13,7 +13,6 @@ const utils = require('../../core/lib/utils');
 utils.conf();
 utils.pref();
 const conf = global.conf;
-const enc = conf.enc;
 
 const htmlScraperPost = new (require(`${global.appDir}/core/tcp-ip/html-scraper-post`))();
 const req = {body: {target: '', url: ''}};
@@ -199,11 +198,13 @@ describe('HTML Scraper Post', function () {
   describe('HTML Converter', function () {
     it('should return a JSON object', function () {
       expect(jsons.jsonForMustache).to.be.an('object');
+      // eslint-disable-next-line no-unused-expressions
       expect(jsons.jsonForMustache).to.not.be.empty;
     });
 
     it('should return an array', function () {
       expect(jsons.jsonForData).to.be.an('object');
+      // eslint-disable-next-line no-unused-expressions
       expect(jsons.jsonForData).to.not.be.empty;
     });
   });
@@ -229,7 +230,7 @@ describe('HTML Scraper Post', function () {
 
 
     it('should create multiple array elements when the selector targets multiple DOM elements', function () {
-      var  htmlVar = `
+      var htmlVar = `
 <section class="test">Foo</section>
 <section class="test">Bar</section>
 <section class="test">Foot</section>
@@ -268,6 +269,7 @@ describe('HTML Scraper Post', function () {
       var targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       var jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
 
+      // eslint-disable-next-line max-len
       expect(targetHtml).to.equal('<section id="test2">\n  <div class="nested">\n    <div class="nested-further">Barf</div>\n  </div>\n</section>\n');
       expect(jsonForData).to.be.an('object');
       expect(jsonForData.html[0].nested_further).to.equal('Barf');
@@ -319,12 +321,15 @@ describe('HTML Scraper Post', function () {
     });
 
     it('should correctly format newlines in file body', function () {
+      // eslint-disable-next-line max-len
       var mustache = '{{# html }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ html }}';
 
+      // eslint-disable-next-line max-len
       expect(htmlScraperPost.newlineFormat(mustache)).to.equal('{{# html }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ html }}\n');
     });
 
     it('should write file to destination', function () {
+      // eslint-disable-next-line max-len
       var fileMustache = '{{# html }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ html }}\n';
       var fileJson = htmlScraperPost.newlineFormat(JSON.stringify(jsons.jsonForData, null, 2));
       var fileName = '0-test.1_2';
