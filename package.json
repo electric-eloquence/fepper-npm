@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "diveSync": "^0.3.0",
-    "glob": "^5.0.5",
     "fs-extra": "^0.22.1",
+    "glob": "^5.0.5",
     "hogan.js": "^3.0.2",
     "js-beautify": "1.6.4",
     "json-eval": "^0.1.0",
