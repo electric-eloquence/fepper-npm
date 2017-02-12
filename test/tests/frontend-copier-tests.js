@@ -13,7 +13,6 @@ utils.conf();
 utils.pref();
 const conf = global.conf;
 const pref = global.pref;
-const enc = conf.enc;
 
 const frontendCopier = require(`${global.appDir}/core/tasks/frontend-copier`);
 const assetsDir = utils.pathResolve(conf.ui.paths.source.images);
@@ -22,7 +21,6 @@ const scriptsTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.scripts_
 const scriptsTargetAlt = `${scriptsTargetDir}-alt`;
 const stylesBldDir = utils.pathResolve(conf.ui.paths.source.cssBld);
 const stylesTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.styles_dir);
-const testDir = global.workDir;
 
 // Clear out target dirs before main execution.
 fs.removeSync(assetsTargetDir + '/*');
