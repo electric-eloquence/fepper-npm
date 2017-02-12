@@ -441,11 +441,11 @@ function buildFrontEnd(patternlab) {
   );
 
   var styleguideHtmlPath;
-  if (typeof paths.public.styleguideHtml === 'string') {
-    styleguideHtmlPath = path.resolve(paths.public.styleguideHtml);
-  } else {
-    // Allow fallback to stock Pattern Lab's language-specific naming convention.
+  // Allow fallback to stock Pattern Lab's language-specific naming convention.
+  if (paths.public.styleguide === './public/styleguide/') {
     styleguideHtmlPath = path.resolve(paths.public.styleguide, 'html');
+  } else {
+    styleguideHtmlPath = path.resolve(paths.public.styleguide);
   }
 
   fs.outputFileSync(
