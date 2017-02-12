@@ -12,7 +12,6 @@ const utils = require(`${global.appDir}/core/lib/utils`);
 utils.conf();
 utils.pref();
 const conf = global.conf;
-const enc = conf.enc;
 
 const pcFile = `${global.workDir}/${conf.ui.paths.public.styleguide}/scripts/pattern-configurer.js`;
 const Tasks = require(`${global.appDir}/core/tasks/tasks`);

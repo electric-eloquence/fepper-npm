@@ -12,7 +12,6 @@ const utils = require(`${global.appDir}/core/lib/utils`);
 utils.conf();
 utils.pref();
 const conf = global.conf;
-const enc = conf.enc;
 
 const appendixFile = `${global.workDir}/${conf.ui.paths.source.root}/_data/_appendix.json`;
 const Tasks = require(`${global.appDir}/core/tasks/tasks`);
