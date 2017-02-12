@@ -50,7 +50,7 @@ gulp.task('test:eslint-root', function () {
 });
 
 gulp.task('test:eslint-test', function () {
-  return gulp.src('test/*.js')
+  return gulp.src('test/tests/*.js')
     // An ESLint bug requires that the node env be defined here and not in
     // .eslintrc.json.
     .pipe(eslint({envs: ['node']}))
@@ -59,6 +59,6 @@ gulp.task('test:eslint-test', function () {
 });
 
 gulp.task('test:mocha', function () {
-  return gulp.src('test/tests/*-tests.js', {read: false})
+  return gulp.src('test/tests/*.js', {read: false})
     .pipe(mocha());
 });
