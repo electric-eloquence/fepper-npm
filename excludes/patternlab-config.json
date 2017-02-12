@@ -29,7 +29,6 @@
       "data": "public/node_modules/fepper-ui/data",
       "annotations": "public/annotations",
       "styleguide": "public/node_modules/fepper-ui",
-      "styleguideHtml": "public/node_modules/fepper-ui/markup",
       "js": "public/_scripts",
       "images": "public/_assets",
       "fonts": "public/_styles/bld/fonts",
