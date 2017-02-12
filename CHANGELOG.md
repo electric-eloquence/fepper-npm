@@ -1,5 +1,12 @@
 # Fepper Changelog
 
+### v0.21.5
+* Pattern Lab dependencies to get npm installed as dependencies and not devDependencies
+* 2nd arg for patternlab.build
+* Installer runs npm install in extend dir if extend exists but extend/node_modules doesn't
+* Correct styleguide pathing
+* Accommodating UI corrections
+
 ### v0.21.4
 * README corrections
 
