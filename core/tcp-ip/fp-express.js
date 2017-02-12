@@ -9,7 +9,7 @@ const conf = global.conf;
 const pref = global.pref;
 
 const htmlScraper = require('./html-scraper');
-const htmlScraperPost = require('./html-scraper-post');
+const htmlScraperPost = new (require('./html-scraper-post'))();
 const htmlScraperXhr = require('./html-scraper-xhr');
 const MustacheBrowser = require('./mustache-browser');
 const readme = require('./readme');
@@ -57,7 +57,11 @@ exports.main = function () {
   app.get('/success', success.main);
 
   // HTML scraper and importer actions.
-  app.post('/html-scraper', htmlScraperPost.main);
+  app.post('/html-scraper', function (req, res) {
+    htmlScraperPost.req = req;
+    htmlScraperPost.res = res;
+    htmlScraperPost.main();
+  });
 
   // Fepper static files.
   app.use('/fepper-core', express.static(`${global.appDir}/core/webserved`));
