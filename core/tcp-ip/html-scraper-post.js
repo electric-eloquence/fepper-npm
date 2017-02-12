@@ -273,7 +273,6 @@ exports.jsonRecurse = function (jsonObj, dataObj, dataKeys, incParam) {
   var tmpObj;
   var suffix;
   var suffixInt;
-  var underscored = '';
 
   if (Array.isArray(jsonObj.child)) {
     for (let i = 0; i < jsonObj.child.length; i++) {
@@ -282,6 +281,7 @@ exports.jsonRecurse = function (jsonObj, dataObj, dataKeys, incParam) {
         typeof jsonObj.child[i].text === 'string' &&
         jsonObj.child[i].text.trim()
       ) {
+        let underscored = '';
 
         if (jsonObj.attr) {
           if (typeof jsonObj.attr.id === 'string') {
@@ -302,16 +302,27 @@ exports.jsonRecurse = function (jsonObj, dataObj, dataKeys, incParam) {
           for (let j = dataKeys[inc].length - 1; j >= 0; j--) {
             // Check dataKeys for similarly named items.
             if (dataKeys[inc][j].indexOf(underscored) === 0) {
+              suffixInt = 0;
               // Slice off the suffix of the last match.
-              suffix = dataKeys[inc][j].slice(underscored.length, dataKeys[inc][j].length);
+              suffix = dataKeys[inc][j].slice(underscored.length);
               if (suffix) {
                 // Increment that suffix and append to the new key.
-                suffixInt = parseInt(suffix.slice(1), 10);
+                let suffixSlice = suffix.slice(1);
+                if (/^\d+$/.test(suffixSlice)) {
+                  suffixInt = parseInt(suffixSlice, 10);
+                  ++suffixInt;
+                }
               }
               else {
-                suffixInt = 0;
+                // underscored exactly matches dataKeys[inc][j]
+                ++suffixInt;
               }
-              underscored += '_' + ++suffixInt;
+
+              // If the one of the last 2 conditions gave us a positive suffixInt.
+              if (suffixInt) {
+                underscored += `_${suffixInt}`;
+                break;
+              }
             }
           }
           tmpObj = {};
@@ -471,12 +482,17 @@ exports.main = function (reqParam, resParam) {
   // HTML scraper action on submission of URL.
   if (typeof req.body.url === 'string' && req.body.url.trim() && typeof req.body.target === 'string') {
     try {
-      request(req.body.url, function (error, response, body) {
+      request(req.body.url, function (error, response, body_) {
         if (error || response.statusCode !== 200) {
           exports
             .redirectWithMsg('error', 'Not+getting+a+valid+response+from+that+URL.', req.body.target, req.body.url);
           return;
         }
+
+        // Strip body of everything before opening html tag (including doctype).
+        let body = body_.replace(/[\S\s]*<html/, '<html');
+        // Strip body of everything after closing html tag.
+        body = body.replace(/<\/html>[\S\s]*/, '</html>');
 
         jsonForData = new JsonForData();
         jsonFromHtml = html2json(body);
