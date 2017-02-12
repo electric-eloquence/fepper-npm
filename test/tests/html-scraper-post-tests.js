@@ -15,7 +15,7 @@ utils.pref();
 const conf = global.conf;
 const enc = conf.enc;
 
-const htmlScraperPost = require(`${global.appDir}/core/tcp-ip/html-scraper-post`);
+const htmlScraperPost = new (require(`${global.appDir}/core/tcp-ip/html-scraper-post`))();
 const req = {body: {target: '', url: ''}};
 const scrapeDir = `${global.workDir}/${conf.ui.paths.source.patterns}/_patterns/98-scrape`;
 
