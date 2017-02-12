@@ -18,7 +18,7 @@ object as follows:
 ```
 const config = require('./patternlab-config.json');
 const cwd = process.cwd();
-const patternlab = new require('fepper/ui/core/lib/patternlab')(config, cwd);
+const patternlab = new (require('fepper/ui/core/lib/patternlab'))(config, cwd);
 ```
 
 The Fepper variant of the `patternlab` constructor recognizes a second parameter 
