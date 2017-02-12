@@ -441,7 +441,7 @@ function buildFrontEnd(patternlab) {
   );
 
   var styleguideHtmlPath;
-  // Allow fallback to stock Pattern Lab's language-specific naming convention.
+  // Allow fallback to stock Pattern Lab's styleguide.html directory location.
   if (paths.public.styleguide === './public/styleguide/') {
     styleguideHtmlPath = path.resolve(paths.public.styleguide, 'html');
   } else {
