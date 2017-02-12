@@ -41,7 +41,7 @@
   ],
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
-  "cleanPublic": true,
+  "cleanPublic": false,
   "patternExtension": "mustache",
   "ignored-extensions": ["yml"],
   "ignored-directories": [],

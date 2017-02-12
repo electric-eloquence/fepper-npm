@@ -14,7 +14,7 @@ const srcDir = conf.ui.paths.source;
 module.exports = class {
   build(arg) {
     if (typeof arg === 'undefined') {
-      patternlab.build(function () {});
+      patternlab.build(function () {}, conf.ui.cleanPublic);
     }
     else if (arg === 'v') {
       patternlab.version();
