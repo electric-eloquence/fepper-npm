@@ -31,7 +31,7 @@ exports.scraperTitle = `
       <h1>Fepper HTML Scraper</h1>`;
 
 exports.landingBody = `
-      <form action="/html-scraper" method="post"{{ attributes }}>
+      <form action="/html-scraper" method="post" {{ attributes }}>
         <div>
           <label for="url">Enter URL:</label>
           <input name="url" type="text" value="{{ url }}" style="width: 100%;" />

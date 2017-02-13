@@ -40,8 +40,11 @@ exports.main = function (req, res) {
   var scrapePrefix = path.normalize(srcScrape.replace(srcPatterns, ''));
   var scrapePath = `/patterns/${scrapePrefix}-00-html-scraper/${scrapePrefix}-00-html-scraper.html`;
 
+  let attributes = '';
   if (req.headers.referer.indexOf(scrapePath) > -1) {
-    output = output.replace('{{ attributes }}', ' target="_blank"');
+    attributes = 'target="_blank"';
   }
+  output = output.replace('{{ attributes }}', attributes);
+
   res.end(output);
 };
