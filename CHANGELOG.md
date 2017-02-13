@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.21.6
+* Working html-scraper-post.js
+* HTML scraper to ES6 conventions and object-oriented
+* ESLinting Mocha scripts
+
 ### v0.21.5
 * Pattern Lab dependencies to get npm installed as dependencies and not devDependencies
 * 2nd arg for patternlab.build
