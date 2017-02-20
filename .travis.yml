@@ -9,4 +9,4 @@ install:
   - npm install gulp-mocha
   - npm install chai
 script:
-  - gulp --gulpfile node_modules/fepper/tasker.js test
+  - gulp --gulpfile tasker.js test
