@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.21.7
+* Minor maintenance
+
 ### v0.21.6
 * Working html-scraper-post.js
 * HTML scraper to ES6 conventions and object-oriented
