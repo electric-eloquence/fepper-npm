@@ -1,0 +1,96 @@
+@media all and (max-width: 60em) {
+  .sg-nav-container {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: max-height 0.1s ease-out;
+            transition: max-height 0.1s ease-out;
+  }
+  .sg-nav-container.active {
+    max-height: 50em;
+  }
+}
+@media all and (min-width: 42.01em) and (max-width: 60em) {
+  .sg-nav-container.active {
+    overflow: visible;
+    max-height: 50em;
+  }
+}
+
+/**
+* Accordions are dropdowns used for the primary nav and
+* tools dropdowns.
+*/
+.sg-acc-handle:after {
+  content: '▼';
+  color: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  font-size: 7px;
+  position: relative;
+  top: -1px;
+  right: -2px;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+@media all and (min-width: 42em) {
+  .sg-acc-handle:after {
+    float: none;
+  }
+}
+.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
+  color: #808080;
+}
+.sg-acc-handle.active {
+  color: #fff;
+  background: #222;
+}
+.sg-acc-handle.active:after {
+  top: -2px;
+  color: #808080;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/**
+* Accordion panel
+*/
+.sg-acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 10em;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+  * List items appearing in each accordion panel
+  */
+  /**
+  * Links appearing in each accordion panel
+  */
+  /**
+  * Active is when accordion panel is open
+  */
+  /**
+  * Right align accordion dropdown
+  */
+}
+.sg-acc-panel li {
+  background: #222;
+}
+.sg-acc-panel li:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel li:last-child a {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel a {
+  display: block;
+}
+.sg-acc-panel.active {
+  max-height: 120em;
+  overflow: auto;
+}

@@ -353,6 +353,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
       viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
       fs.outputFileSync(
         path.resolve(
+          patternlab.cwd,
           paths.public.patterns,
           pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length),
           'index.html'
@@ -394,6 +395,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
 
       fs.outputFileSync(
         path.resolve(
+          patternlab.cwd,
           paths.public.patterns,
           pattern.flatPatternPath,
           'index.html'
@@ -406,102 +408,118 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
 
 // MAIN BUILDER FUNCTION
 
-function buildFrontEnd(patternlab) {
-  var annotation_exporter = new ae(patternlab);
-  var styleguidePatterns = [];
-  var paths = patternlab.config.paths;
+function buildFrontEnd(patternlab, printDebug, callback) {
+  var componentizer = new (require('../styleguide/componentizer'))(patternlab);
 
-  patternlab.patternTypes = [];
-  patternlab.patternTypeIndex = [];
-  patternlab.patternPaths = {};
-  patternlab.viewAllPaths = {};
-  patternlab.data.cacheBuster = patternlab.cacheBuster;
+  // first, compile the ui components into index.html
+  // TODO: make this switchable with a config option.
+  return componentizer.main()
+    .catch(function (err) {
+      console.error(err);
+    })
 
-  // check if patterns are excluded, if not add them to styleguidePatterns
-  styleguidePatterns = assembleStyleguidePatterns(patternlab);
+    // continue with sync code
+    .then(function () {
+      return new Promise(function (resolve, reject) {
+        var annotation_exporter = new ae(patternlab);
+        var styleguidePatterns = [];
+        var paths = patternlab.config.paths;
 
-  // set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-  var headerHTML = patternlab.userHead.replace('{{{ patternLabHead }}}', patternlab.header);
-  headerHTML = pattern_assembler.renderPattern(headerHTML, patternlab.data);
+        patternlab.patternTypes = [];
+        patternlab.patternTypeIndex = [];
+        patternlab.patternPaths = {};
+        patternlab.viewAllPaths = {};
+        patternlab.data.cacheBuster = patternlab.cacheBuster;
 
-  // set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-  var footerHTML = buildFooterHTML(patternlab, null);
+        // check if patterns are excluded, if not add them to styleguidePatterns
+        styleguidePatterns = assembleStyleguidePatterns(patternlab);
 
-  // build the styleguide
-  var styleguideHtml = pattern_assembler.renderPattern(
-    patternlab.viewAll,
-    {
-      partials: styleguidePatterns,
-      cacheBuster: patternlab.cacheBuster
-    },
-    {
-      patternSection: patternlab.patternSection,
-      patternSectionSubtype: patternlab.patternSectionSubType
-    }
-  );
+        // set the pattern-specific header by compiling the general-header with data, then adding it to the meta header
+        var headerHTML = patternlab.userHead.replace('{{{ patternLabHead }}}', patternlab.header);
+        headerHTML = pattern_assembler.renderPattern(headerHTML, patternlab.data);
 
-  var styleguideHtmlPath;
-  // Allow fallback to stock Pattern Lab's styleguide.html directory location.
-  if (paths.public.styleguide === './public/styleguide/') {
-    styleguideHtmlPath = path.resolve(paths.public.styleguide, 'html');
-  } else {
-    styleguideHtmlPath = path.resolve(paths.public.styleguide);
-  }
+        // set the pattern-specific footer by compiling the general-footer with data, then adding it to the meta footer
+        var footerHTML = buildFooterHTML(patternlab, null);
 
-  fs.outputFileSync(
-    path.resolve(styleguideHtmlPath, 'styleguide.html'), headerHTML + styleguideHtml + footerHTML);
+        // build the styleguide
+        var styleguideHtml = pattern_assembler.renderPattern(
+          patternlab.viewAll,
+          {
+            partials: styleguidePatterns,
+            cacheBuster: patternlab.cacheBuster
+          },
+          {
+            patternSection: patternlab.patternSection,
+            patternSectionSubtype: patternlab.patternSectionSubType
+          }
+        );
 
-  // build the viewall pages
-  buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
+        fs.outputFileSync(
+          path.resolve(patternlab.cwd, paths.public.styleguide, 'styleguide.html'),
+          headerHTML + styleguideHtml + footerHTML
+        );
 
-  // build the patternlab website
-  buildNavigation(patternlab);
+        // build the viewall pages
+        buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
-  // move the index file from its asset location into public root
-  var patternlabSiteHtml;
-  try {
-    patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
-  } catch (error) {
-    console.log('\nERROR: Could not load one or more styleguidekit assets from', paths.source.styleguide, '\n');
-    throw error;
-  }
-  fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+        // build the patternlab website
+        buildNavigation(patternlab);
 
-  // write out the data
-  var output = '';
+        // move the index file from its asset location into public root
+        var patternlabSiteHtml;
+        try {
+          patternlabSiteHtml = fs.readFileSync(path.resolve(__dirname, '../styleguide', 'index.mustache'), 'utf8');
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        }
+        fs.outputFileSync(path.resolve(patternlab.cwd, paths.public.root, 'index.html'), patternlabSiteHtml);
 
-  // config
-  output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
+        // write out the data
+        var output = '';
 
-  // ishControls
-  output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
+        // config
+        output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
 
-  // navItems
-  output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
+        // ishControls
+        // eslint-disable-next-line max-len
+        output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
 
-  // patternPaths
-  output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
+        // navItems
+        output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
 
-  // viewAllPaths
-  output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
+        // patternPaths
+        output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
 
-  // plugins someday
-  output += 'var plugins = [];' + eol;
+        // viewAllPaths
+        output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
 
-  // smaller config elements
-  output += 'var defaultShowPatternInfo = ';
-  output += (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
-  output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all');
-  output += '";' + eol;
+        // plugins someday
+        output += 'var plugins = [];' + eol;
 
-  // write all output to patternlab-data
-  fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
+        // smaller config elements
+        output += 'var defaultShowPatternInfo = ';
 
-  // annotations
-  var annotationsJSON = annotation_exporter.gather();
-  var annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-  fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
+        /* eslint-disable max-len */
+        output += (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
+        output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all');
 
+        /* eslint-enable max-len */
+        output += '";' + eol;
+
+        // write all output to patternlab-data
+        fs.outputFileSync(path.resolve(patternlab.cwd, paths.public.data, 'patternlab-data.js'), output);
+
+        // annotations
+        var annotationsJSON = annotation_exporter.gather();
+        var annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
+        fs.outputFileSync(path.resolve(patternlab.cwd, paths.public.annotations, 'annotations.js'), annotations);
+
+        printDebug();
+        callback();
+        resolve();
+      });
+    });
 }
 
 module.exports = buildFrontEnd;

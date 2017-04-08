@@ -1,9 +1,10 @@
 module.exports = function (grunt) {
 
-  /******************************
-   * Project configuration.
-   * Should only be needed if you are developing against core, running tests, linting and want to run tests or increment package numbers
-   *****************************/
+  /**
+   * Pattern Lab for Node originally used Grunt + Nodeunit for unit testing.
+   * Fepper development will stick with this paradigm for the forseeable future.
+   * Run `npm install` in this directory to install the required packages.
+   */
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     nodeunit: {

@@ -1,0 +1,8 @@
+#sg-size-mq {
+  display: none;
+}
+@media all and (min-width: 72em) {
+  #sg-size-mq {
+    display: block;
+  }
+}
