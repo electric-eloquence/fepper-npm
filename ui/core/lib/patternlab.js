@@ -11,12 +11,13 @@
 'use strict';
 
 var diveSync = require('diveSync');
+var fs = require('fs-extra');
 var glob = require('glob');
 var JSON5 = require('json5');
 var path = require('path');
 var plutils = require('./utilities');
 
-function buildPatternData(dataFilesPathParam, fs) {
+function buildPatternData(dataFilesPathParam) {
   var dataFilesPath = path.resolve(dataFilesPathParam);
   var dataFiles = glob.sync(dataFilesPath + '/*.json', {ignore: [dataFilesPath + 'listitems.json']});
   var mergedObject = {};
@@ -49,13 +50,20 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
 }
 
 var patternlab_engine = function (configParam, configDirParam) {
-  var fs = require('fs-extra');
   var pa = require('./pattern_assembler');
   var pe = require('./pattern_exporter');
   var lih = require('./list_item_hunter');
   var buildFrontEnd = require('./ui_builder');
   var sm = require('./starterkit_manager');
-  var patternlab = {};
+  var patternlab = {
+    cwd: '.',
+    data: {},
+    footer: '',
+    patterns: [],
+    userHead: '',
+    userFoot: '',
+    viewAll: ''
+  };
 
   // The configDir can be submitted as a param to resolve relative paths in configParam.
   var configDir = configDirParam || '';
@@ -77,6 +85,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     }
 
     config.patternExportDirectory = path.resolve(configDir, config.patternExportDirectory);
+    patternlab.cwd = configDir;
   }
 
   var jsonFileStr = fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8');
@@ -191,12 +200,39 @@ var patternlab_engine = function (configParam, configDirParam) {
     starterkit_manager.load_starterkit(starterkitName, clean);
   }
 
-  function buildPatterns(deletePatternDir) {
-    var list_item_hunter = new lih();
-    var pattern_assembler = new pa();
-
+  function buildViewAll(patternlab_) {
+    // viewall markup from core templates
+    var viewAllCoreDir = path.resolve(__dirname, '../styleguide/viewall');
     try {
-      patternlab.data = buildPatternData(paths.source.data, fs);
+      patternlab_.patternSection = fs.readFileSync(viewAllCoreDir + '/partials/patternSection.mustache', 'utf8');
+      patternlab_.patternSectionSubType = fs.readFileSync(
+        viewAllCoreDir + '/partials/patternSectionSubtype.mustache', 'utf8');
+      patternlab_.viewAll = fs.readFileSync(viewAllCoreDir + '/viewall.mustache', 'utf8');
+    } catch (ex) {
+      plutils.logRed('ERROR: missing an essential file from ' + viewAllCoreDir +
+        '. Pattern Lab won\'t work without this file.');
+      throw ex;
+    }
+
+    // allow viewall templates to be overridden
+    if (paths.source.ui) {
+      var viewAllCustomDir = path.resolve(paths.source.ui, 'viewall');
+      if (fs.existsSync(viewAllCustomDir + '/partials/patternSection.mustache')) {
+        patternlab_.patternSection = fs.readFileSync(viewAllCustomDir + '/partials/patternSection.mustache', 'utf8');
+      }
+      if (fs.existsSync(viewAllCustomDir + '/partials/patternSectionSubtype.mustache')) {
+        patternlab_.patternSectionSubType = fs.readFileSync(
+          viewAllCustomDir + '/partials/patternSectionSubtype.mustache', 'utf8');
+      }
+      if (fs.existsSync(viewAllCustomDir + '/viewall.mustache')) {
+        patternlab_.viewAll = fs.readFileSync(viewAllCustomDir + '/viewall.mustache', 'utf8');
+      }
+    }
+  }
+
+  function buildPatterns(deletePatternDir) {
+    try {
+      patternlab.data = buildPatternData(paths.source.data);
     } catch (ex) {
       plutils.logRed('ERROR: missing or malformed ' + path.resolve(paths.source.data, 'data.json') +
       '. Pattern Lab may not work without this file.');
@@ -210,22 +246,18 @@ var patternlab_engine = function (configParam, configDirParam) {
       '. Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
+    var immutableDir = path.resolve(__dirname, '../immutable');
     try {
-      patternlab.header = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
-      patternlab.footer = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
-      patternlab.patternSection = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.mustache'), 'utf8');
-      patternlab.viewAll = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+      patternlab.header = fs.readFileSync(immutableDir + '/immutable-header.mustache', 'utf8');
+      patternlab.footer = fs.readFileSync(immutableDir + '/immutable-footer.mustache', 'utf8');
     } catch (ex) {
-      plutils.logRed('ERROR: missing an essential file from ' + paths.source.patternlabFiles +
+      plutils.logRed('ERROR: missing an essential file from ' + immutableDir +
         '. Pattern Lab won\'t work without this file.');
       throw ex;
     }
+
+    buildViewAll(patternlab);
+
     patternlab.patterns = [];
     patternlab.subtypePatterns = {};
     patternlab.partials = {};
@@ -323,9 +355,20 @@ var patternlab_engine = function (configParam, configDirParam) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      buildFrontEnd(patternlab);
-      printDebug();
-      callback();
+      return buildFrontEnd(patternlab, printDebug, callback);
+    },
+    buildFrontEnd: function (patternlab_, printDebug_, callback) {
+      return buildFrontEnd(patternlab_, printDebug_, callback);
+    },
+    buildPatternData: function (dataFilesPathParam) {
+      return buildPatternData(dataFilesPathParam);
+    },
+    buildViewAll: function (patternlab_) {
+      buildViewAll(patternlab_);
+    },
+    forceCompile: function () {
+      var componentizer = new (require('../styleguide/componentizer'))(patternlab);
+      return componentizer.main(true);
     },
     help: function () {
       help();
@@ -340,15 +383,11 @@ var patternlab_engine = function (configParam, configDirParam) {
     },
     loadstarterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
+    },
+    processAllPatternsIterative: function (pattern_assembler, patterns_dir, patternlab_) {
+      processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab_);
     }
   };
 };
-
-// export these free functions so they're available without calling the exported
-// function, for use in reducing code dupe in unit tests. At least, until we
-// have a better way to do this
-patternlab_engine.buildPatternData = buildPatternData;
-patternlab_engine.processAllPatternsIterative = processAllPatternsIterative;
-patternlab_engine.processAllPatternRecursive = processAllPatternsRecursive;
 
 module.exports = patternlab_engine;

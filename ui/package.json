@@ -4,6 +4,7 @@
   "version": "2.3.0-fepper.0",
   "main": "./core/lib/patternlab.js",
   "devDependencies": {
+    "fepper-ui": "^0.1.0",
     "grunt": "^1.0.1",
     "grunt-contrib-nodeunit": "^1.0.0",
     "grunt-eslint": "^19.0.0"

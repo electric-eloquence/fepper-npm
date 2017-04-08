@@ -4,16 +4,21 @@
 var fs = require('fs-extra');
 var path = require('path');
 
-var Pattern = require('../core/lib/object_factory').Pattern;
-var pa = require('../core/lib/pattern_assembler');
-var pe = require('../core/lib/pattern_exporter');
-var patternEngines = require('../core/lib/pattern_engines');
-var plMain = require('../core/lib/patternlab');
+var config = require('./patternlab-config.json');
+var cwd = process.cwd() + '/test';
+var plMain = new (require('../core/lib/patternlab'))(config, cwd);
 
+var Pattern = require('../core/lib/object_factory').Pattern;
 var dummyPattern = Pattern.createEmpty();
+
+var patternEngines = require('../core/lib/pattern_engines');
 var engine = patternEngines.getEngineForPattern(dummyPattern);
-var exportsDir = path.resolve(__dirname, 'files');
+
+var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
+
+var pe = require('../core/lib/pattern_exporter');
+var exportsDir = path.resolve(__dirname, 'files');
 var pattern_exporter = new pe(exportsDir);
 
 var existsBefore;

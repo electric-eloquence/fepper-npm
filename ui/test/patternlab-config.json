@@ -1,0 +1,73 @@
+{
+  "paths": {
+    "source": {
+      "root": "source",
+      "annotations": "source/_annotations",
+      "data": "source/_data",
+      "meta": "source/_meta",
+      "images": "source/_assets",
+      "imagesBld": "source/_assets/bld",
+      "imagesSrc": "source/_assets/src",
+      "js": "source/_scripts",
+      "jsBld": "source/_scripts/bld",
+      "jsSrc": "source/_scripts/src",
+      "css": "files/empty",
+      "cssBld": "source/_styles/bld",
+      "cssSrc": "source/_styles/src",
+      "fonts": "source/_styles/bld/fonts",
+      "patterns": "test/files/_viewall-test-patterns",
+      "templates": "source/_patterns/03-templates",
+      "pages": "source/_patterns/04-pages",
+      "scrape": "source/_patterns/98-scrape",
+      "static": "source/_static",
+      "styleguide": "files/_styleguide",
+      "ui": "files/_ui"
+    },
+    "public": {
+      "root": "files",
+      "annotations": "files/annotations",
+      "data": "files/data",
+      "images": "public/_assets",
+      "js": "public/_scripts",
+      "css": "public/_styles/bld",
+      "fonts": "public/_styles/bld/fonts",
+      "patterns": "files/patterns",
+      "static": "public/static",
+      "styleguide": "files/styleguide"
+    }
+  },
+  "cacheBust": true,
+  "cleanPublic": false,
+  "compileUiOnEveryBuild": false,
+  "debug": false,
+  "defaultPattern": "pages-homepage",
+  "defaultShowPatternInfo": false,
+  "ignored-extensions": ["yml"],
+  "ignored-directories": [],
+  "ishControlsHide": {
+    "random": true,
+    "disco": true,
+    "hay": true,
+    "mqs": true,
+    "find": false,
+    "views-all": false,
+    "views-annotations": false,
+    "views-code": false,
+    "views-new": false,
+    "tools-all": false,
+    "tools-shortcuts": true,
+    "tools-docs": false
+  },
+  "ishMinimum": "240",
+  "ishMaximum": "2600",
+  "outputFileSuffixes": {
+    "markupOnly": ".markup-only",
+    "rawTemplate": "",
+    "rendered": ""
+  },
+  "patternExportDirectory": "pattern_exports",
+  "patternExportPatternPartials": [],
+  "patternExtension": "mustache",
+  "styleGuideExcludes": [
+  ]
+}

@@ -1,0 +1,12 @@
+.sg-icon-cog:before {
+  content: "\e601";
+}
+
+.sg-icon-keyboard:before {
+  content: "\e609";
+}
+
+.sg-icon-file:before {
+  content: "\e607";
+  margin-right: 0.4em;
+}

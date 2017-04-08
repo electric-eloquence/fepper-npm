@@ -11,6 +11,7 @@
     },
     "patternExportPatternPartials": ["test-styled-organism"]
   },
+  "cwd": "./test",
   "data": {
     "message": "",
     "link": []
@@ -18,5 +19,8 @@
   "patterns": [],
   "subtypePatterns": {},
   "partials": {},
-  "dataKeys": []
+  "dataKeys": [],
+  "userHead": "<!DOCTYPE html><html><head>{{{ patternLabHead }}}</head><body>",
+  "userFoot": "{{{ patternLabFoot }}}</body></html>",
+  "footer": ""
 }

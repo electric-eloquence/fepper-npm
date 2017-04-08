@@ -4,13 +4,17 @@
 var fs = require('fs-extra');
 var jsonEval = require('json-eval');
 
-var Pattern = require('../core/lib/object_factory').Pattern;
-var pa = require('../core/lib/pattern_assembler');
-var patternEngines = require('../core/lib/pattern_engines');
-var plMain = require('../core/lib/patternlab');
+var config = require('./patternlab-config.json');
+var cwd = process.cwd() + '/test';
+var plMain = new (require('../core/lib/patternlab'))(config, cwd);
 
+var Pattern = require('../core/lib/object_factory').Pattern;
 var dummyPattern = Pattern.createEmpty();
+
+var patternEngines = require('../core/lib/pattern_engines');
 var engine = patternEngines.getEngineForPattern(dummyPattern);
+
+var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
 
 var patternlab = fs.readJsonSync('./test/files/patternlab.json');
@@ -261,7 +265,7 @@ exports.parameter_hunter = {
     jsonEval(param);
 
     // assert
-    console.log('\nPattern Lab should catch JSON5.parse() errors and output useful debugging information...');
+    console.log('Pattern Lab should catch JSON5.parse() errors and output useful debugging information...');
 
     test.done();
   },
