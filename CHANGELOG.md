@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.22.0
+* UI componentized and built by React so it can be user customized
+
 ### v0.21.7
 * Minor maintenance
 
