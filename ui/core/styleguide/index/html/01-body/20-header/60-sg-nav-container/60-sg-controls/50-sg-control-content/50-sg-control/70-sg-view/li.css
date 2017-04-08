@@ -1,0 +1,8 @@
+.sg-icon-eye:before {
+  content: "\e60b";
+}
+
+.sg-icon-link:before {
+  content: "\e608";
+  margin-right: 0.4em;
+}

@@ -1,0 +1,68 @@
+.sg-control > li {
+  float: left;
+}
+@media all and (min-width: 48em) {
+  .sg-control > li {
+    border-bottom: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+.sg-control-trigger {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+@media all and (min-width: 48em) {
+  .sg-control-trigger {
+    border: 0;
+  }
+}
+@media all and (min-width: 72em) {
+  .sg-control-trigger {
+    float: left;
+    width: 6em;
+  }
+}
+
+.sg-header .sg-icon {
+  display: block;
+  width: auto;
+  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+}
+
+.sg-icon-search, .sg-icon-cog, .sg-checkbox.active, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-eye {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sg-view {
+  position: relative;
+}
+.sg-view > ul {
+  position: absolute;
+  top: 2em;
+  left: 0;
+}
+
+.sg-acc-panel.sg-right {
+  position: absolute;
+  left: auto;
+  right: 0;
+}
+
+.sg-checkbox:before {
+  content: "\e606";
+  display: inline-block;
+  margin-right: 0.4em;
+}
+.sg-checkbox.active:before {
+  content: "\e605";
+}

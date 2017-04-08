@@ -99,7 +99,7 @@ gulp.task('data', function (cb) {
   }
 
   args.push('fepper:data');
-  args.push('patternlab:build');
+  args.push('ui:build');
 
   if (conExists && cusExists) {
     args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
@@ -150,10 +150,10 @@ gulp.task('once', function (cb) {
     args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
   }
 
-  args.push('patternlab:clean');
-  args.push('patternlab:build');
-  args.push('patternlab:copy');
-  args.push('patternlab:copy-styles');
+  args.push('ui:clean');
+  args.push('ui:build');
+  args.push('ui:copy');
+  args.push('ui:copy-styles');
 
   if (conExists && cusExists) {
     args.push(['contrib:once:postprocess', 'custom:once:postprocess']);

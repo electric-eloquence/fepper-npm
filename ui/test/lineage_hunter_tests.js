@@ -2,9 +2,11 @@
 
 var fs = require('fs-extra');
 
-var pa = require('../core/lib/pattern_assembler');
-var plMain = require('../core/lib/patternlab');
+var config = require('./patternlab-config.json');
+var cwd = process.cwd() + '/test';
+var plMain = new (require('../core/lib/patternlab'))(config, cwd);
 
+var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
 
 var patternlab = fs.readJsonSync('./test/files/patternlab.json');

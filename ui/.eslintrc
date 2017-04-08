@@ -3,6 +3,9 @@
     "node": true,
     "builtin": true
   },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
   "globals": {},
   "rules": {
     "block-scoped-var": 0,

@@ -14,13 +14,13 @@ const srcDir = conf.ui.paths.source;
 module.exports = class {
   build(arg) {
     if (typeof arg === 'undefined') {
-      patternlab.build(function () {}, conf.ui.cleanPublic);
+      return patternlab.build(() => {}, conf.ui.cleanPublic);
     }
     else if (arg === 'v') {
       patternlab.version();
     }
     else if (arg === 'patternsonly') {
-      patternlab.patternsonly(function () {}, conf.ui.cleanPublic);
+      patternlab.patternsonly(() => {}, conf.ui.cleanPublic);
     }
     else if (arg === 'help') {
       patternlab.help();
@@ -42,5 +42,9 @@ module.exports = class {
 
   copyStyles() {
     fs.copySync(utils.pathResolve(srcDir.cssBld), utils.pathResolve(pubDir.css));
+  }
+
+  forceCompile() {
+    return patternlab.forceCompile();
   }
 };

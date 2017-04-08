@@ -5,6 +5,9 @@
     "es6": true,
     "mocha": true
   },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
   "globals": {
     "jQuery": true
   },

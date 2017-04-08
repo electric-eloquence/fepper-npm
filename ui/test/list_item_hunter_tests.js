@@ -3,15 +3,20 @@
 
 var fs = require('fs-extra');
 
-var lih = require('../core/lib/list_item_hunter');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var pa = require('../core/lib/pattern_assembler');
-var patternEngines = require('../core/lib/pattern_engines');
-var plMain = require('../core/lib/patternlab');
+var config = require('./patternlab-config.json');
+var cwd = process.cwd() + '/test';
+var plMain = new (require('../core/lib/patternlab'))(config, cwd);
 
+var Pattern = require('../core/lib/object_factory').Pattern;
 var dummyPattern = Pattern.createEmpty();
+
+var patternEngines = require('../core/lib/pattern_engines');
 var engine = patternEngines.getEngineForPattern(dummyPattern);
+
+var lih = require('../core/lib/list_item_hunter');
 var list_item_hunter = new lih();
+
+var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
 
 var patternlab = fs.readJsonSync('./test/files/patternlab.json');

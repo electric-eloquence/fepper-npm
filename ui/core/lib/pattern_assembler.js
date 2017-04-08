@@ -683,11 +683,8 @@ var pattern_assembler = function () {
           case 'footer':
             continue;
         }
-        if (typeof pattern[key] === 'string') {
-          pattern[key] = '';
-        } else {
-          pattern[key] = null;
-        }
+        pattern[key] = null;
+        delete pattern[key];
       }
     }
 
