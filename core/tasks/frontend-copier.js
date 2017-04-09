@@ -145,11 +145,6 @@ exports.main = function (frontendType) {
         // Copy to targetDir.
         // If copying to default target, retain nested directory structure.
         if (targetDir === targetDirDefault) {
-          // For styles, remove "/bld" (or whatever's configured) from the end of the path.
-          if (frontendType === 'styles') {
-            let bldDir = conf.ui.paths.source.cssBld.replace(conf.ui.paths.source.css, '');
-            srcDir += bldDir;
-          }
           fs.copySync(files[i], targetDir + '/' + files[i].replace(`${srcDir}/`, ''));
         }
         else {
