@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.22.1
+* Same dir structure to syncback \_styles as \_assets and \_scripts
+
 ### v0.22.0
 * UI componentized and built by React so it can be user customized
 
