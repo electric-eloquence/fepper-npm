@@ -26,9 +26,9 @@ const stylesTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.styles_di
 fs.removeSync(assetsTargetDir + '/*');
 fs.removeSync(scriptsTargetDir + '/*');
 fs.removeSync(scriptsTargetDir + '-alt/*');
-fs.removeSync(stylesTargetDir + '/fonts/nested/*');
-fs.removeSync(stylesTargetDir + '/fonts/nested-alt/*');
-fs.removeSync(stylesTargetDir + '/fonts/*.*');
+fs.removeSync(stylesTargetDir + '/bld/fonts/nested/*');
+fs.removeSync(stylesTargetDir + '/bld/fonts/nested-alt/*');
+fs.removeSync(stylesTargetDir + '/bld/fonts/*.*');
 fs.removeSync(stylesTargetDir + '/fonts-alt/*.*');
 fs.removeSync(stylesTargetDir + '/*.*');
 fs.removeSync(stylesTargetDir + '-alt/*.*');
@@ -44,11 +44,11 @@ describe('Frontend Copier', function () {
     const scriptCopied = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);
     const scriptCopied1 = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
     const scriptCopied2 = fs.existsSync(`${scriptsTargetDir}-alt/variables-alt.styl`);
-    const styleCopied = fs.existsSync(`${stylesTargetDir}/style.css`);
+    const styleCopied = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
     const styleCopied1 = fs.existsSync(`${stylesTargetDir}-alt/style-alt.css`);
-    const styleCopied2 = fs.existsSync(`${stylesTargetDir}/fonts/icons.svg`);
+    const styleCopied2 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);
     const styleCopied3 = fs.existsSync(`${stylesTargetDir}/fonts-alt/icons-alt.svg`);
-    const styleCopied4 = fs.existsSync(`${stylesTargetDir}/fonts/nested/icons.nested.svg`);
+    const styleCopied4 = fs.existsSync(`${stylesTargetDir}/bld/fonts/nested/icons.nested.svg`);
     const styleCopied5 = fs.existsSync(`${stylesTargetDir}/fonts-alt/nested-alt/icons.nested-alt.svg`);
 
     expect(assetCopied).to.equal(true);
