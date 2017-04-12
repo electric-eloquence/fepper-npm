@@ -9,12 +9,12 @@ module.exports = class {
     this.patternlab = patternlab;
   }
 
-  main(forceCompile) {
+  main(compile) {
     const config = this.patternlab.config;
     const ComponentsOnServer = require('./components-on-server');
     const componentsOnServer = new ComponentsOnServer(this.patternlab);
 
-    return componentsOnServer.init(forceCompile)
+    return componentsOnServer.init(compile)
       .catch(err => {
         console.error(err);
       })

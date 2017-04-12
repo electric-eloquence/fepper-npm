@@ -17,8 +17,8 @@ gulp.task('ui:build', function (cb) {
     });
 });
 
-gulp.task('ui:force-compile', function (cb) {
-  ui.forceCompile()
+gulp.task('ui:compile', function (cb) {
+  ui.compile()
     .catch(err => {
       utils.error(err);
     })

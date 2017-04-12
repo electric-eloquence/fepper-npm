@@ -625,7 +625,7 @@ var pattern_assembler = function () {
     };
     Object.assign(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 
-    // write the compiled template to the public patterns directory
+    // write the built template to the public patterns directory
     var paths = patternlab.config.paths;
     var patternPage = pattern.header + pattern.patternPartialCode;
 
