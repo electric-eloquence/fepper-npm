@@ -408,7 +408,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
 
 // MAIN BUILDER FUNCTION
 
-function buildFrontEnd(patternlab, printDebug, callback) {
+function buildFrontend(patternlab, printDebug, callback) {
   var componentizer = new (require('../styleguide/componentizer'))(patternlab);
 
   // first, compile the ui components into index.html
@@ -522,4 +522,4 @@ function buildFrontEnd(patternlab, printDebug, callback) {
     });
 }
 
-module.exports = buildFrontEnd;
+module.exports = buildFrontend;
