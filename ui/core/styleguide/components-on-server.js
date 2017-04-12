@@ -223,8 +223,8 @@ module.exports = class {
     this.styleguidePath = this.config.paths.public.styleguide;
   }
 
-  init(forceCompile) {
-    if (!this.config.compileUiOnEveryBuild && !forceCompile) {
+  init(compile) {
+    if (!this.config.compileUiOnEveryBuild && !compile) {
       return Promise.resolve();
     }
 

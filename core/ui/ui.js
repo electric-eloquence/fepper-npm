@@ -44,8 +44,8 @@ module.exports = class {
     fs.copySync(utils.pathResolve(srcDir.cssBld), utils.pathResolve(pubDir.css));
   }
 
-  forceCompile() {
-    return patternlab.forceCompile()
+  compile() {
+    return patternlab.compileUi()
       .catch(err => {
         utils.error(err);
       })
