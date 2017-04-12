@@ -47,8 +47,8 @@ let cssContent;
 let indexContent;
 let viewAllContent;
 
-exports.ui_builder = {
-  'ui builder writes index.html': async function (test) {
+exports.ui_compiler = {
+  'ui compiler writes index.html': async function (test) {
     test.expect(2);
 
     const pa = require('../core/lib/pattern_assembler');
@@ -76,7 +76,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder writes index.mustache': function (test) {
+  'ui compiler writes index.mustache': function (test) {
     test.expect(2);
 
     const styleguideIndexExistsAfter = fs.existsSync(styleguideIndex);
@@ -87,7 +87,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder writes styleguide.html': function (test) {
+  'ui compiler writes styleguide.html': function (test) {
     test.expect(2);
 
     const styleguideViewAllExistsAfter = fs.existsSync(styleguideViewAll);
@@ -98,7 +98,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder writes ui.css': async function (test) {
+  'ui compiler writes ui.css': async function (test) {
     test.expect(2);
 
     const uiCssExistsAfter = fs.existsSync(uiCss);
@@ -109,7 +109,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder overrides viewall.mustache with custom code': function (test) {
+  'ui compiler overrides viewall.mustache with custom code': function (test) {
     test.expect(3);
 
     test.ok(viewAllContent.indexOf('<h1>foo</h1>') > -1);
@@ -120,7 +120,7 @@ exports.ui_builder = {
   },
 
   // eslint-disable-next-line max-len
-  'ui builder recognizes a similarly named and hierarchically structured custom component module and overrides its corresponding core component module':
+  'ui compiler recognizes a similarly named and hierarchically structured custom component module and overrides its corresponding core component module':
   function (test) {
     test.expect(1);
 
@@ -130,7 +130,7 @@ exports.ui_builder = {
   },
 
   // eslint-disable-next-line max-len
-  'ui builder recognizes that a component has a custom sibling not in core and adds this sibling and its descendents to the DOM':
+  'ui compiler recognizes that a component has a custom sibling not in core and adds this sibling and its descendents to the DOM':
   function (test) {
     test.expect(1);
 
@@ -140,7 +140,7 @@ exports.ui_builder = {
   },
 
   // eslint-disable-next-line max-len
-  'ui builder recognizes that a component at the end of branch has a custom child not in core and adds this child and its descendents to the DOM':
+  'ui compiler recognizes that a component at the end of branch has a custom child not in core and adds this child and its descendents to the DOM':
   function (test) {
     test.expect(1);
 
@@ -149,7 +149,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder overrides componentized css':
+  'ui compiler overrides componentized css':
   function (test) {
     test.expect(1);
 
@@ -158,7 +158,7 @@ exports.ui_builder = {
     test.done();
   },
 
-  'ui builder recognizes additional custom componentized css':
+  'ui compiler recognizes additional custom componentized css':
   function (test) {
     test.expect(1);
 
