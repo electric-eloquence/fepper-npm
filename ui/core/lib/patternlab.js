@@ -53,7 +53,7 @@ var patternlab_engine = function (configParam, configDirParam) {
   var pa = require('./pattern_assembler');
   var pe = require('./pattern_exporter');
   var lih = require('./list_item_hunter');
-  var buildFrontEnd = require('./ui_builder');
+  var buildFrontEnd = require('./ui_compiler');
   var sm = require('./starterkit_manager');
   var patternlab = {
     cwd: '.',
