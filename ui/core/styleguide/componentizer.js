@@ -11,7 +11,7 @@ module.exports = class {
 
   main(forceCompile) {
     const config = this.patternlab.config;
-    const ComponentsOnServer = require(`${__dirname}/components-on-server`);
+    const ComponentsOnServer = require('./components-on-server');
     const componentsOnServer = new ComponentsOnServer(this.patternlab);
 
     return componentsOnServer.init(forceCompile)

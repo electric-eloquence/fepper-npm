@@ -37,9 +37,9 @@ if (uiCssExistsBefore) {
 }
 
 function forceCompile(patternlab) {
-  return plMain.buildFrontEnd(patternlab, () => {}, () => {})
+  return plMain.forceCompile()
     .then(() => {
-      return plMain.forceCompile();
+      return plMain.buildFrontEnd(patternlab, () => {});
     });
 }
 

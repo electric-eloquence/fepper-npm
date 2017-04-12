@@ -45,6 +45,12 @@ module.exports = class {
   }
 
   forceCompile() {
-    return patternlab.forceCompile();
+    return patternlab.forceCompile()
+      .catch(err => {
+        utils.error(err);
+      })
+      .then(() => {
+        return patternlab.buildFrontEnd();
+      });
   }
 };
