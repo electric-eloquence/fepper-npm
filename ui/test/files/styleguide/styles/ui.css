@@ -637,9 +637,6 @@
   width: 30px;
   margin-left: auto;
   margin-right: auto;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background: url("../images/spinner.gif");
   border-radius: 50%;
   opacity: .7;
 }

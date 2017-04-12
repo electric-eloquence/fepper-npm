@@ -287,7 +287,6 @@ module.exports = class {
       writable.on('error', () => {
       });
 
-
       browserify(readable)
         .bundle()
         .pipe(writable);
