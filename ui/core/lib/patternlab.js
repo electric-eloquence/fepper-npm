@@ -53,7 +53,7 @@ var patternlab_engine = function (configParam, configDirParam) {
   var pa = require('./pattern_assembler');
   var pe = require('./pattern_exporter');
   var lih = require('./list_item_hunter');
-  var buildFrontEnd = require('./ui_compiler');
+  var buildFrontend = require('./ui_compiler');
   var sm = require('./starterkit_manager');
   var patternlab = {
     cwd: '.',
@@ -355,14 +355,14 @@ var patternlab_engine = function (configParam, configDirParam) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      return buildFrontEnd(patternlab, printDebug, callback);
+      return buildFrontend(patternlab, printDebug, callback);
     },
-    buildFrontEnd: function (patternlab_, callback_) {
+    buildFrontend: function (patternlab_, callback_) {
       var callback = callback_ || function () {};
       if (patternlab_) {
-        return buildFrontEnd(patternlab_, printDebug, callback);
+        return buildFrontend(patternlab_, printDebug, callback);
       } else {
-        return buildFrontEnd(patternlab, printDebug, callback);
+        return buildFrontend(patternlab, printDebug, callback);
       }
     },
     buildPatternData: function (dataFilesPathParam) {

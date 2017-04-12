@@ -50,7 +50,7 @@ module.exports = class {
         utils.error(err);
       })
       .then(() => {
-        return patternlab.buildFrontEnd();
+        return patternlab.buildFrontend();
       });
   }
 };
