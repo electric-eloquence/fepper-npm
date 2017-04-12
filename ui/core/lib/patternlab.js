@@ -117,11 +117,11 @@ var patternlab_engine = function (configParam, configDirParam) {
     console.log('');
 
     plutils.logGreen(' patternlab:build');
-    console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
+    console.log('   > Builds the patterns and frontend, outputting to config.paths.public');
     console.log('');
 
     plutils.logGreen(' patternlab:patternsonly');
-    console.log('   > Compiles the patterns only, outputting to config.paths.public');
+    console.log('   > Builds the patterns only, outputting to config.paths.public');
     console.log('');
 
     plutils.logGreen(' patternlab:version');
@@ -371,7 +371,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     buildViewAll: function (patternlab_) {
       buildViewAll(patternlab_);
     },
-    forceCompile: function () {
+    compileUi: function () {
       var componentizer = new (require('../styleguide/componentizer'))(patternlab);
       return componentizer.main(true);
     },
