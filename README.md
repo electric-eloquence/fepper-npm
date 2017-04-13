@@ -1,6 +1,6 @@
 ## Fepper
 
-# A frontend prototyper tool for the rapid prototyping of web sites
+# A frontend prototyper tool for rapid prototyping of web sites
 
 ### This is the NPM that powers these Fepper prototyper variants:
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
