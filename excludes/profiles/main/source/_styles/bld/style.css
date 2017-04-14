@@ -431,7 +431,7 @@ footer [role=main] {
 }
 @media all and (max-width: 767px) {
   .search-form.active {
-    max-height: none;
+    max-height: 100%;
   }
 }
 @media all and (min-width: 768px) {
