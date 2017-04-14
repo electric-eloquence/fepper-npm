@@ -430,6 +430,14 @@ footer [role=main] {
   max-height: 0;
 }
 @media all and (max-width: 767px) {
+  .search-form {
+    margin-top: 0.3rem;
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
   .search-form.active {
     max-height: 100%;
   }
@@ -442,29 +450,35 @@ footer [role=main] {
   }
 }
 .nav {
+  background-color: #fff;
   clear: both;
   overflow: hidden;
 }
 .nav a {
   display: block;
 }
-.nav.active {
-  max-height: 100%;
-}
 @media all and (max-width: 767px) {
   .nav {
     max-height: 0;
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    z-index: 1;
   }
   .nav a {
     border-top: 1px solid #eee;
     padding: 0.8rem 1.6rem;
+  }
+  .nav.active {
+    max-height: 100%;
   }
 }
 @media all and (min-width: 768px) {
   .nav {
     border-top: 1px solid #eee;
     clear: none;
-    float: right;
+    float: left;
     margin-top: -0.1rem;
     padding-top: 1.2rem;
   }
