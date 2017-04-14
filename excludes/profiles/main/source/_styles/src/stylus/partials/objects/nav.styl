@@ -4,21 +4,25 @@
 .nav
   clear: both
   overflow: hidden
-  max-height: 0
   a
     display: block
-    padding: $pad
-    border-top: 1px solid $gray-light-2
   &.active
-    max-height: 40em
+    max-height: 100%
+  @media all and (max-width: $bp-sm-max)
+    max-height: 0
+    a
+      border-top: 1px solid $gray-light-2
+      padding: $pad-half $pad
   @media all and (min-width: $bp-med)
-    max-height: none
-    float: right
+    border-top: 1px solid $gray-light-2
     clear: none
+    float: right
+    margin-top: -0.1rem
+    padding-top: $pad-quarter * 3
     li
       float: left
     a
-      border: 0
+      padding: $pad-quarter $pad
 //Pagination
 .pagination
   margin: -($pad) 0 $pad

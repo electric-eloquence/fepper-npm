@@ -444,27 +444,35 @@ footer [role=main] {
 .nav {
   clear: both;
   overflow: hidden;
-  max-height: 0;
 }
 .nav a {
   display: block;
-  padding: 1.6rem;
-  border-top: 1px solid #eee;
 }
 .nav.active {
-  max-height: 40em;
+  max-height: 100%;
+}
+@media all and (max-width: 767px) {
+  .nav {
+    max-height: 0;
+  }
+  .nav a {
+    border-top: 1px solid #eee;
+    padding: 0.8rem 1.6rem;
+  }
 }
 @media all and (min-width: 768px) {
   .nav {
-    max-height: none;
-    float: right;
+    border-top: 1px solid #eee;
     clear: none;
+    float: right;
+    margin-top: -0.1rem;
+    padding-top: 1.2rem;
   }
   .nav li {
     float: left;
   }
   .nav a {
-    border: 0;
+    padding: 0.4rem 1.6rem;
   }
 }
 .pagination {
