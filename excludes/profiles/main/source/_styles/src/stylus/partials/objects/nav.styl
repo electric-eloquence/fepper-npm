@@ -2,21 +2,27 @@
     $NAVIGATION
 *------------------------------------*/
 .nav
+  background-color: $white
   clear: both
   overflow: hidden
   a
     display: block
-  &.active
-    max-height: 100%
   @media all and (max-width: $bp-sm-max)
     max-height: 0
+    position: absolute
+    top: 5rem
+    left: 0
+    width: 100%
+    z-index: 1
     a
       border-top: 1px solid $gray-light-2
       padding: $pad-half $pad
+    &.active
+      max-height: 100%
   @media all and (min-width: $bp-med)
     border-top: 1px solid $gray-light-2
     clear: none
-    float: right
+    float: left
     margin-top: -0.1rem
     padding-top: $pad-quarter * 3
     li
