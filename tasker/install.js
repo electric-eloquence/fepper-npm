@@ -38,7 +38,7 @@ gulp.task('install:copy', function (cb) {
         else {
           new Promise(function (resolve1) {
             process.chdir(extendDir);
-            utils.log(`Working directory changed to ${extendDir}`);
+            utils.log(`Working directory changed to ${extendDir}.`);
             resolve1();
           })
           .then(function () {
@@ -74,7 +74,7 @@ gulp.task('install:copy', function (cb) {
       else {
         new Promise(function (resolve1) {
           process.chdir(publicDir);
-          utils.log(`Working directory changed to ${publicDir}`);
+          utils.log(`Working directory changed to ${publicDir}.`);
           resolve1();
         })
         .then(function () {
@@ -95,7 +95,7 @@ gulp.task('install:copy', function (cb) {
         })
         .then(function () {
           process.chdir(cwd);
-          utils.log(`Working directory changed to ${cwd}`);
+          utils.log(`Working directory changed to ${cwd}.`);
           resolve();
         });
       }

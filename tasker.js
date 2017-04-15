@@ -19,8 +19,8 @@ const utils = require('./core/lib/utils');
 global.appDir = slash(__dirname);
 
 // Determine rootDir whether running headless or whether running a full implementation.
-var rootDir = utils.findup('fepper.command', __dirname);
-var isHeadless = false;
+let rootDir = utils.findup('fepper.command', __dirname);
+let isHeadless = false;
 
 if (!rootDir) {
   rootDir = utils.findup('tasker.js', __dirname);
@@ -56,13 +56,13 @@ if (cusExists) {
 }
 
 // Search for extension tasks and require them.
-var extendPlugins = glob.sync(utils.pathResolve(conf.extend_dir) + '/*/*/*~extend.js');
-for (var i = 0; i < extendPlugins.length; i++) {
+const extendPlugins = glob.sync(utils.pathResolve(conf.extend_dir) + '/*/*/*~extend.js');
+for (let i = 0; i < extendPlugins.length; i++) {
   require(extendPlugins[i]);
 }
 
 // Main tasks.
-gulp.task('default', function (cb) {
+gulp.task('default', cb => {
   let args = [];
 
   args.push('once');
@@ -86,12 +86,15 @@ gulp.task('default', function (cb) {
     args.push(['tcp-ip-load:open', 'tcp-ip-reload:watch']);
   }
 
-  args.push(cb);
+  args.push(() => {
+    cb();
+    utils.log(`Listening on port ${conf.express_port}`);
+  });
 
   runSequence.apply(null, args);
 });
 
-gulp.task('data', function (cb) {
+gulp.task('data', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -110,7 +113,7 @@ gulp.task('data', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('frontend-copy', function (cb) {
+gulp.task('frontend-copy', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -128,7 +131,7 @@ gulp.task('frontend-copy', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('install', function (cb) {
+gulp.task('install', cb => {
   runSequence(
     'install:copy',
     'fepper:data',
@@ -136,7 +139,7 @@ gulp.task('install', function (cb) {
   );
 });
 
-gulp.task('once', function (cb) {
+gulp.task('once', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -164,7 +167,7 @@ gulp.task('once', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('restart', function (cb) {
+gulp.task('restart', cb => {
   let args = [];
 
   args.push('once');
@@ -188,12 +191,15 @@ gulp.task('restart', function (cb) {
     args.push('tcp-ip-reload:watch');
   }
 
-  args.push(cb);
+  args.push(() => {
+    cb();
+    utils.log(`Listening on port ${conf.express_port}`);
+  });
 
   runSequence.apply(null, args);
 });
 
-gulp.task('static', function (cb) {
+gulp.task('static', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -212,7 +218,7 @@ gulp.task('static', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('syncback', function (cb) {
+gulp.task('syncback', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -231,7 +237,7 @@ gulp.task('syncback', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('template', function (cb) {
+gulp.task('template', cb => {
   let args = [];
 
   if (conExists && cusExists) {
@@ -249,7 +255,7 @@ gulp.task('template', function (cb) {
   runSequence.apply(null, args);
 });
 
-gulp.task('test', function (cb) {
+gulp.task('test', cb => {
   runSequence(
     'test:eslint-extend',
     'test:eslint-fepper',

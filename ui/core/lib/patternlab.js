@@ -53,7 +53,7 @@ var patternlab_engine = function (configParam, configDirParam) {
   var pa = require('./pattern_assembler');
   var pe = require('./pattern_exporter');
   var lih = require('./list_item_hunter');
-  var buildFrontend = require('./ui_compiler');
+  var buildFrontend = require('./ui_builder');
   var sm = require('./starterkit_manager');
   var patternlab = {
     cwd: '.',
@@ -211,6 +211,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing an essential file from ' + viewAllCoreDir +
         '. Pattern Lab won\'t work without this file.');
+      console.log(ex);
       throw ex;
     }
 
@@ -236,6 +237,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing or malformed ' + path.resolve(paths.source.data, 'data.json') +
       '. Pattern Lab may not work without this file.');
+      console.log(ex);
       patternlab.data = {};
     }
     try {
@@ -244,6 +246,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing or malformed ' + path.resolve(paths.source.data, 'listitems.json') +
       '. Pattern Lab may not work without this file.');
+      console.log(ex);
       patternlab.listitems = {};
     }
     var immutableDir = path.resolve(__dirname, '../immutable');
@@ -253,6 +256,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing an essential file from ' + immutableDir +
         '. Pattern Lab won\'t work without this file.');
+      console.log(ex);
       throw ex;
     }
 

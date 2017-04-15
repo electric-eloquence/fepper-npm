@@ -212,20 +212,20 @@ describe('HTML Scraper Post', function () {
   describe('HTML to JSON Converter', function () {
     it('should return a JSON object of data pulled from non-empty elements', function () {
       expect(jsons.jsonForData).to.be.an('object');
-      expect(jsons.jsonForData.html[0].one).to.equal('Foo');
-      expect(jsons.jsonForData.html[0].two).to.equal('Bar');
-      expect(jsons.jsonForData.html[0].test).to.equal('Foot');
-      expect(jsons.jsonForData.html[0].test_1).to.equal('Barf');
-      expect(jsons.jsonForData.html[0].test_2).to.equal('Bazm');
-      expect(jsons.jsonForData.html[0].section).to.equal('Fooz');
-      expect(jsons.jsonForData.html[0].section_1).to.equal('Barz');
-      expect(jsons.jsonForData.html[0].section_2).to.equal('Bazz');
-      expect(typeof jsons.jsonForData.html[0].body).to.equal('undefined');
-      expect(typeof jsons.jsonForData.html[0].script).to.equal('undefined');
-      expect(typeof jsons.jsonForData.html[0].br).to.equal('undefined');
-      expect(typeof jsons.jsonForData.html[0].div).to.equal('undefined');
-      expect(typeof jsons.jsonForData.html[0].p).to.equal('undefined');
-      expect(typeof jsons.jsonForData.html[0].textarea).to.equal('undefined');
+      expect(jsons.jsonForData.scrape[0].one).to.equal('Foo');
+      expect(jsons.jsonForData.scrape[0].two).to.equal('Bar');
+      expect(jsons.jsonForData.scrape[0].test).to.equal('Foot');
+      expect(jsons.jsonForData.scrape[0].test_1).to.equal('Barf');
+      expect(jsons.jsonForData.scrape[0].test_2).to.equal('Bazm');
+      expect(jsons.jsonForData.scrape[0].section).to.equal('Fooz');
+      expect(jsons.jsonForData.scrape[0].section_1).to.equal('Barz');
+      expect(jsons.jsonForData.scrape[0].section_2).to.equal('Bazz');
+      expect(typeof jsons.jsonForData.scrape[0].body).to.equal('undefined');
+      expect(typeof jsons.jsonForData.scrape[0].script).to.equal('undefined');
+      expect(typeof jsons.jsonForData.scrape[0].br).to.equal('undefined');
+      expect(typeof jsons.jsonForData.scrape[0].div).to.equal('undefined');
+      expect(typeof jsons.jsonForData.scrape[0].p).to.equal('undefined');
+      expect(typeof jsons.jsonForData.scrape[0].textarea).to.equal('undefined');
     });
 
 
@@ -244,11 +244,11 @@ describe('HTML Scraper Post', function () {
       var jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
 
       expect(jsonForData).to.be.an('object');
-      expect(jsonForData.html[0].test).to.equal('Foo');
-      expect(jsonForData.html[1].test).to.equal('Bar');
-      expect(jsonForData.html[2].test).to.equal('Foot');
-      expect(jsonForData.html[3].test).to.equal('Barf');
-      expect(jsonForData.html[4].test).to.equal('Bazm');
+      expect(jsonForData.scrape[0].test).to.equal('Foo');
+      expect(jsonForData.scrape[1].test).to.equal('Bar');
+      expect(jsonForData.scrape[2].test).to.equal('Foot');
+      expect(jsonForData.scrape[3].test).to.equal('Barf');
+      expect(jsonForData.scrape[4].test).to.equal('Bazm');
     });
 
 
@@ -272,7 +272,7 @@ describe('HTML Scraper Post', function () {
       // eslint-disable-next-line max-len
       expect(targetHtml).to.equal('<section id="test2">\n  <div class="nested">\n    <div class="nested-further">Barf</div>\n  </div>\n</section>\n');
       expect(jsonForData).to.be.an('object');
-      expect(jsonForData.html[0].nested_further).to.equal('Barf');
+      expect(jsonForData.scrape[0].nested_further).to.equal('Barf');
     });
   });
 
@@ -280,27 +280,26 @@ describe('HTML Scraper Post', function () {
     it('should return HTML with Mustache tags', function () {
       var mustache;
 
-      mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache);
-      expect(mustache).to.equal(`{{# html }}
+      mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
+      expect(mustache).to.equal(`{{# scrape }}
 
-  <body>
-    <section id="one" class="test">{{ one }}</section>
-    <section id="two" class="test">{{ two }}</section>
-    <section class="test">{{ test }}</section>
-    <section class="test">{{ test_1 }}</section>
-    <section class="test">{{ test_2 }}</section>
-    <section>{{ section }}</section>
-    <section>{{ section_1 }}</section>
-    <section>{{ section_2 }}</section>
-    <script></script>
-    <br/>
-    <div></div>
-    <p></p>
-    <textarea></textarea>
-    <!-- comment -->
-  </body>
-{{/ html }}
-`);
+<body>
+  <section id="one" class="test">{{ one }}</section>
+  <section id="two" class="test">{{ two }}</section>
+  <section class="test">{{ test }}</section>
+  <section class="test">{{ test_1 }}</section>
+  <section class="test">{{ test_2 }}</section>
+  <section>{{ section }}</section>
+  <section>{{ section_1 }}</section>
+  <section>{{ section_2 }}</section>
+  <script></script>
+  <br/>
+  <div></div>
+  <p></p>
+  <textarea></textarea>
+  <!-- comment -->
+</body>
+{{/ scrape }}`);
     });
   });
 
@@ -322,15 +321,15 @@ describe('HTML Scraper Post', function () {
 
     it('should correctly format newlines in file body', function () {
       // eslint-disable-next-line max-len
-      var mustache = '{{# html }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ html }}';
+      var mustache = '{{# scrape }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ scrape }}';
 
       // eslint-disable-next-line max-len
-      expect(htmlScraperPost.newlineFormat(mustache)).to.equal('{{# html }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ html }}\n');
+      expect(htmlScraperPost.newlineFormat(mustache)).to.equal('{{# scrape }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ scrape }}\n');
     });
 
     it('should write file to destination', function () {
       // eslint-disable-next-line max-len
-      var fileMustache = '{{# html }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ html }}\n';
+      var fileMustache = '{{# scrape }}\n  <body>\n    <section id="one" class="test">{{ test_5 }}</section>\n    <section id="two" class="test">{{ test_6 }}</section>\n    <script/>\n    <textarea/>\n  </body>\n{{/ scrape }}\n';
       var fileJson = htmlScraperPost.newlineFormat(JSON.stringify(jsons.jsonForData, null, 2));
       var fileName = '0-test.1_2';
       var fileFullPath = scrapeDir + '/' + fileName;

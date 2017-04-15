@@ -20,7 +20,7 @@ class HtmlObj {
 
 class JsonForData {
   constructor() {
-    this.html = [{}];
+    this.scrape = [{}];
   }
 }
 
@@ -59,7 +59,7 @@ module.exports = class {
     for (let i = 0; i < dataArr.length; i++) {
       for (let j in dataArr[i]) {
         if (dataArr[i].hasOwnProperty(j)) {
-          jsonForData.html[0][j] = dataArr[i][j];
+          jsonForData.scrape[0][j] = dataArr[i][j];
         }
       }
     }
@@ -253,7 +253,7 @@ module.exports = class {
   }
 
   htmlToJsons(targetHtml) {
-    const dataObj = {html: [{}]};
+    const dataObj = {scrape: [{}]};
     const dataKeys = [[]];
     let jsonForMustache = null;
 
@@ -336,13 +336,13 @@ module.exports = class {
             let tmpObj = {};
             tmpObj[underscored] = jsonObj.child[i].text.trim();
             dataKeys[inc].push(underscored);
-            dataObj.html[inc][underscored] = tmpObj[underscored].replace(/"/g, '\\"');
+            dataObj.scrape[inc][underscored] = tmpObj[underscored].replace(/"/g, '\\"');
             jsonObj.child[i].text = '{{ ' + underscored + ' }}';
           }
         }
         else if (jsonObj.child[i].node === 'comment' && jsonObj.child[i].text.indexOf(' BEGIN ARRAY ELEMENT ') === 0) {
           inc++;
-          dataObj.html[inc] = {};
+          dataObj.scrape[inc] = {};
           dataKeys.push([]);
         }
         else {
@@ -354,10 +354,10 @@ module.exports = class {
 
   /**
    * @param {object} jsonForMustache - JSON for conversion to Mustache syntax.
-   * @param {function} resolve - a Promise resolve function.
+   * @param {object} jsonForData - JSON for data ingestion by Mustache.
    * @return {string} XHTML.
    */
-  jsonToMustache(jsonForMustache) {
+  jsonToMustache(jsonForMustache, jsonForData) {
     let mustache = '<body></body>';
 
     try {
@@ -367,9 +367,16 @@ module.exports = class {
       utils.error(err);
     }
 
+    if (jsonForData.scrape) {
+      mustache = mustache.replace(/^\s*<body>/, '{{# scrape }}');
+      mustache = mustache.replace(/<\/body>\s*$/, '{{/ scrape }}\n');
+    }
+    else {
+      mustache = mustache.replace(/^\s*<body>/, '');
+      mustache = mustache.replace(/<\/body>\s*$/, '\n');
+    }
+
     mustache = beautify(mustache, {indent_size: 2});
-    mustache = mustache.replace(/^\s*<body>/, '{{# html }}');
-    mustache = mustache.replace(/<\/body>\s*$/, '{{/ html }}\n');
 
     return mustache;
   }
@@ -474,7 +481,7 @@ module.exports = class {
       try {
         // Need to reference this class's "this" with a var within the callback passed to request().
         const htmlScraperPost = this;
-        request(req.body.url, function (error, response, body_) {
+        request(req.body.url, (error, response, body_) => {
           if (error || response.statusCode !== 200) {
             htmlScraperPost
               .redirectWithMsg('error', 'Not+getting+a+valid+response+from+that+URL.', req.body.target, req.body.url);
@@ -507,13 +514,19 @@ module.exports = class {
             targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
             targetFirst = htmlScraperPost.htmlSanitize(targetHtmlObj.first);
 
-            // Convert HTML to JSON objects for conversion to Mustache and data.
+            // Convert HTML to JSON object for data ingestion by Mustache.
             jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
+            // Adjust jsonForData if not selecting multiple instances of a CSS class
+            if (jsonForData.scrape.length === 1) {
+              jsonForData = jsonForData.scrape[0];
+            }
+
+            // Convert HTML to JSON object for conversion to Mustache.
             jsonForMustache = htmlScraperPost.htmlToJsons(targetFirst).jsonForMustache;
 
             // Finish conversion to Mustache.
             if (jsonForMustache) {
-              mustache = htmlScraperPost.jsonToMustache(jsonForMustache);
+              mustache = htmlScraperPost.jsonToMustache(jsonForMustache, jsonForData);
             }
             else {
               mustache = targetFirst;

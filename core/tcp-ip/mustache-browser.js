@@ -103,7 +103,7 @@ module.exports = class {
           // HTML entities and links.
           code = this.toHtmlEntitiesAndLinks(code);
           if (typeof req.query.title === 'string') {
-            code = `<h1>${req.query.title}</h1>\n${code}`;
+            code = `<h2>${req.query.title}</h2>\n${code}`;
           }
           // Render the output with HTML head and foot.
           let output = htmlObj.head;
@@ -132,7 +132,7 @@ module.exports = class {
               let entitiesAndLinks = this.toHtmlEntitiesAndLinks(data);
               // Render the output with HTML head and foot.
               let output = htmlObj.head;
-              output += `<h1>${partial}</h1>`;
+              output += `<h2>${partial}</h2>`;
               output += entitiesAndLinks;
               output += htmlObj.foot;
               output = output.replace('{{ title }}', 'Fepper Mustache Browser');
