@@ -18,9 +18,9 @@ function npmUpdate(resolve) {
       throw err;
     }
     if (stderr) {
-      utils.log(stderr);
+      utils.info(stderr);
     }
-    utils.log(stdout);
+    utils.info(stdout);
     resolve();
   });
 }
