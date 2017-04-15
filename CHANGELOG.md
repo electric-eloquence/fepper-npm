@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.22.2
+* Style improvements
+* Compile and build mean distinct things
+* Improvements to mustache browser
+* HTML scraper writes easier to import data
+
 ### v0.22.1
 * Same dir structure to syncback \_styles as \_assets and \_scripts
 
