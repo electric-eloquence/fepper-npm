@@ -10,12 +10,12 @@ const enc = 'utf8';
 // ///////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
 // ///////////////////////////////////////////////////////////////////////////
-exports.conf = function (isHeadless) {
-  var conf;
-  var confStr;
-  var defaults;
-  var defaultsStr;
-  var yml;
+exports.conf = isHeadless => {
+  let conf;
+  let confStr;
+  let defaults;
+  let defaultsStr;
+  let yml;
 
   // Return if global.conf already set.
   if (global.conf) {
@@ -85,7 +85,7 @@ exports.conf = function (isHeadless) {
 
   // Update Pattern Lab paths.
   try {
-    var appDirShort = global.appDir.replace(global.rootDir, '');
+    let appDirShort = global.appDir.replace(global.rootDir, '');
 
     if (appDirShort) {
       appDirShort += '/';
@@ -108,10 +108,10 @@ exports.conf = function (isHeadless) {
 };
 
 // The difference between confs and prefs is that confs are mandatory. However, the file must still exist even if blank.
-exports.pref = function (isHeadless) {
-  var pref;
-  var defaults;
-  var yml;
+exports.pref = isHeadless => {
+  let pref;
+  let defaults;
+  let yml;
 
   try {
     yml = fs.readFileSync(`${global.appDir}/excludes/pref.yml`, enc);
@@ -144,12 +144,11 @@ exports.pref = function (isHeadless) {
   return pref;
 };
 
-exports.data = function () {
-  var data = {};
-  var dataStr;
+exports.data = () => {
+  let data = {};
 
   try {
-    dataStr = fs.readFileSync(exports.pathResolve(`${global.conf.ui.paths.source.data}/data.json`), enc);
+    const dataStr = fs.readFileSync(exports.pathResolve(`${global.conf.ui.paths.source.data}/data.json`), enc);
     data = JSON.parse(dataStr);
   }
   catch (err) {
@@ -170,8 +169,8 @@ exports.data = function () {
  *   Since obj2 gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
  * @return {object} The mutated obj2 object.
  */
-exports.mergeObjects = function (obj1, obj2) {
-  for (var i in obj1) {
+exports.mergeObjects = (obj1, obj2) => {
+  for (let i in obj1) {
     if (obj1.hasOwnProperty(i)) {
       try {
         // Only recurse if obj1[i] is an object.
@@ -200,19 +199,17 @@ exports.mergeObjects = function (obj1, obj2) {
   return obj2;
 };
 
-exports.escapeReservedRegexChars = function (regexStr) {
+exports.escapeReservedRegexChars = regexStr => {
   return regexStr.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 };
 
 // ///////////////////////////////////////////////////////////////////////////
 // File system utilities.
 // ///////////////////////////////////////////////////////////////////////////
-exports.backendDirCheck = function (backendDir) {
-  var fullPath;
-  var stats;
-
+exports.backendDirCheck = backendDir => {
   if (typeof backendDir === 'string') {
-    fullPath = `${exports.pathResolve(global.conf.backend_dir)}/${backendDir.trim()}`;
+    const fullPath = `${exports.pathResolve(global.conf.backend_dir)}/${backendDir.trim()}`;
+    let stats;
 
     try {
       stats = fs.statSync(fullPath);
@@ -229,11 +226,9 @@ exports.backendDirCheck = function (backendDir) {
   return '';
 };
 
-exports.extCheck = function (ext) {
-  var extTrimmed;
-
+exports.extCheck = ext => {
   if (typeof ext === 'string') {
-    extTrimmed = ext.trim();
+    const extTrimmed = ext.trim();
     if (extTrimmed.match(/^[\w\-\.\/]+$/)) {
       return extTrimmed;
     }
@@ -248,7 +243,7 @@ exports.extCheck = function (ext) {
  * @param {object} uiObj - The UI configuration object.
  * @return {object} The mutated uiObj.
  */
-exports.normalizeUiPaths = function (uiObj) {
+exports.normalizeUiPaths = uiObj => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
     throw 'Missing or malformed paths.source property!';
   }
@@ -257,8 +252,8 @@ exports.normalizeUiPaths = function (uiObj) {
     throw 'Missing or malformed paths.source property!';
   }
 
-  var sourceObj = uiObj.paths.source;
-  var publicObj = uiObj.paths.public;
+  const sourceObj = uiObj.paths.source;
+  const publicObj = uiObj.paths.public;
 
   for (let i in sourceObj) {
     if (sourceObj.hasOwnProperty(i)) {
@@ -279,7 +274,7 @@ exports.normalizeUiPaths = function (uiObj) {
   return uiObj;
 };
 
-exports.pathResolve = function (relPath, normalize) {
+exports.pathResolve = (relPath, normalize) => {
   if (normalize) {
     return path.normalize(`${global.workDir}/${relPath}`);
   }
@@ -288,15 +283,15 @@ exports.pathResolve = function (relPath, normalize) {
   }
 };
 
-exports.findup = function (fileName, workDir) {
-  var dirMatch = null;
-  var files = fs.readdirSync(workDir);
+exports.findup = (fileName, workDir) => {
+  let dirMatch = null;
+  let files = fs.readdirSync(workDir);
 
   if (files.indexOf(fileName) > -1) {
     return workDir;
   }
 
-  var workDirUp = path.normalize(`${workDir}/..`);
+  const workDirUp = path.normalize(`${workDir}/..`);
   files = fs.readdirSync(workDirUp);
 
   if (files.indexOf(fileName) > -1) {
@@ -317,11 +312,11 @@ exports.findup = function (fileName, workDir) {
 // ///////////////////////////////////////////////////////////////////////////
 exports.console = console; // To not trigger eslint errors on assignment.
 
-exports.isTest = function () {
-  var isGulp = false;
-  var isTest = false;
+exports.isTest = () => {
+  let isGulp = false;
+  let isTest = false;
 
-  for (var i = 0; i < process.argv.length; i++) {
+  for (let i = 0; i < process.argv.length; i++) {
     if (process.argv[i].slice(-5) === 'mocha') {
       isTest = true;
       break;
@@ -338,18 +333,27 @@ exports.isTest = function () {
   return isTest;
 };
 
-exports.i = function (obj, depthParam, showHidden) {
-  var depth = depthParam ? depthParam : null;
-  return exports.console.dir(obj, {showHidden: showHidden, depth: depth});
+exports.i = (obj, depth, showHidden) => {
+  exports.console.dir(obj, {showHidden: showHidden, depth: depth || null});
 };
 
-exports.error = exports.console.error;
+exports.error = msg => {
+  exports.console.error('\x1b[33m' + msg + '\x1b[0m');
+};
 
-exports.info = exports.console.info;
+exports.info = msg => {
+  exports.console.info(msg);
+};
 
-exports.log = exports.isTest() ? function () {} : exports.console.log;
+exports.log = msg => {
+  if (!exports.isTest()) {
+    exports.console.log('\x1b[36m' + msg + '\x1b[0m');
+  }
+};
 
-exports.warn = exports.console.warn;
+exports.warn = msg => {
+  exports.console.warn('\x1b[30m\x1b[43m' + msg + '\x1b[0m');
+};
 
 // ///////////////////////////////////////////////////////////////////////////
 // Webserved directories.
@@ -360,17 +364,15 @@ exports.warn = exports.console.warn;
  * @param {array} webservedDirsFull - The array of webserved directories.
  * @return {array} The webserved directories stripped of configuration prefix.
  */
-exports.webservedDirnamesTruncate = function (webservedDirsFull) {
+exports.webservedDirnamesTruncate = webservedDirsFull => {
   if (!webservedDirsFull || !webservedDirsFull.length) {
     return [];
   }
 
-  var i;
-  var webservedDirSplit;
-  var webservedDirsShort = [];
+  const webservedDirsShort = [];
 
-  for (i = 0; i < webservedDirsFull.length; i++) {
-    webservedDirSplit = webservedDirsFull[i].split('/');
+  for (let i = 0; i < webservedDirsFull.length; i++) {
+    const webservedDirSplit = webservedDirsFull[i].split('/');
     webservedDirSplit.shift();
     webservedDirsShort.push(webservedDirSplit.join('/'));
   }
@@ -386,10 +388,8 @@ exports.webservedDirnamesTruncate = function (webservedDirsFull) {
  *   truncated for publishing to static site.
  * @param {string} staticDir - The destination directory.
  */
-exports.webservedDirsCopy = function (webservedDirsFull, webservedDirsShort, staticDir) {
-  var i;
-
-  for (i = 0; i < webservedDirsFull.length; i++) {
+exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
+  for (let i = 0; i < webservedDirsFull.length; i++) {
     fs.copySync(
       `${exports.pathResolve(global.conf.backend_dir)}/${webservedDirsFull[i]}`,
       `${staticDir}/${webservedDirsShort[i]}`
