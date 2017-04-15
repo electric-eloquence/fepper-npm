@@ -167,7 +167,7 @@ exports.templateProcess = function (file, templatesDirDefault, templatesExtDefau
     dest = exports.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
     // Log to console.
-    utils.log('Template \x1b[36m%s\x1b[0m synced.', dest.replace(workDir, '').replace(/^\//, ''));
+    utils.log('Template %s synced.', dest.replace(workDir, '').replace(/^\//, ''));
   }
 };
 
