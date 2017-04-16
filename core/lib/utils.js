@@ -337,22 +337,30 @@ exports.i = (obj, depth, showHidden) => {
   exports.console.dir(obj, {showHidden: showHidden, depth: depth || null});
 };
 
-exports.error = msg => {
-  exports.console.error('\x1b[33m' + msg + '\x1b[0m');
+exports.info = exports.console.info;
+
+// Need to use the old function statement syntax so the arguments object works correctly.
+exports.error = function () {
+  if (arguments.length) {
+    arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
+  }
+  exports.console.error.apply(null, arguments);
 };
 
-exports.info = msg => {
-  exports.console.info(msg);
-};
-
-exports.log = msg => {
+exports.log = function () {
   if (!exports.isTest()) {
-    exports.console.log('\x1b[36m' + msg + '\x1b[0m');
+    if (arguments.length) {
+      arguments[0] = '\x1b[36m' + arguments[0] + '\x1b[0m';
+    }
+    exports.console.log.apply(null, arguments);
   }
 };
 
-exports.warn = msg => {
-  exports.console.warn('\x1b[30m\x1b[43m' + msg + '\x1b[0m');
+exports.warn = function () {
+  if (arguments.length) {
+    arguments[0] = '\x1b[30m\x1b[43m' + arguments[0] + '\x1b[0m';
+  }
+  exports.console.warn(null, arguments);
 };
 
 // ///////////////////////////////////////////////////////////////////////////
