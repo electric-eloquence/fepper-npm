@@ -1,6 +1,10 @@
 # Fepper Changelog
 
 ### v0.22.2
+* Fixing console messages with string replacement
+* Replacing logo.png with logo.svg
+
+### v0.22.2
 * Style improvements
 * Compile and build mean distinct things
 * Improvements to mustache browser
