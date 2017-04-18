@@ -330,7 +330,6 @@ input[type="search"]::-webkit-search-decoration {
 @media all and (max-width: 767px) {
   .search-field {
     float: right;
-    padding-right: 5rem;
   }
 }
 .inline-form .search-submit {
@@ -338,15 +337,13 @@ input[type="search"]::-webkit-search-decoration {
   border: 1px solid #808080;
   border-left: 0;
   color: #000;
-  padding: 0 1.35rem;
+  width: 4.9rem;
 }
 .inline-form .search-submit:hover {
   background: rgba(0,0,0,0.3);
 }
 @media all and (max-width: 767px) {
   .inline-form .search-submit {
-    padding: 0;
-    width: 4.5rem;
     height: 3.6rem;
   }
 }
@@ -447,12 +444,11 @@ footer [role="main"] {
 .search-form {
   background: #fff;
   overflow: hidden;
-  margin: 0.65em 0.5em 0 0;
+  margin: 0.3rem 0.8rem 0 0;
   max-height: 0;
 }
 @media all and (max-width: 767px) {
   .search-form {
-    margin-top: 0.3rem;
     position: absolute;
     top: 5rem;
     right: 0;
@@ -465,6 +461,7 @@ footer [role="main"] {
 @media all and (min-width: 768px) {
   .search-form {
     float: right;
+    margin-top: 1rem;
     max-height: none;
   }
 }
