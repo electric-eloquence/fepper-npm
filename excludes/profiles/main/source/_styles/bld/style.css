@@ -291,24 +291,6 @@ input[type="search"]::-webkit-search-decoration {
 .inline-form .inline-container {
   position: relative;
 }
-.inline-form input[type="submit"],
-.inline-form button {
-  font-size: 1.4rem;
-  padding: 1.04rem 2.08rem;
-  background: #333;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  width: auto;
-}
-.inline-form input[type="submit"]:hover,
-.inline-form button:hover,
-.inline-form input[type="submit"]:focus,
-.inline-form button:focus {
-  background: #808080;
-  color: #fff;
-}
 .inline-search-results-form {
   width: 100%;
 }
@@ -335,22 +317,31 @@ input[type="search"]::-webkit-search-decoration {
 .is-valid {
   border-color: #089e00;
 }
+.search-form fieldset {
+  float: left;
+}
+.search-field,
+.search-submit {
+  height: 3.6rem;
+}
 .search-field {
-  padding-right: 3em;
+  width: 18.4rem;
 }
 @media all and (max-width: 767px) {
   .search-field {
     float: right;
     padding-right: 5rem;
-    width: 24rem;
   }
 }
 .inline-form .search-submit {
   background: none;
-  padding: 0.78em 1em;
-  border: 0;
-  border-left: 1px solid #808080;
-  color: #808080;
+  border: 1px solid #808080;
+  border-left: 0;
+  color: #000;
+  padding: 0 1.35rem;
+}
+.inline-form .search-submit:hover {
+  background: rgba(0,0,0,0.3);
 }
 @media all and (max-width: 767px) {
   .inline-form .search-submit {
@@ -415,24 +406,38 @@ footer [role="main"] {
   background: #fff;
   padding: 0;
   border-bottom: 1px solid #dbdbdb;
+  height: 5.1rem;
+}
+@media all and (min-width: 768px) {
+  .header {
+    height: 5.5rem;
+  }
 }
 .logo {
   float: left;
-  max-width: 12.8rem;
-  margin: 0.64rem;
+  height: 3.7rem;
+  margin: 0.65rem;
 }
 @media all and (min-width: 768px) {
   .logo {
-    max-width: 14.4rem;
+    height: 4.2rem;
   }
 }
 .nav-toggle {
+  background: transparent;
+  color: #333;
   float: right;
-  display: block;
-  padding: 1.44rem 1.6rem 1.12rem;
+  padding: 1.4rem 1.5rem;
   font-size: 2.08rem;
   line-height: 1;
+  border: 0;
   border-left: 1px solid #dbdbdb;
+  width: 5.1rem;
+  height: 5.1rem;
+  outline: 0;
+}
+.nav-toggle:hover {
+  color: #808080;
 }
 @media all and (min-width: 768px) {
   .nav-toggle {
@@ -440,7 +445,9 @@ footer [role="main"] {
   }
 }
 .search-form {
+  background: #fff;
   overflow: hidden;
+  margin: 0.65em 0.5em 0 0;
   max-height: 0;
 }
 @media all and (max-width: 767px) {
@@ -448,8 +455,7 @@ footer [role="main"] {
     margin-top: 0.3rem;
     position: absolute;
     top: 5rem;
-    left: 0;
-    width: 100%;
+    right: 0;
     z-index: 2;
   }
   .search-form.active {
@@ -460,7 +466,6 @@ footer [role="main"] {
   .search-form {
     float: right;
     max-height: none;
-    margin: 0.65em 0.5em 0 0;
   }
 }
 .nav {
