@@ -8,7 +8,6 @@
       'click',
       function (e) {
         e.preventDefault();
-        this.classList.toggle('active');
         var nav = d.querySelector('.nav');
         if (nav) {
           nav.classList.toggle('active');
@@ -25,7 +24,6 @@
       'click',
       function (e) {
         e.preventDefault();
-        this.classList.toggle('active');
         var searchForm = d.querySelector('.header .search-form');
         if (searchForm) {
           searchForm.classList.toggle('active');
