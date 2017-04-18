@@ -68,20 +68,20 @@ figure {
 /*------------------------------------*
     $GLOBAL ELEMENTS
 *------------------------------------*/
-.cf:before,
-.l-two-col:before,
-[role=main]:before,
-.cf:after,
-.l-two-col:after,
-[role=main]:after {
+.cf::before,
+.l-two-col::before,
+[role="main"]::before,
+.cf::after,
+.l-two-col::after,
+[role="main"]::after {
   content: " ";
 /* 1 */
   display: table;
 /* 2 */
 }
-.cf:after,
-.l-two-col:after,
-[role=main]:after {
+.cf::after,
+.l-two-col::after,
+[role="main"]::after {
   clear: both;
 }
 .is-hidden {
@@ -246,10 +246,20 @@ textarea {
   border: 1px solid #808080;
   padding: 0.8rem 1.04rem;
 }
-input[type=text],
-input[type=search],
-input[type=url],
-input[type=number],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"] {
+  width: 25.5rem;
+}
+textarea {
+  width: 30.4rem;
+}
+input[type="text"],
+input[type="search"],
+input[type="url"],
+input[type="number"],
 textarea {
   -webkit-appearance: none;
 }
@@ -281,7 +291,7 @@ input[type="search"]::-webkit-search-decoration {
 .inline-form .inline-container {
   position: relative;
 }
-.inline-form input[type=submit],
+.inline-form input[type="submit"],
 .inline-form button {
   font-size: 1.4rem;
   padding: 1.04rem 2.08rem;
@@ -292,9 +302,9 @@ input[type="search"]::-webkit-search-decoration {
   z-index: 1;
   width: auto;
 }
-.inline-form input[type=submit]:hover,
+.inline-form input[type="submit"]:hover,
 .inline-form button:hover,
-.inline-form input[type=submit]:focus,
+.inline-form input[type="submit"]:focus,
 .inline-form button:focus {
   background: #808080;
   color: #fff;
@@ -311,7 +321,7 @@ input[type="search"]::-webkit-search-decoration {
 .inline-search-results-form .inline-container {
   position: relative;
 }
-.inline-search-results-form input[type=submit],
+.inline-search-results-form input[type="submit"],
 .inline-search-results-form button {
   position: absolute;
   top: 0;
@@ -369,14 +379,14 @@ td {
 *------------------------------------*/
 .lc,
 .header,
-[role=main] {
+[role="main"] {
   max-width: 115.2rem;
   margin: 0 auto;
   padding: 0.8rem;
 }
 footer .lc,
 footer .header,
-footer [role=main] {
+footer [role="main"] {
   padding: 1.6rem 1.6rem 0;
 }
 @media all and (min-width: 800px) {
@@ -516,7 +526,7 @@ footer [role=main] {
     padding: 0 1.4rem;
   }
 }
-[role=main] {
+[role="main"] {
   padding: 0.8rem 0.8rem 3.2rem;
   overflow: hidden;
 }
@@ -610,7 +620,7 @@ footer [role=main] {
   font-weight: normal;
   font-style: normal;
 }
-[data-icon]:before {
+[data-icon]::before {
   font-family: 'icons';
   content: attr(data-icon);
   speak: none;
@@ -618,28 +628,28 @@ footer [role=main] {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
 }
-.icon-twitter:before,
-.icon-stumbleupon:before,
-.icon-pinterest:before,
-.icon-linkedin:before,
-.icon-google-plus:before,
-.icon-search:before,
-.icon-play:before,
-.icon-menu:before,
-.icon-arrow-left:before,
-.icon-arrow-right:before,
-.icon-bubble:before,
-.icon-facebook:before,
-.icon-feed:before,
-.icon-youtube:before,
-.icon-tag:before,
-.icon-tumblr:before,
+.icon-twitter::before,
+.icon-stumbleupon::before,
+.icon-pinterest::before,
+.icon-linkedin::before,
+.icon-google-plus::before,
+.icon-search::before,
+.icon-play::before,
+.icon-menu::before,
+.icon-arrow-left::before,
+.icon-arrow-right::before,
+.icon-bubble::before,
+.icon-facebook::before,
+.icon-feed::before,
+.icon-youtube::before,
+.icon-tag::before,
+.icon-tumblr::before,
 .icon-instagram,
 .icon-podcast,
 .icon-apple,
 .icon-android,
-.icon-arrow:after,
-.icon-envelope:before {
+.icon-arrow::after,
+.icon-envelope::before {
   font-family: 'icons';
   speak: none;
   font-style: normal;
@@ -649,70 +659,70 @@ footer [role=main] {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
 }
-.icon-twitter:before {
+.icon-twitter::before {
   content: "\74";
 }
-.icon-stumbleupon:before {
+.icon-stumbleupon::before {
   content: "\75";
 }
-.icon-pinterest:before {
+.icon-pinterest::before {
   content: "\70";
 }
-.icon-linkedin:before {
+.icon-linkedin::before {
   content: "\69";
 }
-.icon-google-plus:before {
+.icon-google-plus::before {
   content: "\67";
 }
-.icon-search:before {
+.icon-search::before {
   content: "\73";
 }
-.icon-play:before {
+.icon-play::before {
   content: "\61";
 }
-.icon-menu:before {
+.icon-menu::before {
   content: "\21";
 }
-.icon-arrow-left:before {
+.icon-arrow-left::before {
   content: "\23";
 }
-.icon-arrow-right:before {
+.icon-arrow-right::before {
   content: "\24";
 }
-.icon-bubble:before {
+.icon-bubble::before {
   content: "\25";
 }
-.icon-facebook:before {
+.icon-facebook::before {
   content: "\66";
 }
-.icon-feed:before {
+.icon-feed::before {
   content: "\27";
 }
-.icon-youtube:before {
+.icon-youtube::before {
   content: "\79";
 }
-.icon-tag:before {
+.icon-tag::before {
   content: "\28";
 }
-.icon-tumblr:before {
+.icon-tumblr::before {
   content: "\6d";
 }
-.icon-instagram:before {
+.icon-instagram::before {
   content: "\22";
 }
-.icon-podcast:before {
+.icon-podcast::before {
   content: "\26";
 }
-.icon-android:before {
+.icon-android::before {
   content: "\29";
 }
-.icon-apple:before {
+.icon-apple::before {
   content: "\2a";
 }
-.icon-envelope:before {
+.icon-envelope::before {
   content: "\2b";
 }
-.icon-arrow:after {
+.icon-arrow::after {
   content: "\61";
   display: inline-block;
   -webkit-transform: rotate(90deg);
@@ -721,7 +731,7 @@ footer [role=main] {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.icon-play:before {
+.icon-play::before {
   font-size: 1.12rem;
   padding-left: 0.2em;
 }
@@ -729,7 +739,7 @@ footer [role=main] {
   display: block;
   margin-left: 3.2rem;
 }
-.icon-play-box:before {
+.icon-play-box::before {
   padding: 0.4rem;
   background: #808080;
   color: #fff;
@@ -1039,9 +1049,9 @@ footer [role=main] {
 .comment-text {
   margin-left: 9em;
 }
-.comment-form input[type=text],
-.comment-form input[type=email],
-.comment-form input[type=url],
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
 .comment-form textarea {
   width: 100%;
 }
