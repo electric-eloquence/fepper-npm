@@ -34,6 +34,16 @@ module.exports = class {
     fs.removeSync(utils.pathResolve(pubDir.patterns));
   }
 
+  compile() {
+    return patternlab.compileUi()
+      .catch(err => {
+        utils.error(err);
+      })
+      .then(() => {
+        return this.build();
+      });
+  }
+
   copy() {
     fs.copySync(utils.pathResolve(srcDir.images), utils.pathResolve(pubDir.images));
     fs.copySync(utils.pathResolve(srcDir.js), utils.pathResolve(pubDir.js));
@@ -42,15 +52,5 @@ module.exports = class {
 
   copyStyles() {
     fs.copySync(utils.pathResolve(srcDir.cssBld), utils.pathResolve(pubDir.css));
-  }
-
-  compile() {
-    return patternlab.compileUi()
-      .catch(err => {
-        utils.error(err);
-      })
-      .then(() => {
-        return patternlab.buildFrontend();
-      });
   }
 };
