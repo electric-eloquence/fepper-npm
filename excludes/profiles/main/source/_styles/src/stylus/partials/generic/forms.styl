@@ -20,7 +20,11 @@ button, input, select, textarea
 input, textarea
   border: 1px solid $gray
   padding: $pad-half 1.04rem
-input[type=text], input[type=search], input[type=url], input[type=number], textarea
+input[type="text"], input[type="email"], input[type="password"], input[type="url"], input[type="number"]
+  width: 25.5rem
+textarea
+  width: 30.4rem
+input[type="text"], input[type="search"], input[type="url"], input[type="number"], textarea
   -webkit-appearance: none
 button, input[type="submit"]
   padding: $pad-half
@@ -44,7 +48,7 @@ input[type="search"]::-webkit-search-decoration
 .inline-form
   fieldset, .inline-container
     position: relative
-  input[type=submit], button
+  input[type="submit"], button
     font-size: $font-size-slightly-smaller
     padding: 1.04rem 2.08rem
     background: $gray-dark
@@ -63,7 +67,7 @@ input[type="search"]::-webkit-search-decoration
     width: 82%
   fieldset, .inline-container
     position: relative
-  input[type=submit], button
+  input[type="submit"], button
     position: absolute
     top: 0
     right: 0
