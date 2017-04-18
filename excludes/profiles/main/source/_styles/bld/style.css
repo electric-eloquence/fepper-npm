@@ -404,9 +404,9 @@ footer [role="main"] {
 *------------------------------------*/
 .header {
   background: #fff;
-  padding: 0;
   border-bottom: 1px solid #dbdbdb;
   height: 5.1rem;
+  padding: 0;
 }
 @media all and (min-width: 768px) {
   .header {
