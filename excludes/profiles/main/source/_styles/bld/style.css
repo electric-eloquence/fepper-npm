@@ -132,6 +132,10 @@ body {
   font: 1.6em/1.5 "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   -webkit-text-size-adjust: 100%;
   color: #333;
+  min-width: 32rem;
+  min-height: 100vh;
+  padding-bottom: 5rem;
+  position: relative;
 }
 a {
   color: #333;
@@ -522,9 +526,17 @@ footer [role=main] {
   background: #131313;
   color: #fff;
   line-height: 1.2;
+  height: 5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 .footer a {
   color: #f9f9f9;
+}
+.copyright {
+  margin-bottom: 0;
 }
 @media all and (min-width: 768px) {
   .copyright {
