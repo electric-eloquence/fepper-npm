@@ -401,7 +401,7 @@ footer [role="main"] {
 *------------------------------------*/
 .header {
   background: #fff;
-  border-bottom: 1px solid #dbdbdb;
+  border-bottom: 1px solid #ddd;
   height: 5.1rem;
   padding: 0;
 }
@@ -428,7 +428,7 @@ footer [role="main"] {
   font-size: 2.08rem;
   line-height: 1;
   border: 0;
-  border-left: 1px solid #dbdbdb;
+  border-left: 1px solid #ddd;
   width: 5.1rem;
   height: 5.1rem;
   outline: 0;
@@ -483,7 +483,7 @@ footer [role="main"] {
     z-index: 1;
   }
   .nav a {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ddd;
     padding: 0.8rem 1.6rem;
   }
   .nav.active {
