@@ -378,19 +378,19 @@ footer .header,
 footer [role="main"] {
   padding: 1.6rem 1.6rem 0;
 }
-@media all and (min-width: 800px) {
+@media all and (min-width: 768px) {
   .l-two-col .l-main {
     float: left;
     width: 70%;
     padding-right: 1.6rem;
   }
 }
-@media all and (max-width: 799px) {
+@media all and (max-width: 767px) {
   .l-two-col .l-sidebar {
     clear: both;
   }
 }
-@media all and (min-width: 800px) {
+@media all and (min-width: 768px) {
   .l-two-col .l-sidebar {
     float: left;
     width: 30%;
@@ -765,24 +765,117 @@ footer [role="main"] {
 .block p:last-child {
   margin-bottom: 0;
 }
+.hero-and-insets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.block-hero .inner,
+.block-inset .inner {
+  display: block;
+  position: relative;
+}
+.block-hero .b-text,
+.block-inset .b-text {
+  color: #fff;
+}
+@media all and (min-width: 481px) and (max-width: 767px) {
+  .block-hero,
+  .block-inset {
+    width: calc(50% - 0.4rem);
+  }
+}
 .block-hero {
   margin-bottom: 0.8rem;
 }
 .block-hero .b-thumb img {
   display: block;
 }
-@media all and (min-width: 800px) {
-  .block-hero {
-    position: relative;
+@media all and (max-width: 480px) {
+  .block-hero .b-text {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    padding: 3.3rem 0;
+  }
+}
+@media all and (max-width: 767px) {
+  .block-hero .b-text {
+    background: rgba(0,0,0,0.8);
+    height: 8.7rem;
+    overflow: hidden;
+  }
+  .block-hero .headline {
+    font-size: 1.8rem;
+    padding: 0 0.8rem;
+  }
+}
+@media all and (min-width: 481px) and (max-width: 767px) {
+  .block-hero .b-thumb {
+    padding-top: 75%;
+  }
+  .block-hero img {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .block-hero .b-text {
+    overflow: hidden;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
+    height: auto;
+    padding-top: 19%;
+  }
+  .block-hero .headline {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+}
+@media all and (min-width: 768px) {
+  .block-hero {
+    position: relative;
+    width: 100%;
+  }
+  .block-hero .b-text {
     background: rgba(0,0,0,0.5);
-    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     padding: 2.4rem;
+  }
+}
+.block-inset {
+  position: relative;
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+.block-inset .headline {
+  font-size: 1.8rem;
+}
+.block-inset .b-thumb {
+  position: relative;
+  z-index: 0;
+}
+.block-inset .b-thumb img {
+  display: block;
+}
+.block-inset .b-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  padding: 0.8rem;
+}
+@media all and (min-width: 768px) {
+  .block-inset {
+    padding-top: 0.8rem;
+    width: calc(33.3333333% - 1.0666666rem);
   }
 }
 .block-thumb {
@@ -810,7 +903,7 @@ footer [role="main"] {
 }
 @media all and (max-width: 480px) {
   .block-thumb .b-thumb {
-    max-width: 30rem;
+    max-width: 22.5rem;
   }
 }
 @media all and (min-width: 481px) {
@@ -835,74 +928,6 @@ footer [role="main"] {
 .block-headline-summary a {
   display: block;
   padding: 0.8rem;
-}
-.block-inset {
-  position: relative;
-  margin-bottom: 0.8rem;
-  position: relative;
-}
-.block-inset .headline {
-  font-size: 1.8rem;
-}
-.block-inset .b-thumb {
-  position: relative;
-  z-index: 0;
-}
-.block-inset .b-thumb img {
-  display: block;
-}
-.block-inset .b-text {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  padding: 0.8rem;
-}
-.hero-and-insets {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.block-hero .inner,
-.block-inset .inner {
-  display: block;
-  position: relative;
-}
-@media all and (min-width: 481px) and (max-width: 799px) {
-  .block-hero,
-  .block-inset {
-    width: calc(50% - 0.4rem);
-  }
-  .block-hero .b-thumb {
-    padding-top: 75%;
-  }
-  .block-hero img {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  .block-hero .b-text {
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    overflow: hidden;
-    padding: 0.8rem;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 7.36rem;
-  }
-}
-@media all and (min-width: 800px) {
-  .block-hero {
-    width: 100%;
-  }
-  .block-inset {
-    padding-top: 0.8rem;
-    width: calc(33.3333333% - 1.0666666rem);
-  }
 }
 .block-thumb-summary .b-thumb {
   float: left;
