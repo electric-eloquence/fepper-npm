@@ -90,6 +90,9 @@
     width: 100%
     background: $dim
     padding: $pad-half
+  @media all and (max-width: $bp-sm-max)
+    .headline
+      font-size: 1.7rem
   @media all and (min-width: $bp-med)
     padding-top: $pad-half
     width: calc(33.3333333% - 1.0666666rem)
@@ -101,7 +104,7 @@
     display: block
     overflow: hidden
   .headline
-    @media all and (max-width: $bp-small-2 - 1px)
+    @media all and (max-width: $bp-sm-max)
       font-size: 1.8rem
     @media all and (min-width: $bp-small)
       float: right
@@ -115,9 +118,6 @@
       width: 30%
   .b-text
     float: right
-    @media all and (max-width: $bp-small-2 - 1px)
-      p
-        font-size: 1.4rem
     @media all and (min-width: $bp-small)
       width: 70%
       padding: 0 $pad
