@@ -5,10 +5,12 @@ body
   font: 1.6em/1.5 $font
   -webkit-text-size-adjust: 100%
   color: $gray-dark
-  min-width: 32rem
+  min-width: $bp-xx-max
   min-height: 100vh
   overflow-x: hidden
   padding-bottom: $footer-height
   position: relative
+  @media all and (max-width: $bp-xx-max)
+    overflow-x: scroll
   @media all and (max-width: $bp-sm-max)
     font-size: 1.4em

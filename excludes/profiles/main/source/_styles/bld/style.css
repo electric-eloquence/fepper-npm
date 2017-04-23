@@ -132,11 +132,16 @@ body {
   font: 1.6em/1.5 "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   -webkit-text-size-adjust: 100%;
   color: #333;
-  min-width: 32rem;
+  min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
   padding-bottom: 5rem;
   position: relative;
+}
+@media all and (max-width: 320px) {
+  body {
+    overflow-x: scroll;
+  }
 }
 @media all and (max-width: 767px) {
   body {
