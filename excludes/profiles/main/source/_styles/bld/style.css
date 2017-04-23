@@ -568,12 +568,12 @@ td {
     $TEXT Styles
 *------------------------------------*/
 .intro {
-  font-size: 1.7rem;
+  font-size: 1.1em;
   font-weight: bold;
 }
 .pullquote {
   font-family: Georgia, Times, "Times New Roman", serif;
-  font-size: 2.3rem;
+  font-size: 1.5em;
 }
 .text a {
   text-decoration: underline;
@@ -990,7 +990,7 @@ td {
   font-size: 2.5em;
 }
 .byline {
-  font-size: 1.4rem;
+  font-size: 0.9em;
   font-style: italic;
   margin-bottom: 0.8rem;
 }
@@ -1039,7 +1039,7 @@ td {
   margin-bottom: 0.8rem;
 }
 .comment-name {
-  font-size: 1.2rem;
+  font-size: 0.75em;
 }
 .comment-text {
   margin-left: 9em;
