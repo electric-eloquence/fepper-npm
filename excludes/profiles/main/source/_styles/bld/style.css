@@ -134,14 +134,8 @@ body {
   color: #333;
   min-width: 320px;
   min-height: 100vh;
-  overflow-x: hidden;
   padding-bottom: 5rem;
   position: relative;
-}
-@media all and (max-width: 320px) {
-  body {
-    overflow-x: scroll;
-  }
 }
 @media all and (max-width: 767px) {
   body {
