@@ -1,12 +1,11 @@
 <section class="comments section">
   <div class="comments-container">
     <h2 class="section-title">59 Comments</h2>
-    {{> compounds-comment-form }} 
     <ul class="comment-list">
       {{# listItems.five }}
         {{> compounds-single-comment }} 
       {{/ listItems.five }}
     </ul>
+    {{> compounds-comment-form }}
   </div>
-  {{> compounds-pagination }} 
 </section>
