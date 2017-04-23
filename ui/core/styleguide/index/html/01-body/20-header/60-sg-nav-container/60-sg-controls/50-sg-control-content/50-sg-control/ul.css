@@ -27,7 +27,7 @@
   display: block;
   width: auto;
   font-size: 1rem;
-  padding: 0.5rem 0.7rem;
+  padding: 0.5rem 0.5rem;
 }
 
 .sg-icon-search, .sg-icon-cog, .sg-checkbox.active, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-eye {
