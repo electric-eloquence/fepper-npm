@@ -40,7 +40,7 @@ var pseudopattern_hunter = function () {
           variantAllData = JSON5.parse(variantFileStr);
         } catch (err) {
           console.log('There was an error parsing pseudopattern JSON for ' + pattern.relPath);
-          console.log(err);
+          console.log(err.message || err);
         }
 
         // extend any existing data with variant data

@@ -37,7 +37,7 @@ var starterkit_manager = function (pl) {
         });
       }
     } catch (ex) {
-      console.log(ex);
+      console.log(ex.message || ex);
     }
   }
 

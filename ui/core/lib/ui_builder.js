@@ -415,7 +415,7 @@ function buildFrontend(patternlab, printDebug, callback) {
   // TODO: make this switchable with a config option.
   return componentizer.main()
     .catch(function (err) {
-      console.error(err);
+      console.error(err.message || err);
     })
 
     // continue with sync code
@@ -469,9 +469,9 @@ function buildFrontend(patternlab, printDebug, callback) {
         var patternlabSiteHtml;
         try {
           patternlabSiteHtml = fs.readFileSync(path.resolve(__dirname, '../styleguide', 'index.mustache'), 'utf8');
-        } catch (error) {
-          console.error(error);
-          reject(error);
+        } catch (err) {
+          console.error(err.message || err);
+          reject(err);
         }
         fs.outputFileSync(path.resolve(patternlab.cwd, paths.public.root, 'index.html'), patternlabSiteHtml);
 

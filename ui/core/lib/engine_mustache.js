@@ -64,7 +64,7 @@ var engine_mustache = {
       }
       return compiled.render(data);
     } catch (e) {
-      console.log('e = ', e);
+      console.log('e = ', e.message || e);
     }
     return undefined;
   },
@@ -181,7 +181,7 @@ var engine_mustache = {
         partialObj.params = params;
         partialObj.content = this.renderParams(partialObj.content, params);
       } catch (err) {
-        console.error(err);
+        console.error(err.message || err);
       }
     }
 
