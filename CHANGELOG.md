@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.22.3
+* Style updates to main profile patterns
+* Style updates to UI toolbar
+
 ### v0.22.2
 * Fixing console messages with string replacement
 * Replacing logo.png with logo.svg
