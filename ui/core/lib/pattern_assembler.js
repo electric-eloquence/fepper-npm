@@ -194,7 +194,7 @@ var pattern_assembler = function () {
           'there was an error setting pattern keys after markdown parsing of the companion file for pattern ' +
           pattern.patternPartial
         );
-        console.log(err);
+        console.log(err.message || err);
       }
     }
   }
@@ -274,7 +274,7 @@ var pattern_assembler = function () {
       } catch (err) {
         // no file exists, meaning it's a pattern markdown file
         if (err.code !== 'ENOENT') {
-          console.log(err);
+          console.log(err.message || err);
         }
       }
     }
@@ -340,7 +340,7 @@ var pattern_assembler = function () {
         }
       } catch (err) {
         console.log('There was an error parsing sibling JSON for ' + pattern.relPath);
-        console.log(err);
+        console.log(err.message || err);
       }
     }
 
@@ -367,7 +367,7 @@ var pattern_assembler = function () {
       }
     } catch (err) {
       console.log('There was an error parsing sibling listitem JSON for ' + pattern.relPath);
-      console.log(err);
+      console.log(err.message || err);
     }
 
     // look for a markdown file for this template
@@ -488,7 +488,7 @@ var pattern_assembler = function () {
           try {
             engine.registerPartial(key, nestedPattern, patternlab, getPartial);
           } catch (err) {
-            console.log(err);
+            console.log(err.message || err);
             continue;
           }
         } else {

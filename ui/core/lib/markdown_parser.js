@@ -39,7 +39,7 @@ var markdown_parser = function () {
         returnObject.markdown = md(block);
       }
     } catch (ex) {
-      console.log(ex);
+      console.log(ex.message || ex);
       console.log('error parsing markdown block', block);
       return undefined;
     }
