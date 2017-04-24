@@ -211,7 +211,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing an essential file from ' + viewAllCoreDir +
         '. Pattern Lab won\'t work without this file.');
-      console.log(ex);
+      console.log(ex.message || ex);
       throw ex;
     }
 
@@ -237,7 +237,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing or malformed ' + path.resolve(paths.source.data, 'data.json') +
       '. Pattern Lab may not work without this file.');
-      console.log(ex);
+      console.log(ex.message || ex);
       patternlab.data = {};
     }
     try {
@@ -246,7 +246,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing or malformed ' + path.resolve(paths.source.data, 'listitems.json') +
       '. Pattern Lab may not work without this file.');
-      console.log(ex);
+      console.log(ex.message || ex);
       patternlab.listitems = {};
     }
     var immutableDir = path.resolve(__dirname, '../immutable');
@@ -256,7 +256,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     } catch (ex) {
       plutils.logRed('ERROR: missing an essential file from ' + immutableDir +
         '. Pattern Lab won\'t work without this file.');
-      console.log(ex);
+      console.log(ex.message || ex);
       throw ex;
     }
 
@@ -297,7 +297,7 @@ var patternlab_engine = function (configParam, configDirParam) {
       patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.mustache'), 'utf8');
     } catch (ex) {
       if (patternlab.config.debug) {
-        console.log(ex);
+        console.log(ex.message || ex);
         var warnHead = 'Could not find optional user-defined header, usually found at ';
         warnHead += './source/_meta/_00-head.mustache. It was likely deleted.';
         console.log(warnHead);
@@ -307,7 +307,7 @@ var patternlab_engine = function (configParam, configDirParam) {
       patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.mustache'), 'utf8');
     } catch (ex) {
       if (patternlab.config.debug) {
-        console.log(ex);
+        console.log(ex.message || ex);
         var warnFoot = 'Could not find optional user-defined footer, usually found at ';
         warnFoot += './source/_meta/_01-foot.mustache. It was likely deleted.';
         console.log(warnFoot);

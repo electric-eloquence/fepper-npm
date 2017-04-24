@@ -32,7 +32,7 @@ var annotations_exporter = function (pl) {
       var oldAnnotationsJSON = JSON5.parse(oldAnnotations);
     } catch (ex) {
       console.log('There was an error parsing JSON for ' + paths.source.annotations + 'annotations.js');
-      console.log(ex);
+      console.log(ex.message || ex);
       return [];
     }
 
