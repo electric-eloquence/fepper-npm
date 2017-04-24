@@ -32,10 +32,10 @@ describe('Templater', function () {
   });
 
   it('should unescape Mustache tags', function () {
-    var token = '{ tout }';
+    var token = '{ sub }';
     var unescaped = templater.mustacheUnescape(token);
 
-    expect(unescaped).to.equal('{\\stout\\s}');
+    expect(unescaped).to.equal('{\\ssub\\s}');
   });
 
   it('should write translated templates', function () {
