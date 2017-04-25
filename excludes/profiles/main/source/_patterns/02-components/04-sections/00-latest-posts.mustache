@@ -1,11 +1,8 @@
 <section class="section latest-posts">
-  <h2 class="section-title">Latest Posts</h2>
   <ul class="post-list">
-    <li>{{> compounds-media-block }}</li>
-    <li>{{> compounds-media-block }}</li>
-    <li>{{> compounds-media-block }}</li>
-    <li>{{> compounds-media-block }}</li>
-    <li>{{> compounds-media-block }}</li>
+    {{# latest_posts }}
+      <li>{{> compounds-media-block }}</li>
+    {{/ latest_posts }}
   </ul>
   <a href="#" class="text-btn">View more posts</a>
 </section>
