@@ -16,7 +16,7 @@ module.exports = class {
 
     return componentsOnServer.init(compile)
       .catch(err => {
-        console.error(err);
+        console.error(err.message || err);
       })
       .then(createRenderObj => {
         if (!createRenderObj) {

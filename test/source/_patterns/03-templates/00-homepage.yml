@@ -10,11 +10,11 @@
   <?php print $hero; ?>
 "/ hero\\?": |
   <?php endif; ?>
-"# touts": |
-  <?php foreach ($touts as $tout): ?>
-"{ tout }": |
-  <?php print $tout; ?>
-"/ touts": |
+"# subs": |
+  <?php foreach ($subs as $sub): ?>
+"{ sub }": |
+  <?php print $sub; ?>
+"/ subs": |
   <?php endforeach; ?>
 "# latest_posts": |
   <?php foreach ($latest_posts as $post): ?>
