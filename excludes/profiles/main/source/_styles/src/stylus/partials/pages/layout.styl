@@ -1,9 +1,23 @@
-.brick
-  background: #dcdddc
-  padding: $pad-double
-  text-align: center
-  font-weight: bold
-  border-bottom: 1px solid $gray-light-2
+/* Two Column Layout */
+.l-two-col
+  @extend .cf
+  .l-main
+    @media all and (min-width: $bp-med)
+      float: left
+      width: 70%
+      padding-right: $pad
+  .l-sidebar
+    @media all and (max-width: $bp-sm-max)
+      clear: both
+    @media all and (min-width: $bp-med)
+      float: left
+      width: 30%
+      padding: 0 0 0 $pad
+[role="main"]
+  padding: $pad-half
+  overflow: hidden
+  @extend .lc
+  @extend .cf
 /* Block */
 .block
   overflow: hidden

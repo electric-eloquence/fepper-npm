@@ -1,6 +1,3 @@
-/*------------------------------------*
-    $FORMS
-*------------------------------------*/
 form > div
   margin-bottom: $space
 form ol, form ul
@@ -64,9 +61,6 @@ input[type="search"]::-webkit-search-decoration
   border-color: $error
 .is-valid
   border-color: $valid
-/*------------------------------------*
-    $SPECIFIC FORMS
-*------------------------------------*/
 /* Search Form */
 .search-form
   fieldset
@@ -89,3 +83,9 @@ input[type="search"]::-webkit-search-decoration
     background: rgba(0, 0, 0, 0.3)
   @media all and (max-width: $bp-sm-max)
     height: 3.6rem
+/* Comment Form */
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea
+  width: 100%
