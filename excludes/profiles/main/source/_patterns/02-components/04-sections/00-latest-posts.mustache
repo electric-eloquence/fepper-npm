@@ -1,4 +1,7 @@
 <section class="section latest-posts">
+  {{# latest_posts_title }}
+    <h2 class="section-title">{{{ latest_posts_title }}}</h2>
+  {{/ latest_posts_title }}
   <ul class="post-list">
     {{# latest_posts }}
       <li>{{> compounds-media-block }}</li>
