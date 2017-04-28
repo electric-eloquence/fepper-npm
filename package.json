@@ -1,6 +1,6 @@
 {
   "name": "fepper",
-  "description": "Fepper: a Front End Prototyper tool for rapid prototyping of web sites",
+  "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "index.js",
   "scripts": {
     "test": "gulp --gulpfile tasker.js test"
