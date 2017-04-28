@@ -5,7 +5,7 @@ const gulp = require('gulp');
 const utils = require('../core/lib/utils');
 
 gulp.task('help', cb => {
-  const out = `
+  let out = `
 Usage:
     fp <task> [<additional args>...]
 
@@ -21,9 +21,10 @@ Tasks:
     fp ui:compile       Compile the UI React components.
     fp update           Update Fepper NPM, Fepper UI, and Fepper extensions.
     fp version          Print versions of Fepper CLI, Fepper NPM, and Fepper UI.
-
-Note: Windows users not using BASH will need to recognize `fp` as an alias for `cscript .\fepper.vbs` or `.\fepper.ps1`
 `;
+  out +=
+// eslint-disable-next-line max-len
+'Note: Windows users not using BASH will need to recognize `fp` as an alias for `cscript .\fepper.vbs` or `.\fepper.ps1`';
   utils.info(out);
   cb();
 });
