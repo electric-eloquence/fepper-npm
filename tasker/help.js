@@ -24,9 +24,8 @@ Tasks:
 
 `;
   out +=
-// eslint-disable-next-line max-len
-'Note: Windows users not using BASH will need to recognize `fp` as an alias for `cscript .\\fepper.vbs` or `.\\fepper.ps1`';
-  out += '\n';
+`Note: Windows users not using BASH must recognize \`fp\` as an alias for \`cscript .\\fepper.vbs\` or \`.\\fepper.ps1\`
+`;
 
   utils.info(out);
   cb();
