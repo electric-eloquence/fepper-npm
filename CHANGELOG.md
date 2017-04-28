@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.22.5
+* Organize Stylus partials to correspond to their respective patterns
+* `fp help` task
+* `fp version` task
+
 ### v0.22.4
 * Style updates to main profile patterns
 * Style updates to UI toolbar
