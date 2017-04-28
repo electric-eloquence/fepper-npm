@@ -36,8 +36,8 @@ gulp.task('version', cb => {
           }
           utils.log(stdout);
         }
+        resolve();
       });
-      resolve();
     });
   })
   .then(() => {
@@ -58,8 +58,8 @@ gulp.task('version', cb => {
           }
           utils.log(stdout);
         }
+        resolve();
       });
-      resolve();
     });
   })
   .then(() => {
