@@ -21,6 +21,7 @@ Tasks:
     fp ui:compile       Compile the UI React components.
     fp update           Update Fepper NPM, Fepper UI, and Fepper extensions.
     fp version          Print versions of Fepper CLI, Fepper NPM, and Fepper UI.
+
 `;
   out +=
 // eslint-disable-next-line max-len
