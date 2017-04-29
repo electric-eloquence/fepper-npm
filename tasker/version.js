@@ -41,13 +41,13 @@ gulp.task('version', cb => {
     });
   })
   .then(() => {
-    new Promise(resolve => {
+    return new Promise(resolve => {
       process.chdir(publicDir);
       resolve();
     });
   })
   .then(() => {
-    new Promise(resolve => {
+    return new Promise(resolve => {
       exec('npm ls fepper-ui --depth=0', (err, stdout, stderr) => {
         if (err) {
           utils.error(err);
