@@ -98,7 +98,7 @@ exports.ui_compiler = {
     test.done();
   },
 
-  'ui compiler writes ui.css': async function (test) {
+  'ui compiler writes ui.css': function (test) {
     test.expect(2);
 
     const uiCssExistsAfter = fs.existsSync(uiCss);
