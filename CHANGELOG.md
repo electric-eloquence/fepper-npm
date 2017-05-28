@@ -1,6 +1,6 @@
 # Fepper Changelog
 
-### v0.22.6
+### v0.23.0
 * Fixing ui header styles in very small viewports
 * fepper.ps1 works on windows 7
 * UI customization instructions in readme
