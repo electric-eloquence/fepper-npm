@@ -43,8 +43,8 @@ maintain parity with the PHP project with respect to performance and core
 features.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
-Using this NPM decoupled from a full Fepper project requires compiling the UI. 
-manually. Use the following code as a template for manual implementation:
+Using this NPM decoupled from a full Fepper project requires manually compiling 
+the UI. Use the following code as a template for manual compilation:
 
 ```
 patternlab.compileUi()
