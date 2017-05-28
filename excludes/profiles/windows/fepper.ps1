@@ -2,6 +2,7 @@ cd $PSScriptRoot
 
 $nodeVersion = "v7.6.0"
 $nodeMsi = "node-" + $nodeVersion + "-x64.msi"
+$nodeMsiFull = $PSScriptRoot + "\" + $nodeMsi
 $whereNode = where.exe node
 
 if ($whereNode -Like "*\node.exe")
@@ -27,8 +28,8 @@ if ($whereNode -Like "*\node.exe")
 }
 else
 {
-  iwr -o $nodeMsi https://nodejs.org/dist/$nodeVersion/$nodeMsi
-  msiexec /i $nodeMsi
+  iwr -OutFile $nodeMsi https://nodejs.org/dist/$nodeVersion/$nodeMsi
+  msiexec /i $nodeMsiFull
   echo "You must install Node.js to continue. After it has finished installing, restart your computer."
 }
 

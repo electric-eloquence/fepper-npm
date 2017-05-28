@@ -1,17 +1,14 @@
 <div class="page" id="page">
   {{> 02-components/00-global/00-header }}
-  <div role="main">
-    {{# emergency }}
-      {{> 01-compounds/07-messaging/00-alert }}
-    {{/ emergency }}
 
-    <section class="hero-and-insets">
+  <div role="main">
+    <section class="hero-and-subs">
       {{# hero }}
-        {{> 01-compounds/02-blocks/02-block-hero }}
+        {{> 01-compounds/01-blocks/00-block-hero }}
       {{/ hero }}
 
       {{# subs }}
-        {{> 01-compounds/02-blocks/05-inset-block }}
+        {{> 01-compounds/01-blocks/01-block-sub }}
       {{/ subs }}
     </section>
 
@@ -19,13 +16,14 @@
 
     <div class="l-two-col">
       <div class="l-main">
-        {{> 02-components/04-sections/00-latest-posts }}
+        {{> 02-components/03-sections/00-latest-posts }}
       </div><!--end .l-main-->
 
       <div class="l-sidebar">
-        {{> 02-components/04-sections/01-recent-tweets }}
+        {{> 02-components/03-sections/01-recent-tweets }}
       </div><!--end .l-sidebar-->
     </div><!--end .l-two-col-->
   </div><!--End role=main-->
+
   {{> 02-components/00-global/01-footer }}
 </div>

@@ -8,7 +8,7 @@ kill_zombies: true
 # timeout_main sets the number of milliseconds to wait for asynchronous tasks to
 # complete before Fepper opens in a browser. This was an issue in the past, but
 # may have been remedied by smarter code. This setting remains here in case the
-# broken browser opening becomes an issue again.
+# application ever fails to launch on browser-open again.
 timeout_main: 0
 
 app_dir: node_modules/fepper

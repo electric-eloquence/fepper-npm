@@ -6,6 +6,7 @@
 const exec = require('child_process').exec;
 const fs = require('fs-extra');
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 
 const utils = require('../core/lib/utils');
 
@@ -56,6 +57,9 @@ gulp.task('update', cb => {
     });
   })
   .then(() => {
-    cb();
+    runSequence(
+      'ui:compile',
+      cb
+    );
   });
 });

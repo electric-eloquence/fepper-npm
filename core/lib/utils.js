@@ -101,7 +101,7 @@ exports.conf = isHeadless => {
   }
 
   // Override defaults with custom values.
-  exports.mergeObjects(defaults, conf);
+  exports.extendButNotOverride(conf, defaults);
   global.conf = conf;
 
   return conf;
@@ -138,7 +138,7 @@ exports.pref = isHeadless => {
     }
   }
 
-  exports.mergeObjects(defaults, pref);
+  exports.extendButNotOverride(pref, defaults);
   global.pref = pref;
 
   return pref;
@@ -164,39 +164,39 @@ exports.data = () => {
 /**
  * Recursively merge properties of two objects.
  *
- * @param {object} obj1 - If obj1 has properties obj2 doesn't, add to obj2.
- * @param {object} obj2 - This object's properties have priority over obj1.
- *   Since obj2 gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
- * @return {object} The mutated obj2 object.
+ * @param {object} obj1 - This object's properties have priority over obj2.
+ * @param {object} obj2 - If obj2 has properties obj1 doesn't, add to obj1, but do not override.
+ *   Since obj1 gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
+ * @return {object} The mutated obj1 object.
  */
-exports.mergeObjects = (obj1, obj2) => {
-  for (let i in obj1) {
-    if (obj1.hasOwnProperty(i)) {
+exports.extendButNotOverride = (obj1, obj2) => {
+  for (let i in obj2) {
+    if (obj2.hasOwnProperty(i)) {
       try {
-        // Only recurse if obj1[i] is an object.
-        if (obj1[i].constructor === Object) {
-          // Requires 2 objects as params; create obj2[i] if undefined.
-          if (typeof obj2[i] === 'undefined' || obj2[i] === null) {
-            obj2[i] = {};
+        // Only recurse if obj2[i] is an object.
+        if (obj2[i].constructor === Object) {
+          // Requires 2 objects as params; create obj1[i] if undefined.
+          if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
+            obj1[i] = {};
           }
-          obj2[i] = exports.mergeObjects(obj1[i], obj2[i]);
-        // Pop when recursion meets a non-object. If obj1[i] is a non-object,
-        // only copy to undefined obj2[i]. This way, obj2 maintains priority.
+          obj1[i] = exports.extendButNotOverride(obj1[i], obj2[i]);
+        // Pop when recursion meets a non-object. If obj2[i] is a non-object,
+        // only copy to undefined obj1[i]. This way, obj1 is not overriden.
         }
-        else if (typeof obj2[i] === 'undefined' || obj2[i] === null) {
-          obj2[i] = obj1[i];
+        else if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
+          obj1[i] = obj2[i];
         }
       }
       catch (err) {
         // Property in destination object not set; create it and set its value.
-        if (typeof obj2[i] === 'undefined' || obj2[i] === null) {
-          obj2[i] = obj1[i];
+        if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
+          obj1[i] = obj2[i];
         }
       }
     }
   }
 
-  return obj2;
+  return obj1;
 };
 
 exports.escapeReservedRegexChars = regexStr => {

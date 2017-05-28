@@ -24,7 +24,7 @@ function buildPatternData(dataFilesPathParam) {
   dataFiles.forEach(function (filePath) {
     var jsonFileStr = fs.readFileSync(path.resolve(filePath), 'utf8');
     var jsonData = JSON5.parse(jsonFileStr);
-    plutils.mergeData(jsonData, mergedObject);
+    plutils.extendButNotOverride(mergedObject, jsonData);
   });
   return mergedObject;
 }
