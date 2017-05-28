@@ -62,7 +62,7 @@ var list_item_hunter = function () {
         // combine listItem data with pattern data with global data
         var itemData = listData['' + items.indexOf(loopNumberString)]; // this is a property like "2"
         // itemData could be undefined if the listblock contains no partial, just markup
-        var allData = plutils.mergeData(pattern.allData, itemData !== undefined ? itemData[j] : {});
+        var allData = plutils.extendButNotOverride((itemData && itemData[j] ? itemData[j] : {}), pattern.allData);
         allData.link = extend({}, patternlab.data.link);
 
         // just render with mergedData

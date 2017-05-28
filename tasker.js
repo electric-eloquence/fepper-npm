@@ -133,6 +133,7 @@ gulp.task('frontend-copy', cb => {
 
 gulp.task('install', cb => {
   runSequence(
+    'ui:compile',
     'install:copy',
     'fepper:data',
     cb

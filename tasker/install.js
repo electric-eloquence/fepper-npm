@@ -107,7 +107,7 @@ gulp.task('install:copy', function (cb) {
 });
 
 gulp.task('install:copy-base', function (cb) {
-  if (!fs.existsSync(utils.pathResolve(sourceDir))) {
+  if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/base/source', sourceDir);
   }
   cb();

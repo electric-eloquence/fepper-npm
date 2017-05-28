@@ -73,7 +73,8 @@ var annotations_exporter = function (pl) {
   function parseAnnotationsMD() {
     var markdown_parser = new mp();
     var annotations = [];
-    var mdFiles = glob.sync(paths.source.annotations + '/*.md');
+    var mdFiles = glob.sync(paths.source.patterns + '/**/*.md');
+    mdFiles = mdFiles.concat(glob.sync(paths.source.annotations + '/*.md'));
 
     mdFiles.forEach(parseMDFile(annotations, markdown_parser));
     return annotations;

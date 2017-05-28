@@ -4,8 +4,11 @@ module.exports = {
     __html: `
 <div class="sg-current-size">
   <form id="sg-form">
-    Size <input type="text" class="sg-input sg-size-px" value="---">px /
-    <input type="text" class="sg-input sg-size-em" value="---">em
+    <div class="sg-size-label">Size</div
+    ><input type="text" class="sg-input sg-size-px" value="---"
+    ><div class="sg-size-label">px /</div
+    ><input type="text" class="sg-input sg-size-em" value="---"
+    ><div class="sg-size-label">em</div>
   </form>
 </div>
 <ul class="sg-acc-panel sg-size-options">

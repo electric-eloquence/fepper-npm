@@ -1,7 +1,9 @@
 .*.swp
 .DS_Store
 .publish/
-/test/**/pattern-configurer.js
 /npm-debug.log
+/test/**/pattern-configurer.js
+/ui/core/styleguide/index.mustache
+/ui/test/files/_styleguide/index.mustache
 ignore/
 node_modules/
