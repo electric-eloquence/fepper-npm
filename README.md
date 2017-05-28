@@ -4,10 +4,14 @@
 
 ### This is the NPM that powers these Fepper prototyper variants:
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
-* [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no unnecessary assets, styles, or Pattern Lab demo.
-* [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - templates configured for Drupal 8, along with a Drupal theme built to accommodate those templates.
-* [Fepper for Windows](https://github.com/electric-eloquence/fepper-windows) - scripted to run on Windows.
-* [Fepper for Wordpress](https://github.com/electric-eloquence/fepper-wordpress) - templates configured for WordPress, along with a WordPress theme built to accommodate those templates.
+* [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
+  unnecessary assets, styles, or Pattern Lab demo.
+* [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - 
+  templates configured for Drupal 8, along with a Drupal theme built to accommodate those templates.
+* [Fepper for Windows](https://github.com/electric-eloquence/fepper-windows) - 
+  scripted to run on Windows.
+* [Fepper for Wordpress](https://github.com/electric-eloquence/fepper-wordpress) - 
+  templates configured for WordPress, along with a WordPress theme built to accommodate those templates.
 
 Please consult any of the above links for documentation on getting started and 
 on power usage of Fepper.
@@ -67,8 +71,8 @@ modules in that directory will override the corresponding modules in core.
 Additions (so long as they are correctly nested) will also be recognized.
 
 It is mandatory to componentize style modifications to the UI this way. While it 
-is a better practice to componentize scripts this way, generic modifications to 
-UI JavaScript can also be added to `source/_scripts/ui-extender.js`.
+is a good practice to componentize scripts this way, generic modifications to UI 
+JavaScript can also be added to `source/_scripts/ui-extender.js`.
 
 View All markup can also be overridden by copying the `.mustache` files in 
 https://github.com/electric-eloquence/fepper-npm/tree/dev/ui/core/styleguide/viewall 
@@ -77,7 +81,8 @@ then be recognized and displayed in the UI. (No additions are allowed.) Custom
 View All styles can be added to regular pattern styles in `source/_styles`.
 
 You will need to compile the UI in order for the browser to pick up custom 
-changes to the UI. Within a full Fepper project, this can be accomplished with the following command:
+changes to the UI. Within a full Fepper project, this can be accomplished with 
+the following command:
 
 ```
 fp ui:compile
