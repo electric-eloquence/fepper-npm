@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.1
+* Readme update
+
 ### v0.23.0
 * Fixing ui header styles in very small viewports
 * fepper.ps1 works on windows 7
@@ -8,7 +11,7 @@
 * Annotations allowed locally per pattern
 * Fixing xss vulnerability from marked npm
 * ui:compile runs on install and update
-* stylus reorg
+* Stylus reorg
 
 ### v0.22.5
 * Organize Stylus partials to correspond to their respective patterns
