@@ -44,7 +44,7 @@ var pseudopattern_hunter = function () {
         }
 
         // extend any existing data with variant data
-        plutils.mergeData(pattern.allData, variantAllData);
+        plutils.extendButNotOverride(variantAllData, pattern.allData);
 
         // fill out the properties of this pseudopattern
         patternVariant.jsonFileData = variantLocalData;

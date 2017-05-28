@@ -359,7 +359,7 @@ var pattern_assembler = function () {
           console.log('found pattern-specific listitems.json for ' + pattern.patternPartial);
         }
         buildListItems(pattern);
-        plutils.mergeData(patternlab.listitems, pattern.listitems);
+        plutils.extendButNotOverride(pattern.listitems, patternlab.listitems);
 
       } else {
         // if not set by local listitems.json file, create reference to patternlab.listitems
@@ -396,7 +396,7 @@ var pattern_assembler = function () {
 
     if (pattern.jsonFileData) {
       // if this has local data, create non-referenced allData and dataKeys properties for this pattern
-      pattern.allData = plutils.mergeData(patternlab.data, pattern.jsonFileData);
+      pattern.allData = plutils.extendButNotOverride(pattern.jsonFileData, patternlab.data);
 
       // add allData keys to pattern.dataKeys
       pattern.dataKeys = patternlab.dataKeys.slice();
