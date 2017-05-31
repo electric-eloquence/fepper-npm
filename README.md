@@ -31,12 +31,8 @@ directory parameter) for instantiating the `patternlab` object. This allows it
 to be instantiated from any directory within any task runner or third-party 
 framework.
 
-See [further instructions](#upfront-and-onscreen) for compiling the UI for 
-first use.
-
 Fepper exposes these methods on the `patternlab` object:
 
-* version: function ()
 * build: function (callback, deletePatternDir)
 * compileUi: function ()
 * help: function ()
