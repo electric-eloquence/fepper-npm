@@ -2,33 +2,36 @@
 
 # A frontend prototyper tool for rapid prototyping of web sites
 
-### This is the NPM that powers these Fepper prototyper variants:
+### This is the NPM that powers these Fepper prototypers:
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
   unnecessary assets, styles, or Pattern Lab demo.
 * [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - 
-  templates configured for Drupal 8, along with a Drupal theme built to accommodate those templates.
+  templates configured for Drupal 8, along with a Drupal theme built to 
+  accommodate those templates.
 * [Fepper for Windows](https://github.com/electric-eloquence/fepper-windows) - 
   scripted to run on Windows.
 * [Fepper for Wordpress](https://github.com/electric-eloquence/fepper-wordpress) - 
-  templates configured for WordPress, along with a WordPress theme built to accommodate those templates.
+  templates configured for WordPress, along with a WordPress theme built to 
+  accommodate those templates.
 
 Please consult any of the above links for documentation on getting started and 
 on power usage of Fepper.
 
 ### <a id="under-the-hood"></a>Under the Hood
-To just run a Node.js implementation of Pattern Lab, instantiate the `patternlab` 
+To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:
 
 ```
 const config = require('./patternlab-config.json');
 const cwd = process.cwd();
-const patternlab = new (require('fepper/ui/core/lib/patternlab'))(config, cwd);
+const Patternlab = require('fepper/ui/core/lib/patternlab');
+const patternlab = new Patternlab(config, cwd);
 ```
 
-Fepper's `patternlab` constructor recognizes a second parameter (a working 
-directory parameter) for instantiating the `patternlab` object. This allows it 
-to be instantiated from any directory within any task runner or third-party 
+Fepper's `Patternlab` constructor recognizes a second parameter (a working 
+directory parameter) for instantiating a `patternlab` object. This allows it to 
+be instantiated from any directory within any task runner or third-party 
 framework.
 
 Fepper exposes these methods on the `patternlab` object:
