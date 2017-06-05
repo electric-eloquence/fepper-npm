@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.2
+* Form style update
+
 ### v0.23.1
 * Readme update
 
