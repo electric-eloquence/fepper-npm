@@ -20,7 +20,7 @@ Tasks:
     fp template         Translate templates in 03-templates for the backend and copy them there.
     fp ui:compile       Compile the UI React components.
     fp update           Update Fepper NPM, Fepper UI, and Fepper extensions.
-    fp version          Print versions of Fepper CLI, Fepper NPM, and Fepper UI.
+    fp version          Print versions of Fepper NPM, Fepper CLI, and Fepper UI.
 
 `;
   out +=
