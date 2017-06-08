@@ -323,8 +323,9 @@ ul {
 img,
 video,
 object {
-  max-width: 100%;
+  display: block;
   height: auto;
+  max-width: 100%;
 }
 .byline {
   font-size: 0.9em;
