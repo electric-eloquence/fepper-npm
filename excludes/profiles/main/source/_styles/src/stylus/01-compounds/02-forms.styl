@@ -68,7 +68,9 @@ input[type="search"]::-webkit-search-decoration
     float: left
 .search-field,
 .search-submit
-  height: 3.6rem
+  height: 4rem
+  @media all and (max-width: $bp-md-max)
+    height: 3.7rem
 .search-field
   background: transparent
   width: 18.4rem
@@ -82,8 +84,6 @@ input[type="search"]::-webkit-search-decoration
   width: 5rem
   &:hover
     background: rgba(0, 0, 0, 0.3)
-  @media all and (max-width: $bp-sm-max)
-    height: 3.6rem
 /* Comment Form */
 .comment-form input[type="text"],
 .comment-form input[type="email"],
