@@ -192,7 +192,7 @@ figure {
 .lc,
 .header,
 [role="main"] {
-  max-width: 115.2rem;
+  max-width: 1152px;
   margin: 0 auto;
   padding: 0.8rem;
 }
@@ -303,21 +303,22 @@ ul {
   padding: 0;
   list-style: none;
 }
-.text a {
-  text-decoration: underline;
-}
-.text ul {
+.text ul,
+ul.text {
   list-style: disc;
   margin: 0 0 1.6rem 1.2em;
 }
-.text ul ul {
+.text ul ul,
+ul.text ul {
   margin-bottom: 0;
 }
-.text ol {
+.text ol,
+ol.text {
   list-style: decimal;
   margin: 0 0 1.6rem 1.2em;
 }
-.text ol ol {
+.text ol ol,
+ol.text ol {
   margin-bottom: 0;
 }
 img,
@@ -331,10 +332,6 @@ object {
   font-size: 0.9em;
   font-style: italic;
   margin-bottom: 0.8rem;
-}
-.pullquote {
-  font-family: Georgia, Times, "Times New Roman", serif;
-  font-size: 1.5em;
 }
 .block {
   overflow: hidden;
@@ -603,7 +600,13 @@ input[type="search"]::-webkit-search-decoration {
 }
 .search-field,
 .search-submit {
-  height: 3.6rem;
+  height: 4rem;
+}
+@media all and (max-width: 1024px) {
+  .search-field,
+  .search-submit {
+    height: 3.7rem;
+  }
 }
 .search-field {
   background: transparent;
@@ -624,16 +627,61 @@ input[type="search"]::-webkit-search-decoration {
 .inline-form .search-submit:hover {
   background: rgba(0,0,0,0.3);
 }
-@media all and (max-width: 767px) {
-  .inline-form .search-submit {
-    height: 3.6rem;
-  }
-}
 .comment-form input[type="text"],
 .comment-form input[type="email"],
 .comment-form input[type="url"],
 .comment-form textarea {
   width: 100%;
+}
+.article-header h1 {
+  font-size: 2.5em;
+}
+.intro {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.section {
+  margin: 0 0 1.6rem;
+}
+.section-title {
+  margin-bottom: 0.8rem;
+}
+.post-list li {
+  margin-bottom: 1.6rem;
+}
+.headline-list {
+  margin-bottom: 1.6rem;
+}
+.headline-list.flush {
+  margin: 0;
+}
+.headline-list h4 {
+  font-weight: normal;
+}
+.headline-list li {
+  padding: 0.4rem 0;
+  border-top: 1px solid #ddd;
+}
+.text-btn {
+  font-style: italic;
+}
+.comments li {
+  margin-bottom: 1.6rem;
+}
+.comment-meta {
+  float: left;
+  width: 6.5em;
+}
+.comment-meta img {
+  display: block;
+  border: 1px solid #eee;
+  margin-bottom: 0.8rem;
+}
+.comment-name {
+  font-size: 0.75em;
+}
+.comment-text {
+  margin-left: 9em;
 }
 .nav {
   background: rgba(255,255,255,0.9);
@@ -698,88 +746,37 @@ input[type="search"]::-webkit-search-decoration {
     padding: 0 1.4rem;
   }
 }
-.social-share {
-  overflow: hidden;
-  margin-bottom: 1.6rem;
-}
-.social-share li {
-  float: left;
-  margin-right: 0.4rem;
-}
-.social-share a {
-  background: #333;
-  color: #fff;
-  display: block;
-  padding: 0.8rem;
-}
-.social-share a:hover {
-  background: #808080;
-}
-.article-header h1 {
-  font-size: 2.5em;
-}
-.intro {
-  font-size: 1.1em;
-  font-weight: bold;
-}
-.comments li {
-  margin-bottom: 1.6rem;
-}
-.comment-meta {
-  float: left;
-  width: 6.5em;
-}
-.comment-meta img {
-  display: block;
-  border: 1px solid #eee;
-  margin-bottom: 0.8rem;
-}
-.comment-name {
-  font-size: 0.75em;
-}
-.comment-text {
-  margin-left: 9em;
-}
-.section {
-  margin: 0 0 1.6rem;
-}
-.section-title {
-  margin-bottom: 0.8rem;
-}
-.post-list li {
-  margin-bottom: 1.6rem;
-}
-.headline-list {
-  margin-bottom: 1.6rem;
-}
-.headline-list.flush {
-  margin: 0;
-}
-.headline-list h4 {
-  font-weight: normal;
-}
-.headline-list li {
-  padding: 0.4rem 0;
-  border-top: 1px solid #ddd;
-}
-.text-btn {
-  font-style: italic;
-}
 .header {
   background: #fff;
   border-bottom: 1px solid #ddd;
   padding: 0;
 }
+@media all and (max-width: 767px) {
+  .header {
+    margin: 0 0 0 0.8rem;
+    width: calc(100% - 0.8rem);
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .header {
+    width: calc(100% - 1.6rem);
+  }
+}
+@media all and (min-width: 1152px) {
+  .header {
+    width: calc(1152px - 1.6rem);
+  }
+}
 .logo {
   float: left;
-  margin: 0.65rem;
+  margin: 0.65rem 0;
 }
 .logo img {
   height: 3.7rem;
 }
 @media all and (min-width: 768px) {
   .logo img {
-    height: 4.2rem;
+    height: 4rem;
   }
 }
 .nav-toggle {
@@ -806,7 +803,7 @@ input[type="search"]::-webkit-search-decoration {
 .search-form {
   background: rgba(255,255,255,0.9);
   overflow: hidden;
-  margin: 1rem 0.8rem 0 0;
+  margin: 0.65rem 0 0;
   max-height: 0;
 }
 @media all and (max-width: 767px) {
