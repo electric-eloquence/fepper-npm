@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.23.4
+* Fixed installer
+* Restricting testing packages to specific version
+* Pattern rearrangement and refactor
+* Header style updates
+
 ### v0.23.3
 * Image and form style updates
 * Readme update
