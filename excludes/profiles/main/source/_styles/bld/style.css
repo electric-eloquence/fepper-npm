@@ -290,6 +290,11 @@ hr {
 .error {
   color: #f00;
 }
+.text a,
+a.text,
+p a {
+  text-decoration: underline;
+}
 blockquote {
   font-style: italic;
   border-left: 1px solid #808080;
