@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.5
+* text-decoration on anchor elements
+
 ### v0.23.4
 * Fixed installer
 * Restricting testing packages to specific version
