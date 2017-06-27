@@ -309,22 +309,28 @@ ul {
   list-style: none;
 }
 .text ul,
-ul.text {
-  list-style: disc;
+.text ol,
+ul.text,
+ol.text {
   margin: 0 0 1.6rem 1.2em;
 }
 .text ul ul,
-ul.text ul {
+.text ol ul,
+ul.text ul,
+ol.text ul,
+.text ul ol,
+.text ol ol,
+ul.text ol,
+ol.text ol {
   margin-bottom: 0;
+}
+.text ul,
+ul.text {
+  list-style: disc;
 }
 .text ol,
 ol.text {
   list-style: decimal;
-  margin: 0 0 1.6rem 1.2em;
-}
-.text ol ol,
-ol.text ol {
-  margin-bottom: 0;
 }
 img,
 video,
