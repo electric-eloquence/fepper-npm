@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.23.6
+* Style updates
+* h1 tag on homepage
+
 ### v0.23.5
 * text-decoration on anchor elements
 
