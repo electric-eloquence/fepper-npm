@@ -721,7 +721,7 @@ input[type="search"]::-webkit-search-decoration {
 }
 @media all and (min-width: 768px) {
   .nav {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ddd;
     clear: none;
     float: left;
     margin-top: -0.1rem;
@@ -768,7 +768,7 @@ input[type="search"]::-webkit-search-decoration {
     width: calc(100% - 0.8rem);
   }
 }
-@media all and (min-width: 768px) and (max-width: 1024px) {
+@media all and (min-width: 768px) and (max-width: 1152px) {
   .header {
     width: calc(100% - 1.6rem);
   }
