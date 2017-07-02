@@ -286,9 +286,11 @@ hr {
   text-align: left;
 }
 .valid {
+  border-color: #089e00;
   color: #089e00;
 }
 .error {
+  border-color: #f00;
   color: #f00;
 }
 .text a,
@@ -600,12 +602,6 @@ input[type="search"]::-webkit-search-decoration {
   right: 0;
   z-index: 1;
   width: auto;
-}
-.has-error {
-  border-color: #f00;
-}
-.is-valid {
-  border-color: #089e00;
 }
 .search-form fieldset {
   float: left;
