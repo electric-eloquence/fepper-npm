@@ -3,23 +3,23 @@
     "list_attributes": " class=\"headline-list\"",
     "ul_items": [
       {
-        "item": "<h4><a href=\"#\">Headline Lorem ipsum dolor sit amet</a></h4>"
+        "item": "<a href=\"#\">Headline Lorem ipsum dolor sit amet</a>"
       },
       {
 
-        "item": "<h4><a href=\"#\">Laborum, molestiae, rerum, dolores eveniet </a></h4>"
+        "item": "<a href=\"#\">Laborum, molestiae, rerum, dolores eveniet </a>"
       },
       {
 
-        "item": "<h4><a href=\"#\">quae est fugit distinctio iure odit minus non ipsum </a></h4>"
+        "item": "<a href=\"#\">quae est fugit distinctio iure odit minus non ipsum </a>"
       },
       {
 
-        "item": "<h4><a href=\"#\">dolorum deserunt omnis voluptates voluptatum</a></h4>"
+        "item": "<a href=\"#\">dolorum deserunt omnis voluptates voluptatum</a>"
       },
       {
 
-        "item": "<h4><a href=\"#\">nventore dignissimos vel molestiae, rerum, dolore</a></h4>"
+        "item": "<a href=\"#\">nventore dignissimos vel molestiae, rerum, dolore</a>"
       }
     ]
   }
