@@ -251,11 +251,11 @@ hr {
   background: #eee;
   margin: 3.2rem 0;
 }
-.is-hidden {
+.hidden {
   display: none !important;
   visibility: hidden !important;
 }
-.is-vishidden {
+.visually-hidden {
   position: absolute !important;
   overflow: hidden;
   width: 1px;
