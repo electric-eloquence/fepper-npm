@@ -12,14 +12,18 @@ body
   position: relative
   @media all and (max-width: $bp-sm-max)
     font-size: 1.4em
-h1, .alpha
+/* Override user-agent defaults */
+article, aside, nav, section
+  h1
+    font-size: 2em
+h1, h2
   line-height: 1.2
-  @media all and (max-width: $bp-sm-max)
-    font-size: 2.8rem
-h2, .beta
-  line-height: 1.2
-h3, .gamma
-  line-height: 1.2
+h4
+  font-size: 1.1em
+h5
+  font-size: 1.0625em
+h6
+  font-size: 1em
 p
   margin-bottom: $space
 a
@@ -49,13 +53,13 @@ hr
 /* Floats */
 .right
   float: right
-  padding: 0 0 $pad $pad
+  padding: 0 0 $space $space
 .right-search
   float: right
-  padding: 0 0 $pad 0
+  padding: 0 0 $space 0
 .left
   float: left
-  padding: 0 $pad $pad 0
+  padding: 0 $space $space 0
 /* Text-Align */
 .align-right
   text-align: right

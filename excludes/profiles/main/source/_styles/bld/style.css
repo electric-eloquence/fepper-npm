@@ -214,23 +214,24 @@ body {
     font-size: 1.4em;
   }
 }
+article h1,
+aside h1,
+nav h1,
+section h1 {
+  font-size: 2em;
+}
 h1,
-.alpha {
+h2 {
   line-height: 1.2;
 }
-@media all and (max-width: 767px) {
-  h1,
-  .alpha {
-    font-size: 2.8rem;
-  }
+h4 {
+  font-size: 1.1em;
 }
-h2,
-.beta {
-  line-height: 1.2;
+h5 {
+  font-size: 1.0625em;
 }
-h3,
-.gamma {
-  line-height: 1.2;
+h6 {
+  font-size: 1em;
 }
 p {
   margin-bottom: 1.6rem;
@@ -644,9 +645,6 @@ input[type="search"]::-webkit-search-decoration {
 .comment-form textarea {
   width: 100%;
 }
-.article-header h1 {
-  font-size: 2.5em;
-}
 .intro {
   font-size: 1.1em;
   font-weight: bold;
@@ -666,12 +664,12 @@ input[type="search"]::-webkit-search-decoration {
 .headline-list.flush {
   margin: 0;
 }
-.headline-list h4 {
-  font-weight: normal;
-}
 .headline-list li {
   padding: 0.4rem 0;
   border-top: 1px solid #ddd;
+}
+.headline-list time {
+  display: block;
 }
 .text-btn {
   font-style: italic;
@@ -689,7 +687,9 @@ input[type="search"]::-webkit-search-decoration {
   margin-bottom: 0.8rem;
 }
 .comment-name {
+  display: block;
   font-size: 0.75em;
+  font-weight: bold;
 }
 .comment-text {
   margin-left: 9em;
