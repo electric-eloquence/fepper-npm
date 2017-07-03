@@ -641,10 +641,6 @@ input[type="search"]::-webkit-search-decoration {
 .comment-form textarea {
   width: 100%;
 }
-.intro {
-  font-size: 1.1em;
-  font-weight: bold;
-}
 .section {
   margin: 0 0 1.6rem;
 }
