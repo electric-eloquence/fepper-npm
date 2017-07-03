@@ -464,44 +464,44 @@ object {
     width: calc(33.3333333% - 1.0666666rem);
   }
 }
-.block-thumb {
+.block-hoagie {
   width: 100%;
   border-collapse: collapse;
 }
-.block-thumb .b-inner {
+.block-hoagie .b-inner {
   display: block;
   overflow: hidden;
 }
 @media all and (max-width: 767px) {
-  .block-thumb .headline {
+  .block-hoagie .headline {
     font-size: 1.8rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-thumb .headline {
+  .block-hoagie .headline {
     float: right;
     padding: 0 1.6rem;
     width: 70%;
   }
 }
-.block-thumb .b-thumb {
+.block-hoagie .b-thumb {
   float: left;
 }
 @media all and (max-width: 480px) {
-  .block-thumb .b-thumb {
+  .block-hoagie .b-thumb {
     max-width: 22.5rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-thumb .b-thumb {
+  .block-hoagie .b-thumb {
     width: 30%;
   }
 }
-.block-thumb .b-text {
+.block-hoagie .b-text {
   float: right;
 }
 @media all and (min-width: 481px) {
-  .block-thumb .b-text {
+  .block-hoagie .b-text {
     width: 70%;
     padding: 0 1.6rem;
   }
