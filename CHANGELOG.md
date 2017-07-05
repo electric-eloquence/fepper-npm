@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.7
+* Pattern refactor in main profile
+
 ### v0.23.6
 * Style updates
 * h1 tag on homepage
