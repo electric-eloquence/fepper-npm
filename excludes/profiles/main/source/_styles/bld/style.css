@@ -293,6 +293,13 @@ hr {
   border-color: #f00;
   color: #f00;
 }
+@media print {
+  header.header,
+  form,
+  footer.footer {
+    display: none;
+  }
+}
 .text a,
 a.text,
 p a {

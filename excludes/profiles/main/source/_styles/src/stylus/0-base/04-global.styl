@@ -74,3 +74,9 @@ hr
 .error
   border-color: $error
   color: $error
+/* Hide elements in print view */
+@media print
+  header.header,
+  form,
+  footer.footer
+    display: none
