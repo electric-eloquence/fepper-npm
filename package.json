@@ -30,9 +30,12 @@
   },
   "devDependencies": {
     "body-parser": "^1.6.3",
+    "chai": "4.*",
     "express": "^4.8.3",
     "gulp": "3.9.1",
+    "gulp-eslint": "3.*",
     "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-mocha": "4.*",
     "gulp-refresh": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "he": "^1.1.0",
