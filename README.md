@@ -19,6 +19,8 @@ Please consult any of the above links for documentation on getting started and
 on power usage of Fepper.
 
 ### <a id="under-the-hood"></a>Under the Hood
+Recommended minimum Node.js version 7.6.0
+
 To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:
 
