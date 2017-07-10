@@ -362,7 +362,7 @@ var patternlab_engine = function (configParam, configDirParam) {
       return buildFrontend(patternlab, printDebug, callback);
     },
     buildFrontend: function (patternlab_ = patternlab, callback = () => {}) {
-      return buildFrontend(patternlab, printDebug, callback);
+      return buildFrontend(patternlab_, printDebug, callback);
     },
     buildPatternData: function (dataFilesPathParam) {
       return buildPatternData(dataFilesPathParam);
