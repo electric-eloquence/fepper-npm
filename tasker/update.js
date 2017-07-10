@@ -28,9 +28,24 @@ function npmUpdate(resolve) {
 
 gulp.task('update', cb => {
   new Promise(resolve => {
-    process.chdir(global.workDir);
-    utils.log(`Running \`npm update\` in ${global.workDir}...`);
-    npmUpdate(resolve);
+    utils.log(`Running \`npm -global update\` on fepper-cli...`);
+    exec('npm update -g fepper-cli', (err, stdout, stderr) => {
+      if (err) {
+        throw err;
+      }
+      if (stderr) {
+        utils.info(stderr);
+      }
+      utils.info(stdout);
+      resolve();
+    });
+  })
+  .then(() => {
+    return new Promise(resolve => {
+      process.chdir(global.workDir);
+      utils.log(`Running \`npm update\` in ${global.workDir}...`);
+      npmUpdate(resolve);
+    });
   })
   .then(() => {
     return new Promise(resolve => {
