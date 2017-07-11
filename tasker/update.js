@@ -26,7 +26,7 @@ function npmUpdate(resolve) {
   });
 }
 
-gulp.task('update', cb => {
+function fpUpdate(cb) {
   new Promise(resolve => {
     utils.log('Running `npm -global update` on fepper-cli...');
     exec('npm update -g fepper-cli', (err, stdout, stderr) => {
@@ -77,4 +77,12 @@ gulp.task('update', cb => {
       cb
     );
   });
-});
+};
+
+gulp.task('up', cb => {
+  fpUpdate(cb);
+}
+
+gulp.task('update', cb => {
+  fpUpdate(cb);
+}
