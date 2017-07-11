@@ -39,10 +39,10 @@ framework.
 
 Fepper exposes these methods on the `patternlab` object:
 
-* build: function (callback, deletePatternDir = false)
+* build: function (callback = () => {}, deletePatternDir = false)
 * compileUi: function ()
 * help: function ()
-* patternsonly: function (callback, deletePatternDir = false)
+* patternsonly: function (callback = () => {}, deletePatternDir = false)
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
 maintain parity with the PHP project with respect to performance and core 

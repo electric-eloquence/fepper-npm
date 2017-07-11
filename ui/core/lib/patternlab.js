@@ -357,7 +357,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     version: function () {
       return getVersion();
     },
-    build: function (callback, deletePatternDir = false) {
+    build: function (callback = () => {}, deletePatternDir = false) {
       buildPatterns(deletePatternDir);
       return buildFrontend(patternlab, printDebug, callback);
     },
@@ -377,7 +377,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     help: function () {
       help();
     },
-    patternsonly: function (callback, deletePatternDir = false) {
+    patternsonly: function (callback = () => {}, deletePatternDir = false) {
       buildPatterns(deletePatternDir);
       printDebug();
       callback();
