@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.9
+* Default params in patternlab.js
+
 ### v0.23.8
 * Hiding elements in print view
 * `fp update` updates fepper-cli
