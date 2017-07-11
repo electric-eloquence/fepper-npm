@@ -1,5 +1,12 @@
 # Fepper Changelog
 
+### v0.23.8
+* Hiding elements in print view
+* `fp update` updates fepper-cli
+* Unit testing NPMs installed as devDependencies
+* `.gitignore` update
+* Readme updates
+
 ### v0.23.7
 * Pattern refactor in main profile
 
