@@ -81,8 +81,8 @@ function fpUpdate(cb) {
 
 gulp.task('up', cb => {
   fpUpdate(cb);
-}
+});
 
 gulp.task('update', cb => {
   fpUpdate(cb);
-}
+});
