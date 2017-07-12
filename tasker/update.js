@@ -77,7 +77,7 @@ function fpUpdate(cb) {
       cb
     );
   });
-};
+}
 
 gulp.task('up', cb => {
   fpUpdate(cb);
