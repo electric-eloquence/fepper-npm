@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.23.10
+* `fp up` alias for `fp update`
+* Upping node version in installer
+
 ### v0.23.9
 * Default params in patternlab.js
 
