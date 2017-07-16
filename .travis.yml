@@ -5,8 +5,5 @@ node_js:
 install:
   - npm install
   - npm install -g gulp@3.9.1
-  - npm install gulp-eslint@3.0.1
-  - npm install gulp-mocha@4.3.1
-  - npm install chai@4.0.2
 script:
   - gulp --gulpfile tasker.js test
