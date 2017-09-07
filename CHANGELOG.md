@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.23.11
+* Stylus refactor
+
 ### v0.23.10
 * `fp up` alias for `fp update`
 * Upping node version in installer
