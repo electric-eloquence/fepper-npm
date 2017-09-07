@@ -9,16 +9,33 @@
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
   },
+  "keywords": [
+    "atomic",
+    "component",
+    "design",
+    "end",
+    "fepper",
+    "front",
+    "front-end",
+    "frontend",
+    "lab",
+    "library",
+    "pattern",
+    "prototype",
+    "prototyper",
+    "prototyping",
+    "template"
+  ],
   "license": "MIT",
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "browserify": "^14.1.0",
     "diveSync": "^0.3.0",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.5",
-    "hogan.js": "^3.0.2",
+    "hogan.js": "3.0.2",
     "js-beautify": "1.6.4",
     "json-eval": "^0.1.0",
     "json5": "^0.5.0",
@@ -38,29 +55,12 @@
     "gulp-mocha": "4.*",
     "gulp-refresh": "^1.1.0",
     "gulp-rename": "^1.2.2",
-    "he": "^1.1.0",
+    "he": "1.1.0",
     "html2json": "^1.0.2",
     "js-yaml": "^3.2.7",
     "open": "~0.0.5",
     "request": "^2.40.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2"
-  },
-  "keywords": [
-    "atomic",
-    "component",
-    "design",
-    "end",
-    "fepper",
-    "front",
-    "front-end",
-    "frontend",
-    "lab",
-    "library",
-    "pattern",
-    "prototype",
-    "prototyper",
-    "prototyping",
-    "template"
-  ]
+  }
 }
