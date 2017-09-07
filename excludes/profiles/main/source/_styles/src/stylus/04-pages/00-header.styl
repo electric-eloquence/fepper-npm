@@ -1,8 +1,8 @@
 .header
+  @extend .lc
   background: $white
   border-bottom: 1px solid $gray-light-3
   padding: 0
-  @extend .lc
   @media all and (max-width: $bp-sm-max)
       margin: 0 0 0 $space-half
       width: "calc(100% - %s)" % $space-half
@@ -12,22 +12,24 @@
       width: "calc(%s - %s)" % ($max-width $space)
 .logo
   float: left
-  margin: 0.65rem 0
+  margin: $space-half 0
   @media all and (max-width: $bp-sm-max)
     img
-      height: 3.7rem
+      height: 3.8rem
 .nav-toggle
   background: $white-translucent
-  color: $gray-dark
-  float: right
-  padding: 1.4rem 1.5rem
-  font-size: 2.08rem
-  line-height: 1
   border: 0
   border-left: 1px solid $gray-light-3
-  width: 5.1rem
-  height: 5rem
+  color: $gray-dark
+  float: right
+  font-size: 2.08rem
+  line-height: 1
   outline: 0
+  padding: ($space + 0.1rem) $space $space ($space + 0.1rem)
+  position: relative
+  width: $nav-toggle-n-border
+  height: $nav-toggle-height
+  z-index: 2
   &:hover
     color: $gray
   @media all and (min-width: $bp-med)
@@ -35,12 +37,12 @@
 .search-form
   background: $white-translucent
   overflow: hidden
-  margin: 0.65rem 0 0
+  margin: $space-half 0 0
   max-height: 0
   @media all and (max-width: $bp-sm-max)
     margin: 0.1rem 0 0
     position: absolute
-    top: 5rem
+    top: $nav-toggle-height
     right: 0
     z-index: 2
     &.active
