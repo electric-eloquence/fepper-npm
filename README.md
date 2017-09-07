@@ -20,7 +20,7 @@ on power usage of Fepper.
 
 ### <a id="under-the-hood"></a>Under the Hood
 
-#### Recommended minimum Node.js version 7.6.0
+#### Recommended minimum Node.js version 8.0.0
 
 To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:
@@ -95,7 +95,3 @@ New UI customizations will not be picked up simply by restarting Fepper.
 You can compile the UI on every build by setting `compileUiOnEveryBuild` to 
 `true` in `patternlab-config.json`. However, this is not recommended since it 
 would be a drain on performance and simply isn't necessary on every build.
-
-### Contribute
-Please report any bugs and submit contributions at 
-https://github.com/electric-eloquence/fepper-npm
