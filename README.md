@@ -25,7 +25,7 @@ on power usage of Fepper.
 To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:
 
-```
+```javascript
 const config = require('./patternlab-config.json');
 const cwd = process.cwd();
 const Patternlab = require('fepper/ui/core/lib/patternlab');
@@ -52,7 +52,7 @@ features.
 Using this NPM decoupled from a full Fepper project requires manually compiling 
 the UI. Use the following code as a template for manual compilation:
 
-```
+```javascript
 patternlab.compileUi()
 .catch(err => {
   console.error(err);
@@ -89,7 +89,7 @@ You will need to compile the UI in order for the browser to pick up custom
 changes to the UI. Within a full Fepper project, this can be accomplished with 
 the following command:
 
-```
+```shell
 fp ui:compile
 ```
 
