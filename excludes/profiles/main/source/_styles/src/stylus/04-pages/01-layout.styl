@@ -4,14 +4,14 @@
   .l-main
     @media all and (min-width: $bp-med)
       float: left
-      width: 70%
+      width: $column-width-wide
       padding-right: $space
   .l-sidebar
     @media all and (max-width: $bp-sm-max)
       clear: both
     @media all and (min-width: $bp-med)
       float: left
-      width: 30%
+      width: $column-width-narrow
       padding: 0 0 0 $space
 [role="main"]
   @extend .lc
