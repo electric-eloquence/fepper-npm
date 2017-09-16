@@ -84,7 +84,7 @@
       font-size: 1.7rem
   @media all and (min-width: $bp-med)
     padding-top: $space-half
-    width: calc(33.3333333% - 1.0666666rem)
+    width: "calc(%s - (%s / 3))" % ($column-width-narrow $space-double)
 // Block Hoagie
 .block-hoagie
   width: 100%
@@ -98,15 +98,15 @@
     @media all and (min-width: $bp-small)
       float: right
       padding: 0 $space
-      width: 70%
+      width: $column-width-wide
   .b-thumb
     float: left
     @media all and (max-width: $bp-xs-max)
       max-width: 22.5rem
     @media all and (min-width: $bp-small)
-      width: 30%
+      width: $column-width-narrow
   .b-text
     float: right
     @media all and (min-width: $bp-small)
-      width: 70%
+      width: $column-width-wide
       padding: 0 $space
