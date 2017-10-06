@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const exec = require('child_process').exec;
+const spawnSync = require('child_process').spawnSync;
 const fs = require('fs-extra');
 const gulp = require('gulp');
 
@@ -14,101 +14,66 @@ const extendDir = utils.pathResolve(global.conf.extend_dir);
 const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
 const sourceDir = utils.pathResolve(global.conf.ui.paths.source.root);
 
-gulp.task('install:copy', function (cb) {
-  new Promise(function (resolve) {
+gulp.task('install:copy', cb => {
+  // Install source and extend dirs.
+  new Promise(resolve => {
     // Copy source dir if it doesn't exist.
     if (!fs.existsSync(sourceDir)) {
       fs.copySync('excludes/profiles/main/source', sourceDir);
     }
-    resolve();
-  })
-  .then(function () {
-    return new Promise(function (resolve) {
-      // Copy extend dir if it doesn't exist.
-      if (!fs.existsSync(extendDir)) {
-        fs.copySync('excludes/extend', extendDir);
-        resolve();
-      }
-      else {
-        // Skip to next .then() if extend dir has its npms installed.
-        if (fs.existsSync(`${extendDir}/node_modules`)) {
-          resolve();
-        }
-        // Run npm install in extend dir if no extend/node_modules dir.
-        else {
-          new Promise(function (resolve1) {
-            process.chdir(extendDir);
-            utils.log(`Working directory changed to ${extendDir}.`);
-            resolve1();
-          })
-          .then(function () {
-            return new Promise(function (resolve1) {
-              exec('npm install', (err, stdout, stderr) => {
-                if (err) {
-                  throw err;
-                }
 
-                if (stderr) {
-                  utils.log(stderr);
-                }
-                utils.log(stdout);
+    // Copy extend dir if it doesn't exist.
+    if (!fs.existsSync(extendDir)) {
+      fs.copySync('excludes/extend', extendDir);
+    }
 
-                resolve1();
-              });
-            });
-          })
-          .then(function () {
-            process.chdir(cwd);
-            resolve();
-          });
-        }
-      }
-    });
+    // Skip to next .then() if extend dir has its npms installed.
+    if (fs.existsSync(`${extendDir}/node_modules`)) {
+      resolve();
+    }
+    // Run npm install in extend dir if no extend/node_modules dir.
+    else {
+      process.chdir(extendDir);
+      utils.log(`Working directory changed to ${extendDir}.`);
+
+      spawnSync('npm', ['install'], {stdio: 'inherit'});
+
+      resolve();
+    }
   })
-  .then(function () {
+
+  // Install public dir.
+  .then(() => {
     // Run npm install in public dir if no public/node_modules dir.
-    return new Promise(function (resolve) {
+    return new Promise(resolve => {
       if (fs.existsSync(`${publicDir}/node_modules`)) {
         resolve();
       }
       else {
-        new Promise(function (resolve1) {
-          process.chdir(publicDir);
-          utils.log(`Working directory changed to ${publicDir}.`);
-          resolve1();
-        })
-        .then(function () {
-          return new Promise(function (resolve1) {
-            exec('npm install', (err, stdout, stderr) => {
-              if (err) {
-                throw err;
-              }
+        process.chdir(cwd);
+        process.chdir(publicDir);
+        utils.log(`Working directory changed to ${publicDir}.`);
 
-              if (stderr) {
-                utils.log(stderr);
-              }
-              utils.log(stdout);
+        spawnSync('npm', ['install'], {stdio: 'inherit'});
 
-              resolve1();
-            });
-          });
-        })
-        .then(function () {
-          process.chdir(cwd);
-          utils.log(`Working directory changed to ${cwd}.`);
-          resolve();
-        });
+        resolve();
       }
     });
   })
-  .then(function () {
+
+  // Finish up.
+  .then(() => {
+    process.chdir(cwd);
+    utils.log(`Working directory changed to ${cwd}.`);
+
     cb();
   });
 });
 
-gulp.task('install:copy-base', function (cb) {
+gulp.task('install:copy-base', cb => {
   if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/base/source', sourceDir);
   }
+
   cb();
 });

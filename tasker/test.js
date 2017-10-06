@@ -1,6 +1,8 @@
 'use strict';
 
 const fs = require('fs');
+const runSequence = require('run-sequence');
+
 if (
   !fs.existsSync(`${global.workDir}/node_modules/gulp-eslint`) ||
   !fs.existsSync(`${global.workDir}/node_modules/gulp-mocha`) ||
@@ -13,49 +15,50 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
-gulp.task('test:eslint-extend', function () {
+gulp.task('test:eslint:extend', function () {
   return gulp.src(['excludes/extend/*.js', 'excludes/extend/*/*.js', 'excludes/extend/*/*/*.js'])
-    // An ESLint bug requires that the node env be defined here and not in
-    // .eslintrc.json.
-    .pipe(eslint({envs: ['node']}))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test:eslint-fepper', function () {
+gulp.task('test:eslint:fepper', function () {
   return gulp.src('core/**/*.js')
-    // An ESLint bug requires that the node env be defined here and not in
-    // .eslintrc.json.
-    .pipe(eslint({envs: ['node']}))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test:eslint-tasker', function () {
+gulp.task('test:eslint:tasker', function () {
   return gulp.src('tasker/**/*.js')
-    // An ESLint bug requires that the node env be defined here and not in
-    // .eslintrc.json.
-    .pipe(eslint({envs: ['node']}))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test:eslint-root', function () {
-  return gulp.src('.*.js')
-    // An ESLint bug requires that the node env be defined here and not in
-    // .eslintrc.json.
-    .pipe(eslint({envs: ['node']}))
+gulp.task('test:eslint:root', function () {
+  return gulp.src('*.js')
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test:eslint-test', function () {
+gulp.task('test:eslint:test', function () {
   return gulp.src('test/tests/*.js')
-    // An ESLint bug requires that the node env be defined here and not in
-    // .eslintrc.json.
-    .pipe(eslint({envs: ['node']}))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
+});
+
+gulp.task('test:eslint', cb => {
+  runSequence(
+    'test:eslint:extend',
+    'test:eslint:fepper',
+    'test:eslint:tasker',
+    'test:eslint:root',
+    'test:eslint:test',
+    cb
+  );
 });
 
 gulp.task('test:mocha', function () {

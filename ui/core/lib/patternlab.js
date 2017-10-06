@@ -231,7 +231,7 @@ var patternlab_engine = function (configParam, configDirParam) {
     }
   }
 
-  function buildPatterns(deletePatternDir) {
+  function buildPatterns(cleanPublic) {
     try {
       patternlab.data = buildPatternData(paths.source.data);
     } catch (ex) {
@@ -315,8 +315,11 @@ var patternlab_engine = function (configParam, configDirParam) {
     }
 
     // delete the contents of config.patterns.public before writing
-    if (deletePatternDir) {
-      fs.removeSync(paths.public.patterns);
+    if (cleanPublic) {
+      fs.emptyDirSync(paths.public.annotations);
+      fs.emptyDirSync(paths.public.images);
+      fs.emptyDirSync(paths.public.js);
+      fs.emptyDirSync(paths.public.css);
       fs.emptyDirSync(paths.public.patterns);
     }
 
@@ -357,8 +360,8 @@ var patternlab_engine = function (configParam, configDirParam) {
     version: function () {
       return getVersion();
     },
-    build: function (callback = () => {}, deletePatternDir = false) {
-      buildPatterns(deletePatternDir);
+    build: function (callback = () => {}, cleanPublic = false) {
+      buildPatterns(cleanPublic);
       return buildFrontend(patternlab, printDebug, callback);
     },
     buildFrontend: function (patternlab_ = patternlab, callback = () => {}) {
@@ -377,8 +380,8 @@ var patternlab_engine = function (configParam, configDirParam) {
     help: function () {
       help();
     },
-    patternsonly: function (callback = () => {}, deletePatternDir = false) {
-      buildPatterns(deletePatternDir);
+    patternsonly: function (callback = () => {}, cleanPublic = false) {
+      buildPatterns(cleanPublic);
       printDebug();
       callback();
     },

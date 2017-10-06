@@ -1,11 +1,18 @@
 'use strict';
 
 const gulp = require('gulp');
-const plugins = require('gulp-load-plugins')();
 
 const utils = require('../core/lib/utils');
 
 const conf = global.conf;
+const pluginsConf = {};
+
+// The "headed" conf is for internal Fepper development only. Necessary when requiring fepper-npm with `npm link`.
+if (conf.headed) {
+  pluginsConf.config = `${global.workDir}/package.json`;
+}
+
+const plugins = require('gulp-load-plugins')(pluginsConf);
 
 const pubDir = global.conf.ui.paths.public;
 const srcDir = global.conf.ui.paths.source;

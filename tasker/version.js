@@ -1,6 +1,6 @@
 'use strict';
 
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 const gulp = require('gulp');
 
 const utils = require('../core/lib/utils');
@@ -8,61 +8,30 @@ const utils = require('../core/lib/utils');
 const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
 
 gulp.task('version', cb => {
-  exec('npm ls -g fepper-cli --depth=0', (err, stdout, stderr) => {
-    if (err) {
-      utils.error(err);
-    }
-    else {
-      if (stderr) {
-        utils.log(stderr);
-      }
-      utils.log(stdout);
-    }
+  // Output fepper-cli version.
+  const npmLsGlobal = spawn('npm', ['ls', '-g', 'fepper-cli', '--depth=0'], {stdio: 'inherit'});
+
+  npmLsGlobal.on('error', err => {
+    utils.error(err);
   });
 
-  new Promise(resolve => {
-    process.chdir(global.rootDir);
-    resolve();
-  })
-  .then(() => {
-    return new Promise(resolve => {
-      exec('npm ls fepper --depth=0', (err, stdout, stderr) => {
-        if (err) {
-          utils.error(err);
-        }
-        else {
-          if (stderr) {
-            utils.log(stderr);
-          }
-          utils.log(stdout);
-        }
-        resolve();
-      });
-    });
-  })
-  .then(() => {
-    return new Promise(resolve => {
-      process.chdir(publicDir);
-      resolve();
-    });
-  })
-  .then(() => {
-    return new Promise(resolve => {
-      exec('npm ls fepper-ui --depth=0', (err, stdout, stderr) => {
-        if (err) {
-          utils.error(err);
-        }
-        else {
-          if (stderr) {
-            utils.log(stderr);
-          }
-          utils.log(stdout);
-        }
-        resolve();
-      });
-    });
-  })
-  .then(() => {
-    cb();
+  // Output fepper version.
+  process.chdir(global.rootDir);
+
+  const npmLsFepper = spawn('npm', ['ls', 'fepper', '--depth=0'], {stdio: 'inherit'});
+
+  npmLsFepper.on('error', err => {
+    utils.error(err);
   });
+
+  // Output fepper-ui version.
+  process.chdir(publicDir);
+
+  const npmLsFepperUi = spawn('npm', ['ls', 'fepper-ui', '--depth=0'], {stdio: 'inherit'});
+
+  npmLsFepperUi.on('error', err => {
+    utils.error(err);
+  });
+
+  cb();
 });
