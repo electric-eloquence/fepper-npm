@@ -3,8 +3,7 @@
 const cp = require('child_process');
 const path = require('path');
 
-var appDir = __dirname.replace(`${process.cwd}`, '');
-var argv = ['--gulpfile', `${appDir}/tasker.js`];
+const argv = ['--gulpfile', `${__dirname}/tasker.js`];
 
 // Set up array of args for submission to Gulp.
 argv[2] = process.argv[2] ? process.argv[2] : 'default';
@@ -37,4 +36,21 @@ if (process.argv[3]) {
   }
 }
 
-cp.spawn(path.resolve('node_modules', '.bin', 'gulp'), argv, {stdio: 'inherit'});
+// The "headed" conf is for internal Fepper development only. Necessary when requiring fepper-npm with `npm link`.
+const indexOfHeaded = argv.indexOf('headed');
+
+if (indexOfHeaded > -1) {
+  let rootDir;
+
+  process.env.IS_HEADLESS = false;
+
+  if (argv[indexOfHeaded + 1]) {
+    rootDir = argv.splice(indexOfHeaded + 1, 1)[0];
+    process.env.NODE_PATH = `${rootDir}/node_modules`;
+    process.env.ROOT_DIR = rootDir;
+  }
+
+  argv.splice(indexOfHeaded, 1);
+}
+
+cp.spawn(path.resolve('node_modules', '.bin', 'gulp'), argv, {stdio: 'inherit', env: process.env});

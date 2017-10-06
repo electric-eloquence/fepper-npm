@@ -85,7 +85,14 @@ exports.conf = isHeadless => {
 
   // Update Pattern Lab paths.
   try {
-    let appDirShort = global.appDir.replace(global.rootDir, '');
+    let appDirShort;
+
+    if (conf.app_dir) {
+      appDirShort = conf.app_dir;
+    }
+    else if (global.appDir.indexOf(global.rootDir) > -1) {
+      appDirShort = global.appDir.replace(global.rootDir, '');
+    }
 
     if (appDirShort) {
       appDirShort += '/';
@@ -342,7 +349,7 @@ exports.info = exports.console.info;
 // Need to use the old function statement syntax so the arguments object works correctly.
 exports.error = function () {
   if (arguments.length) {
-    arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
+    arguments[0] = '\x1b[31m' + arguments[0] + '\x1b[0m';
   }
   exports.console.error.apply(null, arguments);
 };
@@ -358,7 +365,7 @@ exports.log = function () {
 
 exports.warn = function () {
   if (arguments.length) {
-    arguments[0] = '\x1b[30m\x1b[43m' + arguments[0] + '\x1b[0m';
+    arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
   }
   exports.console.warn(null, arguments);
 };

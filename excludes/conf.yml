@@ -11,6 +11,10 @@ kill_zombies: true
 # application ever fails to launch on browser-open again.
 timeout_main: 0
 
+# The "headed" conf is for internal Fepper development only. This allows
+# fepper-npm to be included  with `npm link`. Uncomment for that purpose.
+#headed: true
+
 app_dir: node_modules/fepper
 backend_dir: backend
 extend_dir: extend
