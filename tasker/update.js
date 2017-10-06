@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const exec = require('child_process').exec;
+const spawnSync = require('child_process').spawnSync;
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
@@ -14,63 +14,61 @@ const extendDir = utils.pathResolve(global.conf.extend_dir);
 const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
 
 function npmUpdate(resolve) {
-  exec('npm update', (err, stdout, stderr) => {
-    if (err) {
-      throw err;
-    }
-    if (stderr) {
-      utils.info(stderr);
-    }
-    utils.info(stdout);
-    resolve();
-  });
+  spawnSync('npm', ['update'], {stdio: 'inherit'});
+
+  resolve();
 }
 
 function fpUpdate(cb) {
+  // Update global npm.
   new Promise(resolve => {
     utils.log('Running `npm -global update` on fepper-cli...');
-    exec('npm update -g fepper-cli', (err, stdout, stderr) => {
-      if (err) {
-        throw err;
-      }
-      if (stderr) {
-        utils.info(stderr);
-      }
-      utils.info(stdout);
-      resolve();
-    });
+    spawnSync('npm', ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+
+    resolve();
   })
+
+  // Update core npms.
   .then(() => {
     return new Promise(resolve => {
       process.chdir(global.workDir);
       utils.log(`Running \`npm update\` in ${global.workDir}...`);
+
       npmUpdate(resolve);
     });
   })
+
+  // Update extension npms.
   .then(() => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       // Skip extend dir if it doesn't exist.
       if (!fs.existsSync(extendDir)) {
-        resolve();
+        reject('There doesn\'t appear to be an extend directory!');
       }
 
       process.chdir(extendDir);
       utils.log(`Running \`npm update\` in ${extendDir}...`);
+
       npmUpdate(resolve);
     });
   })
+
+  // Update public dir npms.
   .then(() => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       // Skip public dir if it doesn't exist.
       if (!fs.existsSync(publicDir)) {
-        resolve();
+        reject('There doesn\'t appear to be a public directory!');
       }
 
       process.chdir(publicDir);
       utils.log(`Running \`npm update\` in ${publicDir}...`);
+
       npmUpdate(resolve);
     });
   })
+
+  // Finish up.
   .then(() => {
     runSequence(
       'ui:compile',

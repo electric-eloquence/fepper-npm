@@ -470,7 +470,6 @@ function buildFrontend(patternlab, printDebug, callback) {
         try {
           patternlabSiteHtml = fs.readFileSync(path.resolve(__dirname, '../styleguide', 'index.mustache'), 'utf8');
         } catch (err) {
-          console.error(err.message || err);
           reject(err);
         }
         fs.outputFileSync(path.resolve(patternlab.cwd, paths.public.root, 'index.html'), patternlabSiteHtml);
