@@ -29,6 +29,15 @@ function buildPatternData(dataFilesPathParam) {
   return mergedObject;
 }
 
+function makePublicSubDir(srcDir, srcSub, pubDir) {
+  var pubSub;
+
+  if (srcSub && srcSub.indexOf(srcDir) === 0) {
+    pubSub = srcSub.replace(srcDir, '');
+    fs.mkdirsSync(pubDir + pubSub);
+  }
+}
+
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
@@ -318,8 +327,14 @@ var patternlab_engine = function (configParam, configDirParam) {
     if (cleanPublic) {
       fs.emptyDirSync(paths.public.annotations);
       fs.emptyDirSync(paths.public.images);
+      makePublicSubDir(paths.source.images, paths.source.imagesBld, paths.public.images);
+      makePublicSubDir(paths.source.images, paths.source.imagesSrc, paths.public.images);
       fs.emptyDirSync(paths.public.js);
+      makePublicSubDir(paths.source.js, paths.source.jsBld, paths.public.js);
+      makePublicSubDir(paths.source.js, paths.source.jsSrc, paths.public.js);
       fs.emptyDirSync(paths.public.css);
+      makePublicSubDir(paths.source.css, paths.source.cssBld, paths.public.css);
+      makePublicSubDir(paths.source.css, paths.source.cssSrc, paths.public.css);
       fs.emptyDirSync(paths.public.patterns);
     }
 
