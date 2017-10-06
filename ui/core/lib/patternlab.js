@@ -34,7 +34,7 @@ function makePublicSubDir(srcDir, srcSub, pubDir) {
 
   if (srcSub && srcSub.indexOf(srcDir) === 0) {
     pubSub = srcSub.replace(srcDir, '');
-    fs.mkdirsSync(pubDir + pubSub);
+    fs.mkdirpSync(pubDir + pubSub);
   }
 }
 
