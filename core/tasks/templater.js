@@ -79,8 +79,8 @@ exports.templateProcess = function (file, templatesDirDefault, templatesExtDefau
   var dest;
   var mustacheFile;
   var srcDirParam = srcDir;
-  var stats = null;
-  var stats1 = null;
+  var stat = null;
+  var stat1 = null;
   var templatesDir = '';
   var templatesExt = '';
   var yml;
@@ -101,7 +101,7 @@ exports.templateProcess = function (file, templatesDirDefault, templatesExtDefau
   }
 
   try {
-    stats = fs.statSync(mustacheFile);
+    stat = fs.statSync(mustacheFile);
   }
   catch (err) {
     // Only process templates that actually exist.
@@ -109,19 +109,19 @@ exports.templateProcess = function (file, templatesDirDefault, templatesExtDefau
   }
 
   try {
-    stats1 = fs.statSync(ymlFile);
+    stat1 = fs.statSync(ymlFile);
   }
   catch (err) {
     // Fail gracefully.
   }
 
   // Return on stat fail. Exclude non-files.
-  if (!stats || !stats.isFile()) {
+  if (!stat || !stat.isFile()) {
     return;
   }
 
   // Try to read YAML file if it exists.
-  if (stats1 && stats1.isFile()) {
+  if (stat1 && stat1.isFile()) {
     // Read YAML file and store keys/values in tokens object.
     try {
       yml = fs.readFileSync(ymlFile, conf.enc);

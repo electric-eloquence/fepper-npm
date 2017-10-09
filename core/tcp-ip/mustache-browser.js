@@ -124,8 +124,8 @@ module.exports = class {
           let fullPath = utils.pathResolve(`${conf.ui.paths.source.patterns}/${partial}`);
 
           // Check if query string correlates to actual Mustache file.
-          let stats = fs.statSync(fullPath);
-          if (stats.isFile()) {
+          let stat = fs.statSync(fullPath);
+          if (stat.isFile()) {
             fs.readFile(fullPath, conf.enc, function (err, data) {
               // Render the Mustache code if it does.
               // First, link the Mustache tags.
