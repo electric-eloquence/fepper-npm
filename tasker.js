@@ -127,6 +127,11 @@ gulp.task('data', cb => {
   args.push('fepper:data');
   args.push('ui:build');
 
+  if (conf.ui.cleanPublic) {
+    args.push('ui:copy');
+    args.push('ui:copy-styles');
+  }
+
   if (conExists && cusExists) {
     args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
   }

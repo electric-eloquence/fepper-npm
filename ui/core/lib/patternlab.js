@@ -29,13 +29,21 @@ function buildPatternData(dataFilesPathParam) {
   return mergedObject;
 }
 
-function makePublicSubDir(srcDir, srcSub, pubDir) {
-  var pubSub;
-
-  if (srcSub && srcSub.indexOf(srcDir) === 0) {
-    pubSub = srcSub.replace(srcDir, '');
-    fs.mkdirpSync(pubDir + pubSub);
-  }
+function emptyFilesNotDirs(publicDir) {
+  diveSync(
+    publicDir,
+    function (err, file) {
+      // log any errors
+      if (err) {
+        console.log(err);
+        return;
+      }
+      var stat = fs.statSync(file);
+      if (!stat.isDirectory()) {
+        fs.unlinkSync(file);
+      }
+    }
+  );
 }
 
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
@@ -325,16 +333,10 @@ var patternlab_engine = function (configParam, configDirParam) {
 
     // delete the contents of config.patterns.public before writing
     if (cleanPublic) {
-      fs.emptyDirSync(paths.public.annotations);
-      fs.emptyDirSync(paths.public.images);
-      makePublicSubDir(paths.source.images, paths.source.imagesBld, paths.public.images);
-      makePublicSubDir(paths.source.images, paths.source.imagesSrc, paths.public.images);
-      fs.emptyDirSync(paths.public.js);
-      makePublicSubDir(paths.source.js, paths.source.jsBld, paths.public.js);
-      makePublicSubDir(paths.source.js, paths.source.jsSrc, paths.public.js);
-      fs.emptyDirSync(paths.public.css);
-      makePublicSubDir(paths.source.css, paths.source.cssBld, paths.public.css);
-      makePublicSubDir(paths.source.css, paths.source.cssSrc, paths.public.css);
+      emptyFilesNotDirs(paths.public.annotations);
+      emptyFilesNotDirs(paths.public.images);
+      emptyFilesNotDirs(paths.public.js);
+      emptyFilesNotDirs(paths.public.css);
       fs.emptyDirSync(paths.public.patterns);
     }
 
