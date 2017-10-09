@@ -1,5 +1,14 @@
 # Fepper Changelog
 
+### v0.23.12
+* Allow for missing readme when rendering success page
+* ESLint refactor.
+* Accommodating npm linked development.
+* child\_process.spawnSync instead of execSync.
+* Better installation and requiring of extensions.
+* cleanPublic config cleans for more of public dir.
+* Husky Git hooks.
+
 ### v0.23.11
 * Stylus refactor
 
