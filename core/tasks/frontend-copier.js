@@ -64,8 +64,8 @@ exports.main = function (frontendType) {
   var i;
   var regexExt = /\.[a-z]+$/;
   var srcDir;
-  var stats;
-  var stats1;
+  var stat;
+  var stat1;
   var targetDir;
   var targetDirDefault;
   var yml;
@@ -79,7 +79,7 @@ exports.main = function (frontendType) {
     files = exports.srcDirGlob(frontendType);
     for (i = 0; i < files.length; i++) {
       try {
-        stats = fs.statSync(files[i]);
+        stat = fs.statSync(files[i]);
       }
       catch (err) {
         // Fail gracefully.
@@ -87,8 +87,8 @@ exports.main = function (frontendType) {
 
       // Exclude directories, files prefixed by __ or suffixed by .yml, and readme files.
       if (
-        !stats ||
-        !stats.isFile() ||
+        !stat ||
+        !stat.isFile() ||
         path.basename(files[i]).slice(0, 2) === '__' ||
         files[i].slice(-4) === '.yml' ||
         path.basename(files[i]).replace(regexExt, '') === 'README'
@@ -97,7 +97,7 @@ exports.main = function (frontendType) {
       }
 
       srcDir = sourceDir;
-      stats1 = null;
+      stat1 = null;
       targetDir = '';
 
       // Check for file-specific YAML file.
@@ -107,13 +107,13 @@ exports.main = function (frontendType) {
 
       // Read and process YAML file if it exists.
       try {
-        stats1 = fs.statSync(ymlFile);
+        stat1 = fs.statSync(ymlFile);
       }
       catch (err) {
         // Fail gracefully.
       }
 
-      if (stats1 && stats1.isFile()) {
+      if (stat1 && stat1.isFile()) {
         try {
           yml = fs.readFileSync(ymlFile, conf.enc);
           data = yaml.safeLoad(yml);

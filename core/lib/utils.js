@@ -216,16 +216,16 @@ exports.escapeReservedRegexChars = regexStr => {
 exports.backendDirCheck = backendDir => {
   if (typeof backendDir === 'string') {
     const fullPath = `${exports.pathResolve(global.conf.backend_dir)}/${backendDir.trim()}`;
-    let stats;
+    let stat;
 
     try {
-      stats = fs.statSync(fullPath);
+      stat = fs.statSync(fullPath);
     }
     catch (err) {
       // Fail gracefully.
     }
 
-    if (stats && stats.isDirectory()) {
+    if (stat && stat.isDirectory()) {
       return fullPath;
     }
   }
