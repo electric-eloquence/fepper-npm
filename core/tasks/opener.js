@@ -12,7 +12,7 @@ exports.main = function () {
   if (fs.existsSync(log)) {
     // An option to delay launch in case other asynchronous tasks need to complete.
     setTimeout(function () {
-      fs.unlink(log);
+      fs.unlinkSync(log);
       open(origin + '/success');
     }, conf.timeout_main * 2);
   }
