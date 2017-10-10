@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/electric-eloquence/fepper-npm/dev/excludes/fepper-branding.png" alt="Fepper">
+  <img
+    src="https://raw.githubusercontent.com/electric-eloquence/fepper-npm/master/excludes/fepper-branding.png"
+    alt="Fepper"
+  >
 </p>
 
 <h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
