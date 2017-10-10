@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/electric-eloquence/fepper-npm/dev/excludes/fepper-branding.png" alt="Fepper">
 </p>
 
-## A frontend prototyper tool for rapid prototyping of websites
+<h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 ### This is the NPM that powers these Fepper prototypers:
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
