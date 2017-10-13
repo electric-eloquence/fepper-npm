@@ -64,5 +64,5 @@
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2"
   },
-  "version": "0.23.13-rc.1"
+  "version": "0.23.13-rc.2"
 }
