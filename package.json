@@ -4,8 +4,7 @@
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "index.js",
   "scripts": {
-    "prepush": "fp test",
-    "test": "gulp --gulpfile tasker.js test"
+    "test": "node index.js test"
   },
   "repository": {
     "type": "git",
