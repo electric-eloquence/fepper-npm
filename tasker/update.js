@@ -13,12 +13,6 @@ const utils = require('../core/lib/utils');
 const extendDir = utils.pathResolve(global.conf.extend_dir);
 const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
 
-function npmUpdate(resolve) {
-  spawnSync('npm', ['update'], {stdio: 'inherit'});
-
-  resolve();
-}
-
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm -global update` on fepper-cli...');
