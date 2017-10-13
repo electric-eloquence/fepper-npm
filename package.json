@@ -30,7 +30,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.5.0"
   },
   "dependencies": {
     "browserify": "^14.1.0",
