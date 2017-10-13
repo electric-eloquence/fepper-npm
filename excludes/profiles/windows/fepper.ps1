@@ -1,6 +1,6 @@
 cd $PSScriptRoot
 
-$nodeVersion = "v8.1.4"
+$nodeVersion = "v8.5.0"
 $nodeMsi = "node-" + $nodeVersion + "-x64.msi"
 $nodeMsiFull = $PSScriptRoot + "\" + $nodeMsi
 $whereNode = where.exe node
