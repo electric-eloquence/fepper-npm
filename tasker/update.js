@@ -21,60 +21,33 @@ function npmUpdate(resolve) {
 
 function fpUpdate(cb) {
   // Update global npm.
-  new Promise(resolve => {
-    utils.log('Running `npm -global update` on fepper-cli...');
-    spawnSync('npm', ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
-
-    resolve();
-  })
+  utils.log('Running `npm -global update` on fepper-cli...');
+  spawnSync('npm', ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
 
   // Update core npms.
-  .then(() => {
-    return new Promise(resolve => {
-      process.chdir(global.workDir);
-      utils.log(`Running \`npm update\` in ${global.workDir}...`);
-
-      npmUpdate(resolve);
-    });
-  })
+  process.chdir(global.workDir);
+  utils.log(`Running \`npm update\` in ${global.workDir}...`);
+  spawnSync('npm', ['update'], {stdio: 'inherit'});
 
   // Update extension npms.
-  .then(() => {
-    return new Promise((resolve, reject) => {
-      // Skip extend dir if it doesn't exist.
-      if (!fs.existsSync(extendDir)) {
-        reject('There doesn\'t appear to be an extend directory!');
-      }
-
-      process.chdir(extendDir);
-      utils.log(`Running \`npm update\` in ${extendDir}...`);
-
-      npmUpdate(resolve);
-    });
-  })
+  if (fs.existsSync(extendDir)) {
+    process.chdir(extendDir);
+    utils.log(`Running \`npm update\` in ${extendDir}...`);
+    spawnSync('npm', ['update'], {stdio: 'inherit'});
+  }
 
   // Update public dir npms.
-  .then(() => {
-    return new Promise((resolve, reject) => {
-      // Skip public dir if it doesn't exist.
-      if (!fs.existsSync(publicDir)) {
-        reject('There doesn\'t appear to be a public directory!');
-      }
-
-      process.chdir(publicDir);
-      utils.log(`Running \`npm update\` in ${publicDir}...`);
-
-      npmUpdate(resolve);
-    });
-  })
+  if (fs.existsSync(publicDir)) {
+    process.chdir(publicDir);
+    utils.log(`Running \`npm update\` in ${publicDir}...`);
+    spawnSync('npm', ['update'], {stdio: 'inherit'});
+  }
 
   // Finish up.
-  .then(() => {
-    runSequence(
-      'ui:compile',
-      cb
-    );
-  });
+  runSequence(
+    'ui:compile',
+    cb
+  );
 }
 
 gulp.task('up', cb => {
