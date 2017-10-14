@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.23.13
+* Adding Fepper logo to readme
+* Upping minimum recommended Node version to 8.5.0
+* Linting and testing
+
 ### v0.23.12
 * Allow for missing readme when rendering success page
 * ESLint refactor
