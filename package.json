@@ -4,6 +4,7 @@
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "index.js",
   "scripts": {
+    "prepush": "npm test",
     "test": "node index.js test"
   },
   "repository": {
