@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const marked = require('marked');
+const marked = require('8fold-marked');
 
 const htmlObj = require('../lib/html');
 const utils = require('../lib/utils');
