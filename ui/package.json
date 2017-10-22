@@ -33,8 +33,5 @@
   "license": "MIT",
   "scripts": {
     "test": "grunt test --verbose"
-  },
-  "engines": {
-    "node": ">=4.0"
   }
 }

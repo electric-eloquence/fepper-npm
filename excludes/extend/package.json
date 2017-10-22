@@ -1,13 +1,5 @@
 {
   "description": "Fepper extensions",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electric-eloquence/fepper.git"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "devDependencies": {
     "fp-stylus": "*"
   }
