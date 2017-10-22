@@ -1,6 +1,6 @@
 'use strict';
 
-var md = require('marked');
+var md = require('8fold-marked');
 
 var markdown_parser = function () {
 
