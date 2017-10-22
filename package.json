@@ -40,7 +40,7 @@
     "js-beautify": "1.6.4",
     "json-eval": "^0.1.0",
     "json5": "^0.5.0",
-    "marked": "github:chjj/marked#8f9d0b72f5606ed32057049f387161dd41c36ade",
+    "8fold-marked": "0.3.7",
     "rcloader": "^0.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
