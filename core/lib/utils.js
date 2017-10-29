@@ -371,7 +371,7 @@ exports.warn = function () {
 };
 
 exports.httpCodes = {
-  '404': 'HTTP 404: Not Found'
+  404: 'HTTP 404: Not Found'
 };
 
 // ///////////////////////////////////////////////////////////////////////////
