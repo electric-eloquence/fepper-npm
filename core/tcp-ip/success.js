@@ -14,12 +14,27 @@ exports.main = function (req, res) {
 
     if (!dat) {
       res.end(successMsg);
+
+      if (err) {
+        utils.warn(err);
+      }
+
       return;
     }
 
-    var htmlMd = marked(dat);
-    var output = '';
+    let htmlMd;
 
+    try {
+      htmlMd = marked(dat);
+    }
+    catch (err) {
+      utils.error(err);
+      res.end(err);
+
+      return;
+    }
+
+    let output = '';
     output += htmlObj.headWithMsg;
     output += htmlObj.success;
     output += htmlMd + '\n';
