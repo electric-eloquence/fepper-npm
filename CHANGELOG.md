@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.24.0
+* Excepting for missing readme when rendering success page
+* Upping min supported node version
+* Replacing marked with 8fold-marked
+
 ### v0.23.13
 * Adding Fepper logo to readme
 * Upping minimum recommended Node version to 8.5.0
