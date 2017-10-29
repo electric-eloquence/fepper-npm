@@ -27,9 +27,9 @@ exports.main = function (req, res) {
     try {
       htmlMd = marked(dat);
     }
-    catch (err) {
-      utils.error(err);
-      res.end(err);
+    catch (err1) {
+      utils.error(err1);
+      res.end(err1);
 
       return;
     }
