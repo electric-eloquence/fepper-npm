@@ -8,6 +8,7 @@
 <h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 ### This is the NPM that powers these Fepper prototypers:
+
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
   unnecessary assets, styles, or Pattern Lab demo.
@@ -54,6 +55,7 @@ maintain parity with the PHP project with respect to performance and core
 features.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
+
 Using this NPM decoupled from a full Fepper project requires manually compiling 
 the UI. Use the following code as a template for manual compilation:
 
