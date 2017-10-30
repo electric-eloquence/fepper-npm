@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.24.1
+* Platform agnostic paths
+
 ### v0.24.0
 * Excepting for missing readme when rendering success page
 * Upping min supported node version
