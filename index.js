@@ -1,9 +1,10 @@
 'use strict';
 
 const cp = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
-const argv = ['--gulpfile', `${__dirname}/tasker.js`];
+const argv = ['--gulpfile', path.resolve(__dirname, 'tasker.js')];
 
 // Set up array of args for submission to Gulp.
 argv[2] = process.argv[2] ? process.argv[2] : 'default';
@@ -46,11 +47,24 @@ if (indexOfHeaded > -1) {
 
   if (argv[indexOfHeaded + 1]) {
     rootDir = argv.splice(indexOfHeaded + 1, 1)[0];
-    process.env.NODE_PATH = `${rootDir}/node_modules`;
+    process.env.NODE_PATH = path.resolve(rootDir, 'node_modules');
     process.env.ROOT_DIR = rootDir;
   }
 
   argv.splice(indexOfHeaded, 1);
 }
 
-cp.spawn(path.resolve('node_modules', '.bin', 'gulp'), argv, {stdio: 'inherit', env: process.env});
+const binPath = path.resolve('node_modules', '.bin');
+const winGulp = path.resolve(binPath, 'gulp.cmd');
+
+let binGulp;
+
+// Spawn gulp.cmd if Windows.
+if (fs.existsSync(winGulp)) {
+  binGulp = winGulp;
+}
+else {
+  binGulp = path.resolve(binPath, 'gulp');
+}
+
+cp.spawn(binGulp, argv, {stdio: 'inherit', env: process.env});
