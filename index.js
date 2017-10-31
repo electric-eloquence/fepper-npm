@@ -57,14 +57,11 @@ if (indexOfHeaded > -1) {
 const binPath = path.resolve('node_modules', '.bin');
 const winGulp = path.resolve(binPath, 'gulp.cmd');
 
-let binGulp;
+let binGulp = path.resolve(binPath, 'gulp');
 
-// Spawn gulp.cmd if Windows.
-if (fs.existsSync(winGulp)) {
+// Spawn gulp.cmd if Windows and not BASH.
+if (process.env.ComSpec === 'C:\\WINDOWS\\system32\\cmd.exe') {
   binGulp = winGulp;
-}
-else {
-  binGulp = path.resolve(binPath, 'gulp');
 }
 
 cp.spawn(binGulp, argv, {stdio: 'inherit', env: process.env});
