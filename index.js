@@ -1,7 +1,6 @@
 'use strict';
 
 const cp = require('child_process');
-const fs = require('fs');
 const path = require('path');
 
 const argv = ['--gulpfile', path.resolve(__dirname, 'tasker.js')];
