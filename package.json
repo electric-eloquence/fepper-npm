@@ -1,6 +1,6 @@
 {
   "name": "fepper",
-  "version": "0.24.2",
+  "version": "0.24.3-rc.0",
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "index.js",
   "scripts": {
