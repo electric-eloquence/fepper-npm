@@ -13,28 +13,35 @@ const utils = require('../core/lib/utils');
 const extendDir = utils.pathResolve(global.conf.extend_dir);
 const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
 
+let binNpm = 'npm';
+
+// Spawn npm.cmd if Windows and not BASH.
+if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
+  binNpm = 'npm.cmd';
+}
+
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm -global update` on fepper-cli...');
-  spawnSync('npm', ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+  spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
 
   // Update core npms.
   process.chdir(global.workDir);
   utils.log(`Running \`npm update\` in ${global.workDir}...`);
-  spawnSync('npm', ['update'], {stdio: 'inherit'});
+  spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
     utils.log(`Running \`npm update\` in ${extendDir}...`);
-    spawnSync('npm', ['update'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
   if (fs.existsSync(publicDir)) {
     process.chdir(publicDir);
     utils.log(`Running \`npm update\` in ${publicDir}...`);
-    spawnSync('npm', ['update'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
 
   // Finish up.
