@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.24.3
+* More platform agnostic paths
+
 ### v0.24.2
 * Windows installer also installs 32-bit msi
 
