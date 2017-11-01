@@ -59,7 +59,7 @@ const winGulp = path.resolve(binPath, 'gulp.cmd');
 let binGulp = path.resolve(binPath, 'gulp');
 
 // Spawn gulp.cmd if Windows and not BASH.
-if (process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
+if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
   binGulp = winGulp;
 }
 
