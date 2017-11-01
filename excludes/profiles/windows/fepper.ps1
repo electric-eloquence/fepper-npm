@@ -1,7 +1,18 @@
 cd $PSScriptRoot
 
-$nodeVersion = "v8.8.0"
-$nodeMsi = "node-" + $nodeVersion + "-x64.msi"
+$OSArchitecture = (Get-WmiObject Win32_OperatingSystem).OSArchitecture
+
+if ($OSArchitecture -eq "32-bit")
+{
+  $archMsi = "x86.msi"
+}
+else
+{
+  $archMsi = "x64.msi"
+}
+
+$nodeVersion = "v8.8.1"
+$nodeMsi = "node-" + $nodeVersion + "-" + $archMsi
 $nodeMsiFull = $PSScriptRoot + "\" + $nodeMsi
 $whereNode = where.exe node
 
