@@ -64,9 +64,8 @@ gulp.task('tcp-ip-reload:watch', function () {
     gulp.watch(srcDir.data + '/listitems.json', {cwd: global.workDir}, ['ui:build']);
     gulp.watch(srcDir.images + '/**', {cwd: global.workDir}, ['ui:copy']);
     gulp.watch(srcDir.js + '/**', {cwd: global.workDir}, ['ui:copy']);
-    gulp.watch(srcDir.meta + '/**', {cwd: global.workDir}, ['ui:build']);
+    gulp.watch(srcDir.meta + '/**', {cwd: global.workDir}, ['ui:compile']);
     gulp.watch(srcDir.patterns + '/**', {cwd: global.workDir}, ['data']);
-    gulp.watch(srcDir.static + '/**', {cwd: global.workDir}, ['ui:copy']);
     gulp.watch(pubDir.annotations + '/**', {cwd: global.workDir}, ['tcp-ip-reload:annotations']);
     gulp.watch(pubDir.css + '/**/*.css', {cwd: global.workDir}, ['tcp-ip-reload:injectStyles']);
     gulp.watch(pubDir.images + '/**', {cwd: global.workDir}, ['tcp-ip-reload:assets']);

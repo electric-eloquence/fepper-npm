@@ -1,6 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 
 const utils = require('../core/lib/utils');
 
@@ -13,7 +14,12 @@ gulp.task('ui:build', function (cb) {
       utils.error(err);
     })
     .then(() => {
-      cb();
+      // Finish up.
+      runSequence(
+        'ui:copy',
+        'ui:copy-styles',
+        cb
+      );
     });
 });
 
@@ -23,7 +29,12 @@ gulp.task('ui:compile', function (cb) {
       utils.error(err);
     })
     .then(() => {
-      cb();
+      // Finish up.
+      runSequence(
+        'ui:copy',
+        'ui:copy-styles',
+        cb
+      );
     });
 });
 
