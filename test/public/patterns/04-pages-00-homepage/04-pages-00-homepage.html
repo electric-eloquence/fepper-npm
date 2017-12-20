@@ -1,257 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html class="">
 <head>
-	<title>Fepper Pattern</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<!-- never cache patterns -->
-	<meta http-equiv="cache-control" content="max-age=0">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">
-	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-	<meta http-equiv="pragma" content="no-cache">
+  <title>Fepper</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="cache-control" content="max-age=0">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+  <meta http-equiv="pragma" content="no-cache">
 
-	<!--
-		Styleguide CSS is included for 
-	-->
-	<link rel="stylesheet" href="../../styleguide/css/styleguide.css" media="all">
-	<link rel="stylesheet" href="../../styleguide/css/styleguide-specific.css" media="all">
-	
-	<!--
-		Remember that patterns are displayed from two-levels deep (e.g. patterns/patterntype-patternsubtype-patternname/patterntype-patternsubtype-patternname.html)
-		Therefore all calls to assets should have the ../../ in order to work in an apache-less environment
-	-->
-	<link rel="stylesheet" href="../../_styles/style.css" media="all">
-	
-	<style>
-		.has-comment, .has-comment a {
-			cursor: help !important; 
-		}
-	</style>
-	
-	<script src="../../_scripts/jquery-2.0.0b2.js"></script>
+  <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/styleguide.css?1513596429153" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/prism-typeahead.css?1513596429153" media="all">
+<!-- End Pattern Lab -->
+
+
+  <link rel="stylesheet" href="../../_styles/bld/style.css?1513596429153" media="all">
 </head>
-<body class="sg-single-pattern">	
-	<!-- Start of Pattern -->
-<div class="page" id="page">
-	<!-- Begin .header -->
-<header class="header cf" role="banner">
-	<a href="..&#x2F;04-pages-00-homepage&#x2F;04-pages-00-homepage.html"><img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a>
+<body class="">
+<div class="page" id="page"> <!-- Begin .header --> <header class="header cf" role="banner">  <h1>  <a href="/patterns/04-pages-00-homepage/04-pages-00-homepage.html" class="logo"> <img src="../../_assets/src/logo.svg" alt="Fepper"></a> </a>  </h1>  <button href="#" class="nav-toggle nav-toggle-search icon-search"><span class="visually-hidden">Search</span></button> <button href="#" class="nav-toggle nav-toggle-menu icon-menu"><span class="visually-hidden">Menu</span></button> <form action="#" method="post" class="inline-form search-form"> <fieldset> <legend class="visually-hidden">Search</legend> <label for="search-field" class="visually-hidden">Search</label> <input type="search" placeholder="Search" id="search-field" class="search-field"> </fieldset> <button class="search-submit"> <span class="icon-search" aria-hidden="true"></span> <span class="visually-hidden">Search</span> </button> </form> <nav id="nav" class="nav"> <ul> <li><a href="/patterns/04-pages-00-homepage/04-pages-00-homepage.html">Home</a></li> <li><a href="#">About</a></li> <li><a href="/patterns/04-pages-01-blog/04-pages-01-blog.html">Blog</a></li> <li><a href="#">Contact</a></li> </ul> </nav><!--end .nav--> </header> <!-- End .header --> <div role="main"> <section class="hero-and-subs">  <div class="block block-hero"> <a href="../04-pages-02-articles-00-article/04-pages-02-articles-00-article.html" class="inner"> <div class="b-thumb"> <img src="../../_assets/src/landscape-16x9-mountains.jpg" alt="Mountains"> </div> <div class="b-text"> <h2 class="headline">Top 10 mountain ranges for hiking</h2> </div> </a> </div>   <div class="block block-sub"> <a href="../04-pages-02-articles-00-article-1/04-pages-02-articles-00-article-1.html" class="inner"> <div class="b-thumb"> <img src="../../_assets/src/sub-4x3-climber.jpg" alt="Climber"> </div> <div class="b-text"> <h2 class="headline">Extreme climbing tips</h2> </div> </a> </div>  <div class="block block-sub"> <a href="../04-pages-02-articles-00-article-2/04-pages-02-articles-00-article-2.html" class="inner"> <div class="b-thumb"> <img src="../../_assets/src/sub-4x3-stream.jpg" alt="Stream hiking"> </div> <div class="b-text"> <h2 class="headline">Stream hiking</h2> </div> </a> </div>  <div class="block block-sub"> <a href="../04-pages-02-articles-00-article-3/04-pages-02-articles-00-article-3.html" class="inner"> <div class="b-thumb"> <img src="../../_assets/src/sub-4x3-climbers.jpg" alt="Explore hiking trails"> </div> <div class="b-text"> <h2 class="headline">Explore hiking trails</h2> </div> </a> </div>  </section> <hr> <div class="l-two-col"> <div class="l-main"> <section class="section hoagies">  <h2 class="section-title">Latest Posts</h2>  <ul class="post-list">  <li><div class="block block-hoagie"> <a href="../04-pages-02-articles-00-article-4/04-pages-02-articles-00-article-4.html" class="b-inner cf"> <h2 class="headline">Navigate the Allegheny River</h2> <div class="b-thumb"> <img src="../../_assets/src/thumb-square-river.jpg" alt="Post Thumbnail"> </div> <div class="b-text"> <p>The Allegheny River is a principal tributary of the Ohio River; it is located in the Eastern United States. The Allegheny River joins with the Monongahela River to form the Ohio River at the Point of Point State Park in Downtown Pittsburgh, Pennsylvania.</p> </div> </a> </div></li>  <li><div class="block block-hoagie"> <a href="../04-pages-02-articles-00-article-5/04-pages-02-articles-00-article-5.html" class="b-inner cf"> <h2 class="headline">How to detect and avoid poison ivy</h2> <div class="b-thumb"> <img src="../../_assets/src/thumb-square-ivy.jpg" alt="Ivy"> </div> <div class="b-text"> <p>Toxicodendron radicans, commonly known as poison ivy is a poisonous North American plant that is well known for its production of urushiol</p> </div> </a> </div></li>  <li><div class="block block-hoagie"> <a href="../04-pages-02-articles-00-article-6/04-pages-02-articles-00-article-6.html" class="b-inner cf"> <h2 class="headline">Top 10 hiking mountains</h2> <div class="b-thumb"> <img src="../../_assets/src/thumb-square-yosemite.jpg" alt="Yosemite"> </div> <div class="b-text"> <p>Yosemite National Park is a United States National Park spanning eastern portions of Tuolumne, Mariposa and Madera counties in the central eastern portion of the U.S. state of California.</p> </div> </a> </div></li>  <li><div class="block block-hoagie"> <a href="../04-pages-02-articles-00-article-7/04-pages-02-articles-00-article-7.html" class="b-inner cf"> <h2 class="headline">How to build a campfire</h2> <div class="b-thumb"> <img src="../../_assets/src/thumb-square-fire.jpg" alt="Fire"> </div> <div class="b-text"> <p>A campfire is a fire lit at a campsite, to serve the following functions: light, warmth, a beacon, an insect and/or apex predator deterrent, to cook, and for a psychological sense of security. </p> </div> </a> </div></li>  <li><div class="block block-hoagie"> <a href="../04-pages-02-articles-00-article-8/04-pages-02-articles-00-article-8.html" class="b-inner cf"> <h2 class="headline">Pick the right camping gear</h2> <div class="b-thumb"> <img src="../../_assets/src/thumb-square-gear.jpg" alt="Camping Gear"> </div> <div class="b-text"> <p>The equipment used in camping varies with the particular type of camping. For instance, in survival camping the equipment consists of small items which have the purpose of helping the camper in providing food, heat and safety.</p> </div> </a> </div></li>  </ul> <a href="#" class="text-btn">View more posts</a> </section> </div><!--end .l-main--> <div class="l-sidebar"> <section class="section recent-comments"> <h2 class="section-title">Recent Comments</h2> <ul class="headline-list">  <li><a href="#">Headline Lorem ipsum dolor sit amet</a><time datetime="1991-04-06T12:32+00:00">2 weeks ago</time></li>  <li><a href="#">Laborum, molestiae, rerum, dolores eveniet</a><time datetime="1991-04-06T12:32+00:00">2 weeks ago</time></li>  <li><a href="#">quae est fugit distinctio iure odit minus non ipsum</a><time datetime="1991-04-06T12:32+00:00">2 weeks ago</time></li>  <li><a href="#">dolorum deserunt omnis voluptates voluptatum</a><time datetime="1991-04-06T12:32+00:00">2 weeks ago</time></li>  <li><a href="#">nventore dignissimos vel molestiae, rerum, dolore</a><time datetime="1991-04-06T12:32+00:00">2 weeks ago</time></li>  </ul> </section> </div><!--end .l-sidebar--> </div><!--end .l-two-col--> </div><!--End role=main--> <!-- Begin Footer --> <footer class="footer" role="contentinfo"> <div class="lc"> <p class="copyright">&copy; MIT License</p> </div> </footer> <!-- End Footer --> </div>
+<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  {"cssEnabled":false,"patternLineageExists":true,"patternLineages":[{"lineagePattern":"templates-homepage","lineagePath":"../../patterns/03-templates-00-homepage/03-templates-00-homepage.html"},{"lineagePattern":"components-header","lineagePath":"../../patterns/02-components-01-sections-03-header/02-components-01-sections-03-header.html"},{"lineagePattern":"compounds-block-hero","lineagePath":"../../patterns/01-compounds-01-blocks-00-block-hero/01-compounds-01-blocks-00-block-hero.html"},{"lineagePattern":"compounds-block-sub","lineagePath":"../../patterns/01-compounds-01-blocks-01-block-sub/01-compounds-01-blocks-01-block-sub.html"},{"lineagePattern":"components-latest-posts","lineagePath":"../../patterns/02-components-01-sections-02-latest-posts/02-components-01-sections-02-latest-posts.html"},{"lineagePattern":"components-recent-comments","lineagePath":"../../patterns/02-components-01-sections-00-recent-comments/02-components-01-sections-00-recent-comments.html"},{"lineagePattern":"compounds-footer","lineagePath":"../../patterns/01-compounds-00-text-01-footer/01-compounds-00-text-01-footer.html"},{"lineagePattern":"compounds-logo","lineagePath":"../../patterns/01-compounds-01-blocks-04-logo/01-compounds-01-blocks-04-logo.html"},{"lineagePattern":"compounds-search","lineagePath":"../../patterns/01-compounds-02-forms-00-search/01-compounds-02-forms-00-search.html"},{"lineagePattern":"components-primary-nav","lineagePath":"../../patterns/02-components-03-navigation-00-primary-nav/02-components-03-navigation-00-primary-nav.html"},{"lineagePattern":"elements-logo","lineagePath":"../../patterns/00-elements-02-images-00-logo/00-elements-02-images-00-logo.html"},{"lineagePattern":"elements-landscape-16x9","lineagePath":"../../patterns/00-elements-02-images-02-landscape-16x9/00-elements-02-images-02-landscape-16x9.html"},{"lineagePattern":"elements-landscape-4x3","lineagePath":"../../patterns/00-elements-02-images-01-landscape-4x3/00-elements-02-images-01-landscape-4x3.html"},{"lineagePattern":"compounds-block-hoagie","lineagePath":"../../patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html"},{"lineagePattern":"elements-square","lineagePath":"../../patterns/00-elements-02-images-03-square/00-elements-02-images-03-square.html"},{"lineagePattern":"elements-time","lineagePath":"../../patterns/00-elements-00-text-01-time/00-elements-00-text-01-time.html"}],"lineage":[{"lineagePattern":"templates-homepage","lineagePath":"../../patterns/03-templates-00-homepage/03-templates-00-homepage.html"},{"lineagePattern":"components-header","lineagePath":"../../patterns/02-components-01-sections-03-header/02-components-01-sections-03-header.html"},{"lineagePattern":"compounds-block-hero","lineagePath":"../../patterns/01-compounds-01-blocks-00-block-hero/01-compounds-01-blocks-00-block-hero.html"},{"lineagePattern":"compounds-block-sub","lineagePath":"../../patterns/01-compounds-01-blocks-01-block-sub/01-compounds-01-blocks-01-block-sub.html"},{"lineagePattern":"components-latest-posts","lineagePath":"../../patterns/02-components-01-sections-02-latest-posts/02-components-01-sections-02-latest-posts.html"},{"lineagePattern":"components-recent-comments","lineagePath":"../../patterns/02-components-01-sections-00-recent-comments/02-components-01-sections-00-recent-comments.html"},{"lineagePattern":"compounds-footer","lineagePath":"../../patterns/01-compounds-00-text-01-footer/01-compounds-00-text-01-footer.html"},{"lineagePattern":"compounds-logo","lineagePath":"../../patterns/01-compounds-01-blocks-04-logo/01-compounds-01-blocks-04-logo.html"},{"lineagePattern":"compounds-search","lineagePath":"../../patterns/01-compounds-02-forms-00-search/01-compounds-02-forms-00-search.html"},{"lineagePattern":"components-primary-nav","lineagePath":"../../patterns/02-components-03-navigation-00-primary-nav/02-components-03-navigation-00-primary-nav.html"},{"lineagePattern":"elements-logo","lineagePath":"../../patterns/00-elements-02-images-00-logo/00-elements-02-images-00-logo.html"},{"lineagePattern":"elements-landscape-16x9","lineagePath":"../../patterns/00-elements-02-images-02-landscape-16x9/00-elements-02-images-02-landscape-16x9.html"},{"lineagePattern":"elements-landscape-4x3","lineagePath":"../../patterns/00-elements-02-images-01-landscape-4x3/00-elements-02-images-01-landscape-4x3.html"},{"lineagePattern":"compounds-block-hoagie","lineagePath":"../../patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html"},{"lineagePattern":"elements-square","lineagePath":"../../patterns/00-elements-02-images-03-square/00-elements-02-images-03-square.html"},{"lineagePattern":"elements-time","lineagePath":"../../patterns/00-elements-00-text-01-time/00-elements-00-text-01-time.html"}],"patternLineageRExists":false,"patternLineagesR":[],"lineageR":[],"patternLineageEExists":true,"patternDesc":"","patternBreadcrumb":{"patternType":"pages"},"patternExtension":"mustache","patternName":"Homepage","patternPartial":"pages-homepage","patternState":"","extraOutput":{}}
+</script>
 
-	<a href="#" class="nav-toggle nav-toggle-search icon-search"><span class="is-vishidden">Search</span></a>
-	<a href="#" class="nav-toggle nav-toggle-menu icon-menu"><span class="is-vishidden">Menu</span></a>
-	<nav id="nav" class="nav">
-	<ul>
-		<li><a href="&#x2F;patterns&#x2F;04-pages-00-homepage&#x2F;04-pages-00-homepage.html">Home</a></li>
-		<li><a href="#">About</a></li>
-		<li><a href="&#x2F;patterns&#x2F;04-pages-01-blog&#x2F;04-pages-01-blog.html">Blog</a></li>
-		<li><a href="#">Contact</a></li>
-	</ul>
-</nav><!--end .nav-->
+<script>
+  /*!
+   * scriptLoader - v0.1
+   *
+   * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
+   * Licensed under the MIT license
+   *
+   */
+  
+  var scriptLoader = {
+    
+    run: function(js,cb,target) {
+      var s  = document.getElementById(target+'-'+cb);
+      for (var i = 0; i < js.length; i++) {
+        var src = (typeof js[i] != 'string') ? js[i].src : js[i];
+        var c   = document.createElement('script');
+        c.src   = '../../'+src+'?'+cb;
+        if (typeof js[i] != 'string') {
+          if (js[i].dep !== undefined) {
+            c.onload = function(dep,cb,target) {
+              return function() {
+                scriptLoader.run(dep,cb,target);
+              }
+            }(js[i].dep,cb,target);
+          }
+        }
+        s.parentNode.insertBefore(c,s);
+      }
+    }
+    
+  }
+</script>
 
-	<form action="#" method="post" class="inline-form search-form">           
-    <fieldset>
-	    <legend class="is-vishidden">Search</legend>
-	    <label for="search-field" class="is-vishidden">Search</label>
-	    <input type="search" placeholder="Search" id="search-field" class="search-field">
-	    <button class="search-submit">
-	    	<span class="icon-search" aria-hidden="true"></span>
-	    	<span class="is-vishidden">Search</span>
-	    </button>
-    </fieldset>
-</form>
-</header>
-<!-- End .header -->
+<script>
+  // handle injection of items from Node
+  var patternPartial = "pages-homepage";
+  var lineage = [{"lineagePattern":"templates-homepage","lineagePath":"../../patterns/03-templates-00-homepage/03-templates-00-homepage.html"},{"lineagePattern":"components-header","lineagePath":"../../patterns/02-components-01-sections-03-header/02-components-01-sections-03-header.html"},{"lineagePattern":"compounds-block-hero","lineagePath":"../../patterns/01-compounds-01-blocks-00-block-hero/01-compounds-01-blocks-00-block-hero.html"},{"lineagePattern":"compounds-block-sub","lineagePath":"../../patterns/01-compounds-01-blocks-01-block-sub/01-compounds-01-blocks-01-block-sub.html"},{"lineagePattern":"components-latest-posts","lineagePath":"../../patterns/02-components-01-sections-02-latest-posts/02-components-01-sections-02-latest-posts.html"},{"lineagePattern":"components-recent-comments","lineagePath":"../../patterns/02-components-01-sections-00-recent-comments/02-components-01-sections-00-recent-comments.html"},{"lineagePattern":"compounds-footer","lineagePath":"../../patterns/01-compounds-00-text-01-footer/01-compounds-00-text-01-footer.html"},{"lineagePattern":"compounds-logo","lineagePath":"../../patterns/01-compounds-01-blocks-04-logo/01-compounds-01-blocks-04-logo.html"},{"lineagePattern":"compounds-search","lineagePath":"../../patterns/01-compounds-02-forms-00-search/01-compounds-02-forms-00-search.html"},{"lineagePattern":"components-primary-nav","lineagePath":"../../patterns/02-components-03-navigation-00-primary-nav/02-components-03-navigation-00-primary-nav.html"},{"lineagePattern":"elements-logo","lineagePath":"../../patterns/00-elements-02-images-00-logo/00-elements-02-images-00-logo.html"},{"lineagePattern":"elements-landscape-16x9","lineagePath":"../../patterns/00-elements-02-images-02-landscape-16x9/00-elements-02-images-02-landscape-16x9.html"},{"lineagePattern":"elements-landscape-4x3","lineagePath":"../../patterns/00-elements-02-images-01-landscape-4x3/00-elements-02-images-01-landscape-4x3.html"},{"lineagePattern":"compounds-block-hoagie","lineagePath":"../../patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html"},{"lineagePattern":"elements-square","lineagePath":"../../patterns/00-elements-02-images-03-square/00-elements-02-images-03-square.html"},{"lineagePattern":"elements-time","lineagePath":"../../patterns/00-elements-00-text-01-time/00-elements-00-text-01-time.html"}];
+  var lineageR = [];
+  var patternState = "";
+  var cssEnabled = false;
+</script>
 
-	<div role="main">
-			<div class="block block-hero">
-	<a href="..&#x2F;04-pages-02-articles-00-article&#x2F;04-pages-02-articles-00-article.html" class="inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;landscape-16x9-mountains.jpg" alt="Mountains"> 
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Top 10 mountain ranges for hiking</h2>
-		</div>
-	</a>
-</div>
+<script id="pl-js-insert-1513596429153">
+  (function() {
+    if (self != top) {
+      var cb = '1513596429153';
+      var js = [ { 'src': 'node_modules/jwerty/jwerty.js', 'dep': [ 'node_modules/fepper-ui/scripts/patternlab-pattern.js' ] } ];
+      scriptLoader.run(js,cb,'pl-js-insert');
+    }
+  })();
+</script>
 
-		<div class="g g-3up">
-				<div class="gi">
-					<div class="block block-inset">
-    <a href="..&#x2F;04-pages-02-articles-00-article-2&#x2F;04-pages-02-articles-00-article-2.html" class="inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;sub-4x3-climber.jpg" alt="Climber"> 
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Extreme climbing tips</h2>
-		</div>
-	</a>
-</div>
+<script src="../../node_modules/jwerty/jwerty.js?1513596429153"></script>
+<script src="../../node_modules/fepper-ui/scripts/postmessage.js?1513596429153"></script>
+<script src="../../annotations/annotations.js?1513596429153"></script>
+<script src="../../node_modules/fepper-ui/scripts/annotations-pattern.js?1513596429153"></script>
+<script src="../../node_modules/fepper-ui/scripts/code-pattern.js?1513596429153"></script>
+<script src="../../node_modules/fepper-ui/scripts/mustache-browser.js?1513596429153"></script>
+<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js?1513596429153"></script>
+<!-- End Pattern Lab -->
 
-				</div>
-				<div class="gi">
-					<div class="block block-inset">
-    <a href="..&#x2F;04-pages-02-articles-00-article-3&#x2F;04-pages-02-articles-00-article-3.html" class="inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;sub-4x3-stream.jpg" alt="Stream hiking"> 
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Stream hiking</h2>
-		</div>
-	</a>
-</div>
 
-				</div>
-				<div class="gi">
-					<div class="block block-inset">
-    <a href="..&#x2F;04-pages-02-articles-00-article-4&#x2F;04-pages-02-articles-00-article-4.html" class="inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;sub-4x3-climbers.jpg" alt="Explore hiking trails"> 
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Explore hiking trails</h2>
-		</div>
-	</a>
-</div>
-
-				</div>
-		</div><!--end 3up-->
-
-		<hr>
-
-		<div class="l-two-col">
-			<div class="l-main">
-				<section class="section latest-posts">
-					<h2 class="section-title">Latest Posts</h2>
-					<ul class="post-list">
-							<li><div class="block block-thumb">
-    <a href="..&#x2F;04-pages-02-articles-00-article-5&#x2F;04-pages-02-articles-00-article-5.html" class="b-inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;thumb-square-river.jpg" alt="Post Thumbnail">
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Navigate the Allegheny River</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-	</a>
-</div>
-</li>
-							<li><div class="block block-thumb">
-    <a href="..&#x2F;04-pages-02-articles-00-article-6&#x2F;04-pages-02-articles-00-article-6.html" class="b-inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;thumb-square-ivy.jpg" alt="Ivy">
-		</div>
-		<div class="b-text">
-			<h2 class="headline">How to detect and avoid poison ivy</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-	</a>
-</div>
-</li>
-							<li><div class="block block-thumb">
-    <a href="..&#x2F;04-pages-02-articles-00-article-7&#x2F;04-pages-02-articles-00-article-7.html" class="b-inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;thumb-square-yosemite.jpg" alt="Yosemite">
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Top 10 hiking mountains</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-	</a>
-</div>
-</li>
-							<li><div class="block block-thumb">
-    <a href="..&#x2F;04-pages-02-articles-00-article-8&#x2F;04-pages-02-articles-00-article-8.html" class="b-inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;thumb-square-fire.jpg" alt="Fire">
-		</div>
-		<div class="b-text">
-			<h2 class="headline">How to build a campfire</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-	</a>
-</div>
-</li>
-							<li><div class="block block-thumb">
-    <a href="..&#x2F;04-pages-02-articles-00-article-9&#x2F;04-pages-02-articles-00-article-9.html" class="b-inner">
-		<div class="b-thumb">
-			<img src="..&#x2F;..&#x2F;images&#x2F;sample&#x2F;thumb-square-gear.jpg" alt="Camping Gear">
-		</div>
-		<div class="b-text">
-			<h2 class="headline">Pick the right camping gear</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-	</a>
-</div>
-</li>
-					</ul>
-					<a href="#" class="text-btn">View more posts</a>
-				</section>
-			</div><!--end .l-main-->
-
-			<div class="l-sidebar">
-				<section class="section related-posts">
-	<h3 class="section-title">Recent Tweets</h3>
-	<ul class="headline-list">
-		<li><h4><a href="#">Headline Lorem ipsum dolor sit amet</a></h4> <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></li>
-		<li><h4><a href="#">Laborum, molestiae, rerum, dolores eveniet </a></h4> <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></li>
-		<li><h4><a href="#">quae est fugit distinctio iure odit minus non ipsum </a></h4> <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></li>
-		<li><h4><a href="#">dolorum deserunt omnis voluptates voluptatum</a></h4> <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></li>
-		<li><h4><a href="#">nventore dignissimos vel molestiae, rerum, dolore</a></h4> <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></li>
-		<li><h4><a href="#"></a></h4></li>
-	</ul>
-	<a href="#" class="text-btn">Follow us on Twitter</a>
-</section>
-			</div><!--end .l-sidebar-->
-		</div><!--end .l-two-col-->
-	</div><!--End role=main-->
-	<!-- Begin Footer -->
-<footer class="footer" role="contentinfo">
-	<div class="lc">
-		<p class="copyright">&copy; 2015 Company Name. All rights reserved.</p>
-	</div>
-</footer>
-<!-- End Footer -->
-
-</div>
-
-	<!-- End of Pattern -->
-	
-	<!--
-		Remember that patterns are displayed from two-levels deep (e.g. patterns/patterntype-patternsubtype-patternname/patterntype-patternsubtype-patternname.html)
-		Therefore all calls to assets should have the ../../ in order to work in an apache-less environment
-	-->
-	
-	<!-- DO NOT MODIFY -->
-	<script>
-		// handle injection of items from PHP
-		var patternPartial = "pages-homepage";
-		var lineage = [{"lineagePattern":"templates-homepage","lineagePath":"../../patterns/03-templates-00-homepage/03-templates-00-homepage.html"}];
-		var lineageR = [];
-		var patternState = "";
-		var baseurl = "";
-		var cssEnabled = false; //TODO
-	</script>
-	
-	<script type="text/html" id="sg-pattern-html">
-
-	</script>
-	
-	<script type="text/html" id="sg-pattern-css">
-
-	</script>
-	<script src="../../styleguide/js/vendor/jwerty.js"></script>
-	<script src="../../styleguide/js/postmessage.js"></script>
-	<script src="../../data/annotations.js"></script>
-	<script src="../../styleguide/js/annotations-pattern.js"></script>
-	<script src="../../styleguide/js/code-pattern.js"></script>
-	<script src="../../styleguide/js/data-saver.js"></script>
-	<script src="../../_scripts/src/variables.styl" type="text/javascript"></script>
-	<script src="../../_scripts/src/fepper-obj.js"></script>
-	<script src="../../_scripts/patternlab-overrider.js"></script>
-	<script src="../../_scripts/pattern-overrider.js"></script>
-	<!-- /DO NOT MODIFY -->
-	
+  <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>
+  <script src="../../_scripts/src/fepper-obj.js?1513596429153"></script>
+  <script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js?1513596429153"></script>
+  <script src="../../_scripts/src/init.js?1513596429153"></script>
 </body>
 </html>
+

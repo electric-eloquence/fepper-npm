@@ -201,9 +201,9 @@ var patternlab_engine = function (configParam, configDirParam) {
       if (patternlab.config.debug) {
         console.log('setting cacheBuster value for frontend assets.');
       }
-      patternlab.cacheBuster = new Date().getTime();
+      patternlab.cacheBuster = '?' + Date.now();
     } else {
-      patternlab.cacheBuster = 0;
+      patternlab.cacheBuster = '';
     }
   }
 
