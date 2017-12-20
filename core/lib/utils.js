@@ -74,6 +74,12 @@ exports.conf = isHeadless => {
     try {
       confStr = fs.readFileSync(`${global.workDir}/patternlab-config.json`, enc);
       conf.ui = JSON.parse(confStr);
+
+      // DEPRECATED! WILL REMOVE IN THE NEAR FUTURE!
+      if (!conf.ui.paths.public.cssBld) {
+        conf.ui.paths.public.cssBld = conf.ui.paths.public.css;
+      }
+
       exports.normalizeUiPaths(conf.ui);
     }
     catch (err) {
