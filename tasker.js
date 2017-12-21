@@ -225,6 +225,13 @@ gulp.task('restart', cb => {
     utils.log(`Listening on port ${conf.express_port}`);
   });
 
+  // An added measure for power usage, delete any lingering install.log, normally deleted by the plain `fp` task.
+  const log = `${global.workDir}/install.log`;
+
+  if (fs.existsSync(log)) {
+    fs.unlinkSync(log);
+  }
+
   runSequence.apply(null, args);
 });
 

@@ -411,8 +411,8 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
 function buildFrontend(patternlab, printDebug, callback) {
   var componentizer = new (require('../styleguide/componentizer'))(patternlab);
 
-  // first, compile the ui components into index.html
-  // TODO: make this switchable with a config option.
+  // calling componentizer.main() in case patternlab.config.compileUiOnEveryBuild === true
+  // will compile the UI if that's the case
   return componentizer.main()
     .catch(function (err) {
       console.error(err.message || err);
