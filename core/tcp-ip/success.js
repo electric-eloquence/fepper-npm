@@ -8,16 +8,12 @@ const utils = require('../lib/utils');
 
 const conf = global.conf;
 
-exports.main = function (req, res) {
-  fs.readFile(utils.pathResolve('README.md'), conf.enc, function (err, dat) {
+exports.main = (req, res) => {
+  fs.readFile(utils.pathResolve('README.md'), conf.enc, (err, dat) => {
     const successMsg = 'Installation success!';
 
     if (!dat) {
       res.end(successMsg);
-
-      if (err) {
-        utils.warn(err);
-      }
 
       return;
     }
@@ -29,12 +25,13 @@ exports.main = function (req, res) {
     }
     catch (err1) {
       utils.error(err1);
-      res.end(err1);
+      res.end(successMsg);
 
       return;
     }
 
     let output = '';
+
     output += htmlObj.headWithMsg;
     output += htmlObj.success;
     output += htmlMd + '\n';
@@ -45,6 +42,7 @@ exports.main = function (req, res) {
     output = output.replace('{{ msg_class }}', 'success');
     output = output.replace('{{ message }}', `<h1>${successMsg}</h1>`);
     output = output.replace(/localhost:3000/g, req.headers.host);
+
     res.end(output);
   });
 };
