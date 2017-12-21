@@ -17,10 +17,6 @@ module.exports = class {
     require('./opener').main();
   }
 
-  patternConfigure() {
-    require('./pattern-configurer').main();
-  }
-
   staticGenerate() {
     require('./static-generator').main();
   }
