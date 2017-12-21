@@ -18,6 +18,7 @@ module.exports = class {
       .catch(err => {
         console.error(err.message || err);
       })
+
       .then(createRenderObj => {
         if (!createRenderObj) {
           return Promise.resolve();
