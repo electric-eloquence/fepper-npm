@@ -5,20 +5,20 @@ const open = require('open');
 
 const conf = global.conf;
 
-exports.main = function () {
-  var origin = 'http://localhost:' + conf.express_port;
-  var log = `${global.workDir}/install.log`;
+exports.main = () => {
+  const origin = 'http://localhost:' + conf.express_port;
+  const log = `${global.workDir}/install.log`;
 
   if (fs.existsSync(log)) {
     // An option to delay launch in case other asynchronous tasks need to complete.
-    setTimeout(function () {
+    setTimeout(() => {
       fs.unlinkSync(log);
       open(origin + '/success');
     }, conf.timeout_main * 2);
   }
   else {
     // An option to delay launch in case other asynchronous tasks need to complete.
-    setTimeout(function () {
+    setTimeout(() => {
       open(origin);
     }, conf.timeout_main);
   }
