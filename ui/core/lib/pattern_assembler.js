@@ -609,6 +609,8 @@ var pattern_assembler = function () {
       patternPartial: pattern.patternPartial,
       lineage: JSON.stringify(pattern.patternLineages),
       patternState: pattern.patternState,
+      portReloader: global.conf.livereload_port,
+      portServer: global.conf.express_port,
       cacheBuster: patternlab.cacheBuster
     });
 

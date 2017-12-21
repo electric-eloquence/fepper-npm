@@ -27,11 +27,6 @@ gulp.task('fepper:data', function (cb) {
   cb();
 });
 
-gulp.task('fepper:pattern-configure', function (cb) {
-  tasks.patternConfigure();
-  cb();
-});
-
 gulp.task('fepper:static-generate', function (cb) {
   tasks.staticGenerate();
   cb();

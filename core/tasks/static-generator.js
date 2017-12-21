@@ -145,11 +145,6 @@ exports.pagesCompile = function () {
       regex = new RegExp(regexStr, 'g');
       tmpStr = tmpStr.replace(regex, '');
 
-      // Strip pattern-configurer.js script tag.
-      regexStr = '\\s*<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js.*?</script>\\s*';
-      regex = new RegExp(regexStr, 'g');
-      tmpStr = tmpStr.replace(regex, '');
-
       // Strip cacheBuster params.
       tmpStr = tmpStr.replace(/((href|src)="[^"]*)\?\d*"/g, '$1"');
 
