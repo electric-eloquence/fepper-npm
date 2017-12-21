@@ -215,19 +215,4 @@ describe('Static Generator', function () {
     expect(testContent).to.not.include('<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->');
     expect(testContent).to.not.include('<!-- End Pattern Lab -->');
   });
-
-  it('should strip pattern-configurer.js script tag', function () {
-    const origFile = `${patternsPub}/04-pages-00-homepage/04-pages-00-homepage.html`;
-    const testFile = `${staticDir}/index.html`;
-
-    // Check orig file.
-    const origContent = fs.readFileSync(origFile, conf.enc);
-
-    // Check test file.
-    const testContent = fs.readFileSync(testFile, conf.enc);
-
-    // Test expectations.
-    expect(origContent).to.include('<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js');
-    expect(testContent).to.not.include('<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js');
-  });
 });
