@@ -10,11 +10,12 @@ const conf = global.conf;
 
 exports.main = (req, res) => {
   fs.readFile(utils.pathResolve('README.md'), conf.enc, (err, dat) => {
-    const successMsg = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body>Installation success!<br><a href="/">Open Fepper UI</a></body></html>`;
+    const successMsg = 'Installation success!';
+    const successSimple = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+<body>${successMsg}<br><a href="/">Open Fepper UI</a></body></html>`;
 
     if (!dat) {
-      res.end(successMsg);
+      res.end(successSimple);
 
       return;
     }
@@ -26,7 +27,7 @@ exports.main = (req, res) => {
     }
     catch (err1) {
       utils.error(err1);
-      res.end(successMsg);
+      res.end(successSimple);
 
       return;
     }
