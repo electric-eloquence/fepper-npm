@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.24.4
+* Improved static generator
+* Improved pattern configurer (currently only devoted to LiveReload)
+* Improved success page
+
 ### v0.24.3
 * More platform agnostic paths
 
