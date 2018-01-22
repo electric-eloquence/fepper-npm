@@ -42,8 +42,6 @@
   "debug": false,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
-  "ignored-extensions": ["yml"],
-  "ignored-directories": [],
   "ishControlsHide": {
     "random": true,
     "disco": true,
@@ -60,14 +58,9 @@
   },
   "ishMinimum": "240",
   "ishMaximum": "2600",
-  "outputFileSuffixes": {
-    "markupOnly": ".markup-only",
-    "rawTemplate": "",
-    "rendered": ""
-  },
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
-  "patternExtension": "mustache",
+  "patternExtension": ".mustache",
   "styleGuideExcludes": [
   ]
 }

@@ -10,7 +10,7 @@ backend:
     #   static files from the backend as per the webserved_dirs settings.
     # - Do not include "backend" or a leading or trailing slash in the directory
     #   settings.
-    # - Do not include a leading dot in the templates_ext setting.
+    # - Do include a leading dot in the templates_ext setting.
     # - Note that JavaScripts will only be synced if they are at least one
     #   directory below source/_scripts. In other words, place JavaScripts you
     #   wish to ignore directly in source/_scripts and no deeper.
@@ -21,12 +21,12 @@ backend:
     #scripts_dir: docroot/themes/theme/scripts
     #styles_dir: docroot/themes/theme/styles
     #templates_dir: docroot/themes/theme/templates
-    #templates_ext: tpl.php
+    #templates_ext: .tpl.php
     assets_dir: docroot/assets
     scripts_dir: docroot/scripts
     styles_dir: docroot/styles
     templates_dir: docroot/templates
-    templates_ext: tpl.php
+    templates_ext: .tpl.php
 
   webserved_dirs:
     # Relative paths to the backend directories that will be served by Fepper's
@@ -44,7 +44,7 @@ backend:
     # - browser), enter the path without the document root. For example, if the
     #   setting is docroot/css, enter /css without docroot.
     # - Do not use names that will collide with what's in Pattern Lab, i.e.
-    #   docroot/assets, docroot/scripts, etc.
+    #   docroot/_assets, docroot/_scripts, etc.
     # - DO NOT INCLUDE DIRECTORIES WITH SOURCE CODE! GITHUB PAGES AND MANY OTHER
     #   PUBLIC HOSTS DO NOT PREPROCESS PHP AND OTHER PROGRAMMING LANGUAGES, SO
     #   ANY PUBLISHED SOURCE CODE WILL BE RENDERED AS PLAIN TEXT! THIS WILL MAKE
