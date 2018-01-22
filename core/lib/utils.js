@@ -10,7 +10,7 @@ const enc = 'utf8';
 // ///////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
 // ///////////////////////////////////////////////////////////////////////////
-exports.conf = isHeadless => {
+exports.conf = (isHeadless) => {
   let conf;
   let confStr;
   let defaults;
@@ -30,6 +30,7 @@ exports.conf = isHeadless => {
   catch (err) {
     exports.error(err);
     exports.error('Missing or malformed excludes/conf.yml! Exiting!');
+
     return;
   }
 
@@ -42,6 +43,7 @@ exports.conf = isHeadless => {
   catch (err) {
     exports.error(err);
     exports.error('Missing or malformed excludes/patternlab-config.json! Exiting!');
+
     return;
   }
 
@@ -60,6 +62,7 @@ exports.conf = isHeadless => {
     catch (err) {
       exports.error(err);
       exports.error('Missing or malformed conf.yml! Exiting!');
+
       return;
     }
   }
@@ -74,11 +77,23 @@ exports.conf = isHeadless => {
     try {
       confStr = fs.readFileSync(`${global.workDir}/patternlab-config.json`, enc);
       conf.ui = JSON.parse(confStr);
+
+      // TODO: enumerate required settings and fail with console error if not present.
+      if (!conf.ui.paths.public.cssBld) {
+        exports.error('The conf.ui.paths.public.cssBld setting is missing from patternlab-config.json!');
+        exports.error('The build will fail without this!');
+        exports.error('You can probably copy conf.ui.paths.public.css to that setting for a successful build.');
+        exports.error('Exiting!');
+
+        return;
+      }
+
       exports.normalizeUiPaths(conf.ui);
     }
     catch (err) {
       exports.error(err);
       exports.error('Missing or malformed patternlab-config.json! Exiting!');
+
       return;
     }
   }
@@ -104,6 +119,7 @@ exports.conf = isHeadless => {
   }
   catch (err) {
     exports.error('Missing or malformed excludes/patternlab-config.json! Exiting!');
+
     return;
   }
 
@@ -115,7 +131,7 @@ exports.conf = isHeadless => {
 };
 
 // The difference between confs and prefs is that confs are mandatory. However, the file must still exist even if blank.
-exports.pref = isHeadless => {
+exports.pref = (isHeadless) => {
   let pref;
   let defaults;
   let yml;
@@ -127,6 +143,7 @@ exports.pref = isHeadless => {
   catch (err) {
     exports.error(err);
     exports.error('Missing or malformed excludes/pref.yml! Exiting!');
+
     return;
   }
 
@@ -141,6 +158,7 @@ exports.pref = isHeadless => {
     catch (err) {
       exports.error(err);
       exports.error('Missing or malformed pref.yml! Exiting!');
+
       return;
     }
   }
@@ -206,14 +224,14 @@ exports.extendButNotOverride = (obj1, obj2) => {
   return obj1;
 };
 
-exports.escapeReservedRegexChars = regexStr => {
+exports.escapeReservedRegexChars = (regexStr) => {
   return regexStr.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 };
 
 // ///////////////////////////////////////////////////////////////////////////
 // File system utilities.
 // ///////////////////////////////////////////////////////////////////////////
-exports.backendDirCheck = backendDir => {
+exports.backendDirCheck = (backendDir) => {
   if (typeof backendDir === 'string') {
     const fullPath = `${exports.pathResolve(global.conf.backend_dir)}/${backendDir.trim()}`;
     let stat;
@@ -233,20 +251,22 @@ exports.backendDirCheck = backendDir => {
   return '';
 };
 
-exports.extCheck = ext => {
+exports.extCheck = (ext) => {
   if (typeof ext === 'string') {
-    const extTrimmed = ext.trim();
+    let extRefined = ext.trim();
 
-    if (extTrimmed.match(/^\.[\w\-\.\/]+$/)) {
-      return extTrimmed;
+    if (extRefined[0] !== '.') {
+      extRefined = `.${extRefined}`;
     }
 
-    if (extTrimmed.charAt(0) !== '.') {
-      throw 'Invalid template extension! The extension must have a leading dot!';
+    if (extRefined.match(/^\.[\w\-\.\/]+$/)) {
+      return extRefined;
     }
   }
 
-  throw 'Invalid template extension!';
+  exports.error(`The ${ext} extension contains invalid characters!`);
+
+  return '';
 };
 
 /**
@@ -255,7 +275,7 @@ exports.extCheck = ext => {
  * @param {object} uiObj - The UI configuration object.
  * @return {object} The mutated uiObj.
  */
-exports.normalizeUiPaths = uiObj => {
+exports.normalizeUiPaths = (uiObj) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
     throw 'Missing or malformed paths.source property!';
   }
@@ -388,7 +408,7 @@ exports.httpCodes = {
  * @param {array} webservedDirsFull - The array of webserved directories.
  * @return {array} The webserved directories stripped of configuration prefix.
  */
-exports.webservedDirnamesTruncate = webservedDirsFull => {
+exports.webservedDirnamesTruncate = (webservedDirsFull) => {
   if (!webservedDirsFull || !webservedDirsFull.length) {
     return [];
   }
