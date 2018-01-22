@@ -50,6 +50,8 @@ module.exports = class Patternlab {
     this.userFoot = '';
     this.viewall = '';
 
+    // Normalize configs.
+
     const pathsPublic = this.config.paths.public;
     const pathsSource = this.config.paths.source;
 
@@ -67,6 +69,13 @@ module.exports = class Patternlab {
       }
 
       pathsSource[i] = path.resolve(this.cwd, pathsSource[i]);
+    }
+
+    // Normalize this.config.patternExtension here. It's not used anywhere else in Fepper, so there's no real reason to
+    // normalize it in /core, where Patternlab is instantiated. It's also possible that this Patternlab class may be
+    // instantiated elsewhere, so normalization needs to be done here for maximum utility.
+    if (this.config.patternExtension.charAt(0) !== '.') {
+      this.config.patternExtension = `.${this.config.patternExtension}`;
     }
 
     this.config.patternExportDirectory = path.resolve(this.cwd, config.patternExportDirectory);
@@ -375,5 +384,14 @@ module.exports = class Patternlab {
     }
 
     this.buildPatterns();
+  }
+
+  resetConfig(config) {
+    if (config && config.constructor === Object) {
+      this.config = plutils.extendButNotOverride(config, this.config);
+    }
+    else {
+      console.error('Invalid config object!');
+    }
   }
 };
