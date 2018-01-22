@@ -23,6 +23,11 @@ gulp.task('ui:build', function (cb) {
     });
 });
 
+gulp.task('ui:clean', function (cb) {
+  ui.clean();
+  cb();
+});
+
 gulp.task('ui:compile', function (cb) {
   ui.compile()
     .catch(err => {
@@ -36,11 +41,6 @@ gulp.task('ui:compile', function (cb) {
         cb
       );
     });
-});
-
-gulp.task('ui:clean', function (cb) {
-  ui.clean();
-  cb();
 });
 
 gulp.task('ui:copy', function (cb) {

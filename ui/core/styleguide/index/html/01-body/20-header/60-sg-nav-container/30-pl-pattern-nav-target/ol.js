@@ -6,8 +6,8 @@ module.exports = {
 {{# patternTypes }}
   <li><a class="sg-acc-handle">{{ patternTypeUC }}</a><ol class="sg-acc-panel">
   {{# patternTypeItems }}
-    <li><a class="sg-acc-handle">{{ patternSubtypeUC }}</a><ol class="sg-acc-panel sg-sub-nav">
-    {{# patternSubtypeItems }}
+    <li><a class="sg-acc-handle">{{ patternSubTypeUC }}</a><ol class="sg-acc-panel sg-sub-nav">
+    {{# patternSubTypeItems }}
       <li>
         <a
           href="patterns/{{ patternPath }}"
@@ -15,7 +15,7 @@ module.exports = {
           data-patternpartial="{{ patternPartial }}"
         >{{ patternName }}</a>
       </li>
-    {{/ patternSubtypeItems }}
+    {{/ patternSubTypeItems }}
     </ol></li>
   {{/ patternTypeItems }}
   {{# patternItems }}

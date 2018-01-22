@@ -16,7 +16,7 @@
     
     run: function(js,cb,target) {
       var s  = document.getElementById(target+'-'+cb);
-      for (var i = 0; i < js.length; i++) {
+      for (var i = 0, l = js.length; i < l; i++) {
         var src = (typeof js[i] != 'string') ? js[i].src : js[i];
         var c   = document.createElement('script');
         c.src   = '../../'+src+'?'+cb;
@@ -38,11 +38,11 @@
 
 <script>
   // handle injection of items from Node
-  var patternPartial = "{{ patternPartial }}";
+  var cssEnabled = false;
   var lineage{{# lineage }} = {{{ lineage }}}{{/ lineage }};
   var lineageR{{# lineageR }} = {{{ lineageR }}}{{/ lineageR }};
+  var patternPartial = "{{ patternPartial }}";
   var patternState = "{{ patternState }}";
-  var cssEnabled = false;
   var portReloader = {{ portReloader }};
   var portServer = {{ portServer }};
 </script>
