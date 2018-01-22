@@ -14,13 +14,13 @@ const srcDir = conf.ui.paths.source;
 module.exports = class {
   build(arg) {
     if (typeof arg === 'undefined') {
-      return patternlab.build(() => {}, conf.ui.cleanPublic);
+      return patternlab.build();
     }
     else if (arg === 'v') {
       patternlab.version();
     }
     else if (arg === 'patternsonly') {
-      patternlab.patternsonly(() => {}, conf.ui.cleanPublic);
+      patternlab.patternsonly();
     }
     else if (arg === 'help') {
       patternlab.help();

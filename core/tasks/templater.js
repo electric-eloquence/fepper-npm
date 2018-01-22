@@ -185,7 +185,7 @@ exports.templatesWrite = function (file, srcDirParam, templatesDir, templatesExt
   // Replace underscore prefixes.
   dest = dest.replace(/\/_([^\/]+)$/, '/$1');
   dest = templatesDir + dest;
-  dest = dest.replace(/mustache$/, templatesExt);
+  dest = dest.replace(/\.mustache$/, templatesExt);
 
   // Write to file system.
   fs.mkdirpSync(path.dirname(dest));

@@ -74,12 +74,6 @@ exports.conf = isHeadless => {
     try {
       confStr = fs.readFileSync(`${global.workDir}/patternlab-config.json`, enc);
       conf.ui = JSON.parse(confStr);
-
-      // DEPRECATED! WILL REMOVE IN THE NEAR FUTURE!
-      if (!conf.ui.paths.public.cssBld) {
-        conf.ui.paths.public.cssBld = conf.ui.paths.public.css;
-      }
-
       exports.normalizeUiPaths(conf.ui);
     }
     catch (err) {
@@ -242,12 +236,17 @@ exports.backendDirCheck = backendDir => {
 exports.extCheck = ext => {
   if (typeof ext === 'string') {
     const extTrimmed = ext.trim();
-    if (extTrimmed.match(/^[\w\-\.\/]+$/)) {
+
+    if (extTrimmed.match(/^\.[\w\-\.\/]+$/)) {
       return extTrimmed;
+    }
+
+    if (extTrimmed.charAt(0) !== '.') {
+      throw 'Invalid template extension! The extension must have a leading dot!';
     }
   }
 
-  return '';
+  throw 'Invalid template extension!';
 };
 
 /**
