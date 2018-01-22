@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.25.0
+* Complete refactor of old Pattern Lab Node.js code
+* Replaced old RegExp based templating with Feplet
+
 ### v0.24.4
 * Improved static generator
 * Improved pattern configurer (currently only devoted to LiveReload)
