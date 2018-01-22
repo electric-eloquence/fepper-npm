@@ -201,7 +201,7 @@ function recurseComponentsDirForClient(componentsArr, componentsArrForClient) {
     componentsArrForClient.push(`window.React.DOM.${path.basename(componentsArr[last], '.js')}`);
     componentsArrForClient.push(`require('${componentsArr[last]}')`);
 
-    for (let i = 0; i < last; i++) {
+    for (let i = 0, l = last.length; i < l; i++) {
       let item = componentsArr[i];
 
       if (Array.isArray(item)) {
