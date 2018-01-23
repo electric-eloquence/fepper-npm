@@ -1,5 +1,5 @@
 module.exports = {
-  id: 'patternlab-head',
+  id: 'patternlab-foot',
   dangerouslySetInnerHTML: {
     __html: `
 {{! load external libraries }}
