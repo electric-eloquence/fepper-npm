@@ -61,12 +61,11 @@ module.exports = function (pattern, patternlab) {
   // find the {{> template-name }} within patterns
   partialsArr = partialTagScan(pattern.fepletParse, partialsArr);
 
-  partialsArr.forEach(function (partial) {
-    // get the ancestorPattern
-    const ancestorPatternName = matchPattern(partial, patternlab);
+  for (let i = 0, l = partialsArr.length; i < l; i++) {
+    const ancestorPatternName = matchPattern(partialsArr[i], patternlab);
 
     if (!ancestorPatternName) {
-      return;
+      continue;
     }
 
     const ancestorPattern = patternlab.getPattern(ancestorPatternName);
@@ -107,5 +106,5 @@ module.exports = function (pattern, patternlab) {
         ancestorPattern.lineageR.push(lr);
       }
     }
-  });
+  }
 };
