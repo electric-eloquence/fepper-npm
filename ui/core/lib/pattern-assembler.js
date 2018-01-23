@@ -224,14 +224,18 @@ exports.preprocessPattern = function (relPath, patternlab) {
 exports.preprocessPartialParams = function (patternlab) {
   let partials = patternlab.partials;
 
-  Object.keys(partials).forEach((partialName) => {
+  for (let partialName in partials) {
+    if (!partials.hasOwnProperty(partialName)) {
+      continue;
+    }
+
     const partialTemplate = partials[partialName];
 
     let pattern = patternlab.getPattern(partialName);
 
     if (pattern) {
       if (partialTemplate) {
-        return;
+        continue;
       }
       // if the partialName exactly matches a pattern name, just copy the template
       else {
@@ -265,7 +269,7 @@ exports.preprocessPartialParams = function (patternlab) {
         }
       }
     }
-  });
+  }
 
   for (let i = 0, l = patternlab.patterns.length; i < l; i++) {
     const pattern = patternlab.patterns[i];

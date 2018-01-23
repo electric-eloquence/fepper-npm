@@ -27,11 +27,12 @@ module.exports = class {
         return new Promise(resolve => {
           const componentizedUi = require(`${config.paths.public.styleguide}/scripts/componentized-ui`);
           const uiCreate = React.createFactory(componentizedUi(createRenderObj));
+
           let styleguideDir = config.paths.source.styleguide || __dirname;
           let output = `<!DOCTYPE html>${ReactDOMServer.renderToString(uiCreate())}`;
+
           output = output.replace(
             /\{\{\{ ?components_for_client ?\}\}\}/, `//<!--\n${global.componentsForClient}\n//-->`);
-
           fs.writeFileSync(`${styleguideDir}/index.mustache`, output);
 
           resolve();
