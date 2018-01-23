@@ -39,7 +39,7 @@
   "dependencies": {
     "browserify": "^14.1.0",
     "diveSync": "^0.3.0",
-    "feplet": "*",
+    "feplet": "~0.0.0",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.5",
     "gray-matter": "^3.1.1",
