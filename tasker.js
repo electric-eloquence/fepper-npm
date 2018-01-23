@@ -124,15 +124,16 @@ gulp.task('data', cb => {
   }
 
   args.push('fepper:data');
+
+  if (conExists && cusExists) {
+    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
+  }
+
   args.push('ui:build');
 
   if (conf.ui.cleanPublic) {
     args.push('ui:copy');
     args.push('ui:copy-styles');
-  }
-
-  if (conExists && cusExists) {
-    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
   }
 
   args.push(cb);
@@ -172,6 +173,8 @@ gulp.task('once', cb => {
     args.push(['contrib:once', 'custom:once']);
     args.push(['contrib:data', 'custom:data']);
   }
+
+  args.push('fepper:data');
 
   if (conExists && cusExists) {
     args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
