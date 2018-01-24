@@ -96,7 +96,7 @@ module.exports = class Patternlab {
       this.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) {
-      plutils.logRed('ERROR: missing or malformed ' + path.resolve(this.config.paths.source.data, 'data.json'));
+      plutils.logRed('ERROR: Missing or malformed ' + path.resolve(this.config.paths.source.data, 'data.json'));
       console.log(err.message || err);
 
       this.data = {};
@@ -109,7 +109,7 @@ module.exports = class Patternlab {
       this.listItems = JSON5.parse(jsonFileStr);
     }
     catch (err) {
-      plutils.logRed('ERROR: missing or malformed ' + path.resolve(this.config.paths.source.data, 'listitems.json'));
+      plutils.logRed('ERROR: Missing or malformed ' + path.resolve(this.config.paths.source.data, 'listitems.json'));
       console.log(err.message || err);
 
       this.listItems = {};
@@ -122,7 +122,7 @@ module.exports = class Patternlab {
       this.footer = fs.readFileSync(immutableDir + '/immutable-footer.mustache', this.enc);
     }
     catch (err) {
-      plutils.logRed('ERROR: missing an essential file from ' + immutableDir);
+      plutils.logRed('ERROR: Missing an essential file from ' + immutableDir);
       console.log(err.message || err);
 
       throw err;
@@ -234,7 +234,7 @@ module.exports = class Patternlab {
       }
     }
     catch (err) {
-      plutils.logRed('ERROR: missing an essential file from ' + viewallCoreDir);
+      plutils.logRed('ERROR: Missing an essential file from ' + viewallCoreDir);
       console.log(err.message || err);
 
       throw err;
@@ -304,11 +304,10 @@ module.exports = class Patternlab {
     }
 
     this.buildPatterns();
-
-    return uiBuild(this);
+    uiBuild(this);
   }
 
-  compileUi(options) {
+  compileui(options) {
     if (options && options.constructor === Object) {
       this.config = plutils.extendButNotOverride(options, this.config);
     }

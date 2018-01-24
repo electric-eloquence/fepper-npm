@@ -417,126 +417,110 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
 // EXPORTED FUNCTION
 
 module.exports = function (patternlab) {
-  const componentizer = new (require('../styleguide/componentizer'))(patternlab);
+  const paths = patternlab.config.paths;
 
-  // calling componentizer.main() in case patternlab.config.compileUiOnEveryBuild === true
-  // will compile the UI if that's the case
-  return componentizer.main()
-    .catch(function (err) {
-      console.error(err.message || err);
-    })
+  let styleguidePatterns = [];
 
-    // continue with sync code
-    .then(function () {
-      return new Promise(function (resolve, reject) {
-        const paths = patternlab.config.paths;
+  patternlab.patternTypes = [];
+  patternlab.patternTypeIndex = [];
+  patternlab.patternPaths = {};
+  patternlab.viewallPaths = {};
+  patternlab.data.cacheBuster = patternlab.cacheBuster;
 
-        let styleguidePatterns = [];
+  // check if patterns are excluded, if not add them to styleguidePatterns
+  styleguidePatterns = assembleStyleguidePatterns(patternlab);
 
-        patternlab.patternTypes = [];
-        patternlab.patternTypeIndex = [];
-        patternlab.patternPaths = {};
-        patternlab.viewallPaths = {};
-        patternlab.data.cacheBuster = patternlab.cacheBuster;
+  // set the pattern-specific header by compiling the general-header with data, then adding it to the meta header
+  let headerHtml = patternlab.userHead.replace('{{{ patternLabHead }}}', patternlab.header);
+  headerHtml = feplet.render(headerHtml, patternlab.data);
 
-        // check if patterns are excluded, if not add them to styleguidePatterns
-        styleguidePatterns = assembleStyleguidePatterns(patternlab);
+  // set the pattern-specific footer by compiling the general-footer with data, then adding it to the meta footer
+  const footerHtml = buildFooterHtml(patternlab, null);
 
-        // set the pattern-specific header by compiling the general-header with data, then adding it to the meta header
-        let headerHtml = patternlab.userHead.replace('{{{ patternLabHead }}}', patternlab.header);
-        headerHtml = feplet.render(headerHtml, patternlab.data);
+  // build the styleguide
+  const styleguideHtml = feplet.render(
+    patternlab.viewall,
+    {
+      partials: styleguidePatterns,
+      cacheBuster: patternlab.cacheBuster
+    },
+    {
+      patternSection: patternlab.patternSection,
+      patternSectionSubType: patternlab.patternSectionSubType
+    }
+  );
 
-        // set the pattern-specific footer by compiling the general-footer with data, then adding it to the meta footer
-        const footerHtml = buildFooterHtml(patternlab, null);
+  fs.outputFileSync(
+    path.resolve(paths.public.styleguide, 'styleguide.html'),
+    headerHtml + styleguideHtml + footerHtml
+  );
 
-        // build the styleguide
-        const styleguideHtml = feplet.render(
-          patternlab.viewall,
-          {
-            partials: styleguidePatterns,
-            cacheBuster: patternlab.cacheBuster
-          },
-          {
-            patternSection: patternlab.patternSection,
-            patternSectionSubType: patternlab.patternSectionSubType
-          }
-        );
+  // build the viewall pages
+  buildViewAllPages(headerHtml, patternlab, styleguidePatterns);
 
-        fs.outputFileSync(
-          path.resolve(paths.public.styleguide, 'styleguide.html'),
-          headerHtml + styleguideHtml + footerHtml
-        );
+  // build the patternlab website
+  buildNavigation(patternlab);
 
-        // build the viewall pages
-        buildViewAllPages(headerHtml, patternlab, styleguidePatterns);
+  // move the index file from its asset location into public root
+  let patternlabSiteHtml;
 
-        // build the patternlab website
-        buildNavigation(patternlab);
+  try {
+    patternlabSiteHtml = fs.readFileSync(
+      path.resolve(__dirname, '../styleguide', 'index.mustache'),
+      patternlab.enc
+    );
+  }
+  catch (err) {
+    reject(err);
+  }
 
-        // move the index file from its asset location into public root
-        let patternlabSiteHtml;
+  fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
-        try {
-          patternlabSiteHtml = fs.readFileSync(
-            path.resolve(__dirname, '../styleguide', 'index.mustache'),
-            patternlab.enc
-          );
-        }
-        catch (err) {
-          reject(err);
-        }
+  // write out the data
+  let output = '';
 
-        fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+  // config
+  output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
 
-        // write out the data
-        let output = '';
+  // ishControls
+  // eslint-disable-next-line max-len
+  output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
 
-        // config
-        output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
+  // navItems
+  output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
 
-        // ishControls
-        // eslint-disable-next-line max-len
-        output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
+  // patternPaths
+  output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
 
-        // navItems
-        output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
+  // viewallPaths
+  output += 'var viewallPaths = ' + JSON.stringify(patternlab.viewallPaths) + ';' + eol;
 
-        // patternPaths
-        output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
+  // plugins someday
+  output += 'var plugins = [];' + eol;
 
-        // viewallPaths
-        output += 'var viewallPaths = ' + JSON.stringify(patternlab.viewallPaths) + ';' + eol;
+  // smaller config elements
+  output += 'var defaultShowPatternInfo = ';
 
-        // plugins someday
-        output += 'var plugins = [];' + eol;
+  /* eslint-disable max-len */
+  output += (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
+  output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all');
 
-        // smaller config elements
-        output += 'var defaultShowPatternInfo = ';
+  /* eslint-enable max-len */
+  output += '";' + eol;
 
-        /* eslint-disable max-len */
-        output += (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
-        output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all');
+  // write all output to patternlab-data
+  fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
-        /* eslint-enable max-len */
-        output += '";' + eol;
+  // annotations
+  const annotationsJson = annotationExporter.gather(patternlab);
+  const annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJson) + '};';
 
-        // write all output to patternlab-data
-        fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
+  fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
 
-        // annotations
-        const annotationsJson = annotationExporter.gather(patternlab);
-        const annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJson) + '};';
+  // log memory usage
+  if (patternlab.config.debug) {
+    const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-        fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
-
-        // log memory usage
-        if (patternlab.config.debug) {
-          const used = process.memoryUsage().heapUsed / 1024 / 1024;
-
-          console.log(`The full build used approximately ${Math.round(used * 100) / 100} MB`);
-        }
-
-        resolve();
-      });
-    });
-}
+    console.log(`The full build used approximately ${Math.round(used * 100) / 100} MB`);
+  }
+};
