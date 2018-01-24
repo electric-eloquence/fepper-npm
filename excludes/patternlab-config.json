@@ -38,7 +38,6 @@
   },
   "cacheBust": true,
   "cleanPublic": false,
-  "compileUiOnEveryBuild": false,
   "debug": false,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,

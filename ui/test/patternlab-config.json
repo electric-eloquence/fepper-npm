@@ -11,39 +11,36 @@
       "js": "source/_scripts",
       "jsBld": "source/_scripts/bld",
       "jsSrc": "source/_scripts/src",
-      "css": "files/empty",
+      "css": "source/_styles",
       "cssBld": "source/_styles/bld",
       "cssSrc": "source/_styles/src",
       "fonts": "source/_styles/bld/fonts",
-      "patterns": "test/files/_viewall-test-patterns",
+      "patterns": "source/_patterns",
       "templates": "source/_patterns/03-templates",
       "pages": "source/_patterns/04-pages",
       "scrape": "source/_patterns/98-scrape",
       "static": "source/_static",
-      "styleguide": "files/_styleguide",
-      "ui": "files/_ui"
+      "ui": "source/_ui"
     },
     "public": {
-      "root": "files",
-      "annotations": "files/annotations",
-      "data": "files/data",
+      "root": "public",
+      "annotations": "public/annotations",
+      "data": "public/node_modules/fepper-ui/data",
       "images": "public/_assets",
       "js": "public/_scripts",
-      "css": "public/_styles/bld",
+      "css": "public/_styles",
+      "cssBld": "public/_styles/bld",
       "fonts": "public/_styles/bld/fonts",
-      "patterns": "files/patterns",
+      "patterns": "public/patterns",
       "static": "public/static",
-      "styleguide": "files/styleguide"
+      "styleguide": "public/node_modules/fepper-ui"
     }
   },
   "cacheBust": true,
   "cleanPublic": false,
-  "compileUiOnEveryBuild": false,
   "debug": false,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
-  "ignored-extensions": ["yml"],
-  "ignored-directories": [],
   "ishControlsHide": {
     "random": true,
     "disco": true,
@@ -60,14 +57,9 @@
   },
   "ishMinimum": "240",
   "ishMaximum": "2600",
-  "outputFileSuffixes": {
-    "markupOnly": ".markup-only",
-    "rawTemplate": "",
-    "rendered": ""
-  },
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
-  "patternExtension": "mustache",
+  "patternExtension": ".mustache",
   "styleGuideExcludes": [
   ]
 }

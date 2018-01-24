@@ -36,8 +36,8 @@ if (uiCssExistsBefore) {
   uiCssExistsBefore = fs.existsSync(uiCss);
 }
 
-function compileUi(patternlab) {
-  return plMain.compileUi()
+function compileui(patternlab) {
+  return plMain.compileui()
     .then(() => {
       return plMain.buildFrontend(patternlab, () => {});
     });
@@ -63,7 +63,7 @@ exports.ui_compiler = {
     );
 
     plMain.buildViewAll(patternlab);
-    await compileUi(patternlab);
+    await compileui(patternlab);
 
     cssContent = fs.readFileSync(uiCss, enc);
     indexContent = fs.readFileSync(styleguideIndex, enc);
