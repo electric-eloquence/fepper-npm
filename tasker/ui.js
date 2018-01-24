@@ -39,7 +39,7 @@ gulp.task('ui:compile', function (cb) {
 });
 
 gulp.task('ui:compileui', function (cb) {
-  ui.compile()
+  ui.compileui()
     .catch((err) => {
       utils.error(err);
     })
