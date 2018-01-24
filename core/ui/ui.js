@@ -14,7 +14,7 @@ const srcDir = conf.ui.paths.source;
 module.exports = class {
   build(arg) {
     if (typeof arg === 'undefined') {
-      return patternlab.build();
+      patternlab.build();
     }
     else if (arg === 'v') {
       patternlab.version();
@@ -35,13 +35,22 @@ module.exports = class {
   }
 
   compile() {
-    return patternlab.compileUi()
+    return patternlab.compileui()
       .catch(err => {
         utils.error(err);
       })
       .then(() => {
-        return this.build();
+        this.build();
+
+        return Promise.resolve();
       });
+  }
+
+  compileui() {
+    return patternlab.compileui()
+      .catch(err => {
+        utils.error(err);
+      })
   }
 
   copy() {

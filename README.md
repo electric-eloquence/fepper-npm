@@ -46,7 +46,7 @@ Fepper exposes these methods on the `patternlab` object:
 
 * build: function (options)
 * patternsonly: function (options)
-* compileUi: function (options)
+* compileui: function (options)
 * resetConfig: function (config)
 
 The `options` parameter is optional. If submitted, it must be an object whose 
@@ -68,7 +68,7 @@ Using this NPM decoupled from a full Fepper project requires manually compiling
 the UI. Use the following code as a template for manual compilation:
 
 ```javascript
-patternlab.compileUi()
+patternlab.compileui()
 .catch(err => {
   console.error(err);
 })
@@ -109,7 +109,3 @@ fp ui:compile
 ```
 
 New UI customizations will not be picked up simply by restarting Fepper.
-
-You can compile the UI on every build by setting `compileUiOnEveryBuild` to 
-`true` in `patternlab-config.json`. However, this is not recommended since it 
-would be a drain on performance and simply isn't necessary on every build.

@@ -9,8 +9,23 @@ const Ui = require('../core/ui/ui');
 const ui = new Ui();
 
 gulp.task('ui:build', function (cb) {
-  ui.build()
-    .catch(err => {
+  ui.build();
+  // Finish up.
+  runSequence(
+    'ui:copy',
+    'ui:copy-styles',
+    cb
+  );
+});
+
+gulp.task('ui:clean', function (cb) {
+  ui.clean();
+  cb();
+});
+
+gulp.task('ui:compile', function (cb) {
+  ui.compile()
+    .catch((err) => {
       utils.error(err);
     })
     .then(() => {
@@ -23,23 +38,13 @@ gulp.task('ui:build', function (cb) {
     });
 });
 
-gulp.task('ui:clean', function (cb) {
-  ui.clean();
-  cb();
-});
-
-gulp.task('ui:compile', function (cb) {
+gulp.task('ui:compileui', function (cb) {
   ui.compile()
-    .catch(err => {
+    .catch((err) => {
       utils.error(err);
     })
     .then(() => {
-      // Finish up.
-      runSequence(
-        'ui:copy',
-        'ui:copy-styles',
-        cb
-      );
+      cb();
     });
 });
 
