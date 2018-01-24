@@ -4,6 +4,9 @@
 * Complete refactor of old Pattern Lab Node.js code
 * Replaced old RegExp based templating with Feplet
 * Modernized React usage to eliminate deprecation warnings
+* Renamed compileUi to compileui
+* Removed compileUiOnEveryBuild
+* Added fp ui:compileui task
 
 ### v0.24.4
 * Improved static generator
