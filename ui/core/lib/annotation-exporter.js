@@ -100,6 +100,10 @@ exports.gatherMd = function (patternlab) {
       const frontMatterStr = frontMatterLines.join('\n').trim();
       const frontMatterObj = matter(frontMatterStr);
 
+      if (!frontMatterObj.data || !frontMatterObj.data.el || !frontMatterObj.data.title || !frontMatterObj.content) {
+        continue;
+      }
+
       // unescape "#" in data.el
       frontMatterObj.data.el = frontMatterObj.data.el.replace('\\#', '#');
 
