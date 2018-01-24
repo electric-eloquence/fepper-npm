@@ -50,7 +50,7 @@ module.exports = class {
     return patternlab.compileui()
       .catch(err => {
         utils.error(err);
-      })
+      });
   }
 
   copy() {
