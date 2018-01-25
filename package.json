@@ -1,6 +1,6 @@
 {
   "name": "fepper",
-  "version": "0.25.1",
+  "version": "0.25.2",
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "index.js",
   "scripts": {
@@ -71,6 +71,5 @@
     "request": "^2.40.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2"
-  },
-  "version": "0.25.2-rc.0"
+  }
 }
