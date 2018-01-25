@@ -1,5 +1,11 @@
 # Fepper Changelog
 
+### v0.25.2
+* Fixed menu paths in Windows
+
+### v0.25.1
+* Fixed bug on empty annotations
+
 ### v0.25.0
 * Complete refactor of old Pattern Lab Node.js code
 * Replaced old RegExp based templating with Feplet
