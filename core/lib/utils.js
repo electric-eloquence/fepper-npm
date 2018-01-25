@@ -253,14 +253,14 @@ exports.backendDirCheck = (backendDir) => {
 
 exports.extCheck = (ext) => {
   if (typeof ext === 'string') {
-    let extRefined = ext.trim();
+    let extNormalized = ext.trim();
 
-    if (extRefined[0] !== '.') {
-      extRefined = `.${extRefined}`;
+    if (extNormalized[0] !== '.') {
+      extNormalized = `.${extNormalized}`;
     }
 
-    if (extRefined.match(/^\.[\w\-\.\/]+$/)) {
-      return extRefined;
+    if (extNormalized.match(/^\.[\w\-\.\/]+$/)) {
+      return extNormalized;
     }
   }
 
