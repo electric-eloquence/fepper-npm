@@ -72,17 +72,10 @@ function preprocessPartials(fepletPartials, patternlab) {
 
     const partial = fepletPartials[i];
 
+    // if undefined, create a placeholder in the partials object to get populated later
+    // possible performance improvement by skipping unnecessary assignment
     if (typeof patternlab.partials[partial.name] === 'undefined') {
-      const pattern = patternlab.getPattern(partial.name);
-
-      // try seeing if the partial has no param and the name matches one of an already defined pattern
-      if (pattern) {
-        patternlab.partials[partial.name] = pattern.template;
-      }
-      // else, create a placeholder in the partials object to get populated later
-      else {
-        patternlab.partials[partial.name] = '';
-      }
+      patternlab.partials[partial.name] = '';
     }
   }
 }
@@ -234,13 +227,7 @@ exports.preprocessPartialParams = function (patternlab) {
     let pattern = patternlab.getPattern(partialName);
 
     if (pattern) {
-      if (partialTemplate) {
-        continue;
-      }
-      // if the partialName exactly matches a pattern name, just copy the template
-      else {
-        partials[partialName] = pattern.template;
-      }
+      partials[partialName] = pattern.template;
     }
 
     // if no exact match, must have param
