@@ -353,6 +353,10 @@ module.exports = class Patternlab {
     console.log('');
 
     plutils.logGreen(' fp ui:compile');
+    console.log('  > Compiles the UI frontend and builds the patterns');
+    console.log('');
+
+    plutils.logGreen(' fp ui:compileui');
     console.log('  > Compiles the UI frontend only');
     console.log('');
 
