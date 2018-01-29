@@ -45,7 +45,6 @@
     "gray-matter": "^3.1.1",
     "hogan.js": "3.0.2",
     "js-beautify": "1.6.4",
-    "json-eval": "^0.1.0",
     "json5": "^0.5.0",
     "marked": "0.3.12",
     "rcloader": "^0.2.1",
