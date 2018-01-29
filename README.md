@@ -69,11 +69,11 @@ the UI. Use the following code as a template for manual compilation:
 
 ```javascript
 patternlab.compileui()
-.catch(err => {
+.catch((err) => {
   console.error(err);
 })
 .then(() => {
-  return patternlab.build();
+  patternlab.build();
 });
 ```
 
