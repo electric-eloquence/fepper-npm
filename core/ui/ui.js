@@ -41,8 +41,6 @@ module.exports = class {
       })
       .then(() => {
         this.build();
-
-        return Promise.resolve();
       });
   }
 
