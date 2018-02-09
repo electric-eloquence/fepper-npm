@@ -9,8 +9,8 @@ const JSON5 = require('json5');
 module.exports = function (pattern, patternlab) {
   const patternVariants = [];
 
-  // look for a pseudopattern by checking if there is a file containing same
-  // name, with ~ in it, ending in .json. if found, fill out that pattern
+  // Look for a pseudopattern by checking if there is a file containing same name, with ~ in it, ending in .json.
+  // If found, fill out that pattern.
   for (let i = 0, l = patternlab.patterns.length; i < l; i++) {
     const patternVariant = patternlab.patterns[i];
     const fileName = pattern.fileName[0] === '_' ? pattern.fileName.slice(1) : pattern.fileName;
@@ -23,7 +23,7 @@ module.exports = function (pattern, patternlab) {
         console.log('Found pseudoPattern variant of ' + pattern.patternPartial);
       }
 
-      // we want to do everything we normally would here, except instead read the pseudopattern data
+      // We want to do everything we normally would here, except instead read the pseudopattern data.
       const variantFilename = path.resolve(patternlab.config.paths.source.patterns, patternVariant.relPath);
 
       let variantFileStr = '';
@@ -34,17 +34,17 @@ module.exports = function (pattern, patternlab) {
         variantFileStr = fs.readFileSync(variantFilename, patternlab.enc);
         variantLocalData = JSON5.parse(variantFileStr);
 
-        // clone. do not reference
+        // Clone. Do not reference.
         variantAllData = JSON5.parse(variantFileStr);
       } catch (err) {
         console.log('There was an error parsing pseudopattern JSON for ' + pattern.relPath);
         console.log(err.message || err);
       }
 
-      // extend any existing data with variant data
+      // Extend any existing data with variant data.
       plutils.extendButNotOverride(variantAllData, pattern.allData);
 
-      // fill out the properties of this pseudopattern
+      // Fill out the properties of this pseudopattern.
       patternVariant.jsonFileData = variantLocalData;
       patternVariant.template = pattern.template;
       patternVariant.fileExtension = pattern.fileExtension;

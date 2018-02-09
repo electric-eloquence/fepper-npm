@@ -24,7 +24,7 @@ module.exports = class {
           return Promise.resolve();
         }
 
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           const componentizedUi = require(`${config.paths.public.styleguide}/scripts/componentized-ui`);
           const uiCreate = React.createFactory(componentizedUi(createRenderObj));
 

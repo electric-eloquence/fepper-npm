@@ -5,9 +5,10 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
+const marked = require('marked');
 const matter = require('gray-matter');
 
-/*
+/**
  * Returns the array of comments that used to be wrapped in raw JS.
  */
 exports.gatherJs = function (patternlab) {
@@ -23,7 +24,7 @@ exports.gatherJs = function (patternlab) {
     return [];
   }
 
-  // parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon
+  // Parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon.
   oldAnnotations = oldAnnotations.replace('var comments = ', '');
   oldAnnotations = oldAnnotations.replace('};', '}');
 
@@ -44,8 +45,8 @@ exports.gatherJs = function (patternlab) {
   return retVal;
 };
 
-/*
- * Converts the *.md file into Front Matter and then into an array of annotations
+/**
+ * Converts the *.md file into Front Matter and then into an array of annotations.
  */
 exports.gatherMd = function (patternlab) {
   const annotations = [];
@@ -58,7 +59,7 @@ exports.gatherMd = function (patternlab) {
     const mdFile = mdFiles[i];
     const annotationsMd = fs.readFileSync(path.resolve(mdFile), patternlab.enc);
 
-    // take the annotation snippets and split them on our custom delimiter
+    // Take the annotation snippets and split them on our custom delimiter.
     const annotationsMdSplit = annotationsMd.split('~*~');
 
     for (let j = 0, le = annotationsMdSplit.length; j < le; j++) {
@@ -69,7 +70,7 @@ exports.gatherMd = function (patternlab) {
 
       const frontMatterLinesClone = frontMatterLines.slice(0, frontMatterLines.length);
 
-      // remove comments and/or whitespace before "---" delimiter
+      // Remove comments and/or whitespace before "---" delimiter.
       for (let k = 0, len = frontMatterLinesClone.length; k < len; k++) {
         const line = frontMatterLinesClone[k];
 
@@ -86,7 +87,7 @@ exports.gatherMd = function (patternlab) {
         }
       }
 
-      // escape "#" in the data for el:
+      // Escape "#" in the data for el.
       for (let k = 0, len = frontMatterLines.length; k < len; k++) {
         const line = frontMatterLines[k];
 
@@ -104,12 +105,12 @@ exports.gatherMd = function (patternlab) {
         continue;
       }
 
-      // unescape "#" in data.el
+      // Unescape "#" in data.el
       frontMatterObj.data.el = frontMatterObj.data.el.replace('\\#', '#');
 
       const annotation = frontMatterObj.data;
 
-      annotation.comment = frontMatterObj.content;
+      annotation.comment = marked(frontMatterObj.content);
       annotations.push(annotation);
     }
   }
@@ -122,7 +123,7 @@ exports.gather = function (patternlab) {
   const annotationsMd = exports.gatherMd(patternlab);
   const paths = patternlab.config.paths;
 
-  // first, get all elements unique to annotationsJs
+  // First, get all elements unique to annotationsJs.
   const annotationsUnique = annotationsJs.filter(function (annotationJsObj) {
     let unique = true;
 
@@ -139,6 +140,6 @@ exports.gather = function (patternlab) {
     return unique;
   });
 
-  // then, concat all elements in annotationsMd and return
+  // Then, concat all elements in annotationsMd and return.
   return annotationsUnique.concat(annotationsMd);
 };
