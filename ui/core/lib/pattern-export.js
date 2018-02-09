@@ -6,25 +6,24 @@ const path = require('path');
 const RcLoader = require('rcloader');
 
 module.exports = function (patternlab) {
-  // read the config export options
+  // Read the config export options.
   const exportPartials = patternlab.config.patternExportPatternPartials;
 
   if (!Array.isArray(exportPartials)) {
     return;
   }
 
-  // load js-beautify with options configured in .jsbeautifyrc
+  // Load js-beautify with options configured in .jsbeautifyrc.
   const rcLoader = new RcLoader('.jsbeautifyrc', {});
   const rcOpts = rcLoader.for(patternlab.cwd, {lookup: true});
 
-  // find the chosen patterns to export
+  // Find the chosen patterns to export. This keys only off .patternPartial. Since pattern-export functionality is
+  // vestigial at best, we'll basically leave it alone.
   for (let i = 0, l = exportPartials.length; i < l; i++) {
     for (let j = 0, le = patternlab.patterns.length; j < le; j++) {
       if (exportPartials[i] === patternlab.patterns[j].patternPartial) {
-        // load .jsbeautifyrc and beautify html
         let extendedTemplate = beautify(patternlab.patterns[j].extendedTemplate, rcOpts) + '\n';
 
-        // write matches to the desired location
         fs.outputFileSync(
           path.resolve(
             patternlab.config.patternExportDirectory,
@@ -32,10 +31,6 @@ module.exports = function (patternlab) {
           ),
           patternPartialCode
         );
-
-        // free memory
-        patternlab.patterns[j].extendedTemplate = null;
-        delete patternlab.patterns[j].extendedTemplate;
       }
     }
   }

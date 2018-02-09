@@ -255,7 +255,7 @@ module.exports = class {
       return Promise.resolve();
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       findSupportedStyleExtensions(this.config.paths.source.css, this.extSupported);
 
       for (let i = 0, l = this.extSupported.length; i < l; i++) {

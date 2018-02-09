@@ -3,8 +3,8 @@
 // PRIVATE FUNCTION
 
 function matchPattern(partial, patternlab) {
-  // first, perform a check for partials with parameters
-  // we need to make sure partial !== matchCandidate so we only submit the non-param partial
+  // First, perform a check for partials with parameters.
+  // We need to make sure partial !== matchCandidate so we only submit the non-param partial.
   for (let i in patternlab.partials) {
     if (!patternlab.partials.hasOwnProperty(i)) {
       continue;
@@ -17,7 +17,7 @@ function matchPattern(partial, patternlab) {
     }
   }
 
-  // then, look for exact matches
+  // Then, look for exact matches.
   for (let i in patternlab.partials) {
     if (!patternlab.partials.hasOwnProperty(i)) {
       continue;
@@ -58,7 +58,7 @@ module.exports = function (pattern, patternlab) {
 
   let partialsArr = [];
 
-  // find the {{> template-name }} within patterns
+  // Find the {{> template-name }} within patterns.
   partialsArr = partialTagScan(pattern.fepletParse, partialsArr);
 
   for (let i = 0, l = partialsArr.length; i < l; i++) {
@@ -74,10 +74,10 @@ module.exports = function (pattern, patternlab) {
       console.error('Could not find pattern ' + ancestorPatternName);
     }
     else if (pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
-      // add it since it didnt exist
+      // Add it since it didnt exist.
       pattern.lineageIndex.push(ancestorPattern.patternPartial);
 
-      // create the more complex lineage object too
+      // Create the more complex lineage object too.
       const l = {
         lineagePattern: ancestorPattern.patternPartial,
         lineagePath: '../../patterns/' + ancestorPattern.patternLink
@@ -89,11 +89,11 @@ module.exports = function (pattern, patternlab) {
 
       pattern.lineage.push(l);
 
-      // also, add the lineageR entry if it doesn't exist
+      // Also, add the lineageR entry if it doesn't exist.
       if (ancestorPattern.lineageRIndex.indexOf(pattern.patternPartial) === -1) {
         ancestorPattern.lineageRIndex.push(pattern.patternPartial);
 
-        // create the more complex lineage object in reverse
+        // Create the more complex lineage object in reverse.
         const lr = {
           lineagePattern: pattern.patternPartial,
           lineagePath: '../../patterns/' + pattern.patternLink

@@ -1,4 +1,4 @@
-/*
+/**
  *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community
  * Licensed under the MIT license.
@@ -11,7 +11,7 @@
 const path = require('path');
 
 const diveSync = require('diveSync');
-const feplet = require('feplet');
+const Feplet = require('feplet'); // TODO: Delete
 const fs = require('fs-extra');
 const glob = require('glob');
 const JSON5 = require('json5');
@@ -51,7 +51,6 @@ module.exports = class Patternlab {
     this.viewall = '';
 
     // Normalize configs.
-
     const pathsPublic = this.config.paths.public;
     const pathsSource = this.config.paths.source;
 
@@ -128,26 +127,30 @@ module.exports = class Patternlab {
       throw err;
     }
 
-    this.buildViewAll();
+    this.data.link = {};
+    this.partials = {};
+    this.partialsComp = {};
     this.patterns = [];
     this.subTypePatterns = {};
-    this.partials = {};
-    this.data.link = {};
+
+    this.feplet = new Feplet(this.data, this.partials, this.partialsComp);
+
+    this.buildViewAll();
     this.setCacheBust();
 
     const patternsDir = this.config.paths.source.patterns;
 
-    // diveSync once to populate patternlab.patterns array
+    // diveSync once to populate patternlab.patterns array.
     this.preprocessAllPatterns(patternsDir);
 
-    // iterate through patternlab.partials and patternlab.patterns to preprocess partials with params
+    // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
     patternAssembler.preprocessPartialParams(this);
 
     if (this.useListItems) {
       listItemsBuilder.listItemsBuild(this);
     }
 
-    // set user defined head and foot if they exist
+    // Set user defined head and foot if they exist.
     try {
       this.userHead = fs.readFileSync(path.resolve(this.config.paths.source.meta, '_00-head.mustache'), this.enc);
     }
@@ -176,8 +179,7 @@ module.exports = class Patternlab {
       }
     }
 
-    // prepare for writing to file system
-    // delete the contents of config.patterns.public before writing
+    // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
     if (this.config.cleanPublic) {
       this.emptyFilesNotDirs(this.config.paths.public.annotations);
       this.emptyFilesNotDirs(this.config.paths.public.images);
@@ -186,13 +188,13 @@ module.exports = class Patternlab {
       fs.emptyDirSync(this.config.paths.public.patterns);
     }
 
-    // process patterns and write them to file system
+    // Process patterns and write them to file system.
     this.processAllPatterns();
 
-    // export patterns if necessary
+    // Export patterns if necessary.
     patternExport(this);
 
-    // log memory usage
+    // Log memory usage if debug === true.
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
@@ -201,7 +203,7 @@ module.exports = class Patternlab {
   }
 
   buildViewAll() {
-    // allow viewall templates to be overridden
+    // Allow viewall templates to be overridden.
     if (this.config.paths.source.ui) {
       const viewallCustomDir = path.resolve(this.config.paths.source.ui, 'viewall');
 
@@ -320,8 +322,8 @@ module.exports = class Patternlab {
   getPattern(patternName) {
     let i = this.patterns.length;
 
-    // going from highest index to lowest index because multiple patterns can have the same .patternPartial name and we
-    // want the one at the highest index to be the match
+    // Going from highest index to lowest index because multiple patterns can have the same .patternPartial name and we
+    // want the one at the highest index to be the match.
     // e.g.
     // 00-atoms/00-global/00-colors.mustache -> atoms-colors
     // 00-atoms/01-local/00-colors.mustache -> atoms-colors
