@@ -37,17 +37,24 @@
     "node": ">=8.5.0"
   },
   "dependencies": {
+    "body-parser": "^1.6.3",
     "browserify": "^14.1.0",
     "diveSync": "^0.3.0",
+    "express": "^4.8.3",
     "feplet": "0.1.0-rc.0",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.5",
     "gray-matter": "^3.1.1",
+    "he": "1.1.0",
+    "html2json": "^1.0.2",
     "js-beautify": "1.6.4",
     "json5": "^0.5.0",
+    "marked": "0.3.12",
+    "open": "~0.0.5",
     "rcloader": "^0.2.1",
     "react": "15.6.2",
     "react-dom": "15.6.2",
+    "request": "^2.40.0",
     "slash": "^1.0.0"
   },
   "devDependencies": {
@@ -60,13 +67,8 @@
     "gulp-mocha": "4.x",
     "gulp-refresh": "^1.1.0",
     "gulp-rename": "^1.2.2",
-    "he": "1.1.0",
-    "html2json": "^1.0.2",
     "husky": "^0.14.3",
     "js-yaml": "^3.2.7",
-    "marked": "0.3.12",
-    "open": "~0.0.5",
-    "request": "^2.40.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2"
   }
