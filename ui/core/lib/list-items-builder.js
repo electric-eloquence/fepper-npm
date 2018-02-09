@@ -60,9 +60,6 @@ exports.listItemsBuild = function (container) {
 
     containerData.listItems[count] = tempItems;
   }
-
-  // unset container.listItems to free memory
-  container.listItems = null;
 };
 
 exports.listItemsScan = function (parseArr, patternlab) {
