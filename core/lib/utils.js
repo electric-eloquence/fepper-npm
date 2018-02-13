@@ -272,6 +272,7 @@ exports.extCheck = (ext) => {
 /**
  * Because Pattern Lab :-/
  * Need to remove leading dot-slashes from properties within the paths object in patternlab-config.json.
+ *
  * @param {object} uiObj - The UI configuration object.
  * @return {object} The mutated uiObj.
  */
