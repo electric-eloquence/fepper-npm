@@ -101,10 +101,6 @@ function recurseComponentsArr(componentsArr) {
   return renderObj;
 }
 
-function createRenderObj() {
-  return recurseComponentsArr(this.componentsArr);
-}
-
 function mergeArrays(arrCore, arrCustom) {
   return arrCore
     .concat(
@@ -255,7 +251,7 @@ module.exports = class {
       return Promise.resolve();
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       findSupportedStyleExtensions(this.config.paths.source.css, this.extSupported);
 
       for (let i = 0, l = this.extSupported.length; i < l; i++) {
@@ -279,47 +275,30 @@ module.exports = class {
       componentsToStream = componentsToStream.replace(/\],\[/g, '),');
       componentsToStream = componentsToStream.replace(/\]/g, ')');
       componentsToStream = componentsToStream.replace(/"/g, '');
+      componentsToStream = `window.componentsForClient = () => ${componentsToStream};`;
 
-      let streamToBrowserify = `window.componentsForClient = () => ${componentsToStream};`;
+      const componentsStream = new Readable();
+      componentsStream.push(componentsToStream);
+      componentsStream.push(null);
 
-      const readable = new Readable();
-      readable.push(streamToBrowserify);
-      readable.push(null);
+      browserify(componentsStream)
+        .bundle((err, buf) => {
+          if (err) {
+            reject(err);
+          }
 
-      const writable = new Writable();
-      global.componentsForClient = '';
+          const createRenderObj = function () {
+            return recurseComponentsArr(this.componentsArr);
+          }.bind(this);
 
-      writable.on('pipe', src => {
-        src.on('data', chunk => {
-          global.componentsForClient += chunk.toString();
+          let componentsForClient = buf.toString(this.enc);
+          componentsForClient = stripComments(componentsForClient);
+
+          resolve({
+            createRenderObj,
+            componentsForClient
+          });
         });
-
-        src.on('readable', () => {
-          src.read();
-        });
-
-        src.on('end', () => {
-          writable.end();
-        });
-
-        src.on('error', err => {
-          console.error(err);
-          writable.end();
-        });
-      });
-
-      writable.on('finish', () => {
-        global.componentsForClient = stripComments(global.componentsForClient);
-        resolve(createRenderObj.bind(this));
-      });
-
-
-      writable.on('error', () => {
-      });
-
-      browserify(readable)
-        .bundle()
-        .pipe(writable);
     });
   }
 };

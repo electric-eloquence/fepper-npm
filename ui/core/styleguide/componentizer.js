@@ -19,9 +19,19 @@ module.exports = class {
         console.error(err.message || err);
       })
 
-      .then(createRenderObj => {
-        if (!createRenderObj) {
-          return Promise.resolve();
+      .then((res) => {
+        const {
+          createRenderObj,
+          componentsForClient
+        } = res;
+
+        if (typeof createRenderObj !== 'function') {
+          try {
+            createRenderObj();
+          }
+          catch (err) {
+            return Promise.reject(err);
+          }
         }
 
         return new Promise((resolve) => {
@@ -32,7 +42,7 @@ module.exports = class {
           let output = `<!DOCTYPE html>${ReactDOMServer.renderToString(uiCreate())}`;
 
           output = output.replace(
-            /\{\{\{ ?components_for_client ?\}\}\}/, `//<!--\n${global.componentsForClient}\n//-->`);
+            /\{\{\{ ?components_for_client ?\}\}\}/, `//<!--\n${componentsForClient}\n//-->`);
           fs.writeFileSync(`${styleguideDir}/index.mustache`, output);
 
           resolve();
