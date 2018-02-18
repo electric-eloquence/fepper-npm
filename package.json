@@ -40,7 +40,7 @@
     "browserify": "^14.1.0",
     "diveSync": "^0.3.0",
     "express": "^4.8.3",
-    "feplet": "0.1.0-rc.0",
+    "feplet": "^0.1.0",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.5",
     "gray-matter": "^3.1.1",
