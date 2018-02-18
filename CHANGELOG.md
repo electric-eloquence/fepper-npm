@@ -2,6 +2,7 @@
 
 ### v0.25.4
 * Bumping Feplet version
+* Refined browserification of React component functions
 
 ### v0.25.3
 * Ensures last pattern in iteration order for shorthand notation gets saved as partial template for that name
