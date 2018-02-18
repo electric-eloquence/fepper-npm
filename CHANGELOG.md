@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.25.4
+* Bumping Feplet version
+
 ### v0.25.3
 * Ensures last pattern in iteration order for shorthand notation gets saved as partial template for that name
 
