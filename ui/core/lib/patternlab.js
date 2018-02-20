@@ -42,6 +42,8 @@ module.exports = class Patternlab {
     this.cwd = cwd || path.resolve(__dirname, '../../../../..');
 
     this.data = {};
+    this.dataKeysSchemaObj = {};
+    this.dataKeys = {};
     this.enc = global.conf.enc;
     this.footer = '';
     this.patterns = [];
@@ -101,7 +103,6 @@ module.exports = class Patternlab {
       this.data = {};
     }
 
-
     try {
       const jsonFileStr = fs.readFileSync(path.resolve(this.config.paths.source.data, 'listitems.json'), this.enc);
 
@@ -133,8 +134,6 @@ module.exports = class Patternlab {
     this.patterns = [];
     this.subTypePatterns = {};
 
-    this.feplet = new Feplet(this.data, this.partials, this.partialsComp);
-
     this.buildViewAll();
     this.setCacheBust();
 
@@ -143,12 +142,16 @@ module.exports = class Patternlab {
     // diveSync once to populate patternlab.patterns array.
     this.preprocessAllPatterns(patternsDir);
 
-    // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
-    patternAssembler.preprocessPartialParams(this);
-
     if (this.useListItems) {
       listItemsBuilder.listItemsBuild(this);
     }
+
+    // Create an array of data keys to not render when preprocessing partials.
+    plutils.extendButNotOverride(this.dataKeysSchemaObj, this.data);
+    this.dataKeys = Feplet.preprocessContextKeys(this.dataKeysSchemaObj);
+
+    // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
+    patternAssembler.preprocessPartialParams(this);
 
     // Set user defined head and foot if they exist.
     try {

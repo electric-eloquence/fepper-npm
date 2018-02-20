@@ -74,12 +74,12 @@ function preprocessPartials(fepletPartials, patternlab) {
 
     // If undefined, create a placeholder in the partials object to get populated later.
     if (typeof patternlab.partials[partial.name] === 'undefined') {
-      patternlab.partials[partial.name] = '';
+      patternlab.partials[partial.name] = ''; // Needs to be string.
     }
 
     // Same thing for partialsComp object.
     if (typeof patternlab.partialsComp[partial.name] === 'undefined') {
-      patternlab.partialsComp[partial.name] = '';
+      patternlab.partialsComp[partial.name] = null;
     }
   }
 }
@@ -144,11 +144,10 @@ exports.preprocessPattern = function (relPath, patternlab) {
   // Look for a json file for this template.
   const jsonFilename = path.resolve(patternsPath, pattern.subdir, pattern.fileName + '.json');
 
-  let jsonFileStr = '';
-
   if (fs.existsSync(jsonFilename)) {
     try {
-      jsonFileStr = fs.readFileSync(jsonFilename, patternlab.enc);
+      const jsonFileStr = fs.readFileSync(jsonFilename, patternlab.enc);
+
       pattern.jsonFileData = JSON5.parse(jsonFileStr);
 
       if (patternlab.config.debug) {
@@ -162,11 +161,12 @@ exports.preprocessPattern = function (relPath, patternlab) {
   }
 
   // Look for a listitems.json file for this template.
-  try {
-    const listJsonFileName = path.resolve(patternsPath, pattern.subdir, pattern.fileName + '.listitems.json');
+  const listJsonFileName = path.resolve(patternsPath, pattern.subdir, pattern.fileName + '.listitems.json');
 
-    if (fs.existsSync(listJsonFileName)) {
-      jsonFileStr = fs.readFileSync(listJsonFileName, patternlab.enc);
+  if (fs.existsSync(listJsonFileName)) {
+    try {
+      const jsonFileStr = fs.readFileSync(listJsonFileName, patternlab.enc);
+
       pattern.listItems = JSON5.parse(jsonFileStr);
 
       if (patternlab.config.debug) {
@@ -176,12 +176,13 @@ exports.preprocessPattern = function (relPath, patternlab) {
       listItemsBuilder.listItemsBuild(pattern);
       plutils.extendButNotOverride(pattern.jsonFileData.listItems, patternlab.data.listItems);
     }
-  }
-  catch (err) {
-    console.log('There was an error parsing sibling listitem JSON for ' + pattern.relPath);
-    console.log(err.message || err);
+    catch (err) {
+      console.log('There was an error parsing sibling listitem JSON for ' + pattern.relPath);
+      console.log(err.message || err);
+    }
   }
 
+  plutils.extendButNotOverride(patternlab.dataKeysSchemaObj, pattern.jsonFileData);
   pattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), patternlab.enc);
 
   const scan = Feplet.scan(pattern.template);
@@ -224,7 +225,8 @@ exports.preprocessPartialParams = function (patternlab) {
     const pattern = patternlab.getPattern(partialName);
 
     if (pattern) {
-      patternlab.feplet.registerPartial(partialName, pattern.template, pattern.fepletComp);
+      partials[partialName] = pattern.template;
+      partialsComp[partialName] = pattern.fepletComp;
     }
 
     // If no exact match, must have param.
@@ -249,7 +251,10 @@ exports.preprocessPartialParams = function (patternlab) {
         }
 
         if (nonParamPartialName) {
-          patternlab.feplet.registerPartial(nonParamPartialName, patterns[i].template, patterns[i].fepletComp);
+          partials[nonParamPartialName] = patterns[i].template;
+          partialsComp[nonParamPartialName] = patterns[i].fepletComp;
+
+          break;
         }
       }
     }
@@ -259,14 +264,14 @@ exports.preprocessPartialParams = function (patternlab) {
   // We therefore do not want to iterate on the partials object itself.
   const partialKeysArr = Object.keys(partials);
 
-  // Since we have all non-param partials registered, preprocess partials with params.
+  // Since we have all non-param partials saved, preprocess partials with params.
   for (let i = 0, l = partialKeysArr.length; i < l; i++) {
     const partialKey = partialKeysArr[i];
     const partialText = partials[partialKey];
     const partialComp = partialsComp[partialKey];
     const pattern = patternlab.getPattern(partialKey);
 
-    patternlab.feplet.preprocessPartialParams(partialText, partialComp);
+    Feplet.preprocessPartialParams(partialText, partialComp, partials, partialsComp, patternlab.dataKeys);
 
     if (pattern) {
       pattern.isPreprocessed = true;
@@ -279,7 +284,7 @@ exports.preprocessPartialParams = function (patternlab) {
 
     // Preprocess partials with params that exist in higher level patterns.
     if (!pattern.isPreprocessed) {
-      patternlab.feplet.preprocessPartialParams(pattern.template, pattern.fepletComp);
+      Feplet.preprocessPartialParams(pattern.template, pattern.fepletComp, partials, partialsComp, patternlab.dataKeys);
     }
 
     // Find and set lineages.
@@ -408,7 +413,6 @@ exports.processPattern = function (pattern, patternlab) {
 
     switch (key) {
       case 'footer':
-      case 'extendedTemplate':
       case 'flatPatternPath':
       case 'isPattern':
       case 'name':
@@ -426,6 +430,14 @@ exports.processPattern = function (pattern, patternlab) {
       case 'lineageR':
       case 'lineageRIndex':
         continue;
+    }
+
+    if (key === 'extendedTemplate') {
+      const patternExportPatternPartials = patternlab.config.patternExportPatternPartials;
+
+      if (Array.isArray(patternExportPatternPartials) && patternExportPatternPartials.length) {
+        continue;
+      }
     }
 
     pattern[key] = null;
