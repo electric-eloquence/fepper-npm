@@ -1,6 +1,10 @@
 # Fepper Changelog
 
 ### v0.25.4
+* Providing stronger data context to Feplet when preprocessing partials
+* Bumping Feplet version to accommodate this
+
+### v0.25.4
 * Bumping Feplet version
 * Refined browserification of React component functions
 
