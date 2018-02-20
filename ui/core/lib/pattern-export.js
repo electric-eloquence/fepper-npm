@@ -22,7 +22,7 @@ module.exports = function (patternlab) {
   for (let i = 0, l = exportPartials.length; i < l; i++) {
     for (let j = 0, le = patternlab.patterns.length; j < le; j++) {
       if (exportPartials[i] === patternlab.patterns[j].patternPartial) {
-        let extendedTemplate = beautify(patternlab.patterns[j].extendedTemplate, rcOpts) + '\n';
+        const patternPartialCode = beautify(patternlab.patterns[j].extendedTemplate, rcOpts) + '\n';
 
         fs.outputFileSync(
           path.resolve(
