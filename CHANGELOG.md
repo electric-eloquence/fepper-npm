@@ -1,6 +1,6 @@
 # Fepper Changelog
 
-### v0.25.4
+### v0.25.5
 * Providing stronger data context to Feplet when preprocessing partials
 * Bumping Feplet version to accommodate this
 
