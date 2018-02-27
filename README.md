@@ -53,7 +53,7 @@ The `options` parameter is optional. If submitted, it must be an object whose
 properties are intended to override one or more properties in the `config` 
 object consumed by the `Patternlab` constructor.
 
-Keep in mind that configs passed with an `options` parameter will persist 
+Keep in mind that configs overridden by an `options` parameter will persist 
 through all future operations on that `Patternlab` instance. In order to revert 
 the configs back to the original configs, call `resetConfig` with the original 
 configs.
@@ -69,12 +69,12 @@ the UI. Use the following code as a template for manual compilation:
 
 ```javascript
 patternlab.compileui()
-.catch((err) => {
-  console.error(err);
-})
-.then(() => {
-  patternlab.build();
-});
+  .catch((err) => {
+    console.error(err);
+  })
+  .then(() => {
+    patternlab.build();
+  });
 ```
 
 All aspects of the UI are available for customization. For example, the toolbar 
