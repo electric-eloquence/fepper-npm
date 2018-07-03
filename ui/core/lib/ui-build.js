@@ -466,7 +466,7 @@ module.exports = function (patternlab) {
     );
   }
   catch (err) {
-    reject(err);
+    console.error(err);
   }
 
   fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);

@@ -16,7 +16,7 @@ exports.main = (req, res) => {
 <body>${successMsg}<br><a href="/">Open Fepper UI</a></body></html>`;
 
     if (!dat) {
-      res.end(successSimple);
+      res.send(successSimple);
 
       return;
     }
@@ -27,8 +27,10 @@ exports.main = (req, res) => {
       htmlMd = marked(dat);
     }
     catch (err1) {
+      const internalServerError = 500;
+
       utils.error(err1);
-      res.end(successSimple);
+      res.status(internalServerError).send(utils.httpCodes[internalServerError] + ' - ' + err1);
 
       return;
     }
@@ -44,8 +46,8 @@ exports.main = (req, res) => {
     output = output.replace('{{ title }}', successMsg);
     output = output.replace('{{ msg_class }}', 'success');
     output = output.replace('{{ message }}', `<h1>${successMsg}</h1>`);
-    output = output.replace(/localhost:3000/g, req.headers.host);
+    output = output.replace(/\{\{ host \}\}/g, req.headers.host);
 
-    res.end(output);
+    res.send(output);
   });
 };

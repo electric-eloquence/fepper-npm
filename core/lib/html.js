@@ -23,26 +23,34 @@ exports.head = `
   </head>
 
   <body style="width: 100%;" class="text">
-    <main id="{{ main_id }}">`;
+    <main id="{{ main_id }}" class="{{ main_class }}">`;
 
-exports.headWithMsg = exports.head + '\n      <div class="message {{ msg_class }}">{{ message }}</div>';
+exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{ message }}</div>';
 
 exports.scraperTitle = `
-      <h1>Fepper HTML Scraper</h1>`;
+      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>`;
+
+exports.forbidden = `
+      <section id="forbidden" class="error">
+        <p>Error! You can only use the HTML Scraper on the machine that is running this Fepper instance!</p>
+        <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
+        <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      </section>`;
 
 exports.landingBody = `
-      <form action="/html-scraper" method="post" {{ attributes }}>
+      <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter" {{ attributes }}>
         <div>
-          <label for="url">Enter URL:</label>
+          <label for="url">URL:</label>
           <input name="url" type="text" value="{{ url }}" style="width: 100%;" />
         </div>
         <div>
-          <label for="target">Target Selector:</label>
-          <input name="target" type="text" value="{{ target }}" style="width: 100%;" />
+          <label for="selector">Target Selector:</label>
+          <input name="selector" type="text" value="{{ selector }}" style="width: 100%;" />
         </div>
+        <textarea name="html2json" style="display: none;"></textarea>
         <div class="cf" style="padding-top: 10px;">
           <input name="url-form" type="submit" value="Submit" style="float: left;" />
-          <button id="help-button" style="float: right;" onclick="return toggleHelp();">Help</button>
+          <button id="help-button" style="float: right;">Help</button>
         </div>
       </form>
       <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
@@ -59,10 +67,13 @@ exports.reviewerSuffix = `
 
 exports.importerPrefix = `
       <h3>Does this HTML look right?</h3>
-      <form action="/html-scraper" method="post" name="importer" onsubmit="return validateForm();" style="margin-bottom: 20px;">
+      <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
         <div>Yes, import into Fepper.</div>
         <label for="import-form">Enter a filename to save this under:</label>
         <input name="filename" type="text" value="" style="width: 100%" />
+        <input name="url" type="hidden" value="{{ url }}" />
+        <input name="selector" type="hidden" value="{{ selector }}" />
+        <textarea name="html2json" style="display: none;"></textarea>
         <textarea name="mustache" style="display: none;">`;
 
 exports.json = `
@@ -73,23 +84,10 @@ exports.importerSuffix = `
         </textarea>
         <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;" />
       </form>
-      <h3>Otherwise, correct the URL and Target Selector and submit again.</h3>
-
-      <script type="text/javascript">
-        function validateForm() {
-          'use strict';
-
-          var filename = document.forms['importer']['filename'].value;
-
-          if (!filename) {
-            alert('Filename must be filled out!');
-            return false;
-          }
-        }
-      </script>`;
+      <h3>Otherwise, correct the URL and Target Selector and submit again.</h3>`;
 
 exports.success = `
-      <p>To open the UI, click here: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
+      <p>To open the UI, click here: <a href="http://{{ host }}" target="_blank">http://{{ host }}</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press Ctrl+c.</p>
       <p>The following documentation is also available in Fepper's README.md:</p>`;
 
