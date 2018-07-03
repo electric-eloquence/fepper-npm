@@ -2,55 +2,48 @@
 
 const gulp = require('gulp');
 
+const refresh = require('../core/lib/gulp-refresh');
 const utils = require('../core/lib/utils');
 
 const conf = global.conf;
-const pluginsConf = {};
-
-// The "headed" conf is for internal Fepper development only. Necessary when requiring fepper-npm with `npm link`.
-if (conf.headed) {
-  pluginsConf.config = `${global.workDir}/package.json`;
-}
-
-const plugins = require('gulp-load-plugins')(pluginsConf);
 
 const pubDir = global.conf.ui.paths.public;
 const srcDir = global.conf.ui.paths.source;
 
 gulp.task('tcp-ip-reload:listen', function () {
-  plugins.refresh.listen({port: conf.livereload_port});
+  refresh.listen({port: conf.livereload_port});
 });
 
 gulp.task('tcp-ip-reload:annotations', function () {
   return gulp.src(utils.pathResolve(pubDir.annotations) + '/**')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:assets', function () {
   return gulp.src(utils.pathResolve(pubDir.images) + '/**')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:index', function () {
   return gulp.src(utils.pathResolve(pubDir.root) + '/index.html')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:injectStyles', function () {
   return gulp.src(utils.pathResolve(pubDir.css) + '/**/*.css')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 // Watch in the srcDir so we don't pick up css changes from ui:copy-styles.
 // Assuming the copy completes before the browser refreshes.
 gulp.task('tcp-ip-reload:otherStyles', function () {
   return gulp.src(utils.pathResolve(srcDir.css) + '/**/!(*.css)')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:scripts', function () {
   return gulp.src(utils.pathResolve(pubDir.js) + '/**')
-    .pipe(plugins.refresh());
+    .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:watch', function () {

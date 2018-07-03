@@ -1,6 +1,7 @@
 'use strict';
 
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 
 const utils = require('../lib/utils');
@@ -8,44 +9,46 @@ const utils = require('../lib/utils');
 const conf = global.conf;
 const pref = global.pref;
 
+const gatekeeper = require('./gatekeeper');
 const htmlScraper = require('./html-scraper');
-const htmlScraperPost = new (require('./html-scraper-post'))();
+const HtmlScraperPost = require('./html-scraper-post');
 const htmlScraperXhr = require('./html-scraper-xhr');
 const MustacheBrowser = require('./mustache-browser');
 const readme = require('./readme');
 const success = require('./success');
 
-var mustacheBrowser = new MustacheBrowser(utils.pathResolve(conf.ui.paths.source.patterns));
+const mustacheBrowser = new MustacheBrowser(utils.pathResolve(conf.ui.paths.source.patterns));
 
-exports.main = function () {
-  var app = express();
+/**
+ * @return {object} The configured Express app.
+ */
+exports.main = () => {
+  const app = express();
 
-  // Serve the backend's static files where the document root and top-level
-  // directory are set in backend.webserved_dirs in pref.yml.
-  let webservedDirs = null;
-  if (Array.isArray(pref.backend.webserved_dirs)) {
-    webservedDirs = pref.backend.webserved_dirs;
-  }
-
-  if (webservedDirs) {
-    for (let i = 0; i < webservedDirs.length; i++) {
-      let webservedDirSplit = webservedDirs[i].split('/');
-      webservedDirSplit.shift();
-      app.use(
-        `/${webservedDirSplit.join('/')}`,
-        express.static(`${utils.pathResolve(conf.backend_dir)}/${webservedDirs[i]}`)
-      );
-    }
-  }
+  /* MIDDLEWARE DEPENDENCIES */
 
   // So variables sent via form submission can be parsed.
   app.use(bodyParser.urlencoded({extended: true}));
 
+  // So cookies can be parsed.
+  app.use(cookieParser());
+
+  /* GET OPERATIONS */
+
+  // HTML scraper AJAX gatekeeper response.
+  app.get('/gatekeeper', gatekeeper.respond);
+
   // HTML scraper form.
   app.get('/html-scraper', htmlScraper.main);
 
-  // HTML scraper AJAX response.
+  // HTML scraper AJAX for populating user pages.
   app.get('/html-scraper-xhr', htmlScraperXhr.main);
+
+  // HTML scraper cross-origin requests of HTML for scraping.
+  app.get('/html-scraper-xhr/cors', htmlScraperXhr.cors);
+
+  // HTML scraper markup for gatekept forbidden page.
+  app.get('/html-scraper-xhr/forbidden', gatekeeper.render);
 
   // Mustache browser.
   app.get('/mustache-browser', mustacheBrowser.main());
@@ -56,17 +59,42 @@ exports.main = function () {
   // Success page.
   app.get('/success', success.main);
 
+  /* POST OPERATIONS */
+
   // HTML scraper and importer actions.
-  app.post('/html-scraper', function (req, res) {
-    htmlScraperPost.req = req;
-    htmlScraperPost.res = res;
+  app.post('/html-scraper', (req, res) => {
+    const htmlScraperPost = new HtmlScraperPost(req, res);
+
     htmlScraperPost.main();
   });
+
+  /* STATIC PAGES */
 
   // Fepper static files.
   app.use('/fepper-core', express.static(`${global.appDir}/core/webserved`));
 
-  // For everything else, document root = Pattern Lab.
+  // Webserved directories.
+  // Serve the backend's static files where the document root and top-level
+  // directory are configured in backend.webserved_dirs in pref.yml.
+  let webservedDirs = null;
+
+  if (Array.isArray(pref.backend.webserved_dirs)) {
+    webservedDirs = pref.backend.webserved_dirs;
+  }
+
+  if (webservedDirs) {
+    for (let i = 0; i < webservedDirs.length; i++) {
+      let webservedDirSplit = webservedDirs[i].split('/');
+
+      webservedDirSplit.shift();
+      app.use(
+        `/${webservedDirSplit.join('/')}`,
+        express.static(`${utils.pathResolve(conf.backend_dir)}/${webservedDirs[i]}`)
+      );
+    }
+  }
+
+  // For everything else, document root = Pattern Lab's public directory.
   app.use(express.static(utils.pathResolve(conf.ui.paths.public.root)));
 
   return app;

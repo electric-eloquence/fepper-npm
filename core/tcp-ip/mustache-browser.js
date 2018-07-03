@@ -16,19 +16,22 @@ module.exports = class {
    * @param {string} err - error.
    */
   noResult(res, err) {
-    var output = '';
+    let output = '';
     output += htmlObj.head;
+
     if (typeof err === 'string') {
       output += err;
     }
     else {
       output += 'There is no Mustache template there by that name. Perhaps you need to use <a href="http://patternlab.io/docs/pattern-including.html" target="_blank">the more verbosely pathed syntax.</a>';
     }
+
     output += htmlObj.foot;
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
-    res.end(output);
+
+    res.send(output);
   }
 
   /**
@@ -39,13 +42,14 @@ module.exports = class {
    */
   partialTagToPath(partialParam) {
     // Strip opening Mustache braces and control character.
-    var partial = partialParam.replace(/^\{\{>\s*/, '');
+    let partial = partialParam.replace(/^\{\{>\s*/, '');
     // Strip parentheses-wrapped parameter submission.
     partial = partial.replace(/\([\S\s]*?\)/, '');
     // Strip colon/pipe-delimited style modifier.
     partial = partial.replace(/\:[\w\-\|]+/, '');
     // Strip closing Mustache braces.
     partial = partial.replace(/\s*\}\}$/, '');
+
     if (partial.indexOf('.mustache') !== partial.length - 9) {
       partial = partial + '.mustache';
     }
@@ -60,7 +64,8 @@ module.exports = class {
    * @return {string} Stripped code.
    */
   spanTokensStrip(codeParam) {
-    var code = codeParam.replace(/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/g, '$1');
+    let code = codeParam.replace(/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/g, '$1');
+
     if (/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/.test(code)) {
       code = this.spanTokensStrip(code);
     }
@@ -75,14 +80,14 @@ module.exports = class {
    * @return {string} Viewable and linkable code.
    */
   toHtmlEntitiesAndLinks(data) {
-    var entitiesAndLinks = data.replace(/"/g, '&quot;');
+    let entitiesAndLinks = data.replace(/"/g, '&quot;');
     entitiesAndLinks = entitiesAndLinks.replace(/</g, '&lt;');
     entitiesAndLinks = entitiesAndLinks.replace(/>/g, '&gt;');
     entitiesAndLinks = entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&">$&</a>');
-
     // Render indentation whitespace as HTML entities.
     entitiesAndLinks = entitiesAndLinks.replace(/^ /gm, '&nbsp;');
     entitiesAndLinks = entitiesAndLinks.replace(/^\t/gm, '&nbsp;&nbsp;&nbsp;&nbsp;');
+
     while (/^(&nbsp;)+ /m.test(entitiesAndLinks) || /^(&nbsp;)+\t/m.test(entitiesAndLinks)) {
       entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+) /gm, '$1&nbsp;');
       entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+)\t/gm, '$1&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -102,16 +107,20 @@ module.exports = class {
           code = this.spanTokensStrip(code);
           // HTML entities and links.
           code = this.toHtmlEntitiesAndLinks(code);
+
           if (typeof req.query.title === 'string') {
             code = `<h2>${req.query.title}</h2>\n${code}`;
           }
+
           // Render the output with HTML head and foot.
           let output = htmlObj.head;
           output += code;
           output += htmlObj.foot;
           output = output.replace('{{ title }}', 'Fepper Mustache Browser');
+          output = output.replace('{{ main_class }}', 'mustache-browser');
           output = output.replace('{{ main_id }}', 'mustache-browser');
-          res.end(output);
+
+          res.send(output);
         }
         catch (err) {
           this.noResult(res, err);
@@ -122,9 +131,9 @@ module.exports = class {
           // Requires verbosely pathed Mustache partial syntax.
           let partial = this.partialTagToPath(req.query.partial.trim());
           let fullPath = utils.pathResolve(`${conf.ui.paths.source.patterns}/${partial}`);
-
           // Check if query string correlates to actual Mustache file.
           let stat = fs.statSync(fullPath);
+
           if (stat.isFile()) {
             fs.readFile(fullPath, conf.enc, function (err, data) {
               // Render the Mustache code if it does.
@@ -137,7 +146,9 @@ module.exports = class {
               output += htmlObj.foot;
               output = output.replace('{{ title }}', 'Fepper Mustache Browser');
               output = output.replace('{{ main_id }}', 'mustache-browser');
-              res.end(output);
+              output = output.replace('{{ main_class }}', 'mustache-browser');
+
+              res.send(output);
             }.bind(this));
           }
           else {

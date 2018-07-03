@@ -7,9 +7,9 @@ const yaml = require('js-yaml');
 
 const enc = 'utf8';
 
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 exports.conf = (isHeadless) => {
   let conf;
   let confStr;
@@ -125,12 +125,21 @@ exports.conf = (isHeadless) => {
 
   // Override defaults with custom values.
   exports.extendButNotOverride(conf, defaults);
+
+  // HTML scraper confs. Defining here because they should never be exposed to end-users.
+  conf.scrape = {
+    limit_error_msg: 'Submitting too many requests per minute.',
+    limit_time: 30000,
+    scraper_file: '00-html-scraper.mustache'
+  };
+
+  // Write to global object.
   global.conf = conf;
 
   return conf;
 };
 
-// The difference between confs and prefs is that confs are mandatory. However, the file must still exist even if blank.
+// The difference between confs and prefs is that confs are mandatory. However, the pref file must exist even if blank.
 exports.pref = (isHeadless) => {
   let pref;
   let defaults;
@@ -183,9 +192,9 @@ exports.data = () => {
   return data;
 };
 
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Data utilities.
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 /**
  * Recursively merge properties of two objects.
  *
@@ -228,9 +237,9 @@ exports.escapeReservedRegexChars = (regexStr) => {
   return regexStr.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 };
 
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // File system utilities.
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 exports.backendDirCheck = (backendDir) => {
   if (typeof backendDir === 'string') {
     const fullPath = `${exports.pathResolve(global.conf.backend_dir)}/${backendDir.trim()}`;
@@ -316,22 +325,22 @@ exports.pathResolve = (relPath, normalize) => {
   }
 };
 
-exports.findup = (fileName, workDir) => {
+exports.findup = (filename, workDir) => {
   let dirMatch = null;
   let files = fs.readdirSync(workDir);
 
-  if (files.indexOf(fileName) > -1) {
+  if (files.indexOf(filename) > -1) {
     return workDir;
   }
 
   const workDirUp = path.normalize(`${workDir}/..`);
   files = fs.readdirSync(workDirUp);
 
-  if (files.indexOf(fileName) > -1) {
+  if (files.indexOf(filename) > -1) {
     return workDirUp;
   }
   else if (workDirUp !== '/') {
-    dirMatch = exports.findup(fileName, workDirUp);
+    dirMatch = exports.findup(filename, workDirUp);
   }
   else {
     return null;
@@ -340,9 +349,9 @@ exports.findup = (fileName, workDir) => {
   return dirMatch;
 };
 
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Logging.
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 exports.console = console; // To not trigger eslint errors on assignment.
 
 exports.isTest = () => {
@@ -393,16 +402,17 @@ exports.warn = function () {
   if (arguments.length) {
     arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
   }
-  exports.console.warn(null, arguments);
+  exports.console.warn.apply(null, arguments);
 };
 
 exports.httpCodes = {
-  404: 'HTTP 404: Not Found'
+  404: 'HTTP 404: Not Found',
+  500: 'HTTP 500: Internal Server Error'
 };
 
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Webserved directories.
-// ///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 /**
  * Remove first path element from webservedDirsFull and save to array.
  *
