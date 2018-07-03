@@ -1,50 +1,21 @@
 * {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-html,
-body,
-div,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-ol,
-ul,
-li,
-form,
-button,
-input,
-label,
-legend,
-select,
-textarea,
-table,
-header,
-footer,
-nav,
-section,
-figure {
-  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-}
-
-header,
-footer,
-nav,
-section,
 article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
 hgroup,
-figure {
+main,
+menu,
+nav,
+section,
+summary {
   display: block;
-  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 }
 
 body,
@@ -89,15 +60,16 @@ h6 {
 }
 
 html {
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 62.5%;
 }
 
 body {
   background: white;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.6em;
+  line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   color: #333333;
-  margin: 0;
 }
 
 main {
@@ -129,6 +101,7 @@ a {
   text-decoration: none;
   outline: 0;
 }
+
 a:hover,
 a:focus {
   color: gray;
@@ -138,12 +111,18 @@ h1 {
   font-size: 2em;
   line-height: 1.2;
 }
+
 article h1,
 aside h1,
 nav h1,
-section h1 {
+section h1,
+.scraper-heading {
   font-size: 1.5em;
   margin-bottom: 0.5em;
+}
+
+.scraper-heading {
+  margin-top: 1.6rem;
 }
 
 h2 {
@@ -233,6 +212,7 @@ iframe {
 figure {
   margin-bottom: 1rem;
 }
+
 figure img {
   margin-bottom: 0.25rem;
 }
@@ -266,7 +246,7 @@ label {
 input,
 textarea {
   border: 1px solid gray;
-  padding: 0.5rem 0.65rem;
+  padding: 0.8rem 1.04rem;
 }
 
 input[type=text],
@@ -285,7 +265,7 @@ input[type="submit"] {
   color: white;
   cursor: pointer;
   font-size: 16px;
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 input[type="checkbox"],
@@ -337,6 +317,10 @@ td {
   color: #089e00;
 }
 
+.warning {
+  color: goldenrod;
+}
+
 .error {
   color: red;
 }
@@ -344,26 +328,31 @@ td {
 .text a {
   text-decoration: underline;
 }
+
 .text ul {
   list-style: disc;
   margin: 0 0 1rem 1.2em;
 }
+
 .text ul ul {
   margin-bottom: 0;
 }
+
 .text ol {
   list-style: decimal;
   margin: 0 0 1rem 1.2em;
 }
+
 .text ol ol {
   margin-bottom: 0;
 }
 
-#mustache-browser {
+.mustache-browser {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 13px;
 }
-#mustache-browser h2 {
+
+.mustache-browser h2 {
   font-size: 20px;
   margin-bottom: 10px;
 }

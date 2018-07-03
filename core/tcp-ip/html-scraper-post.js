@@ -1,12 +1,15 @@
 'use strict';
 
-const beautify = require('js-beautify').html;
 const fs = require('fs');
+const path = require('path');
+
+const beautify = require('js-beautify').html;
+const glob = require('glob');
 const he = require('he');
 const html2json = require('html2json').html2json;
 const json2html = require('html2json').json2html;
-const request = require('request');
 
+const gatekeeper = require('./gatekeeper');
 const utils = require('../lib/utils');
 
 const conf = global.conf;
@@ -27,89 +30,53 @@ class JsonForData {
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
   constructor(req, res) {
-    this._req = req;
-    this._res = res;
-  }
-
-  set req(req) {
-    this._req = req;
-  }
-
-  set res(res) {
-    this._res = res;
+    this.req = req;
+    this.res = res;
   }
 
   /**
-   * @param {string} str_ - The text requiring sane newlines.
-   * @return {string} A line feed at the end and stripped of carriage returns.
-   */
-  newlineFormat(str_) {
-    const str = str_.replace(/\r/g, '') + '\n';
-
-    return str;
-  }
-
-  /**
-   * @param {array} dataArr - Data array.
-   * @return {string} Sanitized HTML.
-   */
-  dataArrayToJson(dataArr) {
-    const jsonForData = new JsonForData();
-
-    for (let i = 0; i < dataArr.length; i++) {
-      for (let j in dataArr[i]) {
-        if (dataArr[i].hasOwnProperty(j)) {
-          jsonForData.scrape[0][j] = dataArr[i][j];
-        }
-      }
-    }
-
-    return jsonForData;
-  }
-
-  /**
-   * @param {string} target - CSS selector plus optional array index.
+   * @param {string} selectorRaw - CSS selector plus optional array index.
    * @return {object} An object storing properties of the selector.
    */
-  elementParse(target) {
-    const targetSplit = this.targetValidate(target);
-    let selectorName;
-    let selectorType;
+  elementParse(selectorRaw) {
+    const selectorObj = this.selectorValidate(selectorRaw);
+    const index = selectorObj.index;
+    let name;
+    let type;
 
-    switch (targetSplit[0][0]) {
+    switch (selectorObj.name[0]) {
       case '#':
-        selectorName = targetSplit[0].slice(1);
-        selectorType = 'id';
+        name = selectorObj.name.slice(1);
+        type = 'id';
         break;
       case '.':
-        selectorName = targetSplit[0].slice(1);
-        selectorType = 'class';
+        name = selectorObj.name.slice(1);
+        type = 'class';
         break;
       default:
-        selectorName = targetSplit[0];
-        selectorType = 'tag';
+        name = selectorObj.name;
+        type = 'tag';
     }
 
-    return {name: selectorName, type: selectorType, index: targetSplit[1]};
+    return {name, index, type};
   }
 
   /**
    * Recurse through the object returned by html2json to find the selected element(s).
    *
    * @param {string|object} selector_ - At level 0, a CSS selector. At deeper levels, the selector object.
-   * @param {string} html2jsonObj - The object returned by html2json.
-   * @param {string} persistentObj_ - A mutating object persisting to return results. Not submitted at level 0.
-   * @param {string} level_ - The level of recursion. Not submitted at level 0.
+   * @param {object} html2jsonObj - The object returned by html2json.
+   * @param {object|null} persistentObj_ - A mutating object persisting to return results. Not submitted at level 0.
+   * @param {number} level - The level of recursion. Not submitted at level 0.
    * @return {object} An html2json object containing the matched elements. Only returns at level 0.
    */
-  elementSelect(selector_, html2jsonObj, persistentObj_, level_) {
+  elementSelect(selector_, html2jsonObj, persistentObj_ = null, level = 0) {
     // Validate 1st param.
     // Validate 2nd param.
     if (!html2jsonObj || html2jsonObj.constructor !== Object || !Array.isArray(html2jsonObj.child)) {
       return null;
     }
 
-    const level = level_ || 0;
     const persistentObj = persistentObj_ || new HtmlObj();
     let selectorObj;
 
@@ -177,64 +144,72 @@ module.exports = class {
   }
 
   /**
-   * Iterate through collection of selected elements. If an index is specified, skip until that index is iterated upon.
-   *
-   * @param {string} html2jsonObj - An html2json object.
-   * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
-   * @return {object} An object containing an html2json object containing all nodes, and another containg only one.
-   */
-  targetHtmlGet(html2jsonObj) {
-    const allObj = new HtmlObj();
-    const children = html2jsonObj.child;
-    const firstObj = new HtmlObj();
-    let elIndex = 0;
-
-    for (let i = 0; i < children.length; i++) {
-      let elObj = children[i];
-
-      if (elObj.node === 'element') {
-        if (html2jsonObj.index === -1 || html2jsonObj.index === elIndex) {
-          let flag = `\n<!-- BEGIN ARRAY ELEMENT ${elIndex} -->\n`;
-          let curr = allObj.child.length - 1;
-
-          if (!elIndex || elIndex === html2jsonObj.index) {
-            firstObj.child.push(elObj);
-            // TODO: maybe use a factory for this
-            firstObj.child.push({node: 'text', text: '\n'});
-          }
-          else if (curr > -1) {
-            allObj.child[curr].text = flag;
-          }
-
-          allObj.child.push(elObj);
-          allObj.child.push({node: 'text', text: '\n'});
-        }
-        elIndex++;
-      }
-    }
-
-    return {all: json2html(allObj), first: json2html(firstObj)};
-  }
-
-  /**
-   * @param {string} templateDir - Write destination directory.
-   * @param {string} fileName - Filename.
+   * @param {string} scrapeDir - Write destination directory.
+   * @param {string} filename - Filename.
    * @param {string} fileMustache - Mustache file's content.
    * @param {string} fileJson - JSON file's content.
    */
-  filesWrite(templateDir, fileName, fileMustache, fileJson) {
+  filesWrite(scrapeDir, filename, fileMustache, fileJson) {
     try {
-      fs.writeFileSync(templateDir + '/' + fileName + '.mustache', fileMustache);
-      fs.writeFileSync(templateDir + '/' + fileName + '.json', fileJson);
-      let msg = 'Go+back+to+the+Pattern+Lab+tab+and+refresh+the+browser+to+check+that+your+template+appears+under+the+';
-      msg += 'Scrape+menu.';
-      this.redirectWithMsg('success', msg);
+      fs.writeFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
+      fs.writeFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
-      return;
+      let msg = 'Go back to the "Fepper - scrape-html-scraper" tab and refresh the browser to check that your ';
+
+      msg += 'template appears under the "Scrape" menu.';
+
+      this.redirectWithMsg('success', msg, '', '');
     }
     catch (err) {
       utils.error(err);
     }
+  }
+
+  /**
+   * @param {object} jsonForData - JSON for data ingestion by Mustache. To be stringified for submission to file write.
+   * @param {object} targetHtml_ - targeted HTML to be displayed to end-user.
+   * @param {string} mustache - Mustache code for submission to file write.
+   * @param {string} msgClass - e.g. success, error.
+   * @param {string} message - Message to end-user.
+   * @return {string} HTML.
+   */
+  htmlOutput(jsonForData, targetHtml_, mustache, msgClass = '', message = '') {
+    const dataStr = JSON.stringify(jsonForData, null, 2);
+    const htmlObj = require('../lib/html');
+    const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
+
+    let msgPrefix = '';
+
+    if (msgClass) {
+      msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
+    }
+
+    let output = '';
+
+    output += htmlObj.headWithMsg;
+    output += htmlObj.scraperTitle;
+    output += htmlObj.reviewerPrefix;
+    output += '<div>' + targetHtml + '</div>';
+    output += htmlObj.reviewerSuffix;
+    output += htmlObj.importerPrefix;
+    output += mustache;
+    output += htmlObj.json;
+
+    // Escape double-quotes.
+    output += dataStr.replace(/&quot;/g, '&bsol;&quot;');
+    output += htmlObj.importerSuffix;
+    output += '<script src="/node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>';
+    output += htmlObj.foot;
+    output = output.replace('{{ title }}', 'Fepper HTML Scraper');
+    output = output.replace('{{ main_id }}', 'scraper');
+    output = output.replace('{{ main_class }}', 'scraper');
+    output = output.replace('{{ msg_class }}', msgClass);
+    output = output.replace('{{ message }}', msgPrefix + message);
+    output = output.replace('{{ attributes }}', '');
+    output = output.replace('{{ url }}', this.req.body.url);
+    output = output.replace('{{ selector }}', this.req.body.selector);
+
+    return output;
   }
 
   /**
@@ -252,8 +227,14 @@ module.exports = class {
     return html;
   }
 
+  /**
+   * Parse JSON from targeted HTML.
+   *
+   * @param {string} targetHtml - sanitized HTML.
+   * @return {object} jsonForMustache and jsonForData.
+   */
   htmlToJsons(targetHtml) {
-    const dataObj = {scrape: [{}]};
+    const jsonForData = {scrape: [{}]};
     const dataKeys = [[]];
     let jsonForMustache = null;
 
@@ -261,47 +242,60 @@ module.exports = class {
       jsonForMustache = html2json('<body>' + targetHtml + '</body>');
     }
     catch (err) {
-      utils.error(err);
+      // Can work with null jsonForMustache.
+      utils.warn(err);
     }
 
     if (jsonForMustache) {
-      this.jsonRecurse(jsonForMustache, dataObj, dataKeys, 0);
+      this.jsonRecurse(jsonForMustache, jsonForData, dataKeys, 0);
     }
 
-    return {jsonForMustache: jsonForMustache, jsonForData: dataObj};
+    return {jsonForMustache, jsonForData};
   }
 
   /**
-   * @param {string} fileName - Filename.
+   * @param {string} filename - Filename.
    * @return {boolean} True or false.
    */
-  isFilenameValid(fileName) {
-    return /^[A-Za-z0-9][\w\-\.]*$/.test(fileName);
+  filenameValidate(filename) {
+    if (filename === conf.scrape.scraper_file) {
+      return false;
+    }
+
+    return /^[0-9a-z][\w\-\.]*$/i.test(filename);
   }
 
-  jsonRecurse(jsonObj, dataObj, dataKeys, inc_) {
+  /**
+   * Recurse through jsonForMustache. Mutate jsonForMustache and jsonForData along the way.
+   *
+   * @param {object} jsonForMustache - JSON for conversion to Mustache syntax.
+   * @param {object} jsonForData - JSON for data ingestion by Mustache.
+   * @param {string} dataKeys - keys to jsonForData.
+   * @param {array} inc_ - array index.
+   */
+  jsonRecurse(jsonForMustache, jsonForData, dataKeys, inc_) {
     let inc = inc_;
 
-    if (Array.isArray(jsonObj.child)) {
-      for (let i = 0; i < jsonObj.child.length; i++) {
+    if (Array.isArray(jsonForMustache.child)) {
+      for (let i = 0; i < jsonForMustache.child.length; i++) {
         if (
-          jsonObj.child[i].node === 'text' &&
-          typeof jsonObj.child[i].text === 'string' &&
-          jsonObj.child[i].text.trim()
+          jsonForMustache.child[i].node === 'text' &&
+          typeof jsonForMustache.child[i].text === 'string' &&
+          jsonForMustache.child[i].text.trim()
         ) {
           let underscored = '';
 
-          if (jsonObj.attr) {
-            if (typeof jsonObj.attr.id === 'string') {
-              underscored = jsonObj.attr.id;
+          if (jsonForMustache.attr) {
+            if (typeof jsonForMustache.attr.id === 'string') {
+              underscored = jsonForMustache.attr.id;
             }
-            else if (typeof jsonObj.attr.class === 'string') {
-              underscored = jsonObj.attr.class;
+            else if (typeof jsonForMustache.attr.class === 'string') {
+              underscored = jsonForMustache.attr.class;
             }
           }
 
-          if (!underscored && typeof jsonObj.tag === 'string') {
-            underscored = jsonObj.tag;
+          if (!underscored && typeof jsonForMustache.tag === 'string') {
+            underscored = jsonForMustache.tag;
           }
 
           if (underscored) {
@@ -334,19 +328,22 @@ module.exports = class {
               }
             }
             let tmpObj = {};
-            tmpObj[underscored] = jsonObj.child[i].text.trim();
+            tmpObj[underscored] = jsonForMustache.child[i].text.trim();
             dataKeys[inc].push(underscored);
-            dataObj.scrape[inc][underscored] = tmpObj[underscored].replace(/"/g, '\\"');
-            jsonObj.child[i].text = '{{ ' + underscored + ' }}';
+            jsonForData.scrape[inc][underscored] = tmpObj[underscored].replace(/"/g, '\\"');
+            jsonForMustache.child[i].text = '{{ ' + underscored + ' }}';
           }
         }
-        else if (jsonObj.child[i].node === 'comment' && jsonObj.child[i].text.indexOf(' BEGIN ARRAY ELEMENT ') === 0) {
+        else if (
+          jsonForMustache.child[i].node === 'comment' &&
+          jsonForMustache.child[i].text.indexOf(' BEGIN ARRAY ELEMENT ') === 0
+        ) {
           inc++;
-          dataObj.scrape[inc] = {};
+          jsonForData.scrape[inc] = {};
           dataKeys.push([]);
         }
         else {
-          this.jsonRecurse(jsonObj.child[i], dataObj, dataKeys, inc);
+          this.jsonRecurse(jsonForMustache.child[i], jsonForData, dataKeys, inc);
         }
       }
     }
@@ -355,7 +352,7 @@ module.exports = class {
   /**
    * @param {object} jsonForMustache - JSON for conversion to Mustache syntax.
    * @param {object} jsonForData - JSON for data ingestion by Mustache.
-   * @return {string} XHTML.
+   * @return {string} Mustache code.
    */
   jsonToMustache(jsonForMustache, jsonForData) {
     let mustache = '<body></body>';
@@ -381,189 +378,305 @@ module.exports = class {
     return mustache;
   }
 
-  outputHtml(jsonForData, targetHtml_, mustache) {
-    const dataStr = JSON.stringify(jsonForData, null, 2);
-    const htmlObj = require('../lib/html');
-    const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
+  /**
+   * @param {string} str_ - The text requiring sane newlines.
+   * @return {string} Text stripped of carriage returns and with just a line feed at the end (no additional whitespace).
+   */
+  newlineFormat(str_) {
+    let str = str_.replace(/\r/g, '');
 
-    let output = '';
-    output += htmlObj.headWithMsg;
-    output += '<section>\n';
-    output += htmlObj.scraperTitle;
-    output += htmlObj.reviewerPrefix;
-    output += '<div>' + targetHtml + '</div>';
-    output += htmlObj.reviewerSuffix;
-    output += htmlObj.importerPrefix;
-    output += mustache;
-    output += htmlObj.json;
-    // Escape double-quotes.
-    output += dataStr.replace(/&quot;/g, '&bsol;&quot;');
-    output += htmlObj.importerSuffix;
-    output += htmlObj.landingBody;
-    output += '</section>';
-    output += htmlObj.foot;
-    output = output.replace('{{ title }}', 'Fepper HTML Scraper');
-    output = output.replace('{{ msg_class }}', '');
-    output = output.replace('{{ message }}', '');
-    output = output.replace('{{ attributes }}', '');
-    output = output.replace('{{ url }}', this._req.body.url);
-    output = output.replace('{{ target }}', this._req.body.target);
-    this._res.end(output);
+    str = str.trim() + '\n';
+
+    return str;
   }
 
-  redirectWithMsg(type, msg, target_, url_) {
-    if (this._res) {
-      const msgType = type[0].toUpperCase() + type.slice(1);
-      const target = typeof target_ === 'string' ? target_ : '';
-      const url = typeof url_ === 'string' ? url_ : '';
-      this._res.writeHead(
+  /**
+   * Redirect away from this POST to a GET landing.
+   *
+   * @param {string} msgClass - e.g. success, error.
+   * @param {string} message - Message to end-user.
+   * @param {string} url_ - URL to be scraped.
+   * @param {string} selector_ - CSS selector plus optional array index.
+   */
+  redirectWithMsg(msgClass, message, url_, selector_) {
+    if (this.res) {
+      let msgPrefix = '';
+
+      if (msgClass) {
+        msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
+      }
+
+      const url = url_ || this.req.body.url;
+      const selector = selector_ || this.req.body.selector;
+
+      this.res.writeHead(
         303,
         {
           Location:
-            'html-scraper?msg_class=' + type + '&message=' + msgType + '! ' + msg + '&target=' + target + '&url=' + url
+            '/html-scraper?msg_class=' + encodeURIComponent(msgClass) +
+            '&message=' + encodeURIComponent(msgPrefix) + encodeURIComponent(message) +
+            '&url=' + encodeURIComponent(url) +
+            '&selector=' + encodeURIComponent(selector)
         }
       );
-      this._res.end();
+      this.res.end();
     }
   }
 
-  targetValidate(target_) {
-    const target = target_.trim();
-    const bracketOpenPos = target.indexOf('[');
-    const bracketClosePos = target.indexOf(']');
-    let targetIndex = -1;
-    let targetIndexStr;
-    let targetName = target;
+  scrapeAndRender(selector, html2jsonObj) {
+    let msgClass;
+    let message;
 
-    // Slice target param to extract targetName and targetIndexStr if submitted.
+    try {
+      const elementSelection = this.elementSelect(selector, html2jsonObj);
+      let jsonForData = new JsonForData();
+      let jsonForMustache;
+      let mustache = '';
+      let targetSingle;
+      let targetHtml = '';
+      let targetHtmlObj = this.targetHtmlGet(elementSelection);
+
+      // Sanitize scraped HTML.
+      targetHtml = this.htmlSanitize(targetHtmlObj.all);
+      targetSingle = this.htmlSanitize(targetHtmlObj.single);
+
+      // Convert HTML to JSON object for data ingestion by Mustache.
+      jsonForData = this.htmlToJsons(targetHtml).jsonForData;
+
+      // Adjust jsonForData if not selecting multiple instances of a CSS class
+      if (jsonForData.scrape.length === 1) {
+        jsonForData = jsonForData.scrape[0];
+      }
+
+      // Convert HTML to JSON object for conversion to Mustache.
+      jsonForMustache = this.htmlToJsons(targetSingle).jsonForMustache;
+
+      // Finish conversion to Mustache.
+      if (jsonForMustache) {
+        mustache = this.jsonToMustache(jsonForMustache, jsonForData);
+      }
+      else {
+        message = 'The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML ';
+        message += 'spec. This will prevent Fepper from writing its data into a JSON file.';
+        msgClass = 'warning';
+        mustache = targetSingle;
+      }
+
+      const output = this.htmlOutput(jsonForData, targetHtml, mustache, msgClass, message);
+
+      this.res.send(output);
+    }
+    catch (err) {
+      utils.error(err);
+    }
+  }
+
+  /**
+   * Iterate through collection of selected elements. If an index is specified, skip until that index is iterated upon.
+   *
+   * @param {string} html2jsonObj - An html2json object.
+   * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
+   * @return {object} An object containing an html2json object containing all nodes, and another containg only one.
+   */
+  targetHtmlGet(html2jsonObj) {
+    const allObj = new HtmlObj();
+    const children = html2jsonObj.child;
+    const singleObj = new HtmlObj();
+    let elIndex = 0;
+
+    for (let i = 0, l = children.length; i < l; i++) {
+      let elObj = children[i];
+
+      if (elObj.node === 'element') {
+        if (html2jsonObj.index === -1 || html2jsonObj.index === elIndex) {
+          let childIndexLast = allObj.child.length - 1;
+
+          if (childIndexLast > -1) {
+            allObj.child[childIndexLast].text = `\n<!-- BEGIN ARRAY ELEMENT ${elIndex} -->\n`;
+          }
+
+          allObj.child.push(elObj);
+          // Not worth storing obj to var because they'll be references of the same obj.
+          allObj.child.push({node: 'text', text: '\n'});
+
+          if ((html2jsonObj.index === -1 && elIndex === 0) || html2jsonObj.index === elIndex) {
+            singleObj.child.push(elObj);
+            singleObj.child.push({node: 'text', text: '\n'});
+          }
+        }
+
+        elIndex++;
+      }
+    }
+
+    return {all: json2html(allObj), single: json2html(singleObj)};
+  }
+
+  /**
+   * Validate syntax of Target Selector input.
+   *
+   * @param {string} selectorRaw_ - CSS selector plus optional array index.
+   * @return {array} CSS selector and its index if it comprises more than one element.
+   */
+  selectorValidate(selectorRaw_) {
+    const selectorRaw = selectorRaw_.trim();
+    const bracketOpenPos = selectorRaw.indexOf('[');
+    const bracketClosePos = selectorRaw.indexOf(']');
+
+    let index = -1;
+    let indexStr;
+    let name = selectorRaw;
+
+    // Slice selectorRaw to extract name and indexStr if submitted.
     if (bracketOpenPos > -1) {
-      if (bracketClosePos === target.length - 1) {
-        targetIndexStr = target.slice(bracketOpenPos + 1, bracketClosePos);
-        targetName = target.slice(0, bracketOpenPos);
+      if (bracketClosePos === selectorRaw.length - 1) {
+        indexStr = selectorRaw.slice(bracketOpenPos + 1, bracketClosePos);
+        name = selectorRaw.slice(0, bracketOpenPos);
       }
       else {
-        if (this._req) {
-          this.redirectWithMsg('error', 'Incorrect+submission.', this._req.body.target, this._req.body.url);
+        if (this.req) {
+          this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
         }
-        return [];
+
+        name = '';
       }
     }
 
-    // Validate that targetName is a css selector.
-    if (!/^(#|\.)?[a-z][\w#\-\.]*$/i.test(targetName)) {
-      if (this._req) {
-        this.redirectWithMsg('error', 'Incorrect+submission.', this._req.body.target, this._req.body.url);
+    // Validate that name is a css selector.
+    if (!/^(#|\.)?[a-z][\w#\-\.]*$/i.test(name)) {
+      if (this.req) {
+        this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
       }
-      return [];
+
+      name = '';
     }
 
-    // If targetIndexStr if submitted, validate it is an integer.
-    if (targetIndexStr) {
-      if (/^\d+$/.test(targetIndexStr)) {
-        targetIndex = parseInt(targetIndexStr, 10);
+    // If indexStr if submitted, validate it is an integer.
+    if (indexStr) {
+      if (/^\d+$/.test(indexStr)) {
+        index = parseInt(indexStr, 10);
       }
       else {
-        if (this._req) {
-          this.redirectWithMsg('error', 'Incorrect+submission.', this._req.body.target, this._req.body.url);
+        if (this.req) {
+          this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
         }
-        return [];
+
+        name = '';
       }
     }
 
-    return [targetName, targetIndex];
+    return {name, index};
   }
 
+  /**
+   * Main.
+   */
   main() {
-    const req = this._req;
+    if (!gatekeeper.gatekeep(this.req)) {
+      gatekeeper.render(this.req, this.res);
 
-    // HTML scraper action on submission of URL.
-    if (typeof req.body.url === 'string' && req.body.url.trim() && typeof req.body.target === 'string') {
-      try {
-        // Need to reference this class's "this" with a var within the callback passed to request().
-        const htmlScraperPost = this;
-        request(req.body.url, (error, response, body_) => {
-          if (error || response.statusCode !== 200) {
-            htmlScraperPost
-              .redirectWithMsg('error', 'Not+getting+a+valid+response+from+that+URL.', req.body.target, req.body.url);
-            return;
-          }
-
-          // Strip body of everything before opening html tag (including doctype).
-          let body = body_.replace(/[\S\s]*<html/, '<html');
-          // Strip body of everything after closing html tag.
-          body = body.replace(/<\/html>[\S\s]*/, '</html>');
-
-          const jsonFromHtml = html2json(body);
-          const target = req.body.target;
-          const html2jsonObj = htmlScraperPost.elementSelect(target, jsonFromHtml);
-          let jsonForData = new JsonForData();
-          let jsonForMustache;
-          let mustache = '';
-          let targetFirst;
-          let targetHtml = '';
-          let targetHtmlObj;
-
-          if (!html2jsonObj) {
-            htmlScraperPost.redirectWithMsg('error', 'Incorrect+submission.', req.body.target, req.body.url);
-            return;
-          }
-          else if (html2jsonObj.child.length) {
-            targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
-
-            // Sanitize scraped HTML.
-            targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
-            targetFirst = htmlScraperPost.htmlSanitize(targetHtmlObj.first);
-
-            // Convert HTML to JSON object for data ingestion by Mustache.
-            jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
-            // Adjust jsonForData if not selecting multiple instances of a CSS class
-            if (jsonForData.scrape.length === 1) {
-              jsonForData = jsonForData.scrape[0];
-            }
-
-            // Convert HTML to JSON object for conversion to Mustache.
-            jsonForMustache = htmlScraperPost.htmlToJsons(targetFirst).jsonForMustache;
-
-            // Finish conversion to Mustache.
-            if (jsonForMustache) {
-              mustache = htmlScraperPost.jsonToMustache(jsonForMustache, jsonForData);
-            }
-            else {
-              mustache = targetFirst;
-            }
-          }
-
-          // Output Mustache.
-          htmlScraperPost.outputHtml(jsonForData, targetHtml, mustache);
-        });
-      }
-      catch (err) {
-        utils.error(err);
-      }
+      return;
     }
 
     // HTML importer action on submission of filename.
-    else if (typeof req.body.filename === 'string' && req.body.filename !== '') {
+    // Put this conditional block single to enable resetting of form.
+    if (typeof this.req.body.filename === 'string' && this.req.body.filename !== '') {
+
       // Limit filename characters.
-      let fileName;
-      if (!this.isFilenameValid(req.body.filename)) {
-        this.redirectWithMsg('error', 'Please+enter+a+valid+filename!.', req.body.target, req.body.url);
+      let filename;
+
+      if (!this.filenameValidate(this.req.body.filename)) {
+        this.redirectWithMsg('error', 'Please enter a valid filename.');
+
         return;
       }
       else {
-        fileName = req.body.filename;
+        filename = this.req.body.filename;
       }
 
-      const templateDir = utils.pathResolve(conf.ui.paths.source.scrape);
-      const fileMustache = this.newlineFormat(req.body.mustache);
-      const fileJson = this.newlineFormat(req.body.json);
-      this.filesWrite(templateDir, fileName, fileMustache, fileJson);
+      const fileMustache = this.newlineFormat(this.req.body.mustache);
+      const fileJson = this.newlineFormat(this.req.body.json);
+      const scrapeDir = utils.pathResolve(conf.ui.paths.source.scrape);
+      const scrapeFiles = glob.sync(scrapeDir + '/*');
+      const timeNow = Date.now();
+
+      // To limit possible attack, limit posts to 2 per minute.
+      // Check this by getting stat for last written file.
+      for (let i = 0, l = scrapeFiles.length; i < l; i++) {
+        const scrapeFile = scrapeFiles[i];
+        const scrapeFileName = path.basename(scrapeFile);
+
+        if (scrapeFileName === conf.scrape.scraper_file) {
+          continue;
+        }
+
+        let scrapeFileStat;
+
+        try {
+          scrapeFileStat = fs.statSync(scrapeFile);
+        }
+        catch (err) {
+          continue;
+        }
+
+        const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
+        const scrapeFileAge = timeNow - scrapeFileBirthtime;
+
+        if (scrapeFileAge < conf.scrape.limit_time) {
+          this.redirectWithMsg('error', conf.scrape.limit_error_msg);
+
+          return;
+        }
+      }
+
+      this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
+    }
+
+    // HTML scraper action on submission of URL.
+    else if (
+      typeof this.req.body.url === 'string' &&
+      this.req.body.url.trim() &&
+      typeof this.req.body.selector === 'string' &&
+      this.req.body.selector.trim() &&
+      typeof this.req.body.html2json === 'string' &&
+      this.req.body.html2json.trim()
+    ) {
+      let html2jsonObj;
+      let message;
+
+      try {
+        html2jsonObj = JSON.parse(this.req.body.html2json);
+      }
+      catch (err) {
+        utils.error(err);
+
+        message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ';
+        message += 'syntactically correct.';
+
+        this.redirectWithMsg('error', message);
+
+        return;
+      }
+
+      if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
+        message = 'The HTML at that URL and selector could not be parsed. Make sure that they are reachable and ';
+        message += 'syntactically correct.';
+
+        this.redirectWithMsg('error', message);
+
+        return;
+      }
+
+      this.scrapeAndRender(this.req.body.selector.trim(), html2jsonObj);
+
+      return;
     }
 
     // If no form variables sent, redirect back with GET.
     else {
       try {
-        this.redirectWithMsg('error', 'Incorrect+submission.', req.body.target, req.body.url);
+        this.redirectWithMsg('error', 'Incorrect submission.');
+
         return;
       }
       catch (err) {

@@ -9,14 +9,16 @@ const utils = require('../lib/utils');
 
 const conf = global.conf;
 
-exports.main = function (req, res) {
-  fs.readFile(utils.pathResolve('README.md'), conf.enc, function (err, dat) {
+exports.main = (req, res) => {
+  fs.readFile(utils.pathResolve('README.md'), conf.enc, (err, dat) => {
     if (err) {
       utils.error(err);
     }
 
     if (!dat) {
-      res.end(utils.httpCodes['404']);
+      const notFound = 404;
+
+      res.status(notFound).send(utils.httpCodes[notFound]);
 
       return;
     }
@@ -27,8 +29,10 @@ exports.main = function (req, res) {
       htmlMd = marked(dat);
     }
     catch (err1) {
+      const internalServerError = 500;
+
       utils.error(err1);
-      res.end(err1);
+      res.status(internalServerError).send(utils.httpCodes[internalServerError] + ' - ' + err1);
 
       return;
     }
@@ -37,6 +41,7 @@ exports.main = function (req, res) {
     output += htmlMd + '\n';
     output += htmlObj.foot;
     output = output.replace('{{ title }}', 'Fepper');
-    res.end(output);
+
+    res.send(output);
   });
 };
