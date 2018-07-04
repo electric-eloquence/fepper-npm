@@ -1,0 +1,17 @@
+{
+  "author": "mklabs",
+  "name": "mini-lr",
+  "description": "Mini LiveReload server, background-friendly",
+  "version": "0.1.9",
+  "homepage": "https://github.com/elwayman02/mini-lr",
+  "bugs": "https://github.com/elwayman02/mini-lr/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elwayman02/mini-lr.git"
+  },
+  "contributors": [
+    "Jordan Hawker <hawker.jordan@gmail.com> (http://www.JordanHawker.com)"
+  ],
+  "main": "./lib",
+  "license": "MIT"
+}
