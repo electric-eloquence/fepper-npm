@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 var execFile = require('child_process').execFile
   , path = require('path')
   ;

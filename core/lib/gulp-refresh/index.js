@@ -1,9 +1,7 @@
-/* eslint-disable */
-
 'use strict'
 
 const es = require('event-stream')
-const minilr = require('mini-lr')
+const minilr = require('../mini-lr')
 const path = require('path')
 const relative = path.relative
 const gutil = require('gulp-util')
