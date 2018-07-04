@@ -1,17 +1,21 @@
 # gulp-refresh
 
-A lightweight [gulp](https://github.com/gulpjs/gulp) plugin for livereload to be 
-used with a livereload middleware of your choice:
+[![Build Status](https://travis-ci.org/leo/gulp-refresh.svg?branch=master)](https://travis-ci.org/leo/gulp-refresh)
+[![License](https://img.shields.io/npm/l/gulp-refresh.svg)](LICENSE.md)
+
+A lightweight [gulp](https://github.com/gulpjs/gulp) plugin for livereload to be used with a livereload middleware of your choice:
 
 - [Connect](https://www.npmjs.com/package/connect-livereload)
 - [Koa](https://www.npmjs.com/package/koa-livereload)
 - [Express](https://www.npmjs.com/package/express-livereload)
 
-This is based on Leonard Lamprecht's 
-[gulp-refresh](https://github.com/leo/gulp-refresh), which is based on a fork of 
-Cyrus David's [gulp-livereload](https://github.com/vohof/gulp-livereload). Since 
-they haven't been active in a long time, it became necessary to copy 
-gulp-refresh and patch its security vulnerabilities.
+This repo is based on a fork of Cyrus David's [gulp-livereload](https://github.com/vohof/gulp-livereload). Since he hasn't been active since a long time, it seemed like a good idea to fork it. I'm also using it in a lot of my upcoming projects and I didn't want it to just die. Please keep in mind that `v1.0.0` of this plugin is equal to `v3.8.1` (the latest version) of the original plugin. So no extra effort. Just replace `gulp-livereload` with the latest version of `gulp-refresh` in your dependencies.
+
+## Install
+
+```
+npm install --save-dev gulp-refresh
+```
 
 ## Usage
 
@@ -76,3 +80,11 @@ You can also directly access the middleware of the underlying server instance (m
 ### .server
 
 gulp-livereload also reveals the underlying server instance for direct access if needed. The instance is a "mini-lr" instance that this wraps around. If the server is not running then this will be `undefined`.
+
+## Debugging
+
+Set the `DEBUG` environment variables to `*` to see what's going on.
+
+```
+$ DEBUG=* gulp <task>
+```

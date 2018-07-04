@@ -1,0 +1,3 @@
+This directory comprises libraries specific to Fepper, as well as third-party 
+libraries that need to be copied and modified because they haven't been 
+maintained.

@@ -2,10 +2,6 @@
 
 Open a file or url in the user's preferred application.
 
-This is based on Jay Jordan's [open](https://github.com/pwnall/node-open). Since 
-it hasn't been updated in a long time, it became necessary to copy open and 
-patch its security vulnerabilities.
-
 # Usage
 
 ```javascript
