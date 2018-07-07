@@ -171,7 +171,7 @@ exports.pagesCompile = function () {
       regex = new RegExp(regexStr, 'g');
       tmpStr = tmpStr.replace(regex, '$1\'');
 
-      // Load .jsbeautifyrc and beautify html
+      // Load .jsbeautifyrc and beautify html.
       tmpStr = beautify(tmpStr, rcOpts) + '\n';
 
       // Copy homepage to index.html.
