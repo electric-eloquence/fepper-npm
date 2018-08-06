@@ -74,6 +74,7 @@
     "fepper-ui": "^0.3.0-rc.0",
     "gulp-eslint": "3.x",
     "gulp-mocha": "6.x",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "json-eval": "^1.0.1"
   }
 }
