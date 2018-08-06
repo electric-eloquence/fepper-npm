@@ -15,6 +15,6 @@ timeout_main: 0
 # fepper-npm to be included  with `npm link`. Uncomment for that purpose.
 #headed: true
 
-app_dir: node_modules/fepper
+app_dir: ..
 backend_dir: backend
 extend_dir: extend

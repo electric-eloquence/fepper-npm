@@ -4,15 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 const beautify = require('js-beautify').html;
-const glob = require('glob');
 const he = require('he');
 const html2json = require('html2json').html2json;
 const json2html = require('html2json').json2html;
-
-const gatekeeper = require('./gatekeeper');
-const utils = require('../lib/utils');
-
-const conf = global.conf;
+const utils = require('fepper-utils');
 
 class HtmlObj {
   constructor() {
@@ -29,9 +24,20 @@ class JsonForData {
 
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
-  constructor(req, res) {
+  constructor(req, res, conf, gatekeeper, html) {
     this.req = req;
     this.res = res;
+    this.conf = conf;
+    this.gatekeeper = gatekeeper;
+    this.html = html;
+
+    // Set some defaults for possibly non-existent nested request properties.
+    this.filename = (this.req && this.req.body && this.req.body.filename) || '';
+    this.html2json = (this.req && this.req.body && this.req.body.html2json) || '';
+    this.json = (this.req && this.req.body && this.req.body.json) || '';
+    this.mustache = (this.req && this.req.body && this.req.body.mustache) || '';
+    this.selector = (this.req && this.req.body && this.req.body.selector) || '';
+    this.url = (this.req && this.req.body && this.req.body.url) || '';
   }
 
   /**
@@ -154,9 +160,8 @@ module.exports = class {
       fs.writeFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
       fs.writeFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
-      let msg = 'Go back to the "Fepper - scrape-html-scraper" tab and refresh the browser to check that your ';
-
-      msg += 'template appears under the "Scrape" menu.';
+      let msg = 'Go back to the "Fepper - scrape-html-scraper" tab and refresh the browser to check that your ' +
+        'template appears under the "Scrape" menu.';
 
       this.redirectWithMsg('success', msg, '', '');
     }
@@ -175,8 +180,9 @@ module.exports = class {
    */
   htmlOutput(jsonForData, targetHtml_, mustache, msgClass = '', message = '') {
     const dataStr = JSON.stringify(jsonForData, null, 2);
-    const htmlObj = require('../lib/html');
     const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
+    const url = this.url;
+    const selector = this.selector;
 
     let msgPrefix = '';
 
@@ -186,28 +192,28 @@ module.exports = class {
 
     let output = '';
 
-    output += htmlObj.headWithMsg;
-    output += htmlObj.scraperTitle;
-    output += htmlObj.reviewerPrefix;
+    output += this.html.headWithMsg;
+    output += this.html.scraperTitle;
+    output += this.html.reviewerPrefix;
     output += '<div>' + targetHtml + '</div>';
-    output += htmlObj.reviewerSuffix;
-    output += htmlObj.importerPrefix;
+    output += this.html.reviewerSuffix;
+    output += this.html.importerPrefix;
     output += mustache;
-    output += htmlObj.json;
+    output += this.html.json;
 
     // Escape double-quotes.
     output += dataStr.replace(/&quot;/g, '&bsol;&quot;');
-    output += htmlObj.importerSuffix;
+    output += this.html.importerSuffix;
     output += '<script src="/node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>';
-    output += htmlObj.foot;
+    output += this.html.foot;
     output = output.replace('{{ title }}', 'Fepper HTML Scraper');
     output = output.replace('{{ main_id }}', 'scraper');
     output = output.replace('{{ main_class }}', 'scraper');
     output = output.replace('{{ msg_class }}', msgClass);
     output = output.replace('{{ message }}', msgPrefix + message);
     output = output.replace('{{ attributes }}', '');
-    output = output.replace('{{ url }}', this.req.body.url);
-    output = output.replace('{{ selector }}', this.req.body.selector);
+    output = output.replace('{{ url }}', url);
+    output = output.replace('{{ selector }}', selector);
 
     return output;
   }
@@ -258,7 +264,7 @@ module.exports = class {
    * @return {boolean} True or false.
    */
   filenameValidate(filename) {
-    if (filename === conf.scrape.scraper_file) {
+    if (filename === this.conf.scrape.scraper_file) {
       return false;
     }
 
@@ -406,8 +412,8 @@ module.exports = class {
         msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
       }
 
-      const url = url_ || this.req.body.url;
-      const selector = selector_ || this.req.body.selector;
+      const url = url_ || this.url;
+      const selector = selector_ || this.selector;
 
       this.res.writeHead(
         303,
@@ -456,8 +462,8 @@ module.exports = class {
         mustache = this.jsonToMustache(jsonForMustache, jsonForData);
       }
       else {
-        message = 'The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML ';
-        message += 'spec. This will prevent Fepper from writing its data into a JSON file.';
+        message = 'The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML ' +
+          'spec. This will prevent Fepper from writing its data into a JSON file.';
         msgClass = 'warning';
         mustache = targetSingle;
       }
@@ -469,47 +475,6 @@ module.exports = class {
     catch (err) {
       utils.error(err);
     }
-  }
-
-  /**
-   * Iterate through collection of selected elements. If an index is specified, skip until that index is iterated upon.
-   *
-   * @param {string} html2jsonObj - An html2json object.
-   * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
-   * @return {object} An object containing an html2json object containing all nodes, and another containg only one.
-   */
-  targetHtmlGet(html2jsonObj) {
-    const allObj = new HtmlObj();
-    const children = html2jsonObj.child;
-    const singleObj = new HtmlObj();
-    let elIndex = 0;
-
-    for (let i = 0, l = children.length; i < l; i++) {
-      let elObj = children[i];
-
-      if (elObj.node === 'element') {
-        if (html2jsonObj.index === -1 || html2jsonObj.index === elIndex) {
-          let childIndexLast = allObj.child.length - 1;
-
-          if (childIndexLast > -1) {
-            allObj.child[childIndexLast].text = `\n<!-- BEGIN ARRAY ELEMENT ${elIndex} -->\n`;
-          }
-
-          allObj.child.push(elObj);
-          // Not worth storing obj to var because they'll be references of the same obj.
-          allObj.child.push({node: 'text', text: '\n'});
-
-          if ((html2jsonObj.index === -1 && elIndex === 0) || html2jsonObj.index === elIndex) {
-            singleObj.child.push(elObj);
-            singleObj.child.push({node: 'text', text: '\n'});
-          }
-        }
-
-        elIndex++;
-      }
-    }
-
-    return {all: json2html(allObj), single: json2html(singleObj)};
   }
 
   /**
@@ -569,35 +534,76 @@ module.exports = class {
   }
 
   /**
+   * Iterate through collection of selected elements. If an index is specified, skip until that index is iterated upon.
+   *
+   * @param {string} html2jsonObj - An html2json object.
+   * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
+   * @return {object} An object containing an html2json object containing all nodes, and another containg only one.
+   */
+  targetHtmlGet(html2jsonObj) {
+    const allObj = new HtmlObj();
+    const children = html2jsonObj.child;
+    const singleObj = new HtmlObj();
+    let elIndex = 0;
+
+    for (let i = 0, l = children.length; i < l; i++) {
+      let elObj = children[i];
+
+      if (elObj.node === 'element') {
+        if (html2jsonObj.index === -1 || html2jsonObj.index === elIndex) {
+          let childIndexLast = allObj.child.length - 1;
+
+          if (childIndexLast > -1) {
+            allObj.child[childIndexLast].text = `\n<!-- BEGIN ARRAY ELEMENT ${elIndex} -->\n`;
+          }
+
+          allObj.child.push(elObj);
+          // Not worth storing obj to var because they'll be references of the same obj.
+          allObj.child.push({node: 'text', text: '\n'});
+
+          if ((html2jsonObj.index === -1 && elIndex === 0) || html2jsonObj.index === elIndex) {
+            singleObj.child.push(elObj);
+            singleObj.child.push({node: 'text', text: '\n'});
+          }
+        }
+
+        elIndex++;
+      }
+    }
+
+    return {all: json2html(allObj), single: json2html(singleObj)};
+  }
+
+  /**
    * Main.
    */
   main() {
-    if (!gatekeeper.gatekeep(this.req)) {
-      gatekeeper.render(this.req, this.res);
+    if (!this.gatekeeper.gatekeep(this.req)) {
+      this.gatekeeper.render(this.req, this.res);
 
       return;
     }
 
     // HTML importer action on submission of filename.
     // Put this conditional block single to enable resetting of form.
-    if (typeof this.req.body.filename === 'string' && this.req.body.filename !== '') {
+    if (this.filename !== '') {
 
       // Limit filename characters.
       let filename;
 
-      if (!this.filenameValidate(this.req.body.filename)) {
+      if (!this.filenameValidate(this.filename)) {
         this.redirectWithMsg('error', 'Please enter a valid filename.');
 
         return;
       }
       else {
-        filename = this.req.body.filename;
+        filename = this.filename;
       }
 
-      const fileMustache = this.newlineFormat(this.req.body.mustache);
-      const fileJson = this.newlineFormat(this.req.body.json);
-      const scrapeDir = utils.pathResolve(conf.ui.paths.source.scrape);
-      const scrapeFiles = glob.sync(scrapeDir + '/*');
+      const fileMustache = this.newlineFormat(this.mustache);
+      const fileJson = this.newlineFormat(this.json);
+      const scrapeDir = this.conf.ui.paths.source.scrape;
+      const scrapeFiles = fs.readdirSync(scrapeDir);
       const timeNow = Date.now();
 
       // To limit possible attack, limit posts to 2 per minute.
@@ -606,7 +612,7 @@ module.exports = class {
         const scrapeFile = scrapeFiles[i];
         const scrapeFileName = path.basename(scrapeFile);
 
-        if (scrapeFileName === conf.scrape.scraper_file) {
+        if (scrapeFileName === this.conf.scrape.scraper_file) {
           continue;
         }
 
@@ -622,8 +628,8 @@ module.exports = class {
         const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
         const scrapeFileAge = timeNow - scrapeFileBirthtime;
 
-        if (scrapeFileAge < conf.scrape.limit_time) {
-          this.redirectWithMsg('error', conf.scrape.limit_error_msg);
+        if (scrapeFileAge < this.conf.scrape.limit_time) {
+          this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
 
           return;
         }
@@ -634,24 +640,21 @@ module.exports = class {
 
     // HTML scraper action on submission of URL.
     else if (
-      typeof this.req.body.url === 'string' &&
-      this.req.body.url.trim() &&
-      typeof this.req.body.selector === 'string' &&
-      this.req.body.selector.trim() &&
-      typeof this.req.body.html2json === 'string' &&
-      this.req.body.html2json.trim()
+      this.url.trim() &&
+      this.selector.trim() &&
+      this.html2json.trim()
     ) {
       let html2jsonObj;
       let message;
 
       try {
-        html2jsonObj = JSON.parse(this.req.body.html2json);
+        html2jsonObj = JSON.parse(this.html2json);
       }
       catch (err) {
         utils.error(err);
 
-        message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ';
-        message += 'syntactically correct.';
+        message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ' +
+          'syntactically correct.';
 
         this.redirectWithMsg('error', message);
 
@@ -659,15 +662,15 @@ module.exports = class {
       }
 
       if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
-        message = 'The HTML at that URL and selector could not be parsed. Make sure that they are reachable and ';
-        message += 'syntactically correct.';
+        message = 'The HTML at that URL and selector could not be parsed. Make sure that they are reachable and ' +
+          'syntactically correct.';
 
         this.redirectWithMsg('error', message);
 
         return;
       }
 
-      this.scrapeAndRender(this.req.body.selector.trim(), html2jsonObj);
+      this.scrapeAndRender(this.selector.trim(), html2jsonObj);
 
       return;
     }

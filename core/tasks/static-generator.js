@@ -1,227 +1,262 @@
 'use strict';
 
+const path = require('path');
+
 const beautify = require('js-beautify').html;
 const diveSync = require('diveSync');
 const fs = require('fs-extra');
-const glob = require('glob');
-const path = require('path');
 const RcLoader = require('rcloader');
 
-const utils = require('../lib/utils');
+module.exports = class {
+  constructor(options) {
+    this.conf = options.conf;
+    this.rootDir = options.rootDir;
+    this.utils = options.utils;
 
-const conf = global.conf;
-const pref = global.pref;
-const workDir = global.workDir;
+    this.assetsDir = this.conf.ui.paths.public.images;
+    this.patternsDir = this.conf.ui.paths.public.patterns;
+    this.scriptsDir = this.conf.ui.paths.public.js;
+    this.sourceDir = this.conf.ui.paths.public.root;
+    this.staticDir = this.conf.ui.paths.source.static;
+    this.stylesDir = this.conf.ui.paths.public.css;
 
-const patternsDir = utils.pathResolve(conf.ui.paths.public.patterns);
-const sourceDir = utils.pathResolve(conf.ui.paths.public.root);
-const staticDir = utils.pathResolve(conf.ui.paths.source.static);
+    this.assetsSuffix = this.assetsDir.replace(`${this.sourceDir}/`, '');
+    this.scriptsSuffix = this.scriptsDir.replace(`${this.sourceDir}/`, '');
+    this.stylesSuffix = this.stylesDir.replace(`${this.sourceDir}/`, '');
+  }
 
-const assetsDir = utils.pathResolve(conf.ui.paths.public.images);
-const assetsSuffix = assetsDir.replace(`${sourceDir}/`, '');
-const scriptsDir = utils.pathResolve(conf.ui.paths.public.js);
-const scriptsSuffix = scriptsDir.replace(`${sourceDir}/`, '');
-const stylesDir = utils.pathResolve(conf.ui.paths.public.css);
-const stylesSuffix = stylesDir.replace(`${sourceDir}/`, '');
+  assetsDirCopy() {
+    fs.copySync(this.assetsDir, `${this.staticDir}/${this.assetsSuffix}`);
+  }
 
-exports.assetsDirCopy = function () {
-  fs.copySync(assetsDir, `${staticDir}/${assetsSuffix}`);
-};
-
-exports.pagesDelete = function () {
-  // Unlink symbolic links.
-  diveSync(
-    staticDir,
-    {
-      directories: true
-    },
-    function (err, file) {
-      if (err) {
-        throw err;
-      }
-
-      if (path.extname(file) === '.html') {
-        fs.unlinkSync(file);
-      }
-    }
-  );
-};
-
-exports.npmsCopy = function () {
-  const npmsSrc = `${sourceDir}/node_modules`;
-  const npmsDest = `${staticDir}/node_modules`;
-  const tmpStr = fs.readFileSync(`${staticDir}/index.html`, conf.enc);
-
-  if (/<script[^>]+src="node_modules/.test(tmpStr)) {
-    // Replace old node_modules dir with new.
-    fs.removeSync(npmsDest);
-    fs.copySync(npmsSrc, npmsDest);
-
+  pagesDelete() {
     // Unlink symbolic links.
     diveSync(
-      npmsDest,
+      this.staticDir,
       {
-        all: true
+        directories: true
       },
-      function (err, file) {
+      (err, file) => {
         if (err) {
           throw err;
         }
 
-        const stat = fs.lstatSync(file);
-
-        if (stat.isSymbolicLink()) {
+        if (path.extname(file) === '.html') {
           fs.unlinkSync(file);
         }
       }
     );
   }
-};
 
-exports.scriptsDirCopy = function () {
-  diveSync(
-    scriptsDir,
-    {
-      recursive: false,
-      directories: true,
-      filter: function (path, dir) {
-        return dir;
-      }
-    },
-    function (err, file) {
-      if (err) {
-        throw err;
-      }
+  npmsCopy() {
+    const npmsSrc = `${this.sourceDir}/node_modules`;
+    const npmsDest = `${this.staticDir}/node_modules`;
+    const tmpStr = fs.readFileSync(`${this.staticDir}/index.html`, this.conf.enc);
 
-      const suffix = file.replace(`${sourceDir}/`, '');
+    if (/<script[^>]+src="node_modules/.test(tmpStr)) {
+      // Replace old node_modules dir with new.
+      fs.removeSync(npmsDest);
+      fs.copySync(npmsSrc, npmsDest);
 
-      fs.copySync(file, `${staticDir}/${suffix}`);
-    }
-  );
-};
+      // Unlink symbolic links.
+      diveSync(
+        npmsDest,
+        {
+          all: true
+        },
+        (err, file) => {
+          if (err) {
+            throw err;
+          }
 
-exports.stylesDirCopy = function () {
-  fs.copySync(stylesDir, `${staticDir}/${stylesSuffix}`);
-};
+          const stat = fs.lstatSync(file);
 
-exports.pagesCompile = function () {
-  const dataJson = utils.data();
-  const files = [];
-
-  const srcPages = path.normalize(conf.ui.paths.source.pages);
-  const srcPatterns = `${path.normalize(conf.ui.paths.source.patterns)}/`;
-  const pagesPrefix = path.normalize(srcPages.replace(srcPatterns, ''));
-
-  // Load js-beautify with options configured in .jsbeautifyrc
-  const rcLoader = new RcLoader('.jsbeautifyrc', {});
-  const rcOpts = rcLoader.for(workDir, {lookup: true});
-
-  // Glob page files in public/patterns.
-  const dirs = glob.sync(`${patternsDir}/${pagesPrefix}-*`);
-
-  for (let i = 0; i < dirs.length; i++) {
-    const tmpArr = glob.sync(dirs[i] + '/*');
-
-    for (let j = 0; j < tmpArr.length; j++) {
-      files.push(tmpArr[j]);
+          if (stat.isSymbolicLink()) {
+            fs.unlinkSync(file);
+          }
+        }
+      );
     }
   }
 
-  for (let i = 0; i < files.length; i++) {
-    const f = files[i];
+  scriptsDirCopy() {
+    const staticGenerator = this;
 
-    if (
-      (f.indexOf('html') === f.length - 4) &&
-      (f.indexOf('markup-only.html') !== f.length - 16) &&
-      path.basename(f) !== 'index.html'
-    ) {
-      let regex;
-      let regexStr;
-      let tmpStr = fs.readFileSync(f, conf.enc);
+    diveSync(
+      this.scriptsDir,
+      {
+        recursive: false,
+        directories: true,
+        filter: (path, dir) => {
+          return dir;
+        }
+      },
+      (err, file) => {
+        if (err) {
+          throw err;
+        }
 
-      // Strip Pattern Lab css and js.
-      // eslint-disable-next-line max-len
-      regexStr = '\\s*<!\\-\\- Begin Pattern Lab \\(Required for Pattern Lab to run properly\\) \\-\\->[\\S\\s]*?<!\\-\\- End Pattern Lab \\-\\->\\s*';
-      regex = new RegExp(regexStr, 'g');
-      tmpStr = tmpStr.replace(regex, '');
+        const suffix = file.replace(`${staticGenerator.sourceDir}/`, '');
 
-      // Strip cacheBuster params.
-      tmpStr = tmpStr.replace(/((href|src)="[^"]*)\?\d*"/g, '$1"');
-
-      // Fix paths.
-      tmpStr = tmpStr.replace(/(href|src)\s*=\s*("|')..\/..\//g, '$1=$2');
-
-      // Replace homepage filename with "index.html"
-      if (dataJson.homepage) {
-        let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*(\\/|&#x2F;)' + dataJson.homepage, 'g');
-        tmpStr = tmpStr.replace(homepageRegex, '$1"index');
-
-        homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*(\\/|&#x2F;)' + dataJson.homepage, 'g');
-        tmpStr = tmpStr.replace(homepageRegex, '$1\'index');
+        fs.copySync(file, `${staticGenerator.staticDir}/${suffix}`);
       }
+    );
+  }
 
-      // Strip prefix from remaining page filenames.
-      regexStr = '(href\\s*=\\s*)"[^"]*(/|&#x2F;)';
-      regexStr += utils.escapeReservedRegexChars(pagesPrefix + '-');
-      regex = new RegExp(regexStr, 'g');
-      tmpStr = tmpStr.replace(regex, '$1"');
+  stylesDirCopy() {
+    fs.copySync(this.stylesDir, `${this.staticDir}/${this.stylesSuffix}`);
+  }
 
-      regexStr = '(href\\s*=\\s*)\'[^\']*(/|&#x2F;)';
-      regex = utils.escapeReservedRegexChars(pagesPrefix + '-');
-      regex = new RegExp(regexStr, 'g');
-      tmpStr = tmpStr.replace(regex, '$1\'');
+  pagesCompile() {
+    const dataJson = this.utils.data();
+    const files = [];
 
-      // Load .jsbeautifyrc and beautify html.
-      tmpStr = beautify(tmpStr, rcOpts) + '\n';
+    const srcPages = this.conf.ui.paths.source.pages;
+    const srcPatterns = `${this.conf.ui.paths.source.patterns}/`;
+    const pagesPrefix = srcPages.replace(srcPatterns, '');
 
-      // Copy homepage to index.html.
-      if (dataJson.homepage && f.indexOf(`${dataJson.homepage}.html`) === (f.length - dataJson.homepage.length - 5)) {
-        fs.writeFileSync(`${staticDir}/index.html`, tmpStr);
+    // Load js-beautify with options configured in .jsbeautifyrc
+    const rcLoader = new RcLoader('.jsbeautifyrc', {});
+    const rcOpts = rcLoader.for(this.rootDir, {lookup: true});
+
+    // Resorting to this long, rather unreadable block of code to obviate requiring the large glob NPM.
+    // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
+    // Choosing for...of loops and their readability in exchange for performance.
+
+    // Level 0 declarations.
+    const dirsAtLevel0 = [];
+    const level0 = this.patternsDir;
+    const basenamesAtLevel0 = fs.readdirSync(level0);
+
+    for (let basenameAtLevel0 of basenamesAtLevel0) {
+      try {
+        const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+        const statAtLevel0 = fs.statSync(fileAtLevel0);
+
+        if (statAtLevel0.isDirectory() && basenameAtLevel0.indexOf(`${pagesPrefix}-`) === 0) {
+          dirsAtLevel0.push(fileAtLevel0);
+        }
       }
-      else {
-        regexStr = '^.*\\/';
-        regexStr += utils.escapeReservedRegexChars(pagesPrefix + '-');
-        regex = new RegExp(regexStr);
+      catch (err) {
+        this.utils.error(err);
+      }
+    }
 
-        fs.writeFileSync(`${staticDir}/${f.replace(regex, '')}`, tmpStr);
+    for (let dirAtLevel0 of dirsAtLevel0) {
+      // Level 1 declarations.
+      const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
+
+      for (let basenameAtLevel1 of basenamesAtLevel1) {
+        try {
+          const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
+          const statAtLevel1 = fs.statSync(fileAtLevel1);
+
+          if (statAtLevel1.isFile()) {
+            files.push(fileAtLevel1);
+          }
+        }
+        catch (err) {
+          this.utils.error(err);
+        }
+      }
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+
+      if (
+        (f.indexOf('html') === f.length - 4) &&
+        (f.indexOf('markup-only.html') !== f.length - 16) &&
+        path.basename(f) !== 'index.html'
+      ) {
+        let regex;
+        let regexStr;
+        let tmpStr = fs.readFileSync(f, this.conf.enc);
+
+        // Strip Pattern Lab css and js.
+        // eslint-disable-next-line max-len
+        regexStr = '\\s*<!\\-\\- Begin Pattern Lab \\(Required for Pattern Lab to run properly\\) \\-\\->[\\S\\s]*?<!\\-\\- End Pattern Lab \\-\\->\\s*';
+        regex = new RegExp(regexStr, 'g');
+        tmpStr = tmpStr.replace(regex, '');
+
+        // Strip cacheBuster params.
+        tmpStr = tmpStr.replace(/((href|src)="[^"]*)\?\d*"/g, '$1"');
+
+        // Fix paths.
+        tmpStr = tmpStr.replace(/(href|src)\s*=\s*("|')..\/..\//g, '$1=$2');
+
+        // Replace homepage filename with "index.html"
+        if (dataJson.homepage) {
+          let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*(\\/|&#x2F;)' + dataJson.homepage, 'g');
+          tmpStr = tmpStr.replace(homepageRegex, '$1"index');
+
+          homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*(\\/|&#x2F;)' + dataJson.homepage, 'g');
+          tmpStr = tmpStr.replace(homepageRegex, '$1\'index');
+        }
+
+        // Strip prefix from remaining page filenames.
+        regexStr = '(href\\s*=\\s*)"[^"]*(/|&#x2F;)';
+        regexStr += this.utils.regexReservedCharsEscape(pagesPrefix + '-');
+        regex = new RegExp(regexStr, 'g');
+        tmpStr = tmpStr.replace(regex, '$1"');
+
+        regexStr = '(href\\s*=\\s*)\'[^\']*(/|&#x2F;)';
+        regex = this.utils.regexReservedCharsEscape(pagesPrefix + '-');
+        regex = new RegExp(regexStr, 'g');
+        tmpStr = tmpStr.replace(regex, '$1\'');
+
+        // Load .jsbeautifyrc and beautify html.
+        tmpStr = beautify(tmpStr, rcOpts) + '\n';
+
+        // Copy homepage to index.html.
+        if (dataJson.homepage && f.indexOf(`${dataJson.homepage}.html`) === (f.length - dataJson.homepage.length - 5)) {
+          fs.writeFileSync(`${this.staticDir}/index.html`, tmpStr);
+        }
+        else {
+          regexStr = '^.*\\/';
+          regexStr += this.utils.regexReservedCharsEscape(pagesPrefix + '-');
+          regex = new RegExp(regexStr);
+
+          fs.writeFileSync(`${this.staticDir}/${f.replace(regex, '')}`, tmpStr);
+        }
       }
     }
   }
-};
 
-exports.main = function () {
-  let webservedDirsFull;
-  let webservedDirsShort;
+  main() {
+    let webservedDirsFull;
+    let webservedDirsShort;
 
-  // Delete old assets, scripts, styles in static dir. Then, recreate them.
-  fs.removeSync(`${staticDir}/${assetsSuffix}`);
-  fs.removeSync(`${staticDir}/${scriptsSuffix}`);
-  fs.removeSync(`${staticDir}/${stylesSuffix}`);
-  fs.mkdirSync(`${staticDir}/${assetsSuffix}`);
-  fs.mkdirSync(`${staticDir}/${scriptsSuffix}`);
-  fs.mkdirSync(`${staticDir}/${stylesSuffix}`);
+    // Delete old assets, scripts, styles in static dir. Then, recreate them.
+    fs.removeSync(`${this.staticDir}/${this.assetsSuffix}`);
+    fs.removeSync(`${this.staticDir}/${this.scriptsSuffix}`);
+    fs.removeSync(`${this.staticDir}/${this.stylesSuffix}`);
+    fs.mkdirSync(`${this.staticDir}/${this.assetsSuffix}`);
+    fs.mkdirSync(`${this.staticDir}/${this.scriptsSuffix}`);
+    fs.mkdirSync(`${this.staticDir}/${this.stylesSuffix}`);
 
-  // Copy assets, scripts, styles directories.
-  exports.assetsDirCopy();
-  exports.scriptsDirCopy();
-  exports.stylesDirCopy();
+    // Copy assets, scripts, styles directories.
+    this.assetsDirCopy();
+    this.scriptsDirCopy();
+    this.stylesDirCopy();
 
-  // Delete old pages.
-  exports.pagesDelete();
+    // Delete old pages.
+    this.pagesDelete();
 
-  // Copy pages directory.
-  exports.pagesCompile();
+    // Copy pages directory.
+    this.pagesCompile();
 
-  // Copy npms if necessary.
-  exports.npmsCopy();
+    // Copy npms if necessary.
+    this.npmsCopy();
 
-  // Copy webserved directories.
-  if (Array.isArray(pref.backend.webserved_dirs)) {
-    webservedDirsFull = pref.backend.webserved_dirs;
-  }
+    // Copy webserved directories.
+    if (Array.isArray(this.pref.backend.webserved_dirs)) {
+      webservedDirsFull = this.pref.backend.webserved_dirs;
+    }
 
-  if (webservedDirsFull) {
-    webservedDirsShort = utils.webservedDirnamesTruncate(webservedDirsFull);
-    utils.webservedDirsCopy(webservedDirsFull, webservedDirsShort, staticDir);
+    if (webservedDirsFull) {
+      webservedDirsShort = this.utils.webservedDirnamesTruncate(webservedDirsFull);
+      this.utils.webservedDirsCopy(webservedDirsFull, webservedDirsShort, this.staticDir);
+    }
   }
 };

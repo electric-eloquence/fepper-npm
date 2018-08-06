@@ -3,20 +3,22 @@
 const expect = require('chai').expect;
 const fs = require('fs-extra');
 const html2json = require('html2json').html2json;
-const path = require('path');
 
-global.appDir = path.normalize(`${__dirname}/../..`);
-global.rootDir = path.normalize(`${__dirname}/../../..`);
-global.workDir = path.normalize(`${__dirname}/..`);
+require('../test-harness');
 
-const utils = require('../../core/lib/utils');
-utils.conf();
-utils.pref();
-const conf = global.conf;
+const fepper = global.fepper;
+const conf = fepper.conf;
 
-const htmlScraperPost = new (require(`${global.appDir}/core/tcp-ip/html-scraper-post`))();
+// Instantiating with null requests and responses, because we don't want actual response or redirect behavior.
+const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
+  null,
+  null,
+  conf,
+  fepper.tcpIp.fpExpress.gatekeeper,
+  fepper.tcpIp.fpExpress.html
+);
 const req = {body: {target: '', url: ''}};
-const scrapeDir = `${global.workDir}/${conf.ui.paths.source.patterns}/_patterns/98-scrape`;
+const scrapeDir = `${conf.ui.paths.source.patterns}/_patterns/98-scrape`;
 
 const htmlConst = `
 <body>
@@ -309,18 +311,17 @@ describe('HTML Scraper Post', function () {
 
   describe('File Writer', function () {
     it('should validate user-submitted filename', function () {
-      const filenameValidate = htmlScraperPost.filenameValidate;
       const validFilename = '0-test.1_2';
       const invalidChar = '0-test.1_2!';
       const invalidHyphenPrefix = '-0-test.1_2';
       const invalidPeriodPrefix = '.0-test.1_2';
       const invalidUnderscorePrefix = '_0-test.1_2';
 
-      expect(filenameValidate(validFilename)).to.equal(true);
-      expect(filenameValidate(invalidChar)).to.equal(false);
-      expect(filenameValidate(invalidHyphenPrefix)).to.equal(false);
-      expect(filenameValidate(invalidPeriodPrefix)).to.equal(false);
-      expect(filenameValidate(invalidUnderscorePrefix)).to.equal(false);
+      expect(htmlScraperPost.filenameValidate(validFilename)).to.equal(true);
+      expect(htmlScraperPost.filenameValidate(invalidChar)).to.equal(false);
+      expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.equal(false);
+      expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.equal(false);
+      expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.equal(false);
     });
 
     it('should correctly format newlines in file body', function () {

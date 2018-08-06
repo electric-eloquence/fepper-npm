@@ -19,58 +19,65 @@ module.exports = {
       const uiFns = window.FEPPER_UI.uiFns;
       const uiProps = window.FEPPER_UI.uiProps;
 
-      // handle when someone clicks on the grey area of the viewport so it auto-closes the nav
+      // Handle when someone clicks on the grey area of the viewport so it auto-closes the nav.
       $('#sg-vp-wrap').click(function () {
         uiFns.closePanels();
       });
 
-      // on "mouseup" we unbind the "mousemove" event and hide the cover again
-      $('body').mouseup(function ()  {
+      // On "mouseup" we unbind the "mousemove" event and hide the cover again.
+      $('body').mouseup(function () {
         $('#sg-cover').unbind('mousemove');
-        $('#sg-cover').css('display','none');
+        $('#sg-cover').css('display', 'none');
       });
 
-      $('#sg-gen-container').on('transitionend webkitTransitionEnd', function (e) {
+      $('#sg-gen-container').on('transitionend webkitTransitionEnd', function () {
         let targetOrigin;
+
         if (window.location.protocol === 'file:') {
           targetOrigin = '*';
-        } else {
+        }
+        else {
           targetOrigin = window.location.protocol + '//' + window.location.host;
         }
+
         const obj = JSON.stringify({event: 'patternLab.resize', resize: 'true'});
+
         document.getElementById('sg-viewport').contentWindow.postMessage(obj, targetOrigin);
       });
 
-      $('#sg-gen-container').on('touchstart', function (event) {});
+      $('#sg-gen-container').on('touchstart', function () {});
 
-      // handles widening the "viewport"
-      //   1. on "mousedown" store the click location
-      //   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
-      //   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
-      $('#sg-rightpull').mousedown(function (event) {
+      // Handle widening the viewport.
+      //   1. On "mousedown" store the click location.
+      //   2. Make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost
+      //      in the iframe.
+      //   3. On "mousemove" calculate the math, save the results to a cookie, and update the viewport.
+      $('#sg-rightpull').mousedown(function (e) {
 
-        // capture default data
-        const origClientX = event.clientX;
-        const origViewportWidth = uiProps.$sgViewport.width();
+        // Capture default data.
+        const dataSaver = window.dataSaver;
+        const origClientX = e.clientX;
+        const origViewportWidth = uiProps.sgViewport.clientWidth;
 
-        uiProps.fullMode = false;
+        uiProps.wholeMode = false;
 
-        // show the cover
+        // Show the cover.
         $('#sg-cover').css('display', 'block');
 
-        // add the mouse move event and capture data. also update the viewport width
-        $('#sg-cover').mousemove(function (event) {
-          const viewportWidth = origViewportWidth + 2 * (event.clientX - origClientX);
+        // Add the mouse move event and capture data. also update the viewport width.
+        $('#sg-cover').mousemove(function (e) {
+          const viewportWidth = origViewportWidth + 2 * (e.clientX - origClientX);
 
           if (viewportWidth > uiProps.minViewportWidth) {
 
-            if (!DataSaver.findValue('vpWidth')) {
-              DataSaver.addValue("vpWidth",viewportWidth);
-            } else {
-              DataSaver.updateValue("vpWidth",viewportWidth);
+            if (!dataSaver.findValue('vpWidth')) {
+              dataSaver.addValue('vpWidth', viewportWidth);
+            }
+            else {
+              dataSaver.updateValue('vpWidth', viewportWidth);
             }
 
-            uiFns.sizeiframe(viewportWidth,false);
+            uiFns.sizeiframe(viewportWidth, false);
           }
         });
 

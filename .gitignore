@@ -2,8 +2,11 @@
 .DS_Store
 .publish/
 /npm-debug.log
-/test/**/pattern-configurer.js
+/pattern_exports/
+/public/
 /ui/core/styleguide/index.mustache
-/ui/test/files/_styleguide/index.mustache
+/ui/test/pattern_exports/*
+/ui/test/public/*
+/ui/test/styleguide/index.mustache
 ignore/
 node_modules/

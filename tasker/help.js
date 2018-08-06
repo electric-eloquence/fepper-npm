@@ -1,12 +1,11 @@
 'use strict';
 
 const gulp = require('gulp');
-
-const utils = require('../core/lib/utils');
+const utils = require('fepper-utils');
 
 gulp.task('help', cb => {
   let out = `
-Usage:
+Use:
     fp <task> [<additional args>...]
 
 Tasks:

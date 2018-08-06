@@ -184,7 +184,7 @@ html {
 }
 body {
   background: #fff;
-  font: 1.6em/1.5 Helvetica, sans-serif;
+  font: 1.6em/1.5 Helvetica, "Liberation Sans", "Roboto", sans-serif;
   -webkit-text-size-adjust: 100%;
   color: #333;
   min-width: 320px;
@@ -366,7 +366,7 @@ object {
 @media all and (max-width: 480px) {
   .block-hero .b-text {
     display: flex;
-    flex-flow: column nowrap;
+    flex-direction: column;
     justify-content: center;
     height: 8.7rem;
   }
@@ -454,7 +454,7 @@ object {
 @media all and (min-width: 768px) {
   .block-sub {
     padding-top: 0.8rem;
-    width: calc(33.3333333% - 1.0666666rem);
+    width: calc(33.333333333333336% - (3.2rem / 3));
   }
 }
 .block-hoagie {
@@ -474,7 +474,7 @@ object {
   .block-hoagie .headline {
     float: right;
     padding: 0 1.6rem;
-    width: 70%;
+    width: 66.66666666666667%;
   }
 }
 .block-hoagie .b-thumb {
@@ -487,7 +487,7 @@ object {
 }
 @media all and (min-width: 481px) {
   .block-hoagie .b-thumb {
-    width: 30%;
+    width: 33.333333333333336%;
   }
 }
 .block-hoagie .b-text {
@@ -495,7 +495,7 @@ object {
 }
 @media all and (min-width: 481px) {
   .block-hoagie .b-text {
-    width: 70%;
+    width: 66.66666666666667%;
     padding: 0 1.6rem;
   }
 }
@@ -827,7 +827,7 @@ input[type="search"]::-webkit-search-decoration {
 @media all and (min-width: 768px) {
   .l-two-col .l-main {
     float: left;
-    width: 70%;
+    width: 66.66666666666667%;
     padding-right: 1.6rem;
   }
 }
@@ -839,7 +839,7 @@ input[type="search"]::-webkit-search-decoration {
 @media all and (min-width: 768px) {
   .l-two-col .l-sidebar {
     float: left;
-    width: 30%;
+    width: 33.333333333333336%;
     padding: 0 0 0 1.6rem;
   }
 }

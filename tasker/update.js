@@ -4,14 +4,14 @@
 'use strict';
 
 const spawnSync = require('child_process').spawnSync;
+
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
+const utils = require('fepper-utils');
 
-const utils = require('../core/lib/utils');
-
-const extendDir = utils.pathResolve(global.conf.extend_dir);
-const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
+const extendDir = global.conf.extend_dir;
+const publicDir = global.conf.ui.paths.public.root;
 
 let binNpm = 'npm';
 
@@ -26,8 +26,8 @@ function fpUpdate(cb) {
   spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
 
   // Update core npms.
-  process.chdir(global.workDir);
-  utils.log(`Running \`npm update\` in ${global.workDir}...`);
+  process.chdir(global.rootDir);
+  utils.log(`Running \`npm update\` in ${global.rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
   // Update extension npms.

@@ -20,7 +20,7 @@
 * Accordions are dropdowns used for the primary nav and
 * tools dropdowns.
 */
-.sg-acc-handle:after {
+.sg-acc-handle::after {
   content: '▼';
   color: rgba(255, 255, 255, 0.25);
   display: inline-block;
@@ -32,18 +32,18 @@
           transition: all 0.1s ease-out;
 }
 @media all and (min-width: 42em) {
-  .sg-acc-handle:after {
+  .sg-acc-handle::after {
     float: none;
   }
 }
-.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
+.sg-acc-handle:hover::after, .sg-acc-handle:focus::after {
   color: #808080;
 }
 .sg-acc-handle.active {
   color: #fff;
   background: #222;
 }
-.sg-acc-handle.active:after {
+.sg-acc-handle.active::after {
   top: -2px;
   color: #808080;
   -webkit-transform: rotate(180deg);

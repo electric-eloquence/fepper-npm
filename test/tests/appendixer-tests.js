@@ -2,33 +2,31 @@
 
 const expect = require('chai').expect;
 const fs = require('fs-extra');
-const path = require('path');
 
-global.appDir = path.normalize(`${__dirname}/../..`);
-global.rootDir = path.normalize(`${__dirname}/../../..`);
-global.workDir = path.normalize(`${__dirname}/..`);
+require('../test-harness');
 
-const utils = require(`${global.appDir}/core/lib/utils`);
-utils.conf();
-utils.pref();
-const conf = global.conf;
+const fepper = global.fepper;
+const conf = fepper.conf;
+const appendixer = fepper.tasks.appendixer;
 
-const appendixFile = `${global.workDir}/${conf.ui.paths.source.root}/_data/_appendix.json`;
-const Tasks = require(`${global.appDir}/core/tasks/tasks`);
-const tasks = new Tasks();
+const appendixFile = `${conf.ui.paths.source.root}/_data/_appendix.json`;
 
 describe('Appendixer', function () {
   // Clear out _appendix.json.
   fs.writeFileSync(appendixFile, '');
+
   // Get empty string for comparison.
-  var appendixBefore = fs.readFileSync(appendixFile, conf.enc);
+  const appendixBefore = fs.readFileSync(appendixFile, conf.enc);
+
   // Run appendixer.js.
-  tasks.appendix();
+  appendixer.main();
+
   // Get appendixer.js output.
-  var appendixAfter = fs.readFileSync(appendixFile, conf.enc);
+  const appendixAfter = fs.readFileSync(appendixFile, conf.enc);
 
   // Test valid JSON.
-  var appendixJson;
+  let appendixJson;
+
   try {
     appendixJson = JSON.parse(appendixAfter);
   }

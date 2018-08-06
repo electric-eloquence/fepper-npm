@@ -1,36 +1,37 @@
 'use strict';
 
-const expect = require('chai').expect;
-const fs = require('fs-extra');
-const glob = require('glob');
 const path = require('path');
 
-global.appDir = path.normalize(`${__dirname}/../..`);
-global.rootDir = path.normalize(`${__dirname}/../../..`);
-global.workDir = path.normalize(`${__dirname}/..`);
+const diveSync = require('diveSync');
+const expect = require('chai').expect;
+const fs = require('fs-extra');
 
-const utils = require(`${global.appDir}/core/lib/utils`);
-utils.conf();
-utils.pref();
-const conf = global.conf;
+require('../test-harness');
 
-const appendixFile = `${global.workDir}/${conf.ui.paths.source.data}/_appendix.json`;
-const dataFile = `${global.workDir}/${conf.ui.paths.source.data}/data.json`;
-const Tasks = require(`${global.appDir}/core/tasks/tasks`);
-const tasks = new Tasks();
+const fepper = global.fepper;
+const conf = fepper.conf;
+const jsonCompiler = fepper.tasks.jsonCompiler;
+const utils = fepper.utils;
+
+const appendixFile = `${conf.ui.paths.source.data}/_appendix.json`;
+const dataFile = `${conf.ui.paths.source.data}/data.json`;
 
 describe('JSON Compiler', function () {
   // Clear out data.json.
   fs.writeFileSync(dataFile, '');
+
   // Get empty string for comparison.
-  var dataBefore = fs.readFileSync(dataFile, conf.enc);
+  const dataBefore = fs.readFileSync(dataFile, conf.enc);
+
   // Run json-compiler.js.
-  tasks.jsonCompile(`${global.workDir}/${conf.ui.paths.source.root}`);
+  jsonCompiler.main(conf.ui.paths.source.root);
+
   // Get json-compiler.js output.
-  var dataAfter = fs.readFileSync(dataFile, conf.enc);
+  const dataAfter = fs.readFileSync(dataFile, conf.enc);
 
   // Test valid JSON.
-  var dataJson;
+  let dataJson;
+
   try {
     dataJson = JSON.parse(dataAfter);
   }
@@ -42,6 +43,7 @@ describe('JSON Compiler', function () {
     let jsonStr = jsonStr_;
     jsonStr = jsonStr.replace(/^\s*{\s*/, '');
     jsonStr = jsonStr.replace(/\s*}\s*$/, '');
+
     return jsonStr;
   }
 
@@ -55,21 +57,37 @@ describe('JSON Compiler', function () {
   });
 
   it('should compile _data.json to data.json', function () {
-    var _data = stripBraces(fs.readFileSync(`${global.workDir}/${conf.ui.paths.source.data}/_data.json`, conf.enc));
+    const _data = stripBraces(fs.readFileSync(`${conf.ui.paths.source.data}/_data.json`, conf.enc));
+
     expect(dataAfter).to.contain(_data);
   });
 
   it('should compile _patterns partials to data.json', function () {
-    var partial;
-    var partials = glob.sync(`${global.workDir}/${conf.ui.paths.source.patterns}/**/_*.json`);
-    for (var i = 0; i < partials.length; i++) {
-      partial = stripBraces(fs.readFileSync(partials[i], conf.enc));
-      expect(dataAfter).to.contain(partial);
-    }
+    const extname = '.json';
+
+    diveSync(
+      conf.ui.paths.source.patterns,
+      (err, file) => {
+        if (err) {
+          utils.error(err);
+        }
+
+        const basename = path.basename(file);
+
+        if (basename.charAt(0) !== '_' || basename.indexOf(extname) !== basename.length - extname.length) {
+          return;
+        }
+
+        const partial = stripBraces(fs.readFileSync(file, conf.enc));
+
+        expect(dataAfter).to.contain(partial);
+      }
+    );
   });
 
   it('should compile _appendix.json to data.json', function () {
-    var appendix = stripBraces(fs.readFileSync(appendixFile, conf.enc));
+    const appendix = stripBraces(fs.readFileSync(appendixFile, conf.enc));
+
     expect(dataAfter).to.contain(appendix);
   });
 });

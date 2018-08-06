@@ -30,6 +30,10 @@
   padding: 0.5rem 0.5rem;
 }
 
+.sg-checklist .sg-checklist-icon::before {
+  margin-right: 0.4em;
+}
+
 .sg-icon-search, .sg-icon-cog, .sg-checkbox.active, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-eye {
   font-family: 'icomoon';
   speak: none;
@@ -58,11 +62,10 @@
   right: 0;
 }
 
-.sg-checkbox:before {
+.sg-checkbox::before {
   content: "\e606";
   display: inline-block;
-  margin-right: 0.4em;
 }
-.sg-checkbox.active:before {
+.sg-checkbox.active::before {
   content: "\e605";
 }

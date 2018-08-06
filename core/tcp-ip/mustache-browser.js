@@ -1,13 +1,12 @@
 'use strict';
 
-const fs = require('fs');
-
-const htmlObj = require('../lib/html');
-const utils = require('../lib/utils');
-
-const conf = global.conf;
+const fs = require('fs-extra');
 
 module.exports = class {
+  constructor(options, html) {
+    this.conf = options.conf;
+    this.html = html;
+  }
 
   /**
    * Message indicating inability to match a partial to a Mustache file.
@@ -17,16 +16,18 @@ module.exports = class {
    */
   noResult(res, err) {
     let output = '';
-    output += htmlObj.head;
+    output += this.html.head;
 
     if (typeof err === 'string') {
       output += err;
     }
     else {
-      output += 'There is no Mustache template there by that name. Perhaps you need to use <a href="http://patternlab.io/docs/pattern-including.html" target="_blank">the more verbosely pathed syntax.</a>';
+      output += 'There is no Mustache template there by that name. Perhaps you need to use ' +
+        '<a href="http://patternlab.io/docs/pattern-including.html" target="_blank">' +
+        'the more verbosely pathed syntax.</a>';
     }
 
-    output += htmlObj.foot;
+    output += this.html.foot;
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
     output = output.replace('{{ title }}', 'Fepper Mustache Browser');
@@ -99,7 +100,7 @@ module.exports = class {
   }
 
   main() {
-    return function (req, res) {
+    return (req, res) => {
       if (typeof req.query.code === 'string') {
         try {
           let code = req.query.code;
@@ -113,9 +114,9 @@ module.exports = class {
           }
 
           // Render the output with HTML head and foot.
-          let output = htmlObj.head;
+          let output = this.html.head;
           output += code;
-          output += htmlObj.foot;
+          output += this.html.foot;
           output = output.replace('{{ title }}', 'Fepper Mustache Browser');
           output = output.replace('{{ main_class }}', 'mustache-browser');
           output = output.replace('{{ main_id }}', 'mustache-browser');
@@ -130,20 +131,20 @@ module.exports = class {
         try {
           // Requires verbosely pathed Mustache partial syntax.
           let partial = this.partialTagToPath(req.query.partial.trim());
-          let fullPath = utils.pathResolve(`${conf.ui.paths.source.patterns}/${partial}`);
+          let fullPath = `${this.conf.ui.paths.source.patterns}/${partial}`;
           // Check if query string correlates to actual Mustache file.
           let stat = fs.statSync(fullPath);
 
           if (stat.isFile()) {
-            fs.readFile(fullPath, conf.enc, function (err, data) {
+            fs.readFile(fullPath, this.conf.enc, function (err, data) {
               // Render the Mustache code if it does.
               // First, link the Mustache tags.
               let entitiesAndLinks = this.toHtmlEntitiesAndLinks(data);
               // Render the output with HTML head and foot.
-              let output = htmlObj.head;
+              let output = this.html.head;
               output += `<h2>${partial}</h2>`;
               output += entitiesAndLinks;
-              output += htmlObj.foot;
+              output += this.html.foot;
               output = output.replace('{{ title }}', 'Fepper Mustache Browser');
               output = output.replace('{{ main_id }}', 'mustache-browser');
               output = output.replace('{{ main_class }}', 'mustache-browser');
@@ -159,6 +160,6 @@ module.exports = class {
           this.noResult(res);
         }
       }
-    }.bind(this);
+    };
   }
 };

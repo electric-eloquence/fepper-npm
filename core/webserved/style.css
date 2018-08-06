@@ -48,15 +48,15 @@ figure {
   line-height: inherit;
 }
 
+h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-size: inherit;
   font-weight: bold;
-  margin: 0;
-  padding: 0;
+  margin: 0.4rem 0;
+  padding: 0.4rem 0 0;
 }
 
 html {
@@ -65,7 +65,7 @@ html {
 
 body {
   background: white;
-  font-family: Helvetica, sans-serif;
+  font-family: Helvetica, "Liberation Sans", "Roboto", sans-serif;
   font-size: 1.6em;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
@@ -118,7 +118,6 @@ nav h1,
 section h1,
 .scraper-heading {
   font-size: 1.5em;
-  margin-bottom: 0.5em;
 }
 
 .scraper-heading {
@@ -128,13 +127,11 @@ section h1,
 h2 {
   font-size: 1.5em;
   line-height: 1.2;
-  margin-bottom: 0.5em;
 }
 
 h3 {
   font-size: 1.17em;
   line-height: 1.2;
-  margin-bottom: 0.125em;
 }
 
 h4 {
@@ -151,11 +148,13 @@ h6 {
 }
 
 p {
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
 }
 
 code {
-  font-size: 0.8125em;
+  background-color:#eeeeee;
+  font-family: Courier, "Liberation Mono", "Roboto Mono", monospace;
+  font-size: 0.9em;
 }
 
 blockquote {

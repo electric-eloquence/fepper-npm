@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var gulp = require('gulp');
+const gulp = require('gulp');
 
 gulp.task('custom:data', [
 ]);

@@ -1,20 +1,20 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
 const stream = require('stream');
 
 const browserify = require('browserify');
+const fs = require('fs-extra');
 const React = require('react');
+const slash = require('slash');
 
 const Readable = stream.Readable;
-const Writable = stream.Writable;
 
 function readDirectoriesFirst(dir) {
   const items = fs.readdirSync(dir);
 
   const itemsTmp = items.map(item => {
-    return path.resolve(dir, item);
+    return `${dir}/${item}`;
   });
 
   const itemsNew = itemsTmp.filter(item => {
@@ -153,10 +153,10 @@ function recurseComponentsDirs(dir, tmpArr) {
 
     if (this.extSupported.indexOf(ext) > -1) {
       if (forStylesCustom.indexOf(item) > -1) {
-        pathFull = path.resolve(dirCustom, item);
+        pathFull = `${dirCustom}/${item}`;
       }
       else if (forStylesCore.indexOf(item) > -1) {
-        pathFull = path.resolve(dirCore, item);
+        pathFull = `${dirCore}/${item}`;
       }
 
       const content = fs.readFileSync(pathFull, 'utf8');
@@ -204,12 +204,12 @@ function recurseComponentsDirs(dir, tmpArr) {
     // Need to recurse into core directories by default.
     else if (statCore && statCore.isDirectory()) {
       tmpArr.push([]);
-      recurseComponentsDirs.call(this, `${itemCore}`, tmpArr[tmpArr.length - 1]);
+      recurseComponentsDirs.call(this, itemCore, tmpArr[tmpArr.length - 1]);
     }
     // Only recurse into custom directories if an equivalent core directory does not exist.
     else if (statCustom && statCustom.isDirectory()) {
       tmpArr.push([]);
-      recurseComponentsDirs.call(this, `${itemCustom}`, tmpArr[tmpArr.length - 1]);
+      recurseComponentsDirs.call(this, itemCustom, tmpArr[tmpArr.length - 1]);
     }
   }
 }
@@ -239,7 +239,7 @@ function recurseComponentsDirForClient(componentsArr, componentsArrForClient) {
 module.exports = class {
   constructor(patternlab) {
     this.config = patternlab.config;
-    this.componentsDirCoreRoot = __dirname;
+    this.componentsDirCoreRoot = slash(__dirname);
     this.componentsDirCustomRoot = this.config.paths.source.ui || null;
     this.componentsArr = [];
     this.extSupported = ['.css'];
@@ -256,9 +256,10 @@ module.exports = class {
 
       for (let i = 0, l = this.extSupported.length; i < l; i++) {
         const ext = this.extSupported[i];
+        const fileStyle = `${this.styleguidePath}/styles/ui${ext}`;
 
-        if (fs.existsSync(`${this.styleguidePath}/styles/ui${ext}`)) {
-          fs.unlinkSync(`${this.styleguidePath}/styles/ui${ext}`);
+        if (fs.existsSync(fileStyle)) {
+          fs.unlinkSync(fileStyle);
         }
       }
 

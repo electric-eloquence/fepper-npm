@@ -27,9 +27,8 @@ module.exports = {
 </div>
 <div id="sg-code-markup">
   <ul id="sg-code-tabs">
-    <li id="sg-code-title-html" class="sg-code-title-active">HTML</li>
-    <li id="sg-code-title-mustache">Mustache</li>
-    <li id="sg-code-title-css" style="display: none;">CSS</li>
+    <li id="sg-code-title-html" class="sg-code-title sg-code-title-active">HTML</li>
+    <li id="sg-code-title-mustache" class="sg-code-title">Mustache</li>
   </ul>
   <div class="clear">
     <pre><code id="sg-code-fill"></code></pre>

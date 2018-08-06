@@ -4,44 +4,53 @@ const fs = require('fs');
 
 const marked = require('marked');
 
-const htmlObj = require('../lib/html');
-const utils = require('../lib/utils');
+module.exports = class {
+  constructor(options, html) {
+    this.conf = options.conf;
+    this.rootDir = options.rootDir;
+    this.utils = options.utils;
 
-const conf = global.conf;
+    this.html = html;
+  }
 
-exports.main = (req, res) => {
-  fs.readFile(utils.pathResolve('README.md'), conf.enc, (err, dat) => {
-    if (err) {
-      utils.error(err);
-    }
+  main() {
+    return (req, res) => {
+      fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
+        if (err) {
+          this.utils.error(err);
+        }
 
-    if (!dat) {
-      const notFound = 404;
+        if (!dat) {
+          const notFound = 404;
 
-      res.status(notFound).send(utils.httpCodes[notFound]);
+          res.status(notFound).send(this.utils.httpCodes[notFound]);
 
-      return;
-    }
+          return;
+        }
 
-    let htmlMd;
+        let htmlMd;
 
-    try {
-      htmlMd = marked(dat);
-    }
-    catch (err1) {
-      const internalServerError = 500;
+        try {
+          htmlMd = marked(dat);
+        }
+        catch (err1) {
+          const internalServerError = 500;
 
-      utils.error(err1);
-      res.status(internalServerError).send(utils.httpCodes[internalServerError] + ' - ' + err1);
+          this.utils.error(err1);
+          res.status(internalServerError).send(this.utils.httpCodes[internalServerError] + ' - ' + err1);
 
-      return;
-    }
+          return;
+        }
 
-    let output = htmlObj.head;
-    output += htmlMd + '\n';
-    output += htmlObj.foot;
-    output = output.replace('{{ title }}', 'Fepper');
+        let output = this.html.head;
+        output += htmlMd + '\n';
+        output += this.html.foot;
+        output = output.replace('{{ title }}', 'Fepper');
+        output = output.replace('{{ main_id }}', 'readme');
+        output = output.replace('{{ main_class }}', 'readme');
 
-    res.send(output);
-  });
+        res.send(output);
+      });
+    };
+  }
 };
