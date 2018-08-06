@@ -12,10 +12,11 @@ kill_zombies: true
 timeout_main: 0
 
 # The "headed" conf is for internal Fepper development only. This allows
-# fepper-npm to be included with `npm link`. Uncomment for this purpose.
-# Furthermore, you need to disable gulp in the fepper-npm/node_modules
-# directory. Rename it to "gulp-disabled". Rename it back to "gulp" when you
-# need it again.
+# fepper-npm to be installed with `npm link`. Uncomment for this purpose. The 
+# name is admittedly awkward but is necessary to flag a true condition for 
+# linking the npm. Other conditions do not need a flag. Furthermore, you need to 
+# disable gulp in the fepper-npm/node_modules directory. Rename it to 
+# "gulp-disabled". Rename it back to "gulp" when you need it again.
 #headed: true
 
 app_dir: node_modules/fepper

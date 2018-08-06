@@ -1,3 +1,8 @@
+/**
+ * DEPRECATED!
+ * Fepper utilities are now handled by the fepper-utils npm. This file will remain in its legacy state for backward-
+ * compatibility. It may be removed without notice.
+ */
 'use strict';
 
 const fs = require('fs-extra');

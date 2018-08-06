@@ -16,6 +16,7 @@ module.exports = {
 <link rel="stylesheet" href="node_modules/fepper-ui/styles/styleguide.css" media="all">
 <link rel="stylesheet" href="node_modules/fepper-ui/styles/ui.css" media="all">
 <link rel="stylesheet" href="node_modules/fepper-ui/styles/prism-typeahead.css" media="all">
+<link rel="stylesheet" href="_styles/pattern-scaffolding.css" media="all">
 {{! namespace a window.FEPPER_UI object to contain globals }}
 <script>window.FEPPER_UI = {};</script>
 {{! load external libraries }}

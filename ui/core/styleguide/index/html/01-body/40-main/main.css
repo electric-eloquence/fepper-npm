@@ -40,10 +40,6 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-#sg-gen-container.hay-mode {
-  -webkit-transition: all 40s linear;
-          transition: all 40s linear;
-}
 
 /**
 * Viewport iframe
@@ -61,15 +57,6 @@
   left: 0;
   right: 0;
   background-color: white;
-  /**
-  * Hay Mode transition
-  * 1) Hay Mode (disabled by default) starts with the smallest
-  * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
-  */
-}
-#sg-viewport.hay-mode {
-  -webkit-transition: all 40s linear;
-          transition: all 40s linear;
 }
 
 /**

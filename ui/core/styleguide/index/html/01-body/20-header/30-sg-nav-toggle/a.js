@@ -9,6 +9,6 @@ module.exports = {
       ev.preventDefault();
       $('.sg-nav-container').toggleClass('active');
     });
-    uiInst.handleEvent();
+    window.uiInst.handleEvent();
   }
 };

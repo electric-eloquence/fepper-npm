@@ -31,11 +31,11 @@ exports.scraperTitle = `
       <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>`;
 
 exports.forbidden = `
-      <section id="forbidden" class="error">
-        <p>Error! You can only use the HTML Scraper on the machine that is running this Fepper instance!</p>
-        <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-        <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
-      </section>`;
+    <section id="forbidden" class="error">
+      <p>Error! You can only use the HTML Scraper on the machine that is running this Fepper instance!</p>
+      <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+    </section>`;
 
 exports.landingBody = `
       <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter" {{ attributes }}>
@@ -93,5 +93,8 @@ exports.success = `
 
 exports.foot = `
     </main>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/jquery.cookie/jquery.cookie.js"></script>
+    <script src="/node_modules/fepper-ui/scripts/timestamper.js"></script>
   </body>
 </html>`;

@@ -1,13 +1,13 @@
 'use strict';
 
-const fs = require('fs');
 const runSequence = require('run-sequence');
 
-if (
-  !fs.existsSync(`${global.workDir}/node_modules/gulp-eslint`) ||
-  !fs.existsSync(`${global.workDir}/node_modules/gulp-mocha`) ||
-  !fs.existsSync(`${global.workDir}/node_modules/chai`)
-) {
+try {
+  require('gulp-eslint');
+  require('gulp-mocha');
+  require('chai');
+}
+catch (err) {
   return;
 }
 
@@ -50,18 +50,39 @@ gulp.task('test:eslint:test', function () {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('test:eslint', cb => {
+gulp.task('test:eslint:ui', function () {
+  return gulp.src('ui/**/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('test:eslint', (cb) => {
   runSequence(
     'test:eslint:extend',
     'test:eslint:fepper',
     'test:eslint:tasker',
     'test:eslint:root',
     'test:eslint:test',
+    'test:eslint:ui',
     cb
   );
 });
 
-gulp.task('test:mocha', function () {
+gulp.task('test:mocha:core', function () {
   return gulp.src('test/tests/*.js', {read: false})
     .pipe(mocha());
+});
+
+gulp.task('test:mocha:ui', function () {
+  return gulp.src('ui/test/tests/*.js', {read: false})
+    .pipe(mocha());
+});
+
+gulp.task('test:mocha', (cb) => {
+  runSequence(
+    'test:mocha:core',
+    'test:mocha:ui',
+    cb
+  );
 });

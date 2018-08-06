@@ -2,15 +2,12 @@
 
 const gulp = require('gulp');
 
-const Tasks = require('../core/tasks/tasks');
-const TcpIp = require('../core/tcp-ip/tcp-ip');
-
 const conf = global.conf;
-
-const tasks = new Tasks();
+const tcpIp = global.fepper.tcpIp;
+const tasks = global.fepper.tasks;
 
 gulp.task('tcp-ip-load:init', cb => {
-  global.express = TcpIp.express();
+  global.express = tcpIp.express();
   cb();
 });
 

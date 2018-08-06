@@ -2,11 +2,9 @@
 
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
+const utils = require('fepper-utils');
 
-const utils = require('../core/lib/utils');
-
-const Ui = require('../core/ui/ui');
-const ui = new Ui();
+const ui = global.fepper.ui;
 
 gulp.task('ui:build', function (cb) {
   ui.build();

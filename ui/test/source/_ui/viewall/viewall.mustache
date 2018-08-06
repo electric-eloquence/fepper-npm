@@ -1,0 +1,17 @@
+<!-- View All Patterns in a Pattern Sub-Type -->
+<div class="sg-main" role="main">
+  
+  <!-- Patterns -->
+  <h1>foo</h1>
+  <div id="sg-patterns">
+    {{# partials }}
+      {{# patternSectionSubType }}
+        {{> patternSectionSubType }}
+      {{/ patternSectionSubType }}
+      {{^ patternSectionSubType }}
+        {{> patternSection }}
+      {{/ patternSectionSubType }}
+    {{/ partials }}
+  </div> <!--end #sg-patterns-->
+
+</div><!--end .sg-main-->

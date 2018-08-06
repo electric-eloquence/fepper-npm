@@ -4,98 +4,106 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 
-const utils = require('../lib/utils');
+const html = require('../lib/html');
 
-const conf = global.conf;
-const pref = global.pref;
-
-const gatekeeper = require('./gatekeeper');
-const htmlScraper = require('./html-scraper');
+const Gatekeeper = require('./gatekeeper');
+const HtmlScraper = require('./html-scraper');
 const HtmlScraperPost = require('./html-scraper-post');
-const htmlScraperXhr = require('./html-scraper-xhr');
 const MustacheBrowser = require('./mustache-browser');
-const readme = require('./readme');
-const success = require('./success');
+const Readme = require('./readme');
+const Success = require('./success');
 
-const mustacheBrowser = new MustacheBrowser(utils.pathResolve(conf.ui.paths.source.patterns));
+module.exports = class {
+  constructor(options) {
+    this.conf = options.conf;
+    this.pref = options.pref;
+    this.html = html;
 
-/**
- * @return {object} The configured Express app.
- */
-exports.main = () => {
-  const app = express();
-
-  /* MIDDLEWARE DEPENDENCIES */
-
-  // So variables sent via form submission can be parsed.
-  app.use(bodyParser.urlencoded({extended: true}));
-
-  // So cookies can be parsed.
-  app.use(cookieParser());
-
-  /* GET OPERATIONS */
-
-  // HTML scraper AJAX gatekeeper response.
-  app.get('/gatekeeper', gatekeeper.respond);
-
-  // HTML scraper form.
-  app.get('/html-scraper', htmlScraper.main);
-
-  // HTML scraper AJAX for populating user pages.
-  app.get('/html-scraper-xhr', htmlScraperXhr.main);
-
-  // HTML scraper cross-origin requests of HTML for scraping.
-  app.get('/html-scraper-xhr/cors', htmlScraperXhr.cors);
-
-  // HTML scraper markup for gatekept forbidden page.
-  app.get('/html-scraper-xhr/forbidden', gatekeeper.render);
-
-  // Mustache browser.
-  app.get('/mustache-browser', mustacheBrowser.main());
-
-  // Readme page.
-  app.get('/readme', readme.main);
-
-  // Success page.
-  app.get('/success', success.main);
-
-  /* POST OPERATIONS */
-
-  // HTML scraper and importer actions.
-  app.post('/html-scraper', (req, res) => {
-    const htmlScraperPost = new HtmlScraperPost(req, res);
-
-    htmlScraperPost.main();
-  });
-
-  /* STATIC PAGES */
-
-  // Fepper static files.
-  app.use('/fepper-core', express.static(`${global.appDir}/core/webserved`));
-
-  // Webserved directories.
-  // Serve the backend's static files where the document root and top-level
-  // directory are configured in backend.webserved_dirs in pref.yml.
-  let webservedDirs = null;
-
-  if (Array.isArray(pref.backend.webserved_dirs)) {
-    webservedDirs = pref.backend.webserved_dirs;
+    this.gatekeeper = new Gatekeeper(options, html);
+    this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
+    this.mustacheBrowser = new MustacheBrowser(options, html);
+    this.readme = new Readme(options, html);
+    this.success = new Success(options, html);
   }
 
-  if (webservedDirs) {
-    for (let i = 0; i < webservedDirs.length; i++) {
-      let webservedDirSplit = webservedDirs[i].split('/');
+  /**
+   * @return {object} The configured Express app.
+   */
+  main() {
+    const app = express();
 
-      webservedDirSplit.shift();
-      app.use(
-        `/${webservedDirSplit.join('/')}`,
-        express.static(`${utils.pathResolve(conf.backend_dir)}/${webservedDirs[i]}`)
-      );
+    /* MIDDLEWARE DEPENDENCIES */
+
+    // So variables sent via form submission can be parsed.
+    app.use(bodyParser.urlencoded({extended: true}));
+
+    // So cookies can be parsed.
+    app.use(cookieParser());
+
+    /* GET OPERATIONS */
+
+    // HTML scraper AJAX gatekeeper response.
+    app.get('/gatekeeper', this.gatekeeper.respond());
+
+    // HTML scraper form.
+    app.get('/html-scraper', this.htmlScraper.main());
+
+    // HTML scraper AJAX for populating user pages.
+    app.get('/html-scraper-xhr', this.htmlScraper.xhr());
+
+    // HTML scraper cross-origin requests of HTML for scraping.
+    app.get('/html-scraper-xhr/cors', this.htmlScraper.cors());
+
+    // HTML scraper markup for gatekept forbidden page.
+    app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render());
+
+    // Mustache browser.
+    app.get('/mustache-browser', this.mustacheBrowser.main());
+
+    // Readme page.
+    app.get('/readme', this.readme.main());
+
+    // Success page.
+    app.get('/success', this.success.main());
+
+    /* POST OPERATIONS */
+
+    // HTML scraper and importer actions.
+    app.post('/html-scraper', (req, res) => {
+      const htmlScraperPost = new HtmlScraperPost(req, res, this.conf, this.gatekeeper, this.html);
+
+      htmlScraperPost.main();
+    });
+
+    /* STATIC PAGES */
+
+    // Fepper static files.
+    app.use('/fepper-core', express.static(`${this.conf.app_dir}/core/webserved`));
+
+    // Webserved directories.
+    // Serve the backend's static files where the document root and top-level
+    // directory are configured in backend.webserved_dirs in pref.yml.
+    let webservedDirs = null;
+
+    if (Array.isArray(this.pref.backend.webserved_dirs)) {
+      webservedDirs = this.pref.backend.webserved_dirs;
     }
+
+    if (webservedDirs) {
+      for (let i = 0; i < webservedDirs.length; i++) {
+        let webservedDirSplit = webservedDirs[i].split('/');
+
+        webservedDirSplit.shift();
+        app.use(
+          `/${webservedDirSplit.join('/')}`,
+          express.static(`${this.conf.backend_dir}/${webservedDirs[i]}`)
+        );
+      }
+    }
+
+    // For everything else, document root = Pattern Lab's public directory.
+    app.use(express.static(this.conf.ui.paths.public.root));
+
+    return app;
   }
-
-  // For everything else, document root = Pattern Lab's public directory.
-  app.use(express.static(utils.pathResolve(conf.ui.paths.public.root)));
-
-  return app;
 };

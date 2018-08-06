@@ -1,29 +1,36 @@
 'use strict';
 
+const diveSync = require('diveSync');
 const expect = require('chai').expect;
 const fs = require('fs-extra');
-const glob = require('glob');
-const path = require('path');
+const slash = require('slash');
 
-global.appDir = path.normalize(`${__dirname}/../..`);
-global.rootDir = path.normalize(`${__dirname}/../../..`);
-global.workDir = path.normalize(`${__dirname}/..`);
+require('../test-harness');
 
-const utils = require(`${global.appDir}/core/lib/utils`);
-utils.conf();
-utils.pref();
-const conf = global.conf;
-const pref = global.pref;
+const fepper = global.fepper;
+const conf = fepper.conf;
+const pref = fepper.pref;
+const staticGenerator = fepper.tasks.staticGenerator;
+const utils = fepper.utils;
 
-const staticGenerator = require(`${global.appDir}/core/tasks/static-generator`);
+const assetsSrc = conf.ui.paths.source.images;
+const patternsPub = conf.ui.paths.public.patterns;
+const scriptsSrc = conf.ui.paths.source.js;
+const staticDir = conf.ui.paths.source.static;
+const stylesSrc = conf.ui.paths.source.css;
 
-const patternsPub = path.normalize(`${global.workDir}/${conf.ui.paths.public.patterns}`);
+function glob(topDir, globArr) {
+  diveSync(
+    topDir,
+    (err, file) => {
+      if (err) {
+        utils.error(err);
+      }
 
-const staticDir = path.normalize(`${global.workDir}/${conf.ui.paths.source.static}`);
-
-const assetsSrc = path.normalize(`${global.workDir}/${conf.ui.paths.source.images}`);
-const scriptsSrc = path.normalize(`${global.workDir}/${conf.ui.paths.source.js}`);
-const stylesSrc = path.normalize(`${global.workDir}/${conf.ui.paths.source.css}`);
+      globArr.push(slash(file));
+    }
+  );
+}
 
 describe('Static Generator', function () {
   it('should copy assets to the static dir', function () {
@@ -39,8 +46,11 @@ describe('Static Generator', function () {
     staticGenerator.assetsDirCopy();
 
     // Compare src and dest by converting their glob arrays to strings
-    const globSrc = glob.sync(assetsSrc + '/**');
-    const globDest = glob.sync(assetsDir + '/**');
+    const globSrc = [];
+    const globDest = [];
+
+    glob(assetsSrc, globSrc);
+    glob(assetsDir, globDest);
 
     for (let i = 0; i < globSrc.length; i++) {
       globSrc[i] = globSrc[i].replace(assetsSrc, '');
@@ -71,8 +81,43 @@ describe('Static Generator', function () {
     staticGenerator.scriptsDirCopy();
 
     // Compare src and dest by converting their glob arrays to strings
-    const globSrc = glob.sync(scriptsSrc + '/*/**');
-    const globDest = glob.sync(scriptsDir + '/*/**');
+    const globSrc = [];
+    const globDest = [];
+
+    // Traverse one level down before globbing.
+    // Choosing for...of loop and its readability in exchange for performance.
+    for (let basenameAtLevel0 of fs.readdirSync(scriptsSrc)) {
+      const level0 = scriptsSrc;
+
+      try {
+        const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+        const statAtLevel0 = fs.statSync(fileAtLevel0);
+
+        if (statAtLevel0.isDirectory()) {
+          glob(fileAtLevel0, globSrc);
+        }
+      }
+      catch (err) {
+        utils.error(err);
+      }
+    }
+
+    // Again for destination.
+    for (let basenameAtLevel0 of fs.readdirSync(scriptsDir)) {
+      const level0 = scriptsDir;
+
+      try {
+        const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+        const statAtLevel0 = fs.statSync(fileAtLevel0);
+
+        if (statAtLevel0.isDirectory()) {
+          glob(fileAtLevel0, globDest);
+        }
+      }
+      catch (err) {
+        utils.error(err);
+      }
+    }
 
     for (let i = 0; i < globSrc.length; i++) {
       globSrc[i] = globSrc[i].replace(scriptsSrc, '');
@@ -117,8 +162,11 @@ describe('Static Generator', function () {
     staticGenerator.stylesDirCopy();
 
     // Compare src and dest by converting their glob arrays to strings
-    const globSrc = glob.sync(stylesSrc + '/**');
-    const globDest = glob.sync(stylesDir + '/**');
+    const globSrc = [];
+    const globDest = [];
+
+    glob(stylesSrc, globSrc);
+    glob(stylesDir, globDest);
 
     for (let i = 0; i < globSrc.length; i++) {
       globSrc[i] = globSrc[i].replace(stylesSrc, '');
@@ -146,7 +194,7 @@ describe('Static Generator', function () {
     let pass = true;
 
     for (let i = 0; i < webservedDirs.length; i++) {
-      const stat = fs.statSync(staticDir + '/' + webservedDirs[i]);
+      const stat = fs.statSync(`${staticDir}/${webservedDirs[i]}`);
 
       if (!stat.isDirectory()) {
         pass = false;

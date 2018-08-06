@@ -1,11 +1,11 @@
 'use strict';
 
 const spawn = require('child_process').spawn;
+
 const gulp = require('gulp');
+const utils = require('fepper-utils');
 
-const utils = require('../core/lib/utils');
-
-const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
+const publicDir = global.conf.ui.paths.public.root;
 
 let binNpm = 'npm';
 

@@ -42,7 +42,7 @@ const indexOfHeaded = argv.indexOf('headed');
 if (indexOfHeaded > -1) {
   let rootDir;
 
-  process.env.IS_HEADLESS = false;
+  process.env.HEADED = true;
 
   if (argv[indexOfHeaded + 1]) {
     rootDir = argv.splice(indexOfHeaded + 1, 1)[0];
@@ -63,4 +63,5 @@ if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\s
   binGulp = winGulp;
 }
 
+// Spawn gulp task with arguments.
 cp.spawn(binGulp, argv, {stdio: 'inherit', env: process.env});
