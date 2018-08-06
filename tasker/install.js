@@ -4,15 +4,15 @@
 'use strict';
 
 const spawnSync = require('child_process').spawnSync;
+
 const fs = require('fs-extra');
 const gulp = require('gulp');
-
-const utils = require('../core/lib/utils');
+const utils = require('fepper-utils');
 
 const cwd = process.cwd();
-const extendDir = utils.pathResolve(global.conf.extend_dir);
-const publicDir = utils.pathResolve(global.conf.ui.paths.public.root);
-const sourceDir = utils.pathResolve(global.conf.ui.paths.source.root);
+const extendDir = global.conf.extend_dir;
+const publicDir = global.conf.ui.paths.public.root;
+const sourceDir = global.conf.ui.paths.source.root;
 
 let binNpm = 'npm';
 

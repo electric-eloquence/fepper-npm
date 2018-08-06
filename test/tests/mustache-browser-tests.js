@@ -1,26 +1,21 @@
 'use strict';
 
 const expect = require('chai').expect;
-const path = require('path');
 
-global.appDir = path.normalize(`${__dirname}/../..`);
-global.rootDir = path.normalize(`${__dirname}/../../..`);
-global.workDir = path.normalize(`${__dirname}/..`);
+require('../test-harness');
 
-const utils = require(`${global.appDir}/core/lib/utils`);
-utils.conf();
-utils.pref();
+const fepper = global.fepper;
+const mustacheBrowser = fepper.tcpIp.fpExpress.mustacheBrowser;
 
-const MustacheBrowser = require(`${global.appDir}/core/tcp-ip/mustache-browser`);
-const mustacheBrowser = new MustacheBrowser();
-
-// eslint-disable-next-line max-len
-const mustache = '<section id="one" class="test">{{> 02-components/00-global/00-header(\'partial?\': true) }}</section><section id="two" class="test">{{> 02-components/00-global/01-footer.mustache }}</section><script></script><textarea></textarea></body></html>';
-const htmlEntitiesAndLinks = mustacheBrowser.toHtmlEntitiesAndLinks(mustache);
 const partialTag = '{{> 02-components/00-global/00-header(\'partial?\': true) }}';
 const partialTag1 = '{{> 02-components/00-global/00-footer.mustache }}';
 const partialPath = mustacheBrowser.partialTagToPath(partialTag);
 const partialPath1 = mustacheBrowser.partialTagToPath(partialTag1);
+
+let mustache = '<section id="one" class="test">{{> 02-components/00-global/00-header(\'partial?\': true) }}</section>' +
+  '<section id="two" class="test">{{> 02-components/00-global/01-footer.mustache }}</section><script></script>' +
+  '<textarea></textarea></body></html>';
+const htmlEntitiesAndLinks = mustacheBrowser.toHtmlEntitiesAndLinks(mustache);
 
 describe('Mustache Browser', function () {
   it('should replace angle brackets with HTML entities', function () {
@@ -36,8 +31,15 @@ describe('Mustache Browser', function () {
   it('should link Mustache partials', function () {
     expect(htmlEntitiesAndLinks).to.contain('<a href="');
     expect(htmlEntitiesAndLinks).to.contain('</a>');
-    // eslint-disable-next-line max-len
-    expect(htmlEntitiesAndLinks).to.equal('&lt;section id=&quot;one&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; 02-components/00-global/00-header(\'partial?\': true) }}">{{&gt; 02-components/00-global/00-header(\'partial?\': true) }}</a>&lt;/section&gt;&lt;section id=&quot;two&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; 02-components/00-global/01-footer.mustache }}">{{&gt; 02-components/00-global/01-footer.mustache }}</a>&lt;/section&gt;&lt;script&gt;&lt;/script&gt;&lt;textarea&gt;&lt;/textarea&gt;&lt;/body&gt;&lt;/html&gt;');
+
+    let expectation = '&lt;section id=&quot;one&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; ' +
+      '02-components/00-global/00-header(\'partial?\': true) }}">{{&gt; ' +
+      '02-components/00-global/00-header(\'partial?\': true) }}</a>&lt;/section&gt;&lt;section ' +
+      'id=&quot;two&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; ' +
+      '02-components/00-global/01-footer.mustache }}">{{&gt; 02-components/00-global/01-footer.mustache }}</a>' +
+      '&lt;/section&gt;&lt;script&gt;&lt;/script&gt;&lt;textarea&gt;&lt;/textarea&gt;&lt;/body&gt;&lt;/html&gt;';
+
+    expect(htmlEntitiesAndLinks).to.equal(expectation);
   });
 
   it('should strip Mustache tags to get partial path', function () {

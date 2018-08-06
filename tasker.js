@@ -6,53 +6,68 @@
 'use strict';
 
 const fs = require('fs-extra');
-const glob = require('glob');
 const gulp = require('gulp');
 const requireDir = require('require-dir');
 const runSequence = require('run-sequence');
 const slash = require('slash');
+const utils = require('fepper-utils');
 
-const utils = require('./core/lib/utils');
+const Fepper = require('./core/fepper');
 
-// Set global.conf, global.pref, global.rootDir, and global.workDir.
-global.appDir = slash(__dirname);
-
+// Set globals.
 // Determine rootDir whether running headless or whether running a full implementation.
-let rootDir;
-let isHeadless;
+// global.appDir as set here might be temporary and be reset as the app_dir value from conf.yml.
+const thisDir = global.appDir = slash(__dirname);
+let rootDir = '';
+let isHeaded = false;
 
-if (typeof process.env.IS_HEADLESS === 'boolean') {
-  isHeadless = process.env.IS_HEADLESS;
+if (process.env.HEADED) {
+  isHeaded = true;
 }
 
-if (typeof process.env.ROOT_DIR === 'string') {
-  rootDir = process.env.ROOT_DIR;
+if (process.env.ROOT_DIR) {
+  rootDir = slash(process.env.ROOT_DIR);
+
+  if (!fs.existsSync(rootDir)) {
+    rootDir = '';
+  }
 }
 else {
-  rootDir = utils.findup('fepper.command', __dirname);
-}
+  // utils.findup() will replace backslashes with slashes.
+  rootDir = utils.findup('fepper.command', thisDir);
 
-if (!rootDir) {
-  rootDir = utils.findup('tasker.js', __dirname);
-
-  if (rootDir && typeof isHeadless === 'undefined') {
-    isHeadless = true;
+  if (rootDir) {
+    isHeaded = true;
   }
 }
 
-global.rootDir = slash(rootDir);
-global.workDir = slash(rootDir);
+// The only existing headless use-case is testing.
+if (!isHeaded) {
+  rootDir = `${thisDir}/test`;
+}
 
-utils.conf(isHeadless);
-utils.pref(isHeadless);
+if (!rootDir) {
+  utils.error('It appears you are trying to run Fepper from a critically broken environment! Exiting!');
 
+  return;
+}
+
+global.rootDir = rootDir;
+
+utils.conf(isHeaded); // This resets global.appDir if conf.app_dir differs from it.
+utils.pref(isHeaded);
+
+// Instantiate a Fepper object and attach it to the global object.
+global.fepper = new Fepper();
+
+// Proceed with tasking.
 const conf = global.conf;
 
 // Require tasks in task directories.
 requireDir('./tasker');
 
 // Optionally require auxiliary, contrib, and custom tasks.
-const extendDir = utils.pathResolve(conf.extend_dir);
+const extendDir = conf.extend_dir;
 const auxDir = `${extendDir}/auxiliary`;
 const conFile = `${extendDir}/contrib.js`;
 const cusFile = `${extendDir}/custom.js`;
@@ -74,11 +89,73 @@ if (fs.existsSync(`${extendDir}/node_modules`)) {
   }
 
   // Search for extension tasks and require them.
-  // Not using template literals because VIM doesn't syntax highlight the slash+asterisks correctly.
-  const extendPlugins = glob.sync(extendDir + '/*/*~extend.js').concat(glob.sync(extendDir + '/*/*/*~extend.js'));
+  // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
+  // (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
+  // wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
+  //
+  // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
+  // Choosing for...of loops and their readability in exchange for performance.
 
-  for (let i = 0; i < extendPlugins.length; i++) {
-    require(extendPlugins[i]);
+  // Level 0 declarations.
+  const dirsAtLevel0 = [];
+  const level0 = extendDir;
+  const basenamesAtLevel0 = fs.readdirSync(level0);
+  const suffix = '~extend.js';
+
+  for (let basenameAtLevel0 of basenamesAtLevel0) {
+    try {
+      const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+      const statAtLevel0 = fs.statSync(fileAtLevel0);
+
+      if (statAtLevel0.isDirectory()) {
+        dirsAtLevel0.push(fileAtLevel0);
+      }
+    }
+    catch (err) {
+      utils.error(err);
+    }
+  }
+
+  for (let dirAtLevel0 of dirsAtLevel0) {
+    // Level 1 declarations.
+    const dirsAtLevel1 = [];
+    const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
+
+    for (let basenameAtLevel1 of basenamesAtLevel1) {
+      try {
+        const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
+        const statAtLevel1 = fs.statSync(fileAtLevel1);
+
+        if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
+          require(fileAtLevel1);
+        }
+        else if (statAtLevel1.isDirectory()) {
+          dirsAtLevel1.push(fileAtLevel1);
+        }
+      }
+      catch (err) {
+        utils.error(err);
+      }
+    }
+
+    for (let dirAtLevel1 of dirsAtLevel1) {
+      // Level 2 declarations.
+      const basenamesAtLevel2 = fs.readdirSync(dirAtLevel1);
+
+      for (let basenameAtLevel2 of basenamesAtLevel2) {
+        try {
+          const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
+          const statAtLevel2 = fs.statSync(fileAtLevel2);
+
+          if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
+            require(fileAtLevel2);
+          }
+        }
+        catch (err) {
+          utils.error(err);
+        }
+      }
+    }
   }
 }
 
@@ -223,7 +300,7 @@ gulp.task('restart', cb => {
   });
 
   // An added measure for power usage, delete any lingering install.log, normally deleted by the plain `fp` task.
-  const log = `${global.workDir}/install.log`;
+  const log = `${rootDir}/install.log`;
 
   if (fs.existsSync(log)) {
     fs.unlinkSync(log);

@@ -34,7 +34,7 @@
   padding: 0;
 }
 
-#sg-code-tabs li {
+.sg-code-title {
   float: left;
   background-color: #333;
   font-size: 1.3em;

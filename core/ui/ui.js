@@ -1,43 +1,48 @@
 'use strict';
 
+const path = require('path');
+
+const diveSync = require('diveSync');
 const fs = require('fs-extra');
 
-const utils = require('../lib/utils');
-
-const conf = global.conf;
-const workDir = global.workDir;
-
-const patternlab = new (require(utils.pathResolve(`${conf.ui.paths.core.lib}/patternlab.js`)))(conf.ui, workDir);
-const pubDir = conf.ui.paths.public;
-const srcDir = conf.ui.paths.source;
-
 module.exports = class {
+  constructor(options) {
+    this.conf = options.conf;
+    this.rootDir = options.rootDir;
+    this.utils = options.utils;
+
+    this.patternlab =
+      new (require(`${this.conf.ui.paths.core}/lib/patternlab.js`))(this.conf.ui, this.rootDir);
+    this.pubDir = this.conf.ui.paths.public;
+    this.srcDir = this.conf.ui.paths.source;
+  }
+
   build(arg) {
     if (typeof arg === 'undefined') {
-      patternlab.build();
+      this.patternlab.build();
     }
     else if (arg === 'v') {
-      patternlab.version();
+      this.patternlab.version();
     }
     else if (arg === 'patternsonly') {
-      patternlab.patternsonly();
+      this.patternlab.patternsonly();
     }
     else if (arg === 'help') {
-      patternlab.help();
+      this.patternlab.help();
     }
     else {
-      patternlab.help();
+      this.patternlab.help();
     }
   }
 
   clean() {
-    fs.removeSync(utils.pathResolve(pubDir.patterns));
+    fs.removeSync(this.pubDir.patterns);
   }
 
   compile() {
-    return patternlab.compileui()
+    return this.patternlab.compileui()
       .catch(err => {
-        utils.error(err);
+        this.utils.error(err);
       })
       .then(() => {
         this.build();
@@ -45,19 +50,31 @@ module.exports = class {
   }
 
   compileui() {
-    return patternlab.compileui()
+    return this.patternlab.compileui()
       .catch(err => {
-        utils.error(err);
+        this.utils.error(err);
       });
   }
 
   copy() {
-    fs.copySync(utils.pathResolve(srcDir.images), utils.pathResolve(pubDir.images));
-    fs.copySync(utils.pathResolve(srcDir.js), utils.pathResolve(pubDir.js));
-    fs.copySync(utils.pathResolve(srcDir.static), utils.pathResolve(pubDir.static));
+    fs.copySync(this.srcDir.images, this.pubDir.images);
+    fs.copySync(this.srcDir.js, this.pubDir.js);
+    fs.copySync(this.srcDir.static, this.pubDir.static);
   }
 
   copyStyles() {
-    fs.copySync(utils.pathResolve(srcDir.cssBld), utils.pathResolve(pubDir.cssBld));
+    const srcDirCss = this.srcDir.css;
+
+    diveSync(
+      srcDirCss,
+      {recursive: false},
+      (err, file) => {
+        if (err) {
+          this.utils.error(err);
+        }
+        fs.copyFileSync(file, `${this.pubDir.css}/${path.basename(file)}`);
+      }
+    );
+    fs.copySync(this.srcDir.cssBld, this.pubDir.cssBld);
   }
 };

@@ -1,10 +1,13 @@
 'use strict';
 
-module.exports = class {
-  static express() {
-    const fpExpress = require('./fp-express');
-    var app = fpExpress.main();
+const FpExpress = require('./fp-express');
 
-    return app;
+module.exports = class {
+  constructor(options) {
+    this.fpExpress = new FpExpress(options);
+  }
+
+  express() {
+    return this.fpExpress.main();
   }
 };

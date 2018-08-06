@@ -41,24 +41,26 @@
   "debug": false,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
+  "frontMatterExtension": ".md",
   "ishControlsHide": {
+    "grow": false,
     "random": true,
     "disco": true,
-    "hay": true,
-    "mqs": true,
     "find": false,
     "views-all": false,
     "views-annotations": false,
     "views-code": false,
     "views-new": false,
     "tools-all": false,
-    "tools-shortcuts": true,
-    "tools-docs": false
+    "tools-fpdocs": false,
+    "tools-docs": false,
+    "tools-shortcuts": false
   },
   "ishMinimum": "240",
   "ishMaximum": "2600",
   "patternExportDirectory": "pattern_exports",
-  "patternExportPatternPartials": [],
+  "patternExportPatternPartials": [
+  ],
   "patternExtension": ".mustache",
   "styleGuideExcludes": [
   ]

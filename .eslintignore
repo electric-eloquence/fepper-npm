@@ -1,3 +1,5 @@
-/core/lib/gulp-refresh
-/core/lib/mini-lr
-/core/lib/open
+/core/lib/gulp-refresh/
+/core/lib/mini-lr/
+/core/lib/open/
+/test/public/
+/ui/test/public/

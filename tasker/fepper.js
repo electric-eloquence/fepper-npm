@@ -2,9 +2,7 @@
 
 const gulp = require('gulp');
 
-const Tasks = require('../core/tasks/tasks');
-
-var tasks = new Tasks();
+const tasks = global.fepper.tasks;
 
 gulp.task('fepper:copy-assets', function (cb) {
   tasks.frontendCopy('assets');

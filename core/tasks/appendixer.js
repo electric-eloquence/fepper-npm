@@ -11,41 +11,43 @@
 
 const fs = require('fs-extra');
 
-const utils = require('../lib/utils');
-
-const conf = global.conf;
-
-exports.main = function () {
-  var jsonStr = '{\n';
-  var appendix = utils.pathResolve(`${conf.ui.paths.source.data}/_appendix.json`);
-  var varFile = utils.pathResolve(`${conf.ui.paths.source.js}/src/variables.styl`);
-
-  if (!fs.existsSync(appendix) || !fs.existsSync(varFile)) {
-    return;
+module.exports = class {
+  constructor(options) {
+    this.conf = options.conf;
   }
 
-  var vars = fs.readFileSync(varFile, conf.enc);
-  var varsSplit = vars.split('\n');
+  main() {
+    const appendix = `${this.conf.ui.paths.source.data}/_appendix.json`;
+    const varFile = `${this.conf.ui.paths.source.js}/src/variables.styl`;
+    let jsonStr = '{\n';
 
-  for (let i = 0; i < varsSplit.length; i++) {
-    let varLine = varsSplit[i].trim();
-    // Find index of the first equal sign.
-    let indexOfEqual = varLine.indexOf('=');
+    if (!fs.existsSync(appendix) || !fs.existsSync(varFile)) {
+      return;
+    }
 
-    if (indexOfEqual > -1) {
-      if (i > 0 && jsonStr !== '{\n') {
-        jsonStr += ',\n';
-      }
-      let key = varLine.slice(0, indexOfEqual).trim();
-      let value = varLine.slice(indexOfEqual + 1).trim();
+    const vars = fs.readFileSync(varFile, this.conf.enc);
+    const varsSplit = vars.split('\n');
 
-      if (key) {
-        jsonStr += `  "${key}": "${value}"`;
+    for (let i = 0; i < varsSplit.length; i++) {
+      let varLine = varsSplit[i].trim();
+      // Find index of the first equal sign.
+      let indexOfEqual = varLine.indexOf('=');
+
+      if (indexOfEqual > -1) {
+        if (i > 0 && jsonStr !== '{\n') {
+          jsonStr += ',\n';
+        }
+        let key = varLine.slice(0, indexOfEqual).trim();
+        let value = varLine.slice(indexOfEqual + 1).trim();
+
+        if (key) {
+          jsonStr += `  "${key}": "${value}"`;
+        }
       }
     }
-  }
-  jsonStr += '\n}\n';
+    jsonStr += '\n}\n';
 
-  // Write out to _appendix.json.
-  fs.writeFileSync(appendix, jsonStr);
+    // Write out to _appendix.json.
+    fs.writeFileSync(appendix, jsonStr);
+  }
 };

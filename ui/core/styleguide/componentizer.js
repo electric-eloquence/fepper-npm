@@ -1,8 +1,9 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
+const slash = require('slash');
 
 module.exports = class {
   constructor(patternlab) {
@@ -16,6 +17,7 @@ module.exports = class {
 
     return componentsOnServer.init(doCompile)
       .catch(err => {
+        // eslint-disable-next-line no-console
         console.error(err.message || err);
       })
 
@@ -38,7 +40,8 @@ module.exports = class {
           const componentizedUi = require(`${config.paths.public.styleguide}/scripts/componentized-ui`);
           const uiCreate = React.createFactory(componentizedUi(createRenderObj));
 
-          let styleguideDir = config.paths.source.styleguide || __dirname;
+          // config.paths.source.styleguide is not publicly documented and only configurable for testing.
+          let styleguideDir = config.paths.source.styleguide || slash(__dirname);
           let output = `<!DOCTYPE html>${ReactDOMServer.renderToString(uiCreate())}`;
 
           output = output.replace(
