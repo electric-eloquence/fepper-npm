@@ -33,6 +33,9 @@
 .sg-size-options li {
   background-color: transparent;
 }
+.sg-size-options a {
+  padding-right: 0.4018em;
+}
 @media all and (min-width: 64em) {
   .sg-size-options {
     float: left;
