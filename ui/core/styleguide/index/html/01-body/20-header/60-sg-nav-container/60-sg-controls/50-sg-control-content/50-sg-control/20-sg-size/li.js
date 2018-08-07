@@ -26,8 +26,8 @@ module.exports = {
       const uiFns = window.FEPPER_UI.uiFns;
       const uiProps = window.FEPPER_UI.uiProps;
 
-      const killDisco = uiFns.killDisco;
-      const killGrow = uiFns.killGrow;
+      const stopDisco = uiFns.stopDisco;
+      const stopGrow = uiFns.stopGrow;
       const startDisco = uiFns.startDisco;
       const startGrow = uiFns.startGrow;
 
@@ -102,10 +102,10 @@ module.exports = {
       // Click for Disco Mode, which resizes the viewport randomly.
       $('#sg-size-disco').click(function (e) {
         e.preventDefault();
-        killGrow();
+        stopGrow();
 
         if (uiProps.discoMode) {
-          killDisco();
+          stopDisco();
         }
         else {
           startDisco();
@@ -117,10 +117,10 @@ module.exports = {
       // - Stephen Hay
       $('#sg-size-grow').click(function (e) {
         e.preventDefault();
-        killDisco();
+        stopDisco();
 
         if (uiProps.growMode) {
-          killGrow();
+          stopGrow();
         }
         else {
           startGrow();
