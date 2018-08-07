@@ -63,10 +63,9 @@ module.exports = class {
   }
 
   copyStyles() {
-    const srcDirCss = this.srcDir.css;
-
+    fs.ensureDirSync(this.pubDir.css);
     diveSync(
-      srcDirCss,
+      this.srcDir.css,
       {recursive: false},
       (err, file) => {
         if (err) {

@@ -355,7 +355,7 @@ describe('HTML Scraper Post', function () {
       const fileName = '0-test.1_2';
       const fileFullPath = scrapeDir + '/' + fileName;
 
-      fs.mkdirpSync(scrapeDir);
+      fs.ensureDirSync(scrapeDir);
       fs.writeFileSync(fileFullPath, '');
       const fileBefore = fs.readFileSync(fileFullPath);
       htmlScraperPost.filesWrite(scrapeDir, fileName, fileMustache, fileJson, null);
