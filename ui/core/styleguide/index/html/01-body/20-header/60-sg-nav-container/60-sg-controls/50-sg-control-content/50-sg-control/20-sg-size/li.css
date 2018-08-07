@@ -15,7 +15,7 @@
   font-size: 70%;
   line-height: 1;
   color: #808080;
-  padding: 1em 1em 0;
+  padding: 0.94em 0.7em 0.94em 1.2em;
 }
 .sg-current-size:hover .sg-input {
   background: #999;
