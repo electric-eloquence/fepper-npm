@@ -12,7 +12,7 @@
 }
 
 .sg-current-size {
-  font-size: 70%;
+  font-size: 0.7em;
   line-height: 1;
   color: #808080;
   padding: 0.982em 0.3571em 0 0.4018em;
@@ -21,7 +21,7 @@
   background: #999;
   color: #000;
 }
-@media all and (min-width: 64em) {
+@media all and (min-width: 1025px) {
   .sg-current-size {
     float: left;
   }
@@ -36,7 +36,7 @@
 .sg-size-options a {
   padding-right: 0.4018em;
 }
-@media all and (min-width: 64em) {
+@media all and (min-width: 1025px) {
   .sg-size-options {
     float: left;
     position: static;
@@ -74,8 +74,11 @@
 #sg-size-em {
   width: 35px;
 }
-@media all and (min-width: 48em) {
+@media all and (min-width: 768px) {
   #sg-size-px {
     width: 35px;
+  }
+  #sg-size-em {
+    width: 40px;
   }
 }
