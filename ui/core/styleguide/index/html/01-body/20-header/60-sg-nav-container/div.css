@@ -1,4 +1,4 @@
-@media all and (max-width: 60em) {
+@media all and (max-width: 767px) {
   .sg-nav-container {
     overflow: hidden;
     max-height: 0;
@@ -9,7 +9,7 @@
     max-height: 50em;
   }
 }
-@media all and (min-width: 42.01em) and (max-width: 60em) {
+@media all and (min-width: 768px) and (max-width: 1024px) {
   .sg-nav-container.active {
     overflow: visible;
     max-height: 50em;
@@ -31,7 +31,7 @@
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
-@media all and (min-width: 42em) {
+@media all and (min-width: 768px) {
   .sg-acc-handle::after {
     float: none;
   }
