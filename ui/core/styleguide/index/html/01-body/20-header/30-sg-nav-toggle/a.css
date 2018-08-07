@@ -9,7 +9,7 @@
   text-transform: uppercase;
   z-index: 2;
 }
-@media all and (min-width: 60.01em) {
+@media all and (min-width: 768px) {
   .sg-nav-toggle {
     display: none;
   }

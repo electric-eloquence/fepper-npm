@@ -1,25 +1,10 @@
 .sg-control > li {
   float: left;
 }
-@media all and (min-width: 48em) {
+@media all and (min-width: 768px) {
   .sg-control > li {
     border-bottom: 0;
     border-left: 1px solid rgba(255, 255, 255, 0.05);
-  }
-}
-
-.sg-control-trigger {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-@media all and (min-width: 48em) {
-  .sg-control-trigger {
-    border: 0;
-  }
-}
-@media all and (min-width: 72em) {
-  .sg-control-trigger {
-    float: left;
-    width: 6em;
   }
 }
 
@@ -27,7 +12,7 @@
   display: block;
   width: auto;
   font-size: 1rem;
-  padding: 0.5rem 0.25rem 0 0.28125rem;
+  padding: 0.5rem 0.25rem 0.5rem 0.28125rem;
 }
 
 .sg-checklist .sg-checklist-icon::before {

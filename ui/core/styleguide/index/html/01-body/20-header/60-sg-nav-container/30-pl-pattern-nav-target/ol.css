@@ -17,7 +17,7 @@
 .sg-nav > li {
   cursor: pointer;
 }
-@media all and (min-width: 42em) {
+@media all and (min-width: 768px) {
   .sg-nav > li {
     border-bottom: 0;
     float: left;
