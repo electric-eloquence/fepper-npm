@@ -10,13 +10,13 @@ gulp.task('contrib:data', [
 ]);
 
 gulp.task('contrib:frontend-copy', [
-// Uncomment if you wish to enable this.
-//  'stylus:frontend-copy'
+// Comment or delete if you wish to disable this.
+  'stylus:frontend-copy'
 ]);
 
 gulp.task('contrib:once', [
-// Uncomment if you wish to enable this.
-//  'stylus:once'
+// Comment or delete if you wish to disable this.
+  'stylus:once'
 ]);
 
 gulp.task('contrib:static', [
@@ -32,6 +32,6 @@ gulp.task('contrib:template', [
 ]);
 
 gulp.task('contrib:watch', [
-// Uncomment if you wish to enable this.
-//  'stylus:watch'
+// Comment or delete if you wish to disable this.
+  'stylus:watch'
 ]);
