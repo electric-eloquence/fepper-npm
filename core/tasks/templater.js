@@ -229,7 +229,7 @@ module.exports = class {
     dest = dest.replace(/\.mustache$/, templatesExt);
 
     // Write to file system.
-    fs.mkdirpSync(path.dirname(dest));
+    fs.ensureDirSync(path.dirname(dest));
     fs.writeFileSync(dest, code);
 
     return dest;
