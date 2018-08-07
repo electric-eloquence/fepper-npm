@@ -2,6 +2,7 @@
 * Controls contains viewport resizer and tools dropdown
 */
 .sg-controls {
+  background-color: #000;
   border: 0;
   position: absolute;
   top: 0;
