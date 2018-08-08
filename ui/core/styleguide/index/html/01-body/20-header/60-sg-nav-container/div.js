@@ -6,7 +6,7 @@ module.exports = {
     if (typeof window === 'object') {
 
       // Accordion dropdown
-      $('.sg-acc-handle').click(function (e) {
+      $('.sg-acc-handle').not('#sg-f-toggle').click(function (e) {
         e.preventDefault();
 
         const $this = $(this);
