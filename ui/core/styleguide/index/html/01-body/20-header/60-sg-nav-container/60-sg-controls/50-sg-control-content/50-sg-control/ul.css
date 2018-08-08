@@ -1,28 +1,36 @@
 .sg-control > li {
   float: left;
 }
-@media all and (min-width: 768px) {
-  .sg-control > li {
-    border-bottom: 0;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
-  }
-}
 
 .sg-header .sg-icon {
   display: block;
   width: auto;
+  height: 2rem;
   font-size: 1rem;
-  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+  padding: 0.5rem 0.25rem 0.375rem 0.25rem;
 }
 .sg-acc-handle.sg-icon::after {
   top: -4px;
+}
+@media all and (min-width: 1281px) {
+  .sg-header .sg-icon {
+    padding-right: 0.4375rem;
+    padding-left: 0.4375rem;
+  }
 }
 
 .sg-checklist .sg-checklist-icon::before {
   margin-right: 0.4em;
 }
 
-.sg-icon-search, .sg-icon-cog, .sg-checkbox.active, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-eye {
+.sg-icon-search::before,
+.sg-icon-cog::before,
+.sg-checkbox.active::before,
+.sg-checkbox::before,
+.sg-icon-file::before,
+.sg-icon-link::before,
+.sg-icon-keyboard::before,
+.sg-icon-eye::before {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;

@@ -3,6 +3,11 @@
   text-transform: lowercase;
 }
 
+#sg-f-toggle {
+  padding-top: 0.625rem;
+  padding-bottom: 0.3125rem;
+}
+
 .sg-icon-search::before {
   content: "\e600";
   font-size: 85%;
