@@ -12,14 +12,28 @@
 }
 
 .sg-current-size {
-  font-size: 0.7em;
   line-height: 1;
   color: #808080;
-  padding: 0.982em 0.3571em 0 0.4018em;
+  padding-right: 0.25rem;
 }
 .sg-current-size:hover .sg-input {
   background: #999;
   color: #000;
+}
+@media all and (max-width: 767px) {
+  .sg-size-options {
+    display: none;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .sg-current-size {
+    width: 12.5625rem;
+  }
+  .sg-size-options {
+    background-color: #000;
+    min-width: 0;
+    position: absolute;
+  }
 }
 @media all and (min-width: 1025px) {
   .sg-current-size {
@@ -27,26 +41,33 @@
   }
 }
 
-.sg-size-options {
-  min-width: auto;
+.sg-size-options > li {
+  float: left;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 .sg-size-options li {
   background-color: transparent;
 }
 .sg-size-options a {
-  padding-right: 0.4018em;
+  padding-right: 0.3571em;
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .sg-size-options {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    float: none;
+    position: absolute;
+  }
+  .sg-size.active .sg-size-options {
+    max-height: none;
+  }
 }
 @media all and (min-width: 1025px) {
   .sg-size-options {
     float: left;
-    position: static;
     max-height: none;
-    max-width: none;
-  }
-  .sg-size-options > li {
-    float: left;
-    border: 0;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    position: static;
   }
 }
 
@@ -57,6 +78,7 @@
 }
 #sg-form > * {
   display: inline-block;
+  font-size: 0.7em;
 }
 .sg-input {
   margin: -2px 0 0 0;
@@ -65,20 +87,51 @@
   background-color: #222;
   color: gray;
   height: 12px;
-  font-size: 1em;
   text-align: right;
 }
 #sg-size-px {
-  width: 30px;
+  width: 2.5em;
 }
 #sg-size-em {
-  width: 35px;
+  width: 3.125em;
+}
+@media all and (max-width: 767px) {
+  #sg-form-label {
+    cursor: default;
+  }
+  #sg-form-label:hover, #sg-form-label:focus, #sg-form-label:active {
+    background-color: #000;
+    color: #808080;
+  }
+  #sg-form-label::after {
+    content: '';
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  #sg-form {
+    text-align: right;
+  }
 }
 @media all and (min-width: 768px) {
+  #sg-form-label {
+    cursor: pointer;
+  }
   #sg-size-px {
-    width: 35px;
+    width: 3.125em;
   }
   #sg-size-em {
-    width: 40px;
+    width: 3.75em;
+  }
+}
+@media all and (min-width: 1025px) {
+  #sg-form-label {
+    cursor: default;
+  }
+  #sg-form-label:hover, #sg-form-label:focus, #sg-form-label:active {
+    background-color: #000;
+    color: #808080;
+  }
+  #sg-form-label::after {
+    content: '';
   }
 }

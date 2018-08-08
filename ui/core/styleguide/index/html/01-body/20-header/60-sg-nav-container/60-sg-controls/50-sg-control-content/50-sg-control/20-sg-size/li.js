@@ -4,7 +4,7 @@ module.exports = {
     __html: `
 <div class="sg-current-size">
   <form id="sg-form">
-    <div class="sg-size-label">Size</div
+    <a class="sg-acc-handle sg-size-label" id="sg-form-label">Size</a
     ><input type="text" class="sg-input" id="sg-size-px" value="---"
     ><div class="sg-size-label">px /</div
     ><input type="text" class="sg-input" id="sg-size-em" value="---"
@@ -34,37 +34,67 @@ module.exports = {
       const sizeiframe = uiFns.sizeiframe;
       const updateSizeReading = uiFns.updateSizeReading;
 
-      const bodySize = uiProps.bodySize;
+      const bodyFontSize = uiProps.bodyFontSize;
+      const $sgSize = $('.sg-size');
+      const $sgFormLabel = $('#sg-form-label');
       const $sgSizeEms = $('#sg-size-em'); // Em size input element in toolbar.
       const $sgSizePx = $('#sg-size-px'); // Px size input element in toolbar.
+      const $window = $(window);
 
-      // Em input.
-      $sgSizeEms.on('keydown', function (e) {
-        let val = parseFloat($(this).val());
+      // Toggle hidden sg-size-options buttons at small sw.
+      $sgFormLabel.click(function (e) {
+        e.preventDefault();
 
-        if (e.keyCode === 38) { // If the up arrow key is hit.
-          val++;
-          sizeiframe(Math.floor(val * bodySize), false);
+        if (uiProps.sw > 767 && uiProps.sw <= 1024) {
+          $sgFormLabel.parents('.sg-size').toggleClass('active');
         }
-        else if (e.keyCode === 40) { // If the down arrow key is hit.
-          val--;
-          sizeiframe(Math.floor(val * bodySize), false);
-        }
-        else if (e.keyCode === 13) { // If the Enter key is hit.
-          e.preventDefault();
-          sizeiframe(Math.floor(val * bodySize)); // Size Iframe to value of text box.
+
+        return false;
+      });
+
+      // Remove active classes if browser is resized outside small sw.
+      $window.resize(function () {
+        if (uiProps.sw <= 767 || uiProps.sw > 1024) {
+          $sgSize.removeClass('active');
+          $sgFormLabel.removeClass('active');
         }
       });
 
-      $sgSizeEms.on('keyup', function () {
+      // Em input.
+      $sgSizeEms.keydown(function (e) {
+        let val = parseFloat($(this).val());
+
+        if (Number.isNaN(val)) {
+          return;
+        }
+
+        if (e.keyCode === 38) { // If the up arrow key is hit.
+          val++;
+          sizeiframe(Math.round(val * bodyFontSize), false);
+        }
+        else if (e.keyCode === 40) { // If the down arrow key is hit.
+          val--;
+          sizeiframe(Math.round(val * bodyFontSize), false);
+        }
+        else if (e.keyCode === 13) { // If the Enter key is hit.
+          e.preventDefault();
+          sizeiframe(Math.round(val * bodyFontSize)); // Size Iframe to value of text box.
+        }
+      });
+
+      $sgSizeEms.keyup(function () {
         const val = parseFloat($(this).val());
 
         updateSizeReading(val, 'em', 'updatePxInput');
       });
 
       // Pixel input.
-      $sgSizePx.on('keydown', function (e) {
-        let val = Math.floor($(this).val());
+      $sgSizePx.keydown(function (e) {
+        let val = parseInt($(this).val(), 10);
+
+        if (Number.isNaN(val)) {
+          return;
+        }
 
         if (e.keyCode === 38) { // If the up arrow key is hit.
           val++;
@@ -81,8 +111,8 @@ module.exports = {
         }
       });
 
-      $sgSizePx.on('keyup', function () {
-        const val = Math.floor($(this).val());
+      $sgSizePx.keyup(function () {
+        const val = $(this).val();
 
         updateSizeReading(val, 'px', 'updateEmInput');
       });
