@@ -11,16 +11,5 @@ module.exports = {
   </ul>
 {{/ ishControlsHide.views-all }}
 `
-  },
-  onLoad: (() => {
-    'use strict';
-    if (typeof window === 'object') {
-
-      // "View (containing clean, code, raw, etc options) Trigger
-      $('#sg-t-toggle').click(function (e) {
-        e.preventDefault();
-        $(this).parents('ul').toggleClass('active');
-      });
-    }
-  })()
+  }
 };

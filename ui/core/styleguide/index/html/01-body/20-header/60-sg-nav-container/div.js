@@ -17,6 +17,10 @@ module.exports = {
         if (!subnav) {
           $('.sg-acc-handle').not($this).removeClass('active');
           $('.sg-acc-panel').not($panel).removeClass('active');
+
+          if (!$this.hasClass('sg-size-label')) {
+            $('.sg-size').removeClass('active');
+          }
         }
 
         // Activate selected panel.

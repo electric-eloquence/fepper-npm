@@ -12,7 +12,10 @@
   display: block;
   width: auto;
   font-size: 1rem;
-  padding: 0.5rem 0.25rem 0.5rem 0.28125rem;
+  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+}
+.sg-acc-handle.sg-icon::after {
+  top: -4px;
 }
 
 .sg-checklist .sg-checklist-icon::before {

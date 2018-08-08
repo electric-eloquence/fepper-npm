@@ -3,10 +3,11 @@
 * 1) appears as an <ol>
 */
 .sg-nav {
-  z-index: 1;
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
+  position: relative;
+  z-index: 3;
   /**
   * Nav <ol> list
   */
