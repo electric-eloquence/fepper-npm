@@ -88,7 +88,7 @@ exports.importerSuffix = `
 
 exports.success = `
       <p>To open the UI, click here: <a href="http://{{ host }}" target="_blank">http://{{ host }}</a></p>
-      <p>To halt Fepper, go to the command prompt where Fepper is running and press Ctrl+c.</p>
+      <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
       <p>The following documentation is also available in Fepper's README.md:</p>`;
 
 exports.foot = `
