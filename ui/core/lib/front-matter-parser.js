@@ -59,6 +59,11 @@ exports.main = (fileContent) => {
     for (let j = 0; j < frontMatterLinesLength; j++) {
       const line = frontMatterLines[j];
 
+      // Might be undefined if there was no ending "---" delimiter.
+      if (typeof line !== 'string') {
+        continue;
+      }
+
       if (line.slice(0, 3) === 'el:') {
         frontMatterLines[j] = line.replace('#', '\\#');
 

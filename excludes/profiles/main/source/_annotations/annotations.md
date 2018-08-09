@@ -1,4 +1,4 @@
-# Please refer to http://patternlab.io/docs/pattern-adding-annotations.html for
+# Please refer to https://patternlab.io/docs/pattern-adding-annotations.html for
 # documentation on annotating Fepper patterns. We recommend using the Pattern
 # Lab-specific syntax for Markdown as opposed to the older, poorly documented
 # JSON (or JavaScript?) method.
