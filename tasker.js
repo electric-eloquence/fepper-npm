@@ -57,6 +57,10 @@ global.rootDir = rootDir;
 utils.conf(isHeaded); // This resets global.appDir if conf.app_dir differs from it.
 utils.pref(isHeaded);
 
+if (!global.conf || !global.pref) {
+  return;
+}
+
 // Instantiate a Fepper object and attach it to the global object.
 global.fepper = new Fepper();
 
