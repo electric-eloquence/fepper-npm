@@ -455,7 +455,7 @@ module.exports = class {
 
     // Write the mustache file.
     const outfileMustache = paths.public.patterns + '/' +
-      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + pattern.fileExtension;
+      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.patternlab.config.patternExtension;
 
     fs.outputFileSync(outfileMustache, pattern.template);
 
