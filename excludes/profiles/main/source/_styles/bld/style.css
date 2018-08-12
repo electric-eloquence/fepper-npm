@@ -177,7 +177,7 @@ html {
 }
 body {
   background: #fff;
-  font: 1.6em/1.5 Helvetica, "Liberation Sans", "Roboto", sans-serif;
+  font: 1.6em/1.5 Helvetica, "Liberation Sans", Roboto, sans-serif;
   -webkit-text-size-adjust: 100%;
   color: #333;
   min-width: 320px;
@@ -341,6 +341,10 @@ object {
 .block {
   overflow: hidden;
 }
+.block .headline {
+  margin-top: 0;
+  padding-top: 0;
+}
 .block p:last-child {
   margin-bottom: 0;
 }
@@ -379,7 +383,8 @@ object {
     overflow: hidden;
   }
   .block-hero .headline {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
+    line-height: 1.1;
     padding: 0 0.8rem;
   }
 }
@@ -451,6 +456,7 @@ object {
 @media all and (max-width: 767px) {
   .block-sub .headline {
     font-size: 1.7rem;
+    line-height: 1.1;
   }
 }
 @media all and (min-width: 768px) {
@@ -469,7 +475,7 @@ object {
 }
 @media all and (max-width: 767px) {
   .block-hoagie .headline {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 }
 @media all and (min-width: 481px) {
