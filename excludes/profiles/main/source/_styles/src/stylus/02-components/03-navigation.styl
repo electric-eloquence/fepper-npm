@@ -5,19 +5,17 @@
   a
     display: block
   @media all and (max-width: $bp-sm-max)
-    border-bottom: 1px solid $gray-light-3
     max-height: 0
     position: absolute
-    top: 0
+    top: $nav-toggle-height
     left: 0
     width: 100%
     z-index: 1
-    > ul
-      padding-top: $nav-toggle-height
     a
       border-top: 1px solid $gray-light-3
       padding: $space-half $space
     &.active
+      border-bottom: 1px solid $gray-light-3
       max-height: 100%
   @media all and (min-width: $bp-med)
     border-top: 1px solid $gray-light-3
@@ -43,5 +41,8 @@
     display: block
     padding: 0 $space
   @media all and (max-width: $bp-xs-max)
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
     a
       padding: 0 1.4rem
