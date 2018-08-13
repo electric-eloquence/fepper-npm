@@ -42,7 +42,7 @@
       position: absolute
       top: 50%
       left: 0
-      transform: translateY(-50%);
+      transform: translateY(-50%)
   @media all and (min-width: $bp-med)
     position: relative
     width: 100%
@@ -52,7 +52,7 @@
       bottom: 0
       left: 0
       width: 100%
-      padding: $space-and-half
+      padding: $space-and-half $space-half
 // Block Sub
 .block-sub
   position: relative
@@ -75,6 +75,8 @@
   @media all and (min-width: $bp-med)
     padding-top: $space-half
     width: "calc(%s - (%s / 3))" % ($column-width-narrow $space-double)
+    .headline
+      font-size: 2rem
 // Block Hoagie
 .block-hoagie
   width: 100%
@@ -85,11 +87,12 @@
   .headline
     @media all and (max-width: $bp-sm-max)
       font-size: 1.7rem
-      padding-top: 0
     @media all and (min-width: $bp-small)
       float: right
       padding: 0 $space
       width: $column-width-wide
+    @media all and (min-width: $bp-med)
+      font-size: 2rem
   .b-thumb
     float: left
     @media all and (max-width: $bp-xs-max)
@@ -97,11 +100,10 @@
       align-items: center
       justify-content: center
       float: none
+      img
+        max-width: 22.5rem
     @media all and (min-width: $bp-small)
       width: $column-width-narrow
-    img
-      @media all and (max-width: $bp-xs-max)
-        max-width: 22.5rem
   .b-text
     float: right
     p:first-of-type
