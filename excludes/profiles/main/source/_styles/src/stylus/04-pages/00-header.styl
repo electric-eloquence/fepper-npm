@@ -3,13 +3,14 @@
   background: $white
   border-bottom: 1px solid $gray-light-3
   padding: 0
+  width: 100%
   @media all and (max-width: $bp-sm-max)
-      margin: 0 0 0 $space-half
-      width: "calc(100% - %s)" % $space-half
+    margin: 0
+    padding-left: $space-half
   @media all and (min-width: $bp-med) and (max-width: $max-width)
-      width: "calc(100% - %s)" % $space
+    width: "calc(100% - %s)" % $space
   @media all and (min-width: $max-width)
-      width: "calc(%s - %s)" % ($max-width $space)
+    width: "calc(%s - %s)" % ($max-width $space)
 .logo
   float: left
   margin: $space-half 0
@@ -26,7 +27,7 @@
   font-size: 2.08rem
   line-height: 1
   outline: 0
-  padding: ($space + 0.1rem) $space $space ($space + 0.1rem)
+  padding: $space
   position: relative
   width: $nav-toggle-n-border
   height: $nav-toggle-height
@@ -45,9 +46,9 @@
     position: absolute
     top: $nav-toggle-height
     right: 0
-    z-index: 2
+    z-index: 3
     &.active
-      max-height: 100%
+      max-height: none
   @media all and (min-width: $bp-med)
     float: right
     max-height: none
