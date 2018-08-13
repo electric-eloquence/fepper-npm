@@ -89,9 +89,14 @@ to `source/_ui/index/html`, respective to your implementation. Modifications to
 modules in that directory will override the corresponding modules in core. 
 Additions (so long as they are correctly nested) will also be recognized.
 
-It is mandatory to componentize style modifications to the UI this way. While it 
-is a good practice to componentize scripts this way, generic modifications to UI 
-JavaScript can also be added to `source/_scripts/ui-extender.js`.
+While it is a better practice to componentize scripts this way, generic 
+modifications to UI JavaScript can be added to `source/_scripts/ui-extender.js`.
+
+Similarly, generic modifications to UI CSS can be added to 
+`source/_styles/pattern-scaffolding.css`. (The file is named this way to adhere 
+to <a href="https://patternlab.io/docs/pattern-states.html" target="_blank"> 
+the Pattern Lab documentation on pattern states</a>. It should not be relied on 
+for pattern scaffolding.)
 
 View All markup can also be overridden by copying the `.mustache` files in 
 <a href="https://github.com/electric-eloquence/fepper-npm/tree/dev/ui/core/styleguide/viewall" target="_blank">
