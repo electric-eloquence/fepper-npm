@@ -6,15 +6,6 @@
     padding-top: 0
   p:last-child
     margin-bottom: 0
-.block-hero,
-.block-sub
-  .inner
-    display: block
-    position: relative
-  .b-text
-    color: $white
-  @media all and (min-width: $bp-small) and (max-width: $bp-sm-max)
-    width: calc(50% - 0.4rem)
 // Block Hero
 .block-hero
   margin-bottom: $space-half
@@ -32,8 +23,6 @@
       background: $dimmer
       overflow: hidden
     .headline
-      font-size: 1.7rem
-      line-height: 1.1
       padding: 0 $space-half
   @media all and (min-width: $bp-small) and (max-width: $bp-sm-max)
     .b-thumb
@@ -83,10 +72,6 @@
     width: 100%
     background: $dim
     padding: $space-half
-  @media all and (max-width: $bp-sm-max)
-    .headline
-      font-size: 1.7rem
-      line-height: 1.1
   @media all and (min-width: $bp-med)
     padding-top: $space-half
     width: "calc(%s - (%s / 3))" % ($column-width-narrow $space-double)
@@ -107,9 +92,15 @@
   .b-thumb
     float: left
     @media all and (max-width: $bp-xs-max)
-      max-width: 22.5rem
+      display: flex
+      align-items: center
+      justify-content: center
+      float: none
     @media all and (min-width: $bp-small)
       width: $column-width-narrow
+    img
+      @media all and (max-width: $bp-xs-max)
+        max-width: 22.5rem
   .b-text
     float: right
     p:first-of-type
@@ -117,3 +108,22 @@
     @media all and (min-width: $bp-small)
       width: $column-width-wide
       padding: 0 $space
+    @media all and (max-width: $bp-sm-max)
+      p:first-of-type
+        margin-top: $space-quarter
+        padding: $space-quarter
+// Block Hero and Subs
+.block-hero,
+.block-sub
+  .inner
+    display: block
+    position: relative
+  .b-text
+    color: $white
+  @media all and (min-width: $bp-small) and (max-width: $bp-sm-max)
+    width: calc(50% - 0.4rem)
+  @media all and (max-width: $bp-sm-max)
+    .headline
+      font-size: 1.7rem
+      line-height: 1.1
+      margin-bottom: 0
