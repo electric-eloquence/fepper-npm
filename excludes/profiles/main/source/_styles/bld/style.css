@@ -343,7 +343,6 @@ object {
 }
 .block .headline {
   margin-top: 0;
-  padding-top: 0;
 }
 .block p:last-child {
   margin-bottom: 0;
@@ -368,6 +367,7 @@ object {
     overflow: hidden;
   }
   .block-hero .headline {
+    margin-bottom: 0;
     padding: 0 0.8rem;
   }
 }
@@ -453,6 +453,7 @@ object {
 @media all and (max-width: 767px) {
   .block-hoagie .headline {
     font-size: 1.7rem;
+    padding-top: 0;
   }
 }
 @media all and (min-width: 481px) {
@@ -495,12 +496,6 @@ object {
     padding: 0 1.6rem;
   }
 }
-@media all and (max-width: 767px) {
-  .block-hoagie .b-text p:first-of-type {
-    margin-top: 0.4rem;
-    padding: 0.4rem;
-  }
-}
 .block-hero .inner,
 .block-sub .inner {
   display: block;
@@ -521,7 +516,6 @@ object {
   .block-sub .headline {
     font-size: 1.7rem;
     line-height: 1.1;
-    margin-bottom: 0;
   }
 }
 form > div {
