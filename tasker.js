@@ -263,6 +263,8 @@ gulp.task('once', cb => {
 
   args.push('ui:clean');
   args.push('ui:build');
+  args.push('ui:copy');
+  args.push('ui:copy-styles');
 
   if (conExists && cusExists) {
     args.push(['contrib:once:postprocess', 'custom:once:postprocess']);
