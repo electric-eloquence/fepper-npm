@@ -5,8 +5,10 @@ const gulp = require('gulp');
 const refresh = require('../core/lib/gulp-refresh');
 
 const conf = global.conf;
-const pubDir = global.conf.ui.pathsRelative.public;
-const srcDir = global.conf.ui.pathsRelative.source;
+const pubDir = global.conf.ui.paths.public;
+const srcDir = global.conf.ui.paths.source;
+const pubDirRel = global.conf.ui.pathsRelative.public;
+const srcDirRel = global.conf.ui.pathsRelative.source;
 
 // Not using template literals because VIM doesn't syntax highlight the slash+asterisks correctly.
 
@@ -15,12 +17,12 @@ gulp.task('tcp-ip-reload:listen', function () {
 });
 
 gulp.task('tcp-ip-reload:annotations', function () {
-  return gulp.src('pubDir.annotations' + '/**')
+  return gulp.src(pubDir.annotations + '/**/*')
     .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:assets', function () {
-  return gulp.src(pubDir.images + '/**')
+  return gulp.src(pubDir.images + '/**/*')
     .pipe(refresh());
 });
 
@@ -42,27 +44,27 @@ gulp.task('tcp-ip-reload:otherStyles', function () {
 });
 
 gulp.task('tcp-ip-reload:scripts', function () {
-  return gulp.src(pubDir.js + '/**')
+  return gulp.src(pubDir.js + '/**/*')
     .pipe(refresh());
 });
 
 gulp.task('tcp-ip-reload:watch', function () {
   // An option to delay launch in case other asynchronous tasks need to complete.
   setTimeout(function () {
-    // We cannot use absolute paths in the first param for gulp.watch. Therefore we must specify cwd in the 2nd.
-    gulp.watch(srcDir.annotations + '/**', {cwd: global.rootDir}, ['ui:build']);
-    gulp.watch(srcDir.cssBld + '/**', {cwd: global.rootDir}, ['ui:copy-styles']);
-    gulp.watch(srcDir.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['tcp-ip-reload:otherStyles']);
-    gulp.watch(srcDir.data + '/_data.json', {cwd: global.rootDir}, ['data']);
-    gulp.watch(srcDir.data + '/listitems.json', {cwd: global.rootDir}, ['ui:build']);
-    gulp.watch(srcDir.images + '/**', {cwd: global.rootDir}, ['ui:copy']);
-    gulp.watch(srcDir.js + '/**', {cwd: global.rootDir}, ['ui:copy']);
-    gulp.watch(srcDir.meta + '/**', {cwd: global.rootDir}, ['ui:compile']);
-    gulp.watch(srcDir.patterns + '/**', {cwd: global.rootDir}, ['data']);
-    gulp.watch(pubDir.annotations + '/**', {cwd: global.rootDir}, ['tcp-ip-reload:annotations']);
-    gulp.watch(pubDir.css + '/**/*.css', {cwd: global.rootDir}, ['tcp-ip-reload:injectStyles']);
-    gulp.watch(pubDir.images + '/**', {cwd: global.rootDir}, ['tcp-ip-reload:assets']);
-    gulp.watch(pubDir.js + '/**', {cwd: global.rootDir}, ['tcp-ip-reload:scripts']);
-    gulp.watch(pubDir.root + '/index.html', {cwd: global.rootDir}, ['tcp-ip-reload:index']);
+    // We cannot use absolute paths in the first param for gulp.watch(). Therefore we must specify cwd in the 2nd.
+    gulp.watch(srcDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['ui:build']);
+    gulp.watch(srcDirRel.cssBld + '/**/*', {cwd: global.rootDir}, ['ui:copy-styles']);
+    gulp.watch(srcDirRel.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['tcp-ip-reload:otherStyles']);
+    gulp.watch(srcDirRel.data + '/_data.json', {cwd: global.rootDir}, ['data']);
+    gulp.watch(srcDirRel.data + '/listitems.json', {cwd: global.rootDir}, ['ui:build']);
+    gulp.watch(srcDirRel.images + '/**/*', {cwd: global.rootDir}, ['ui:copy']);
+    gulp.watch(srcDirRel.js + '/**/*', {cwd: global.rootDir}, ['ui:copy']);
+    gulp.watch(srcDirRel.meta + '/**/*', {cwd: global.rootDir}, ['ui:compile']);
+    gulp.watch(srcDirRel.patterns + '/**/*', {cwd: global.rootDir}, ['data']);
+    gulp.watch(pubDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:annotations']);
+    gulp.watch(pubDirRel.css + '/**/*.css', {cwd: global.rootDir}, ['tcp-ip-reload:injectStyles']);
+    gulp.watch(pubDirRel.images + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:assets']);
+    gulp.watch(pubDirRel.js + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:scripts']);
+    gulp.watch(pubDirRel.root + '/index.html', {cwd: global.rootDir}, ['tcp-ip-reload:index']);
   }, conf.timeout_main);
 });
