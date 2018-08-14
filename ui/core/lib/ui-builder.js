@@ -523,9 +523,15 @@ module.exports = class {
     }
 
     // Writing non-strict js so it can be tested in Node.
-    const annotations = 'comments=' + JSON.stringify(annotationsArr) + ';';
+    const annotationsNew = 'comments=' + JSON.stringify(annotationsArr) + ';';
 
-    fs.outputFileSync(`${paths.public.annotations}/annotations.js`, annotations);
+    // In order to improve browser LiveReload performance, only write annotationsFile if there are changes.
+    const annotationsFile = `${paths.public.annotations}/annotations.js`;
+    const annotationsOld = fs.readFileSync(annotationsFile, this.patternlab.enc);
+
+    if (annotationsNew !== annotationsOld) {
+      fs.outputFileSync(annotationsFile, annotationsNew);
+    }
 
     // Log memory usage when debug === true.
     if (this.patternlab.config.debug) {
