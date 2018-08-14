@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 const utils = require('fepper-utils');
 
 const ui = global.fepper.ui;
