@@ -1,12 +1,34 @@
 'use strict';
 
+const path = require('path');
+
 const gulp = require('gulp');
 
 const refresh = require('../core/lib/gulp-refresh');
 
 const conf = global.conf;
-const pubDir = global.conf.ui.paths.public;
-const srcDir = global.conf.ui.paths.source;
+
+// gulp.watch will not trigger on file creation if watching an absolute path.
+// We need to clone from the conf object and convert absolute paths to relative.
+// Opting to undo fepper-utils uiConfigNormalize() as opposed to re-reading patternlab-config.json because canonical
+// Pattern Lab is chaotically inconsistent about leading dots and trailing slashes in relative paths.
+const pubDir = JSON.parse(JSON.stringify(global.conf.ui.paths.public));
+const srcDir = JSON.parse(JSON.stringify(global.conf.ui.paths.source));
+
+function uiPathsToRelative(uiObj) {
+  for (let i in uiObj) {
+    if (!uiObj.hasOwnProperty(i)) {
+      continue;
+    }
+
+    let uiPath = uiObj[i];
+    uiPath = uiPath.replace(`${global.rootDir}/`, '');
+    uiObj[i] = uiPath;
+  }
+}
+
+uiPathsToRelative(pubDir);
+uiPathsToRelative(srcDir);
 
 // Not using template literals because VIM doesn't syntax highlight the slash+asterisks correctly.
 
