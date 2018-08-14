@@ -527,7 +527,11 @@ module.exports = class {
 
     // In order to improve browser LiveReload performance, only write annotationsFile if there are changes.
     const annotationsFile = `${paths.public.annotations}/annotations.js`;
-    const annotationsOld = fs.readFileSync(annotationsFile, this.patternlab.enc);
+    let annotationsOld = '';
+
+    if (fs.existsSync(annotationsFile)) {
+      annotationsOld = fs.readFileSync(annotationsFile, this.patternlab.enc);
+    }
 
     if (annotationsNew !== annotationsOld) {
       fs.outputFileSync(annotationsFile, annotationsNew);
