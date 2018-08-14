@@ -8,12 +8,7 @@ const ui = global.fepper.ui;
 
 gulp.task('ui:build', function (cb) {
   ui.build();
-  // Finish up.
-  runSequence(
-    'ui:copy',
-    'ui:copy-styles',
-    cb
-  );
+  cb();
 });
 
 gulp.task('ui:clean', function (cb) {
@@ -22,17 +17,12 @@ gulp.task('ui:clean', function (cb) {
 });
 
 gulp.task('ui:compile', function (cb) {
-  ui.compile()
+  ui.compile() // Also runs ui.build().
     .catch((err) => {
       utils.error(err);
     })
     .then(() => {
-      // Finish up.
-      runSequence(
-        'ui:copy',
-        'ui:copy-styles',
-        cb
-      );
+      cb();
     });
 });
 
