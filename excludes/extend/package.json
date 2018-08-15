@@ -1,6 +1,6 @@
 {
   "description": "Fepper extensions",
   "devDependencies": {
-    "fp-stylus": "^1.0.2-rc.0"
+    "fp-stylus": "*"
   }
 }
