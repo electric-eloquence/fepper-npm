@@ -9,7 +9,7 @@
 
 ### This is the NPM that powers these Fepper prototypers:
 
-* [Fepper Main](https://github.com/electric-eloquence/fepper) - main project.
+* [Fepper Main](https://github.com/electric-eloquence/fepper) - main distribution.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
   unnecessary assets, styles, or Pattern Lab demo.
 * [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - 
@@ -59,7 +59,7 @@ the configs back to the original configs, call `resetConfig` with the original
 configs.
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
-maintain parity with the PHP project with respect to performance and core 
+maintain parity with the PHP distribution with respect to performance and core 
 features.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
