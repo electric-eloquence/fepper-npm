@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "chai": "4.x",
-    "fepper-ui": "^0.3.0",
+    "fepper-ui": "^0.3.2",
     "gulp-eslint": "3.x",
     "gulp-mocha": "6.x",
     "husky": "^0.14.3",
