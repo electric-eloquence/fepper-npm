@@ -495,6 +495,11 @@ object {
 .block-hoagie .b-text p:first-of-type {
   margin-top: 0;
 }
+@media all and (max-width: 480px) {
+  .block-hoagie .b-text p:first-of-type {
+    margin-top: 0.4rem;
+  }
+}
 @media all and (min-width: 481px) {
   .block-hoagie .b-text {
     width: 66.66666666666667%;
@@ -719,6 +724,9 @@ input[type="search"]::-webkit-search-decoration {
 }
 .comment-text {
   margin-left: 9em;
+}
+.comment-text p:first-of-type {
+  margin-top: 0;
 }
 .nav {
   background: rgba(255,255,255,0.95);
