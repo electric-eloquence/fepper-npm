@@ -24,12 +24,7 @@ module.exports = class {
     this.mustacheBrowser = new MustacheBrowser(options, html);
     this.readme = new Readme(options, html);
     this.success = new Success(options, html);
-  }
 
-  /**
-   * @return {object} The configured Express app.
-   */
-  main() {
     const app = express();
 
     /* MIDDLEWARE DEPENDENCIES */
@@ -104,6 +99,13 @@ module.exports = class {
     // For everything else, document root = Pattern Lab's public directory.
     app.use(express.static(this.conf.ui.paths.public.root));
 
-    return app;
+    this.expressApp = app;
+  }
+
+  /**
+   * @return {object} The configured Express app.
+   */
+  main() {
+    return this.expressApp;
   }
 };
