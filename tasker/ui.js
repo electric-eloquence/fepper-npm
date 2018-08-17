@@ -54,8 +54,3 @@ gulp.task('ui:patternsonly', function (cb) {
   ui.build('patternsonly');
   cb();
 });
-
-gulp.task('ui:v', function (cb) {
-  ui.build('v');
-  cb();
-});
