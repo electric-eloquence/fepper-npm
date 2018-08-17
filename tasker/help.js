@@ -18,6 +18,7 @@ Tasks:
     fp syncback         Combine frontend-copy and template tasks.
     fp template         Translate templates in 03-templates for the backend and copy them there.
     fp ui:compile       Compile the UI React components.
+    fp ui:help          Display UI tasks and descriptions.
     fp update           Update Fepper NPM, Fepper UI, and Fepper extensions.
     fp version          Print versions of Fepper NPM, Fepper CLI, and Fepper UI.
 
