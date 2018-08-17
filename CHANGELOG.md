@@ -1,5 +1,26 @@
 # Fepper Changelog
 
+### v0.26.1
+* Changed name of exposed Express app from global.express to global.expressApp
+* Ensuring that only one instance of global.expressApp gets initialized
+
+### v0.26.0
+* Reduced number of vulnerable dependencies
+* Gatekeeping HTML Scraper functionality to local machine
+* More robust HTML Scraper with regard to non-standard HTML
+* More es5 -> es6
+* Pattern Lab Mocha tests
+* Refactored UI client-side JS to be stricter, in es6, linted, and abiding by Fepper's standards
+* Working UI keyboard shortcuts
+* Fixed UI optional features like grow animation
+* UI style updates
+* Dropped support for JSON annotations
+* Entire app is object-oriented
+* Stylus enabled by default
+* Cross-platform fonts
+* Performance improvements
+* Breaking out self-contained utils into fepper-utils NPM
+
 ### v0.25.5
 * Providing stronger data context to Feplet when preprocessing partials
 * Bumping Feplet version to accommodate this
