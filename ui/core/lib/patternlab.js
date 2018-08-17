@@ -344,7 +344,6 @@ Tasks:
     fp ui:copy-styles   Copy _styles to config.paths.public (for injection into browser without refresh.
     fp ui:help          Get more information about Fepper UI CLI commands.
     fp ui:patternsonly  Build the patterns only, outputting to config.paths.public.
-    fp ui:v             Output the version of the fepper-ui NPM.
 `;
 
     this.utils.info(out);
