@@ -21,9 +21,6 @@ module.exports = class {
     if (typeof arg === 'undefined') {
       this.patternlab.build();
     }
-    else if (arg === 'v') {
-      this.patternlab.version();
-    }
     else if (arg === 'patternsonly') {
       this.patternlab.patternsonly();
     }
