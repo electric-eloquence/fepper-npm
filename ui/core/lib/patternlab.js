@@ -336,14 +336,14 @@ Use:
     fp <task> [<additional args>...]
 
 Tasks:
-    fp ui:build         Build the patterns and frontend, outputting to config.paths.public.
-    fp ui:clean         Delete all patterns in config.paths.public.
+    fp ui:build         Build the patterns and frontend, outputting to the public directory.
+    fp ui:clean         Delete all patterns in the public directory.
     fp ui:compile       Compile the UI frontend and build the patterns.
     fp ui:compileui     Compile the UI frontend only.
-    fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to config.paths.public.
-    fp ui:copy-styles   Copy _styles to config.paths.public (for injection into browser without refresh.
+    fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to the public directory.
+    fp ui:copy-styles   Copy _styles to the public directory (for injection into browser without refresh.
     fp ui:help          Get more information about Fepper UI CLI commands.
-    fp ui:patternsonly  Build the patterns only, outputting to config.paths.public.
+    fp ui:patternsonly  Build the patterns only, outputting to the public directory.
 `;
 
     this.utils.info(out);
