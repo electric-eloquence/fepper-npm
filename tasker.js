@@ -172,7 +172,7 @@ gulp.task('default', cb => {
 
   if (conExists && cusExists) {
 
-    // TCP-IP overrides need to run after tcp-ip-load:init in order for there to be a global.express object to override.
+    // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
     // They must then override it before it starts listening and tcp-ip-reload starts watching.
     args.push(['contrib:tcp-ip', 'custom:tcp-ip']);
   }
@@ -283,7 +283,7 @@ gulp.task('restart', cb => {
 
   if (conExists && cusExists) {
 
-    // TCP-IP overrides need to run after tcp-ip-load:init in order for there to be a global.express object to override.
+    // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
     // They must then override it before it starts listening and tcp-ip-reload starts watching.
     args.push(['contrib:tcp-ip', 'custom:tcp-ip']);
   }
