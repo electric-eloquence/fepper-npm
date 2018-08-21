@@ -52,6 +52,7 @@ gulp.task('tcp-ip-reload:watch', function () {
   // An option to delay launch in case other asynchronous tasks need to complete.
   setTimeout(function () {
     // We cannot use absolute paths in the first param for gulp.watch(). Therefore we must specify cwd in the 2nd.
+    // Must use '/**/*' and not '/**' because '/**' watches '..'
     gulp.watch(srcDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['ui:build']);
     gulp.watch(srcDirRel.cssBld + '/**/*', {cwd: global.rootDir}, ['ui:copy-styles']);
     gulp.watch(srcDirRel.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['tcp-ip-reload:otherStyles']);
