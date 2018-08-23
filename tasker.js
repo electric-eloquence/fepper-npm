@@ -97,49 +97,28 @@ if (cusExists) {
   require(cusFile);
 }
 
-// Search for extension tasks and require them.
-// Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
-// (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
-// wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
-//
-// Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
-// Choosing for...of loops and their readability in exchange for performance.
+if (fs.existsSync(extendDir)) {
+  // Search for extension tasks and require them.
+  // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
+  // (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
+  // wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
+  //
+  // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
+  // Choosing for...of loops and their readability in exchange for performance.
 
-// Level 0 declarations.
-const dirsAtLevel0 = [];
-const level0 = extendDir;
-const basenamesAtLevel0 = fs.readdirSync(level0);
-const suffix = '~extend.js';
+  // Level 0 declarations.
+  const dirsAtLevel0 = [];
+  const level0 = extendDir;
+  const basenamesAtLevel0 = fs.readdirSync(level0);
+  const suffix = '~extend.js';
 
-for (let basenameAtLevel0 of basenamesAtLevel0) {
-  try {
-    const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
-    const statAtLevel0 = fs.statSync(fileAtLevel0);
-
-    if (statAtLevel0.isDirectory()) {
-      dirsAtLevel0.push(fileAtLevel0);
-    }
-  }
-  catch (err) {
-    utils.error(err);
-  }
-}
-
-for (let dirAtLevel0 of dirsAtLevel0) {
-  // Level 1 declarations.
-  const dirsAtLevel1 = [];
-  const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
-
-  for (let basenameAtLevel1 of basenamesAtLevel1) {
+  for (let basenameAtLevel0 of basenamesAtLevel0) {
     try {
-      const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
-      const statAtLevel1 = fs.statSync(fileAtLevel1);
+      const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+      const statAtLevel0 = fs.statSync(fileAtLevel0);
 
-      if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
-        require(fileAtLevel1);
-      }
-      else if (statAtLevel1.isDirectory()) {
-        dirsAtLevel1.push(fileAtLevel1);
+      if (statAtLevel0.isDirectory()) {
+        dirsAtLevel0.push(fileAtLevel0);
       }
     }
     catch (err) {
@@ -147,21 +126,44 @@ for (let dirAtLevel0 of dirsAtLevel0) {
     }
   }
 
-  for (let dirAtLevel1 of dirsAtLevel1) {
-    // Level 2 declarations.
-    const basenamesAtLevel2 = fs.readdirSync(dirAtLevel1);
+  for (let dirAtLevel0 of dirsAtLevel0) {
+    // Level 1 declarations.
+    const dirsAtLevel1 = [];
+    const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
 
-    for (let basenameAtLevel2 of basenamesAtLevel2) {
+    for (let basenameAtLevel1 of basenamesAtLevel1) {
       try {
-        const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
-        const statAtLevel2 = fs.statSync(fileAtLevel2);
+        const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
+        const statAtLevel1 = fs.statSync(fileAtLevel1);
 
-        if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
-          require(fileAtLevel2);
+        if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
+          require(fileAtLevel1);
+        }
+        else if (statAtLevel1.isDirectory()) {
+          dirsAtLevel1.push(fileAtLevel1);
         }
       }
       catch (err) {
         utils.error(err);
+      }
+    }
+
+    for (let dirAtLevel1 of dirsAtLevel1) {
+      // Level 2 declarations.
+      const basenamesAtLevel2 = fs.readdirSync(dirAtLevel1);
+
+      for (let basenameAtLevel2 of basenamesAtLevel2) {
+        try {
+          const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
+          const statAtLevel2 = fs.statSync(fileAtLevel2);
+
+          if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
+            require(fileAtLevel2);
+          }
+        }
+        catch (err) {
+          utils.error(err);
+        }
       }
     }
   }
