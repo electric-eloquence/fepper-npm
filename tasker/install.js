@@ -40,7 +40,7 @@ gulp.task('install:copy', cb => {
 
   // Copy extend dir if it doesn't exist.
   if (!fs.existsSync(extendDir)) {
-    fs.copySync('excludes/extend', extendDir);
+    fs.copySync('excludes/profiles/main/extend', extendDir);
   }
 
   // Run npm install in extend dir if no extend/node_modules dir.
@@ -67,6 +67,10 @@ gulp.task('install:copy', cb => {
 gulp.task('install:copy-base', cb => {
   if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/base/source', sourceDir);
+  }
+
+  if (!fs.existsSync(extendDir)) {
+    fs.copySync('excludes/profiles/base/extend', extendDir);
   }
 
   cb();
