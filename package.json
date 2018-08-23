@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/electric-eloquence/fepper-npm/issues"
   },
-  "homepage": "https://github.com/electric-eloquence/fepper-npm#readme",
+  "homepage": "http://fepper.io/",
   "engines": {
     "node": ">=8.5.0"
   },
