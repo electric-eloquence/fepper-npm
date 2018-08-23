@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.26.2
+* Differentiating extend dirs for base and main profiles
+  * Base profile does not install `fp-stylus`
+  * Main profile does install `fp-stylus`
+
 ### v0.26.1
 * Changed name of exposed Express app from global.express to global.expressApp
 * Ensuring that only one instance of global.expressApp gets initialized
