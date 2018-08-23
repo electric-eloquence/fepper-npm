@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.26.3
+* Stronger logic for extension tasks, particularly if they are missing
+
 ### v0.26.2
 * Differentiating extend dirs for base and main profiles
   * Base profile does not install `fp-stylus`
