@@ -32,7 +32,7 @@ function adaptSlashes(path_) {
   return path;
 }
 
-gulp.task('install:copy', cb => {
+gulp.task('install:copy', (cb) => {
   // Copy source dir if it doesn't exist.
   if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/main/source', sourceDir);
@@ -64,7 +64,7 @@ gulp.task('install:copy', cb => {
   cb();
 });
 
-gulp.task('install:copy-base', cb => {
+gulp.task('install:copy-base', (cb) => {
   if (!fs.existsSync(sourceDir)) {
     fs.copySync('excludes/profiles/base/source', sourceDir);
   }
