@@ -11,7 +11,7 @@
 
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main distribution.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
-  unnecessary assets, styles, or Pattern Lab demo.
+  unnecessary assets, styles, Pattern Lab demo, or `fp-stylus` extension.
 * [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - 
   templates configured for Drupal 8, along with a Drupal theme built to 
   accommodate those templates.
