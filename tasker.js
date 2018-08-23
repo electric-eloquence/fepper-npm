@@ -72,47 +72,74 @@ requireDir('./tasker');
 
 // Optionally require auxiliary, contrib, and custom tasks.
 const extendDir = conf.extend_dir;
-const auxDir = `${extendDir}/auxiliary`;
+const auxConFile = `${extendDir}/auxiliary/auxiliary-contrib.js`;
+const auxCusFile = `${extendDir}/auxiliary/auxiliary-custom.js`;
 const conFile = `${extendDir}/contrib.js`;
 const cusFile = `${extendDir}/custom.js`;
-const auxExists = fs.existsSync(auxDir);
+const auxConExists = fs.existsSync(auxConFile);
+const auxCusExists = fs.existsSync(auxCusFile);
 const conExists = fs.existsSync(conFile);
 const cusExists = fs.existsSync(cusFile);
 
-if (fs.existsSync(`${extendDir}/node_modules`)) {
-  if (auxExists) {
-    requireDir(auxDir);
+if (auxConExists) {
+  require(auxConFile);
+}
+
+if (auxCusExists) {
+  require(auxCusFile);
+}
+
+if (conExists) {
+  require(conFile);
+}
+
+if (cusExists) {
+  require(cusFile);
+}
+
+// Search for extension tasks and require them.
+// Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
+// (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
+// wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
+//
+// Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
+// Choosing for...of loops and their readability in exchange for performance.
+
+// Level 0 declarations.
+const dirsAtLevel0 = [];
+const level0 = extendDir;
+const basenamesAtLevel0 = fs.readdirSync(level0);
+const suffix = '~extend.js';
+
+for (let basenameAtLevel0 of basenamesAtLevel0) {
+  try {
+    const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
+    const statAtLevel0 = fs.statSync(fileAtLevel0);
+
+    if (statAtLevel0.isDirectory()) {
+      dirsAtLevel0.push(fileAtLevel0);
+    }
   }
-
-  if (conExists) {
-    require(conFile);
+  catch (err) {
+    utils.error(err);
   }
+}
 
-  if (cusExists) {
-    require(cusFile);
-  }
+for (let dirAtLevel0 of dirsAtLevel0) {
+  // Level 1 declarations.
+  const dirsAtLevel1 = [];
+  const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
 
-  // Search for extension tasks and require them.
-  // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
-  // (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
-  // wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
-  //
-  // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
-  // Choosing for...of loops and their readability in exchange for performance.
-
-  // Level 0 declarations.
-  const dirsAtLevel0 = [];
-  const level0 = extendDir;
-  const basenamesAtLevel0 = fs.readdirSync(level0);
-  const suffix = '~extend.js';
-
-  for (let basenameAtLevel0 of basenamesAtLevel0) {
+  for (let basenameAtLevel1 of basenamesAtLevel1) {
     try {
-      const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
-      const statAtLevel0 = fs.statSync(fileAtLevel0);
+      const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
+      const statAtLevel1 = fs.statSync(fileAtLevel1);
 
-      if (statAtLevel0.isDirectory()) {
-        dirsAtLevel0.push(fileAtLevel0);
+      if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
+        require(fileAtLevel1);
+      }
+      else if (statAtLevel1.isDirectory()) {
+        dirsAtLevel1.push(fileAtLevel1);
       }
     }
     catch (err) {
@@ -120,96 +147,89 @@ if (fs.existsSync(`${extendDir}/node_modules`)) {
     }
   }
 
-  for (let dirAtLevel0 of dirsAtLevel0) {
-    // Level 1 declarations.
-    const dirsAtLevel1 = [];
-    const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
+  for (let dirAtLevel1 of dirsAtLevel1) {
+    // Level 2 declarations.
+    const basenamesAtLevel2 = fs.readdirSync(dirAtLevel1);
 
-    for (let basenameAtLevel1 of basenamesAtLevel1) {
+    for (let basenameAtLevel2 of basenamesAtLevel2) {
       try {
-        const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
-        const statAtLevel1 = fs.statSync(fileAtLevel1);
+        const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
+        const statAtLevel2 = fs.statSync(fileAtLevel2);
 
-        if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
-          require(fileAtLevel1);
-        }
-        else if (statAtLevel1.isDirectory()) {
-          dirsAtLevel1.push(fileAtLevel1);
+        if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
+          require(fileAtLevel2);
         }
       }
       catch (err) {
         utils.error(err);
       }
     }
+  }
+}
 
-    for (let dirAtLevel1 of dirsAtLevel1) {
-      // Level 2 declarations.
-      const basenamesAtLevel2 = fs.readdirSync(dirAtLevel1);
+function extensionsPush(taskName, argsArr, tasksArr = []) {
+  let isAuxiliary = false;
 
-      for (let basenameAtLevel2 of basenamesAtLevel2) {
-        try {
-          const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
-          const statAtLevel2 = fs.statSync(fileAtLevel2);
+  if (taskName.slice(-12) === ':postprocess') {
+    isAuxiliary = true;
+  }
 
-          if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
-            require(fileAtLevel2);
-          }
-        }
-        catch (err) {
-          utils.error(err);
-        }
-      }
+  if (isAuxiliary) {
+    if (auxConExists) {
+      tasksArr.push(`contrib:${taskName}`);
     }
+
+    if (auxCusExists) {
+      tasksArr.push(`custom:${taskName}`);
+    }
+  }
+  else {
+    if (conExists) {
+      tasksArr.push(`contrib:${taskName}`);
+    }
+
+    if (cusExists) {
+      tasksArr.push(`custom:${taskName}`);
+    }
+  }
+
+  if (tasksArr.length) {
+    argsArr.push(tasksArr);
   }
 }
 
 // Main tasks.
-gulp.task('default', cb => {
-  let args = [];
+gulp.task('default', (cb) => {
+  const args = [];
 
   args.push('once');
   args.push('tcp-ip-load:init');
 
-  if (conExists && cusExists) {
-
-    // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
-    // They must then override it before it starts listening and tcp-ip-reload starts watching.
-    args.push(['contrib:tcp-ip', 'custom:tcp-ip']);
-  }
-
+  // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
+  // They must run before global.expressApp starts listening and tcp-ip-reload starts watching.
+  extensionsPush('tcp-ip', args);
   args.push(['tcp-ip-load:listen', 'tcp-ip-reload:listen']);
 
-  if (conExists && cusExists) {
-    args.push(['contrib:watch', 'custom:watch', 'tcp-ip-load:open', 'tcp-ip-reload:watch']);
+  const tasks = ['tcp-ip-load:open', 'tcp-ip-reload:watch'];
 
-    // Probably no use-case for these contrib and custom postprocess tasks, but here just in case.
-    args.push(['contrib:tcp-ip:postprocess', 'custom:tcp-ip:postprocess']);
-  }
-  else {
-    args.push(['tcp-ip-load:open', 'tcp-ip-reload:watch']);
-  }
+  extensionsPush('watch', args, tasks);
+
+  // Probably no use-case for these tcp-ip:postprocess tasks, but here just in case.
+  extensionsPush('tcp-ip:postprocess', args);
 
   args.push(() => {
     cb();
     utils.log(`Listening on port ${conf.express_port}`);
   });
-
   runSequence.apply(null, args);
 });
 
-gulp.task('data', cb => {
-  let args = [];
+gulp.task('data', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:data', 'custom:data']);
-  }
-
+  extensionsPush('data', args);
   args.push('fepper:data');
-
-  if (conExists && cusExists) {
-    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
-  }
-
+  extensionsPush('data:postprocess', args);
   args.push('ui:build');
 
   if (conf.ui.cleanPublic) {
@@ -218,87 +238,64 @@ gulp.task('data', cb => {
   }
 
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('frontend-copy', cb => {
-  let args = [];
+gulp.task('frontend-copy', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:frontend-copy', 'custom:frontend-copy']);
-  }
-
+  extensionsPush('frontend-copy', args);
   args.push(['fepper:copy-assets', 'fepper:copy-scripts', 'fepper:copy-styles']);
-
-  if (conExists && cusExists) {
-    args.push(['contrib:frontend-copy:postprocess', 'custom:frontend-copy:postprocess']);
-  }
-
+  extensionsPush('frontend-copy:postprocess', args);
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('install', cb => {
+gulp.task('install', (cb) => {
   runSequence(
     'install:copy',
     cb
   );
 });
 
-gulp.task('once', cb => {
-  let args = [];
+gulp.task('once', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:once', 'custom:once']);
-    args.push(['contrib:data', 'custom:data']);
-  }
+  extensionsPush('once', args);
 
+  // Data tasks grouped as follows. "once" extension tasks run before data tasks.
+  // "ui" tasks and "once" postprocess tasks run after.
+  extensionsPush('data', args);
   args.push('fepper:data');
-
-  if (conExists && cusExists) {
-    args.push(['contrib:data:postprocess', 'custom:data:postprocess']);
-  }
+  extensionsPush('data:postprocess', args);
 
   args.push('ui:clean');
   args.push('ui:build');
   args.push('ui:copy');
   args.push('ui:copy-styles');
 
-  if (conExists && cusExists) {
-    args.push(['contrib:once:postprocess', 'custom:once:postprocess']);
-  }
-
+  extensionsPush('once:postprocess', args);
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('restart', cb => {
-  let args = [];
+gulp.task('restart', (cb) => {
+  const args = [];
 
   args.push('once');
   args.push('tcp-ip-load:init');
 
-  if (conExists && cusExists) {
-
-    // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
-    // They must then override it before it starts listening and tcp-ip-reload starts watching.
-    args.push(['contrib:tcp-ip', 'custom:tcp-ip']);
-  }
-
+  // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
+  // They must run before global.expressApp starts listening and tcp-ip-reload starts watching.
+  extensionsPush('tcp-ip', args);
   args.push(['tcp-ip-load:listen', 'tcp-ip-reload:listen']);
 
-  if (conExists && cusExists) {
-    args.push(['contrib:watch', 'custom:watch', 'tcp-ip-reload:watch']);
+  const tasks = ['tcp-ip-reload:watch'];
 
-    // Probably no use-case for these contrib and custom postprocess tasks, but here just in case.
-    args.push(['contrib:tcp-ip:postprocess', 'custom:tcp-ip:postprocess']);
-  }
-  else {
-    args.push('tcp-ip-reload:watch');
-  }
+  extensionsPush('watch', args, tasks);
+
+  // Probably no use-case for these tcp-ip:postprocess tasks, but here just in case.
+  extensionsPush('tcp-ip:postprocess', args);
 
   args.push(() => {
     cb();
@@ -315,63 +312,39 @@ gulp.task('restart', cb => {
   runSequence.apply(null, args);
 });
 
-gulp.task('static', cb => {
-  let args = [];
+gulp.task('static', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:static', 'custom:static']);
-  }
-
+  extensionsPush('static', args);
   args.push('once');
   args.push('fepper:static-generate');
-
-  if (conExists && cusExists) {
-    args.push(['contrib:static:postprocess', 'custom:static:postprocess']);
-  }
-
+  extensionsPush('static:postprocess', args);
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('syncback', cb => {
-  let args = [];
+gulp.task('syncback', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:syncback', 'custom:syncback']);
-  }
-
+  extensionsPush('syncback', args);
   args.push('frontend-copy');
   args.push('template');
-
-  if (conExists && cusExists) {
-    args.push(['contrib:syncback:postprocess', 'custom:syncback:postprocess']);
-  }
-
+  extensionsPush('syncback:postprocess', args);
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('template', cb => {
-  let args = [];
+gulp.task('template', (cb) => {
+  const args = [];
 
-  if (conExists && cusExists) {
-    args.push(['contrib:template', 'custom:template']);
-  }
-
+  extensionsPush('template', args);
   args.push('fepper:template');
-
-  if (conExists && cusExists) {
-    args.push(['contrib:template:postprocess', 'custom:template:postprocess']);
-  }
-
+  extensionsPush('template:postprocess', args);
   args.push(cb);
-
   runSequence.apply(null, args);
 });
 
-gulp.task('test', cb => {
+gulp.task('test', (cb) => {
   runSequence(
     'test:eslint',
     'test:mocha',
