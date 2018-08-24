@@ -1,7 +1,7 @@
 /**
  * This is an example custom task which copies Stylus files to the public directory.
- * There probably isn't any use-case for exposing CSS preprocesses to end-users, so you are encouraged to delete or
- * overwrite this demonstration.
+ * There probably isn't any use-case for exposing CSS preprocessing to end-users, so you are encouraged to rename,
+ * overwrite, or delete this demonstration.
  */
 'use strict';
 
