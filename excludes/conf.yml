@@ -15,7 +15,7 @@ timeout_main: 0
 # fepper-npm to be installed with `npm link`. Uncomment for this purpose. The 
 # name is admittedly awkward but is necessary to flag a true condition for 
 # linking the npm. Other conditions do not need a flag. Furthermore, you need to 
-# disable gulp in the fepper-npm/node_modules directory. Rename it to 
+# disable gulp in fepper-npm's node_modules directory. Rename it to 
 # "gulp-disabled". Rename it back to "gulp" when you need it again.
 #headed: true
 
