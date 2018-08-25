@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.26.4
+* Minor syntax improvements to code
+* Fixing static-generator bug
+
 ### v0.26.3
 * Stronger logic for extension tasks, particularly if they are missing
 
