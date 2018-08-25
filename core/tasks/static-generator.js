@@ -10,6 +10,7 @@ const RcLoader = require('rcloader');
 module.exports = class {
   constructor(options) {
     this.conf = options.conf;
+    this.pref = options.pref;
     this.rootDir = options.rootDir;
     this.utils = options.utils;
 
