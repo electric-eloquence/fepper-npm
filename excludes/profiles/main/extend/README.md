@@ -35,8 +35,8 @@ You might need to access the values in the `conf.yml` and `pref.yml` files in
 order to write custom tasks. They are exposed through `global.conf` and 
 `global.pref` (on the `global` Node object).
 
-The values in `patternlab-config.json` are exposed through `global.conf.ui`. One 
-thing to note is that all paths in `patternlab-config.json` will be converted to 
+The values in `patternlab-config.json` are exposed through `global.conf.ui`. 
+Please note that all paths in `patternlab-config.json` will be converted to 
 absolute paths in `global.conf.ui`.
 
 `gulp.watch` will not work correctly with absolute paths. There are two 
