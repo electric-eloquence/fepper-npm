@@ -9,12 +9,12 @@ gulp.task('contrib:data', [
 ]);
 
 gulp.task('contrib:frontend-copy', [
-// Comment or delete if you wish to disable this.
+  // Comment or delete if you wish to disable this.
   'stylus:frontend-copy'
 ]);
 
 gulp.task('contrib:once', [
-// Comment or delete if you wish to disable this.
+  // Comment or delete if you wish to disable this.
   'stylus:once'
 ]);
 
@@ -31,6 +31,6 @@ gulp.task('contrib:template', [
 ]);
 
 gulp.task('contrib:watch', [
-// Comment or delete if you wish to disable this.
+  // Comment or delete if you wish to disable this.
   'stylus:watch'
 ]);
