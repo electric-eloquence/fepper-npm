@@ -468,6 +468,7 @@ module.exports = class {
     }
     catch (err) {
       this.patternlab.utils.error(err);
+      this.patternlab.utils.error('Run `fp ui:compile` to fix this.');
     }
 
     fs.outputFileSync(`${paths.public.root}/index.html`, patternlabSiteHtml);
