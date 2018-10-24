@@ -50,11 +50,11 @@ module.exports = class {
       let url = '';
 
       if (req.query) {
-        if (typeof req.query.msg_class === 'string') {
-          msgClass = req.query.msg_class;
-        }
         if (typeof req.query.message === 'string') {
           message = req.query.message;
+        }
+        if (typeof req.query.msg_class === 'string') {
+          msgClass = req.query.msg_class;
         }
         if (typeof req.query.selector === 'string') {
           selector = req.query.selector;

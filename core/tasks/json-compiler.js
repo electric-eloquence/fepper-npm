@@ -28,7 +28,13 @@ module.exports = class {
     let jsonStr = '';
     let tmp;
 
-    if (!fs.existsSync(appendix) || !fs.existsSync(globals)) {
+    try {
+      if (!fs.existsSync(appendix) || !fs.existsSync(globals)) {
+        return;
+      }
+    }
+    catch (err) {
+      this.utils.error(err);
       return;
     }
 
@@ -96,7 +102,13 @@ module.exports = class {
     tmp = tmp.replace(/^\s*\n/, '');
     jsonStr += tmp;
 
-    // Write out to data.json.
-    fs.writeFileSync(dest, jsonStr);
+    try {
+      // Write out to data.json.
+      fs.outputFileSync(dest, jsonStr);
+    }
+    catch (err) {
+      this.utils.error(err);
+      return;
+    }
   }
 };

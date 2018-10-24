@@ -1,12 +1,12 @@
 // Colors
 $gray = gray
 $gray-light = #f9f9f9
-$gray-light-2 = #eeeeee
-$gray-light-3 = #dddddd
-$gray-light-4 = #bbbbbb
+$gray-light-1 = #eeeeee
+$gray-light-2 = #dddddd
+$gray-light-3 = #bbbbbb
 $gray-med = #666666
 $gray-dark = #333333
-$gray-dark-2 = #131313
+$gray-dark-1 = #131313
 $white = white
 $black = black
 
@@ -18,8 +18,7 @@ $error = red
 $valid = #089e00
 
 // Typography
-$font = Helvetica, "Liberation Sans", Roboto, sans-serif
-$font-secondary = Times, "Liberation Serif", "Roboto Slab", serif
+$font-primary = Helvetica, "Liberation Sans", Roboto, sans-serif
 
 // Layout
 $max-width = 1152px // Use px since this is used in a media query
@@ -29,8 +28,6 @@ $footer-height = 5rem
 $space = 1.6rem
 $space-and-half = $space * 1.5
 $space-double = $space * 2
-$space-triple = $space * 3
-$space-quad = $space * 4
 $space-half = $space / 2
 $space-quarter = $space / 4
 
@@ -44,6 +41,6 @@ $bp-md-max = unit(bp_md_max, px) // From source/_scripts/src/variables.styl
 
 // Measurements
 $nav-toggle-height = 5.4rem
-$nav-toggle-n-border = $nav-toggle-height + 0.1rem
+$nav-toggle-n-border = "calc(%s + 1px)" % $nav-toggle-height
 $column-width-narrow = (100% / 3)
 $column-width-wide = 2 * $column-width-narrow

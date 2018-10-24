@@ -4,9 +4,7 @@
 /npm-debug.log
 /pattern_exports/
 /public/
-/ui/core/styleguide/index.mustache
 /ui/test/pattern_exports/*
 /ui/test/public/*
-/ui/test/styleguide/index.mustache
 ignore/
 node_modules/

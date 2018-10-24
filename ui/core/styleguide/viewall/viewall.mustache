@@ -1,15 +1,13 @@
-<!-- View All Patterns in a Pattern Sub-Type -->
+<!-- View All -->
+<link rel="stylesheet" href="../../{{ pathsPublic.css }}/pattern-scaffolding.css" media="all">
 <div class="sg-main" role="main">
   
   <!-- Patterns -->
   <div id="sg-patterns">
     {{# partials }}
-      {{# patternSectionSubType }}
-        {{> patternSectionSubType }}
-      {{/ patternSectionSubType }}
-      {{^ patternSectionSubType }}
-        {{> patternSection }}
-      {{/ patternSectionSubType }}
+      {{> patternSectionType }}
+      {{> patternSectionSubType }}
+      {{> patternSection }}
     {{/ partials }}
   </div> <!--end #sg-patterns-->
 

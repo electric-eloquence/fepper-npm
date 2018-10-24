@@ -7,70 +7,15 @@
   // Handle injection of items from Node.
   {{# lineage }}window.lineage = {{{ lineage }}};{{/ lineage }}
   {{# lineageR }}window.lineageR = {{{ lineageR }}};{{/ lineageR }}
-  window.patternPartial = "{{ patternPartial }}";
-  window.patternState = "{{ patternState }}";
-  window.portReloader = {{ portReloader }};
-  window.portServer = {{ portServer }};
+  window.patternPartial = '{{ patternPartial }}';
+  window.patternState = '{{ patternState }}';
+  window.portReloader = '{{ portReloader }}';
+  window.portServer = '{{ portServer }}';
 </script>
 
-<script>
-  /**
-   * Script Loader.
-   *
-   * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
-   * Licensed under the MIT license.
-   */
-  const scriptLoader = {
-    run: (js, cb, target) => {
-      const s = document.getElementById(target);
-
-      for (let i = 0, l = js.length; i < l; i++) {
-        const src = (typeof js[i] !== 'string') ? js[i].src : js[i];
-        const c = document.createElement('script');
-        c.src = '../../' + src + cb;
-
-        if (typeof js[i] !== 'string') {
-          if (typeof js[i].dep !== 'undefined') {
-            c.onload = ((dep, cb, target) => {
-              return () => {
-                scriptLoader.run(dep, cb, target);
-              };
-            })(js[i].dep, cb, target);
-          }
-        }
-        s.parentNode.insertBefore(c, s);
-      }
-    }
-  }
-</script>
-
-<script id="pl-js-insert">
-  /**
-   * Use scriptLoader to insert ui-functions.js and its dependents.
-   */
-  (() => {
-    'use strict';
-
-    if (self !== top) {
-      const cb = '{{ cacheBuster}}';
-      const js = [
-        {
-          'src': 'node_modules/fepper-ui/scripts/ui-functions.js',
-          'dep': [
-            'node_modules/fepper-ui/scripts/patternlab-pattern.js',
-            'node_modules/fepper-ui/scripts/postmessage.js'
-          ]
-        }
-      ];
-
-      scriptLoader.run(js, cb, 'pl-js-insert');
-    }
-  })();
-</script>
-
-<script src="../../annotations/annotations.js{{ cacheBuster }}"></script>
+<script src="../../node_modules/fepper-ui/scripts/ui-functions.js"></script>
 <script src="../../node_modules/fepper-ui/scripts/annotations-pattern.js"></script>
 <script src="../../node_modules/fepper-ui/scripts/code-pattern.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/mustache-browser.js"></script>
 <script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/patternlab-pattern.js"></script>
 <!-- End Pattern Lab -->

@@ -1,11 +1,17 @@
 'use strict';
 
+const Feplet = require('feplet');
 const fs = require('fs-extra');
+
+const backButton =
+  '<a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();">&lt; back</a>';
 
 module.exports = class {
   constructor(options, html) {
     this.conf = options.conf;
     this.html = html;
+    this.immutableHeader = this.html.getImmutableHeader(this.conf);
+    this.immutableFooter = this.html.getImmutableFooter(this.conf);
   }
 
   /**
@@ -15,22 +21,38 @@ module.exports = class {
    * @param {string} err - error.
    */
   noResult(res, err) {
-    let output = '';
-    output += this.html.head;
+    let template = this.html.head;
+    template += backButton;
 
     if (typeof err === 'string') {
-      output += err;
+      template += err;
     }
     else {
-      output += 'There is no Mustache template there by that name. Perhaps you need to use ' +
+      template += 'There is no Mustache template there by that name. Perhaps you need to use ' +
         '<a href="http://patternlab.io/docs/pattern-including.html" target="_blank">' +
         'the more verbosely pathed syntax.</a>';
     }
 
-    output += this.html.foot;
-    output = output.replace('{{ title }}', 'Fepper Mustache Browser');
-    output = output.replace('{{ title }}', 'Fepper Mustache Browser');
-    output = output.replace('{{ title }}', 'Fepper Mustache Browser');
+    template += this.html.foot;
+
+    const patternlabFoot = Feplet.render(
+      this.immutableFooter,
+      {
+        portReloader: this.conf.livereload_port,
+        portServer: this.conf.express_port
+      }
+    );
+
+    const output = Feplet.render(
+      template,
+      {
+        title: 'Fepper Mustache Browser',
+        patternlabHead: this.immutableHeader,
+        main_id: 'no-result',
+        main_class: 'mustache-browser no-result',
+        patternlabFoot
+      }
+    );
 
     res.send(output);
   }
@@ -84,7 +106,8 @@ module.exports = class {
     let entitiesAndLinks = data.replace(/"/g, '&quot;');
     entitiesAndLinks = entitiesAndLinks.replace(/</g, '&lt;');
     entitiesAndLinks = entitiesAndLinks.replace(/>/g, '&gt;');
-    entitiesAndLinks = entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&">$&</a>');
+    entitiesAndLinks =
+      entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&" class="fp-express">$&</a>');
     // Render indentation whitespace as HTML entities.
     entitiesAndLinks = entitiesAndLinks.replace(/^ /gm, '&nbsp;');
     entitiesAndLinks = entitiesAndLinks.replace(/^\t/gm, '&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -114,12 +137,30 @@ module.exports = class {
           }
 
           // Render the output with HTML head and foot.
-          let output = this.html.head;
-          output += code;
-          output += this.html.foot;
-          output = output.replace('{{ title }}', 'Fepper Mustache Browser');
-          output = output.replace('{{ main_class }}', 'mustache-browser');
-          output = output.replace('{{ main_id }}', 'mustache-browser');
+          let template = this.html.head;
+          template += backButton;
+          template += '{{{ code }}}';
+          template += this.html.foot;
+
+          const patternlabFoot = Feplet.render(
+            this.immutableFooter,
+            {
+              portReloader: this.conf.livereload_port,
+              portServer: this.conf.express_port
+            }
+          );
+
+          const output = Feplet.render(
+            template,
+            {
+              title: 'Fepper Mustache Browser',
+              patternlabHead: this.immutableHeader,
+              main_id: 'mustache-browser',
+              main_class: 'mustache-browser',
+              code,
+              patternlabFoot
+            }
+          );
 
           res.send(output);
         }
@@ -140,14 +181,33 @@ module.exports = class {
               // Render the Mustache code if it does.
               // First, link the Mustache tags.
               let entitiesAndLinks = this.toHtmlEntitiesAndLinks(data);
+
               // Render the output with HTML head and foot.
-              let output = this.html.head;
-              output += `<h2>${partial}</h2>`;
-              output += entitiesAndLinks;
-              output += this.html.foot;
-              output = output.replace('{{ title }}', 'Fepper Mustache Browser');
-              output = output.replace('{{ main_id }}', 'mustache-browser');
-              output = output.replace('{{ main_class }}', 'mustache-browser');
+              let template = this.html.head;
+              template += backButton;
+              template += `<h2>${partial}</h2>`;
+              template += '{{{ entitiesAndLinks }}}';
+              template += this.html.foot;
+
+              const patternlabFoot = Feplet.render(
+                this.immutableFooter,
+                {
+                  portReloader: this.conf.livereload_port,
+                  portServer: this.conf.express_port
+                }
+              );
+
+              const output = Feplet.render(
+                template,
+                {
+                  title: 'Fepper Mustache Browser',
+                  patternlabHead: this.immutableHeader,
+                  main_id: 'mustache-browser',
+                  main_class: 'mustache-browser',
+                  entitiesAndLinks,
+                  patternlabFoot
+                }
+              );
 
               res.send(output);
             }.bind(this));

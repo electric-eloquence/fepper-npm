@@ -38,8 +38,8 @@ const Patternlab = require('fepper/ui/core/lib/patternlab');
 const patternlab = new Patternlab(config, cwd);
 ```
 
-Fepper's `Patternlab` constructor recognizes a second parameter (a working 
-directory parameter) for instantiating a `patternlab` object. This allows it to 
+Fepper's `Patternlab` constructor recognizes a second argument (a working 
+directory argument) for instantiating a `patternlab` object. This allows it to 
 be instantiated from any directory within any task runner or custom application.
 
 Fepper exposes these methods on the `patternlab` object:
@@ -49,18 +49,19 @@ Fepper exposes these methods on the `patternlab` object:
 * patternsonly: function (options)
 * resetConfig: function (config)
 
-The `options` parameter is optional. If submitted, it must be an object whose 
+The `options` argument is optional. If submitted, it must be an object whose 
 properties are intended to override one or more properties in the `config` 
 object consumed by the `Patternlab` constructor.
 
-Keep in mind that configs overridden by an `options` parameter will persist 
+Keep in mind that configs overridden by an `options` argument will persist 
 through all future operations on that `Patternlab` instance. In order to revert 
 the configs back to the original configs, call `resetConfig` with the original 
 configs.
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
-maintain parity with the PHP distribution with respect to performance and core 
-features.
+maintain parity with the PHP distribution with respect to 
+<a href="https://github.com/electric-eloquence/feplet-vs-patternlab-php" target="_blank">
+performance and core features</a>.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
 
@@ -68,13 +69,8 @@ Using this NPM decoupled from a full Fepper project requires manually compiling
 the UI. Use the following code as a template for manual compilation:
 
 ```javascript
-patternlab.compileui()
-  .catch((err) => {
-    console.error(err);
-  })
-  .then(() => {
-    patternlab.build();
-  });
+patternlab.compileui();
+patternlab.build();
 ```
 
 All aspects of the UI are available for customization. For example, the toolbar 
@@ -114,3 +110,24 @@ fp ui:compile
 ```
 
 New UI customizations will not be picked up simply by restarting Fepper.
+
+###  <a id="just-the-fepper-instance"></a>Just the Fepper Instance
+
+While it is recommended that you use Fepper with the 
+<a href="https://www.npmjs.com/package/fepper-cli" target="_blank">Fepper CLI</a>, 
+and its `fp` command, you can alternatively instantiate a barebones Fepper 
+instance:
+
+```javascript
+const cwd = process.cwd();
+const Fepper = require('fepper');
+const fepper = new Fepper(cwd);
+```
+
+`cwd` must contain `conf.yml`, `patternlab-config.json`, `pref.yml`, and the 
+`source` and `public` directories.
+
+There is currently no public API for object-oriented Fepper. To express demand 
+for one, 
+<a href="https://github.com/electric-eloquence/fepper-npm/issues" target="_blank">
+please open an issue</a>.

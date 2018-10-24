@@ -1,5 +1,5 @@
 /**
- * Writes the appendix to data.json.
+ * Adds the data appendix to data.json.
  *
  * Since the last property appended to data.json by json-compiler.js ends in a
  * comma, we need this operation to append to data.json in such a way that the
@@ -14,18 +14,27 @@ const fs = require('fs-extra');
 module.exports = class {
   constructor(options) {
     this.conf = options.conf;
+    this.utils = options.utils;
   }
 
   main() {
     const appendix = `${this.conf.ui.paths.source.data}/_appendix.json`;
     const varFile = `${this.conf.ui.paths.source.js}/src/variables.styl`;
     let jsonStr = '{\n';
+    let vars;
 
     if (!fs.existsSync(appendix) || !fs.existsSync(varFile)) {
       return;
     }
 
-    const vars = fs.readFileSync(varFile, this.conf.enc);
+    try {
+      vars = fs.readFileSync(varFile, this.conf.enc);
+    }
+    catch (err) {
+      this.utils.error(err);
+      return;
+    }
+
     const varsSplit = vars.split('\n');
 
     for (let i = 0; i < varsSplit.length; i++) {
@@ -47,7 +56,12 @@ module.exports = class {
     }
     jsonStr += '\n}\n';
 
-    // Write out to _appendix.json.
-    fs.writeFileSync(appendix, jsonStr);
+    try {
+      // Write out to _appendix.json.
+      fs.outputFileSync(appendix, jsonStr);
+    }
+    catch (err) {
+      this.utils.error(err);
+    }
   }
 };

@@ -14,8 +14,8 @@ const {
 } = require('../test-harness')();
 
 // Preprocess the patternlab object.
-patternlab.preprocessAllPatterns(patternsDir);
-patternlab.preprocessDataAndParams();
+patternlab.preProcessAllPatterns(patternsDir);
+patternlab.preProcessDataAndParams();
 
 // Get test pattern.
 const childPattern = patternlab.getPattern('test-styled-atom');
@@ -26,7 +26,7 @@ describe('Style Modifier Hunter', function () {
     const parentPattern = patternlab.getPattern('test-styled-molecule');
 
     // Process test pattern.
-    patternlab.patternAssembler.processPattern(parentPattern, patternlab);
+    patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
     expect(parentPattern.template).to.equal('{{> test-styled-atom }}\n{{> test-styled-atom:test_1 }}\n');
@@ -41,7 +41,7 @@ describe('Style Modifier Hunter', function () {
     const parentPattern = patternlab.getPattern('test-multiple-classes');
 
     // Process test pattern.
-    patternlab.patternAssembler.processPattern(parentPattern, patternlab);
+    patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
     expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2 }}\n');
@@ -56,7 +56,7 @@ describe('Style Modifier Hunter', function () {
     const parentPattern = patternlab.getPattern('test-mixed-params');
 
     // Process test pattern.
-    patternlab.patternAssembler.processPattern(parentPattern, patternlab);
+    patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
     expect(parentPattern.template).to.equal('{{> test-styled-atom:test_2(message: \'1\') }}\n');
@@ -70,7 +70,7 @@ describe('Style Modifier Hunter', function () {
     const parentPattern = patternlab.getPattern('test-multiple-classes-params');
 
     // Process test pattern.
-    patternlab.patternAssembler.processPattern(parentPattern, patternlab);
+    patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
     expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2(message: \'2\') }}\n\n');
@@ -87,7 +87,7 @@ describe('Style Modifier Hunter', function () {
       const middlePattern = patternlab.getPattern('test-styled-molecule');
 
       // Process test pattern.
-      patternlab.patternAssembler.processPattern(parentPattern, patternlab);
+      patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
       // Assert.
       expect(parentPattern.template).to.equal('{{> test-styled-molecule }}\n');

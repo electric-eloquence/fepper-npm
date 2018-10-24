@@ -17,20 +17,14 @@ module.exports = class {
 
     // Write timestamp to file system to validate browser is on same machine to prevent attacks with HTML scraper from
     // another machine.
-    fs.writeFileSync(`${this.rootDir}/.timestamp`, timestamp);
+    fs.outputFileSync(`${this.rootDir}/.timestamp`, timestamp);
 
     if (fs.existsSync(log)) {
-      // An option to delay launch in case other asynchronous tasks need to complete.
-      setTimeout(() => {
-        fs.unlinkSync(log);
-        open(origin + '/success?ts=' + timestamp);
-      }, this.conf.timeout_main * 2);
+      fs.removeSync(log);
+      open(origin + '/success?ts=' + timestamp);
     }
     else {
-      // An option to delay launch in case other asynchronous tasks need to complete.
-      setTimeout(() => {
-        open(origin + '?ts=' + timestamp);
-      }, this.conf.timeout_main);
+      open(origin + '?ts=' + timestamp);
     }
   }
 };

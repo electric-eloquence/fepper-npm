@@ -1,129 +1,125 @@
-/**
- * Since uiBuilder.main() depends on the completion of patternlab.compileui(),
- * this tests styleguide/componentizer.js and styleguide/components-on-servers.js as well as lib/ui-builder.js.
- */
 'use strict';
 
 const expect = require('chai').expect;
 const fs = require('fs-extra');
 
 const {
-  patternlab,
-  patternsDir
+  patternlab
 } = require('../test-harness')();
-const uiBuilder = patternlab.uiBuilder;
 
-const uiIndex = `${patternlab.config.paths.public.root}/index.html`;
-const styleguideIndex = `${patternlab.config.paths.source.styleguide}/index.mustache`;
-const styleguideViewAll = `${patternlab.config.paths.public.styleguide}/styleguide.html`;
-const uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
+const patternDir = `${patternlab.config.paths.public.patterns}/00-test-04-styled-organism`;
+const patternHtml = `${patternDir}/00-test-04-styled-organism.html`;
+const patternMarkup = `${patternDir}/00-test-04-styled-organism.markup-only.html`;
+const patternMustache = `${patternDir}/00-test-04-styled-organism.mustache`;
+const patternExport = `${patternlab.config.patternExportDirectory}/test-styled-organism.html`;
+const patternlabData = `${patternlab.config.paths.public.styleguide}/data/patternlab-data.js`;
 
-if (fs.existsSync(uiIndex)) {
-  fs.unlinkSync(uiIndex);
+if (fs.existsSync(patternHtml)) {
+  fs.removeSync(patternHtml);
 }
-if (fs.existsSync(styleguideIndex)) {
-  fs.unlinkSync(styleguideIndex);
+if (fs.existsSync(patternMarkup)) {
+  fs.removeSync(patternMarkup);
 }
-if (fs.existsSync(styleguideViewAll)) {
-  fs.unlinkSync(styleguideViewAll);
+if (fs.existsSync(patternMustache)) {
+  fs.removeSync(patternMustache);
 }
-if (fs.existsSync(uiCss)) {
-  fs.unlinkSync(uiCss);
+if (fs.existsSync(patternExport)) {
+  fs.removeSync(patternExport);
+}
+if (fs.existsSync(patternlabData)) {
+  fs.removeSync(patternlabData);
 }
 
-const uiIndexExistsBefore = fs.existsSync(uiIndex);
-const styleguideIndexExistsBefore = fs.existsSync(styleguideIndex);
-const styleguideViewAllExistsBefore = fs.existsSync(styleguideViewAll);
-const uiCssExistsBefore = fs.existsSync(uiCss);
+const patternHtmlExistsBefore = fs.existsSync(patternHtml);
+const patternMarkupExistsBefore = fs.existsSync(patternMarkup);
+const patternMustacheExistsBefore = fs.existsSync(patternMustache);
+const patternExportExistsBefore = fs.existsSync(patternExport);
+const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-describe('UI Compiler', function () {
-  function compileui() {
-    return patternlab.compileui()
-      .then(() => {
-        uiBuilder.main(patternlab);
-      });
-  }
+const expectedContent = `<span class="test_base ">
+    
+    
+</span>
+<span class="test_base test_1">
+    
+    
+</span>
+`;
 
-  let cssContent;
-  let indexContent;
-  let viewAllContent;
+const configClone = JSON.parse(JSON.stringify(patternlab.config));
+delete configClone.paths;
 
-  before(async function () {
-    // Preprocess the patternlab object.
-    patternlab.buildViewAll();
-    patternlab.preprocessAllPatterns(patternsDir);
-    patternlab.preprocessDataAndParams();
-    patternlab.prepWrite();
-    await compileui();
+describe('UI Builder', function () {
+  let patternHtmlExistsAfter;
+  let patternMarkupExistsAfter;
+  let patternMustacheExistsAfter;
+  let patternExportExistsAfter;
+  let patternlabDataExistsAfter;
 
-    cssContent = fs.readFileSync(uiCss, patternlab.enc);
-    indexContent = fs.readFileSync(styleguideIndex, patternlab.enc);
-    viewAllContent = fs.readFileSync(styleguideViewAll, patternlab.enc);
+  let patternHtmlContent;
+  let patternMarkupContent;
+  let patternMustacheContent;
+  let patternExportContent;
+  let patternlabDataContent;
+
+  before(function () {
+    patternlab.patternsonly();
+
+    patternHtmlExistsAfter = fs.existsSync(patternHtml);
+    patternMarkupExistsAfter = fs.existsSync(patternMarkup);
+    patternMustacheExistsAfter = fs.existsSync(patternMustache);
+    patternExportExistsAfter = fs.existsSync(patternExport);
+    patternlabDataExistsAfter = fs.existsSync(patternlabData);
+
+    patternHtmlContent = fs.readFileSync(patternHtml, patternlab.enc);
+    patternMarkupContent = fs.readFileSync(patternMarkup, patternlab.enc);
+    patternMustacheContent = fs.readFileSync(patternMustache, patternlab.enc);
+    patternExportContent = fs.readFileSync(patternExport, patternlab.enc);
+    patternlabDataContent = fs.readFileSync(patternlabData, patternlab.enc);
   });
 
-  it('should write index.html', function () {
-    const uiIndexExistsAfter = fs.existsSync(uiIndex);
+  it('should write patterns to the public directory', function () {
+    expect(patternHtmlExistsBefore).to.equal(false);
+    expect(patternMarkupExistsBefore).to.equal(false);
+    expect(patternMustacheExistsBefore).to.equal(false);
 
-    expect(uiIndexExistsBefore).to.equal(false);
-    expect(uiIndexExistsAfter).to.equal(true);
+    expect(patternHtmlExistsAfter).to.equal(true);
+    expect(patternMarkupExistsAfter).to.equal(true);
+    expect(patternMustacheExistsAfter).to.equal(true);
+
+    expect(patternHtmlContent).to.include(expectedContent);
+    expect(patternMarkupContent).to.equal(expectedContent);
+    expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}\n');
   });
 
-  it('should write index.mustache', function () {
-    const styleguideIndexExistsAfter = fs.existsSync(styleguideIndex);
-
-    expect(styleguideIndexExistsBefore).to.equal(false);
-    expect(styleguideIndexExistsAfter).to.equal(true);
+  it('should export patterns to the pattern_exports directory', function () {
+    expect(patternExportExistsBefore).to.equal(false);
+    expect(patternExportExistsAfter).to.equal(true);
+    expect(patternExportContent).to.equal(expectedContent);
   });
 
-  it('should write styleguide.html', function () {
-    const styleguideViewAllExistsAfter = fs.existsSync(styleguideViewAll);
-
-    expect(styleguideViewAllExistsBefore).to.equal(false);
-    expect(styleguideViewAllExistsAfter).to.equal(true);
+  it('should write patternlab-data.js for browser consumption', function () {
+    expect(patternlabDataExistsBefore).to.equal(false);
+    expect(patternlabDataExistsAfter).to.equal(true);
   });
 
-  it('should write ui.css', function () {
-    const uiCssExistsAfter = fs.existsSync(uiCss);
-
-    expect(uiCssExistsBefore).to.equal(false);
-    expect(uiCssExistsAfter).to.equal(true);
+  it('should write window.config to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.include(JSON.stringify(configClone));
   });
 
-  it('should override viewall.mustache with custom code', function () {
-    expect(viewAllContent.indexOf('<h1>foo</h1>')).to.be.above(-1);
-    expect(viewAllContent.indexOf('<h2>bar</h2>')).to.be.above(-1);
-    expect(viewAllContent.indexOf('<h3>baz</h3>')).to.be.above(-1);
+  it('should write window.ishControls to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.include(JSON.stringify(configClone.ishControlsHide));
   });
 
-  it(
-    // eslint-disable-next-line max-len
-    'should recognize a similarly named and hierarchically structured custom component module and overrides its corresponding core component module',
-    function () {
-      expect(indexContent.indexOf('id="foo"')).to.be.above(-1);
-    }
-  );
-
-  it(
-    // eslint-disable-next-line max-len
-    'should recognize that a component has a custom sibling not in core and adds this sibling and its descendents to the DOM',
-    function () {
-      expect(indexContent.indexOf('<div>bar</div>')).to.be.above(-1);
-    }
-  );
-
-  it(
-    // eslint-disable-next-line max-len
-    'should recognize that a component at the end of branch has a custom child not in core and adds this child and its descendents to the DOM',
-    function () {
-      expect(indexContent.indexOf('<div>baz</div>')).to.be.above(-1);
-    }
-  );
-
-  it('should override componentized css', function () {
-    expect(cssContent.indexOf('/* foo */')).to.be.above(-1);
+  it('should write window.navItems to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.patternTypes));
   });
 
-  it('should recognize additional custom componentized css', function () {
-    expect(cssContent.indexOf('/* bar */')).to.be.above(-1);
+  it('should write window.patternPaths to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.patternPaths));
+  });
+
+  it('should write window.viewallPaths to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.viewallPaths));
   });
 });

@@ -6,11 +6,11 @@ const utils = require('fepper-utils');
 gulp.task('help', cb => {
   let out = `
 Use:
-    fp <task> [<additional args>...]
+    fp <task> [<additional args>... [-d | --debug]]
 
 Tasks:
     fp                  Launch Fepper and open it in a browser.
-    fp data             Compile data.json from underscore-prefixed .json files.
+    fp data             Build data.json from underscore-prefixed .json files.
     fp frontend-copy    Copy assets, scripts, and styles to the backend.
     fp once             Do a one-off Fepper build to the public directory.
     fp restart          Restart after shutdown, but without opening the browser.

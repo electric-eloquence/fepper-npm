@@ -1,0 +1,39 @@
+#sg-code-pattern-state p,
+#sg-code-lineage p,
+#sg-code-lineager p {
+  margin-top: 0;
+}
+
+.sg-code-pattern-name {
+  color: #aaa;
+}
+
+#sg-code-markup {
+  padding-top: 1rem;
+}
+
+#sg-code-tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sg-code-title {
+  float: left;
+  background-color: #333;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-top: 2px solid #666;
+  margin-right: 0.2rem;
+  cursor: pointer;
+}
+
+.sg-code-title-active {
+  color: #bbb;
+  background-color: #272822 !important;
+}
+
+.sg-language-markup-container {
+  clear: both;
+}

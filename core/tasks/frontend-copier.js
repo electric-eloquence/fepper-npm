@@ -11,6 +11,7 @@ module.exports = class {
   constructor(options) {
     this.conf = options.conf;
     this.pref = options.pref;
+    this.rootDir = options.rootDir;
     this.utils = options.utils;
   }
 
@@ -37,7 +38,6 @@ module.exports = class {
     const plName = this.mapPlNomenclature(frontendType);
     const srcDir = this.conf.ui.paths.source[plName];
     const srcDirBld = this.conf.ui.paths.source[`${plName}Bld`];
-
 
     function glob(src) {
       diveSync(
@@ -120,9 +120,10 @@ module.exports = class {
       // Search source directory for frontend files.
       // Trying to keep the globbing simple and maintainable.
       const files = this.srcDirGlob(frontendType);
-      let stat;
 
       for (let i = 0; i < files.length; i++) {
+        let stat;
+
         try {
           stat = fs.statSync(files[i]);
         }
@@ -190,14 +191,26 @@ module.exports = class {
         }
 
         if (targetDir) {
+          let targetFilePath;
+
           // Copy to targetDir.
           // If copying to default target, retain nested directory structure.
           if (targetDir === targetDirDefault) {
-            fs.copySync(files[i], targetDir + '/' + files[i].replace(`${srcDir}/`, ''));
+            targetFilePath = targetDir + '/' + files[i].replace(`${srcDir}/`, '');
+
+            fs.copySync(files[i], targetFilePath);
           }
           else {
-            fs.copySync(files[i], targetDir + '/' + path.basename(files[i]));
+            targetFilePath = targetDir + '/' + path.basename(files[i]);
+
+            fs.copySync(files[i], targetFilePath);
           }
+
+          this.utils.log(
+            'Copied %s to %s.',
+            files[i].replace(this.rootDir, '').replace(/^\//, ''),
+            targetFilePath.replace(this.rootDir, '').replace(/^\//, '')
+          );
         }
       }
     }
