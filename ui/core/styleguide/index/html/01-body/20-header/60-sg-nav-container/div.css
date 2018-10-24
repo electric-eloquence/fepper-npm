@@ -6,13 +6,13 @@
             transition: max-height 0.1s ease-out;
   }
   .sg-nav-container.active {
-    max-height: 50em;
+    max-height: 80rem;
   }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .sg-nav-container.active {
     overflow: visible;
-    max-height: 50em;
+    max-height: 80rem;
   }
 }
 
@@ -24,10 +24,10 @@
   content: '▼';
   color: rgba(255, 255, 255, 0.25);
   display: inline-block;
-  font-size: 7px;
+  font-size: 0.7rem;
   position: relative;
-  top: -1px;
-  right: -2px;
+  top: 0;
+  right: -0.2rem;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
@@ -44,7 +44,7 @@
   background: #222;
 }
 .sg-acc-handle.active::after {
-  top: -2px;
+  top: -0.2rem;
   color: #808080;
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
@@ -60,7 +60,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  min-width: 10em;
+  min-width: 16rem;
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
@@ -80,17 +80,16 @@
   background: #222;
 }
 .sg-acc-panel li:last-child {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
 }
 .sg-acc-panel li:last-child a {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
 }
 .sg-acc-panel a {
   display: block;
 }
 .sg-acc-panel.active {
-  max-height: 120em;
-  overflow: auto;
+  max-height: 190rem;
 }

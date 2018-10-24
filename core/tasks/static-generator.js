@@ -24,97 +24,13 @@ module.exports = class {
     this.assetsSuffix = this.assetsDir.replace(`${this.sourceDir}/`, '');
     this.scriptsSuffix = this.scriptsDir.replace(`${this.sourceDir}/`, '');
     this.stylesSuffix = this.stylesDir.replace(`${this.sourceDir}/`, '');
+
+    this.dataJson = this.utils.data();
+    this.pagesPrefix = this.conf.ui.paths.source.pages.replace(`${this.conf.ui.paths.source.patterns}/`, '');
   }
 
-  assetsDirCopy() {
-    fs.copySync(this.assetsDir, `${this.staticDir}/${this.assetsSuffix}`);
-  }
-
-  pagesDelete() {
-    // Unlink symbolic links.
-    diveSync(
-      this.staticDir,
-      {
-        directories: true
-      },
-      (err, file) => {
-        if (err) {
-          throw err;
-        }
-
-        if (path.extname(file) === '.html') {
-          fs.unlinkSync(file);
-        }
-      }
-    );
-  }
-
-  npmsCopy() {
-    const npmsSrc = `${this.sourceDir}/node_modules`;
-    const npmsDest = `${this.staticDir}/node_modules`;
-    const tmpStr = fs.readFileSync(`${this.staticDir}/index.html`, this.conf.enc);
-
-    if (/<script[^>]+src="node_modules/.test(tmpStr)) {
-      // Replace old node_modules dir with new.
-      fs.removeSync(npmsDest);
-      fs.copySync(npmsSrc, npmsDest);
-
-      // Unlink symbolic links.
-      diveSync(
-        npmsDest,
-        {
-          all: true
-        },
-        (err, file) => {
-          if (err) {
-            throw err;
-          }
-
-          const stat = fs.lstatSync(file);
-
-          if (stat.isSymbolicLink()) {
-            fs.unlinkSync(file);
-          }
-        }
-      );
-    }
-  }
-
-  scriptsDirCopy() {
-    const staticGenerator = this;
-
-    diveSync(
-      this.scriptsDir,
-      {
-        recursive: false,
-        directories: true,
-        filter: (path, dir) => {
-          return dir;
-        }
-      },
-      (err, file) => {
-        if (err) {
-          throw err;
-        }
-
-        const suffix = file.replace(`${staticGenerator.sourceDir}/`, '');
-
-        fs.copySync(file, `${staticGenerator.staticDir}/${suffix}`);
-      }
-    );
-  }
-
-  stylesDirCopy() {
-    fs.copySync(this.stylesDir, `${this.staticDir}/${this.stylesSuffix}`);
-  }
-
-  pagesCompile() {
-    const dataJson = this.utils.data();
+  compilePages() {
     const files = [];
-
-    const srcPages = this.conf.ui.paths.source.pages;
-    const srcPatterns = `${this.conf.ui.paths.source.patterns}/`;
-    const pagesPrefix = srcPages.replace(srcPatterns, '');
 
     // Load js-beautify with options configured in .jsbeautifyrc
     const rcLoader = new RcLoader('.jsbeautifyrc', {});
@@ -134,7 +50,7 @@ module.exports = class {
         const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
         const statAtLevel0 = fs.statSync(fileAtLevel0);
 
-        if (statAtLevel0.isDirectory() && basenameAtLevel0.indexOf(`${pagesPrefix}-`) === 0) {
+        if (statAtLevel0.isDirectory() && basenameAtLevel0.indexOf(`${this.pagesPrefix}-`) === 0) {
           dirsAtLevel0.push(fileAtLevel0);
         }
       }
@@ -180,75 +96,205 @@ module.exports = class {
         regex = new RegExp(regexStr, 'g');
         tmpStr = tmpStr.replace(regex, '');
 
-        // Strip cacheBuster params.
-        tmpStr = tmpStr.replace(/((href|src)="[^"]*)\?\d*"/g, '$1"');
-
-        // Fix paths.
-        tmpStr = tmpStr.replace(/(href|src)\s*=\s*("|')..\/..\//g, '$1=$2');
-
-        // Replace homepage filename with "index.html"
-        if (dataJson.homepage) {
-          let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*(\\/|&#x2F;)' + dataJson.homepage, 'g');
-          tmpStr = tmpStr.replace(homepageRegex, '$1"index');
-
-          homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*(\\/|&#x2F;)' + dataJson.homepage, 'g');
-          tmpStr = tmpStr.replace(homepageRegex, '$1\'index');
-        }
-
-        // Strip prefix from remaining page filenames.
-        regexStr = '(href\\s*=\\s*)"[^"]*(/|&#x2F;)';
-        regexStr += this.utils.regexReservedCharsEscape(pagesPrefix + '-');
-        regex = new RegExp(regexStr, 'g');
-        tmpStr = tmpStr.replace(regex, '$1"');
-
-        regexStr = '(href\\s*=\\s*)\'[^\']*(/|&#x2F;)';
-        regex = this.utils.regexReservedCharsEscape(pagesPrefix + '-');
-        regex = new RegExp(regexStr, 'g');
-        tmpStr = tmpStr.replace(regex, '$1\'');
+        tmpStr = this.convertCacheBusters(tmpStr);
+        tmpStr = this.convertPaths(tmpStr);
+        tmpStr = this.convertLinksHomepage(tmpStr);
+        tmpStr = this.convertLinksSibling(tmpStr);
 
         // Load .jsbeautifyrc and beautify html.
         tmpStr = beautify(tmpStr, rcOpts) + '\n';
 
-        // Copy homepage to index.html.
-        if (dataJson.homepage && f.indexOf(`${dataJson.homepage}.html`) === (f.length - dataJson.homepage.length - 5)) {
-          fs.writeFileSync(`${this.staticDir}/index.html`, tmpStr);
-        }
-        else {
-          regexStr = '^.*\\/';
-          regexStr += this.utils.regexReservedCharsEscape(pagesPrefix + '-');
-          regex = new RegExp(regexStr);
+        try {
+          // Copy homepage to index.html.
+          if (
+            this.dataJson.homepage &&
+            f.indexOf(`${this.dataJson.homepage}.html`) === (f.length - this.dataJson.homepage.length - 5)
+          ) {
 
-          fs.writeFileSync(`${this.staticDir}/${f.replace(regex, '')}`, tmpStr);
+            fs.outputFileSync(`${this.staticDir}/index.html`, tmpStr);
+          }
+          else {
+            regexStr = '^.*\\/';
+            regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
+            regex = new RegExp(regexStr);
+
+            fs.outputFileSync(`${this.staticDir}/${f.replace(regex, '')}`, tmpStr);
+          }
+        }
+        catch (err) {
+          this.utils.error(err);
         }
       }
     }
+  }
+
+  // Strip cacheBuster params. Using the "convert" naming convention for consistency.
+  convertCacheBusters(content_) {
+    let content = content_;
+
+    content = content.replace(/((href|src)\s*=\s*"[^"]*)\?\d*/gi, '$1');
+    content = content.replace(/((href|src)\s*=\s*'[^']*)\?\d*/gi, '$1');
+
+    return content;
+  }
+
+  convertPaths(content) {
+    return content.replace(/(href|src)\s*=\s*("|')..\/..\//gi, '$1=$2');
+  }
+
+  convertLinksHomepage(content_) {
+    let content = content_;
+
+    if (this.dataJson.homepage) {
+      let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*\\/' + this.dataJson.homepage, 'gi');
+      content = content.replace(homepageRegex, '$1"index');
+
+      homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*\\/' + this.dataJson.homepage, 'gi');
+      content = content.replace(homepageRegex, '$1\'index');
+    }
+
+    return content;
+  }
+
+  convertLinksSibling(content_) {
+    let content = content_;
+
+    let regexStr = '(href\\s*=\\s*)"[^"]*\\/';
+    regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
+    const regex = new RegExp(regexStr, 'gi');
+    content = content.replace(regex, '$1"');
+
+    let regexStr1 = '(href\\s*=\\s*)\'[^\']*\\/';
+    regexStr1 += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
+    const regex1 = new RegExp(regexStr1, 'gi');
+    content = content.replace(regex1, '$1\'');
+
+    return content;
+  }
+
+  copyAssetsDir() {
+    fs.copySync(this.assetsDir, `${this.staticDir}/${this.assetsSuffix}`);
+  }
+
+  copyNpms() {
+    const npmsSrc = `${this.sourceDir}/node_modules`;
+    const npmsDest = `${this.staticDir}/node_modules`;
+    let tmpStr;
+
+    try {
+      tmpStr = fs.readFileSync(`${this.staticDir}/index.html`, this.conf.enc);
+    }
+    catch (err) {
+      this.utils.error(err);
+      return;
+    }
+
+    if (/<script[^>]+src="node_modules/.test(tmpStr)) {
+      // Replace old node_modules dir with new.
+      fs.removeSync(npmsDest);
+      fs.copySync(npmsSrc, npmsDest);
+
+      // Unlink symbolic links.
+      diveSync(
+        npmsDest,
+        {
+          all: true
+        },
+        (err, file) => {
+          if (err) {
+            throw err;
+          }
+
+          const stat = fs.lstatSync(file);
+
+          if (stat.isSymbolicLink()) {
+            fs.unlinkSync(file);
+          }
+        }
+      );
+    }
+  }
+
+  copyScriptsDir() {
+    diveSync(
+      this.scriptsDir,
+      {
+        recursive: false,
+        directories: true,
+        filter: (path, dir) => {
+          return dir;
+        }
+      },
+      (err, file) => {
+        if (err) {
+          throw err;
+        }
+
+        try {
+          const suffix = file.replace(`${this.sourceDir}/`, '');
+
+          fs.copySync(file, `${this.staticDir}/${suffix}`);
+        }
+        catch (err1) {
+          throw err1;
+        }
+      }
+    );
+  }
+
+  copyStylesDir() {
+    fs.copySync(this.stylesDir, `${this.staticDir}/${this.stylesSuffix}`);
+  }
+
+  deletePages() {
+    diveSync(
+      this.staticDir,
+      {
+        directories: true
+      },
+      (err, file) => {
+        if (err) {
+          throw err;
+        }
+
+        if (path.extname(file) === '.html') {
+          fs.removeSync(file);
+        }
+      }
+    );
   }
 
   main() {
     let webservedDirsFull;
     let webservedDirsShort;
 
-    // Delete old assets, scripts, styles in static dir. Then, recreate them.
-    fs.removeSync(`${this.staticDir}/${this.assetsSuffix}`);
-    fs.removeSync(`${this.staticDir}/${this.scriptsSuffix}`);
-    fs.removeSync(`${this.staticDir}/${this.stylesSuffix}`);
-    fs.mkdirSync(`${this.staticDir}/${this.assetsSuffix}`);
-    fs.mkdirSync(`${this.staticDir}/${this.scriptsSuffix}`);
-    fs.mkdirSync(`${this.staticDir}/${this.stylesSuffix}`);
+    try {
+      // Delete old assets, scripts, styles in static dir. Then, recreate them.
+      fs.removeSync(`${this.staticDir}/${this.assetsSuffix}`);
+      fs.removeSync(`${this.staticDir}/${this.scriptsSuffix}`);
+      fs.removeSync(`${this.staticDir}/${this.stylesSuffix}`);
+      fs.mkdirSync(`${this.staticDir}/${this.assetsSuffix}`);
+      fs.mkdirSync(`${this.staticDir}/${this.scriptsSuffix}`);
+      fs.mkdirSync(`${this.staticDir}/${this.stylesSuffix}`);
 
-    // Copy assets, scripts, styles directories.
-    this.assetsDirCopy();
-    this.scriptsDirCopy();
-    this.stylesDirCopy();
+      // Copy assets, scripts, styles directories.
+      this.copyAssetsDir();
+      this.copyScriptsDir();
+      this.copyStylesDir();
+    }
+    catch (err) {
+      this.utils.error(err);
+      return;
+    }
 
     // Delete old pages.
-    this.pagesDelete();
+    this.deletePages();
 
     // Copy pages directory.
-    this.pagesCompile();
+    this.compilePages();
 
     // Copy npms if necessary.
-    this.npmsCopy();
+    this.copyNpms();
 
     // Copy webserved directories.
     if (Array.isArray(this.pref.backend.webserved_dirs)) {

@@ -1,3 +1,1 @@
-module.exports = {
-  id: 'test-el'
-};
+/* bar */

@@ -1,26 +1,31 @@
-// Clearfix
+// Clearfix.
 .cf
   &::before, &::after
     content: " "
     display: table
   &::after
     clear: both
-// Layout Container
+
+// Layout Container.
 .lc
   max-width: $max-width
   margin: 0 auto
 
-font-tertiary()
-  font: 0.9em Courier, "Liberation Mono", "Roboto Mono", serif
-
-// ////////////////////////////////////////////////////////////////////////////////////
-// Stylus autoprefixing mixins
+// /////////////////////////////////////////////////////////////////////////////
+// Stylus autoprefixing mixins.
 //
-// Use
+// Usage example:
 //   transform: translateX(10px) rotate(10deg) translateY(5px)
 //
-// These mixins can be safely updated or removed as vendor prefixes become unnecessary.
-// ////////////////////////////////////////////////////////////////////////////////////
+// Compiles to:
+//   -webkit-transform: translateX(10px) rotate(10deg) translateY(5px);
+//   -moz-transform: translateX(10px) rotate(10deg) translateY(5px);
+//   -ms-transform: translateX(10px) rotate(10deg) translateY(5px);
+//   -o-transform: translateX(10px) rotate(10deg) translateY(5px);
+//   transform: translateX(10px) rotate(10deg) translateY(5px);
+//
+// This outdated example is retained as reference for future custom mixins.
+// /////////////////////////////////////////////////////////////////////////////
 transform()
   -webkit-transform: arguments
   -moz-transform: arguments

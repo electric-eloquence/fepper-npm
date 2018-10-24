@@ -5,12 +5,12 @@
   display: none;
   font-family: Helvetica, "Liberation Sans", "Roboto", sans-serif;
   line-height: 1.4;
-  font-size: 90%;
+  font-size: 1.4rem;
   background: #222;
   color: #808080;
   position: fixed;
   top: auto;
-  padding: 1em;
+  padding: 1.4rem;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -23,7 +23,7 @@
   color: #999;
 }
 .sg-view-container pre {
-  padding: 0 1em;
+  padding: 0 1.4rem;
 }
 .sg-view-container.anim-ready {
   display: block;
@@ -38,13 +38,13 @@
 .sg-view-close {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: -10px;
 }
 
 .sg-view-close-btn {
   color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  text-align: right;
   display: block;
+  font-size: 2.8rem;
+  font-weight: 100;
+  line-height: 1;
+  text-decoration: none;
 }

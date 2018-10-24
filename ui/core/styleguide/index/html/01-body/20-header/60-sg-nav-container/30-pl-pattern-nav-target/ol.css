@@ -1,7 +1,7 @@
 /**
-* Nav list
-* 1) appears as an <ol>
-*/
+ * Nav list
+ * 1) appears as an <ol>
+ */
 .sg-nav {
   list-style: none;
   margin: 0;
@@ -26,35 +26,31 @@
   }
   .sg-nav > li > ol {
     position: absolute;
-    top: 2em;
+    top: 3.2rem;
     left: 0;
   }
 }
 .sg-nav a {
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 /**
-* Pattern States that appear in the dropdown nav
-*/
-.sg-nav .sg-pattern-state::before {
-  margin-top: -4px;
-  margin-bottom: 0;
-  margin-left: -4px;
-  height: 20px;
-  display: block;
-  float: left;
-}
-
-/**
-* Sub-navigation
-* 1) Third-level links are stylistically different
-* than first and second nav links.
-*/
-.sg-sub-nav {
+ * Item navigation
+ * 1) Third-level links are stylistically different
+ * than first and second nav links.
+ */
+.sg-item-nav {
   list-style: none;
 }
-.sg-sub-nav a {
+.sg-item-nav a {
   text-transform: none;
-  padding-left: 1rem;
+  padding-left: 1.6rem;
+}
+
+/**
+ * Hide the scrape menu for file protocol.
+ */
+.protocol-file .sg-nav-scrape {
+  display: none;
 }

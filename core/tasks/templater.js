@@ -167,17 +167,22 @@ module.exports = class {
     }
 
     if (templatesDir && templatesExt) {
-      // Recurse through Mustache templates (sparingly. See comment above.)
-      let code = this.mustacheRecurse(mustacheFile);
-      // Iterate through tokens and replace keys for values in the code.
-      code = this.tokensReplace(data, code);
-      // Write compiled templates.
-      const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
+      try {
+        // Recurse through Mustache templates (sparingly. See comment above.)
+        let code = this.mustacheRecurse(mustacheFile);
+        // Iterate through tokens and replace keys for values in the code.
+        code = this.tokensReplace(data, code);
+        // Write compiled templates.
+        const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
-      // Log to console.
-      // Headless operation is for testing, so only log this on headed operation.
-      if (this.conf.headed) {
-        this.utils.log('Template %s synced.', dest.replace(this.rootDir, '').replace(/^\//, ''));
+        // Log to console.
+        // Headless operation is for testing, so only log this on headed operation.
+        if (this.conf.headed) {
+          this.utils.log('Template %s translated.', dest.replace(this.rootDir, '').replace(/^\//, ''));
+        }
+      }
+      catch (err) {
+        this.utils.error(err);
       }
     }
   }
@@ -230,7 +235,7 @@ module.exports = class {
 
     // Write to file system.
     fs.ensureDirSync(path.dirname(dest));
-    fs.writeFileSync(dest, code);
+    fs.outputFileSync(dest, code);
 
     return dest;
   }

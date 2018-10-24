@@ -33,10 +33,10 @@ describe('Mustache Browser', function () {
     expect(htmlEntitiesAndLinks).to.contain('</a>');
 
     let expectation = '&lt;section id=&quot;one&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; ' +
-      '02-components/00-global/00-header(\'partial?\': true) }}">{{&gt; ' +
-      '02-components/00-global/00-header(\'partial?\': true) }}</a>&lt;/section&gt;&lt;section ' +
-      'id=&quot;two&quot; class=&quot;test&quot;&gt;<a href="?partial={{&gt; ' +
-      '02-components/00-global/01-footer.mustache }}">{{&gt; 02-components/00-global/01-footer.mustache }}</a>' +
+      '02-components/00-global/00-header(\'partial?\': true) }}" class="fp-express">{{&gt; ' +
+      '02-components/00-global/00-header(\'partial?\': true) }}</a>&lt;/section&gt;&lt;section id=&quot;two&quot; ' +
+      'class=&quot;test&quot;&gt;<a href="?partial={{&gt; 02-components/00-global/01-footer.mustache }}" ' +
+      'class="fp-express">{{&gt; 02-components/00-global/01-footer.mustache }}</a>' +
       '&lt;/section&gt;&lt;script&gt;&lt;/script&gt;&lt;textarea&gt;&lt;/textarea&gt;&lt;/body&gt;&lt;/html&gt;';
 
     expect(htmlEntitiesAndLinks).to.equal(expectation);

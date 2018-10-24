@@ -33,30 +33,50 @@ module.exports = class {
   }
 
   clean() {
-    fs.removeSync(this.pubDir.patterns);
+    try {
+      fs.removeSync(this.pubDir.patterns);
+    }
+    catch (err) {
+      this.utils.error(err);
+    }
   }
 
   compile() {
-    return this.patternlab.compileui()
-      .catch(err => {
-        this.utils.error(err);
-      })
-      .then(() => {
-        this.build();
-      });
+    this.patternlab.compileui();
+    this.build();
   }
 
   compileui() {
-    return this.patternlab.compileui()
-      .catch(err => {
-        this.utils.error(err);
-      });
+    this.patternlab.compileui();
   }
 
-  copy() {
-    fs.copySync(this.srcDir.images, this.pubDir.images);
-    fs.copySync(this.srcDir.js, this.pubDir.js);
-    fs.copySync(this.srcDir.static, this.pubDir.static);
+  copyAssets() {
+    try {
+      fs.copySync(this.srcDir.images, this.pubDir.images);
+    }
+    catch (err) {
+      this.utils.error(err);
+    }
+  }
+
+  copyScripts() {
+    try {
+      fs.copySync(this.srcDir.js, this.pubDir.js);
+    }
+    catch (err) {
+      this.utils.error(err);
+    }
+  }
+
+  copyStatic() {
+    if (this.utils.deepGet(this, 'srcDir.static') && this.utils.deepGet(this, 'pubDir.patterns')) {
+      try {
+        fs.copySync(this.srcDir.static, this.pubDir.static);
+      }
+      catch (err) {
+        this.utils.error(err);
+      }
+    }
   }
 
   copyStyles() {
@@ -68,9 +88,21 @@ module.exports = class {
         if (err) {
           this.utils.error(err);
         }
-        fs.copyFileSync(file, `${this.pubDir.css}/${path.basename(file)}`);
+
+        try {
+          fs.copyFileSync(file, `${this.pubDir.css}/${path.basename(file)}`);
+        }
+        catch (err1) {
+          this.utils.error(err1);
+        }
       }
     );
-    fs.copySync(this.srcDir.cssBld, this.pubDir.cssBld);
+
+    try {
+      fs.copySync(this.srcDir.cssBld, this.pubDir.cssBld);
+    }
+    catch (err) {
+      this.utils.error(err);
+    }
   }
 };

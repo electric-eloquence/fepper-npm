@@ -36,21 +36,22 @@ if (process.argv[3]) {
   }
 }
 
-// The "headed" conf is for internal Fepper development only. Necessary when requiring fepper-npm with `npm link`.
-const indexOfHeaded = argv.indexOf('headed');
+const indexOfD = argv.indexOf('-d');
+const indexOfDebug = argv.indexOf('--debug');
 
-if (indexOfHeaded > -1) {
-  let rootDir;
+if (indexOfD > -1 || indexOfDebug > -1) {
+  process.env.DEBUG = true;
 
-  process.env.HEADED = true;
-
-  if (argv[indexOfHeaded + 1]) {
-    rootDir = argv.splice(indexOfHeaded + 1, 1)[0];
-    process.env.NODE_PATH = path.resolve(rootDir, 'node_modules');
-    process.env.ROOT_DIR = rootDir;
+  if (indexOfD > -1) {
+    argv.splice(indexOfD, 1);
   }
+  else if (indexOfDebug > -1) {
+    argv.splice(indexOfDebug, 1);
+  }
+}
 
-  argv.splice(indexOfHeaded, 1);
+if (process.env.ROOT_DIR) {
+  process.env.NODE_PATH = path.resolve(process.env.ROOT_DIR, 'node_modules');
 }
 
 const binPath = path.resolve('node_modules', '.bin');

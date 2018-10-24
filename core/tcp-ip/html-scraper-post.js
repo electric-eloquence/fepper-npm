@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 const beautify = require('js-beautify').html;
@@ -157,8 +157,8 @@ module.exports = class {
    */
   filesWrite(scrapeDir, filename, fileMustache, fileJson) {
     try {
-      fs.writeFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
-      fs.writeFileSync(scrapeDir + '/' + filename + '.json', fileJson);
+      fs.outputFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
+      fs.outputFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
       let msg = 'Go back to the "Fepper - scrape-html-scraper" tab and refresh the browser to check that your ' +
         'template appears under the "Scrape" menu.';
@@ -602,40 +602,48 @@ module.exports = class {
 
       const fileMustache = this.newlineFormat(this.mustache);
       const fileJson = this.newlineFormat(this.json);
-      const scrapeDir = this.conf.ui.paths.source.scrape;
-      const scrapeFiles = fs.readdirSync(scrapeDir);
-      const timeNow = Date.now();
 
-      // To limit possible attack, limit posts to 2 per minute.
-      // Check this by getting stat for last written file.
-      for (let i = 0, l = scrapeFiles.length; i < l; i++) {
-        const scrapeFile = scrapeFiles[i];
-        const scrapeFileName = path.basename(scrapeFile);
+      try {
+        const scrapeDir = this.conf.ui.paths.source.scrape;
+        const scrapeFiles = fs.readdirSync(scrapeDir);
+        const timeNow = Date.now();
 
-        if (scrapeFileName === this.conf.scrape.scraper_file) {
-          continue;
+        // To limit possible attack, limit posts to 2 per minute.
+        // Check this by getting stat for last written file.
+        for (let i = 0, l = scrapeFiles.length; i < l; i++) {
+          const scrapeFile = scrapeFiles[i];
+          const scrapeFileName = path.basename(scrapeFile);
+
+          if (scrapeFileName === this.conf.scrape.scraper_file) {
+            continue;
+          }
+
+          let scrapeFileStat;
+
+          try {
+            scrapeFileStat = fs.statSync(scrapeFile);
+          }
+          catch (err) {
+            continue;
+          }
+
+          const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
+          const scrapeFileAge = timeNow - scrapeFileBirthtime;
+
+          if (scrapeFileAge < this.conf.scrape.limit_time) {
+            this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
+
+            return;
+          }
         }
 
-        let scrapeFileStat;
-
-        try {
-          scrapeFileStat = fs.statSync(scrapeFile);
-        }
-        catch (err) {
-          continue;
-        }
-
-        const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
-        const scrapeFileAge = timeNow - scrapeFileBirthtime;
-
-        if (scrapeFileAge < this.conf.scrape.limit_time) {
-          this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
-
-          return;
-        }
+        this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
       }
+      catch (err) {
+        this.redirectWithMsg('error', err.toString());
 
-      this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
+        return;
+      }
     }
 
     // HTML scraper action on submission of URL.

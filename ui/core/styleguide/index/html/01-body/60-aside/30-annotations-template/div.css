@@ -1,0 +1,16 @@
+#sg-annotations {
+  max-width: 84rem;
+  margin: 0 auto;
+}
+
+.sg-annotation {
+  padding-bottom: 2.8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+.sg-annotation p:last-child {
+  margin-bottom: 0;
+}
+.sg-annotation h2 {
+  margin: 0 0 0.4rem;
+}

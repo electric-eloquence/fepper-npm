@@ -18,7 +18,7 @@ const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
   fepper.tcpIp.fpExpress.html
 );
 const req = {body: {target: '', url: ''}};
-const scrapeDir = `${conf.ui.paths.source.patterns}/_patterns/98-scrape`;
+const scrapeDir = `${conf.ui.paths.source.patterns}/98-scrape`;
 
 const htmlConst = `
 <body>
