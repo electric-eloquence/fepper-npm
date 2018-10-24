@@ -4,162 +4,257 @@ const expect = require('chai').expect;
 
 const of = require('../../core/lib/object-factory');
 
+const {
+  patternlab
+} = require('../test-harness')();
+
 describe('Object Factory', function () {
   describe('Pattern constructor', function () {
     it('should instantiate correctly', function () {
-      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache');
+      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('00-colors');
       expect(p.outfileExtension).to.equal('.html');
+      expect(p.pathsPublic.annotations).to.equal('annotations');
+      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
+      expect(p.pathsPublic.images).to.equal('_assets');
+      expect(p.pathsPublic.js).to.equal('_scripts');
+      expect(p.pathsPublic.css).to.equal('_styles');
+      expect(p.pathsPublic.cssBld).to.equal('_styles/bld');
+      expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
+      expect(p.pathsPublic.patterns).to.equal('patterns');
+      expect(p.pathsPublic.static).to.equal('static');
+      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.relPath).to.equal('00-atoms/00-global/00-colors.mustache');
       expect(p.subdir).to.equal('00-atoms/00-global');
       expect(p.flatPatternPath).to.equal('00-atoms-00-global');
-      expect(p.relPath).to.equal('00-atoms/00-global/00-colors.mustache');
       expect(p.relPathTrunc).to.equal('00-atoms/00-global/00-colors');
-      expect(p.jsonFileData instanceof Object).to.equal(true);
       expect(p.name).to.equal('00-atoms-00-global-00-colors');
       expect(p.patternBaseNamePhp).to.equal('colors');
       expect(p.patternBaseName).to.equal('colors');
       expect(p.patternLink).to.equal('00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html');
-      expect(p.patternGroup).to.equal('atoms');
       expect(p.patternName).to.equal('Colors');
+      expect(p.patternType).to.equal('atoms');
       expect(p.patternPartial).to.equal('atoms-colors');
       expect(p.patternPartialPhp).to.equal('atoms-colors');
-      expect(p.patternSubGroup).to.equal('global');
+      expect(p.patternSubType).to.equal('global');
       expect(p.allData).to.equal(null);
+      expect(p.extendedTemplate).to.equal('');
+      expect(p.fepletComp).to.equal(null);
+      expect(p.fepletParse).to.equal(null);
+      expect(p.frontMatterData).to.be.an.instanceof(Array);
+      expect(p.frontMatterRelPathTrunc).to.equal('');
+      expect(p.header).to.equal('');
+      expect(p.footer).to.equal('');
+      expect(p.isFrontMatter).to.equal(false);
       expect(p.isPattern).to.equal(true);
-      expect(p.isPreprocessed).to.equal(false);
-      expect(p.isPseudopattern).to.equal(false);
-      expect(Array.isArray(p.lineage)).to.equal(true);
-      expect(Array.isArray(p.lineageIndex)).to.equal(true);
-      expect(Array.isArray(p.lineageR)).to.equal(true);
-      expect(Array.isArray(p.lineageRIndex)).to.equal(true);
+      expect(p.isPreProcessed).to.equal(false);
+      expect(p.isPseudoPattern).to.equal(false);
+      expect(p.jsonFileData).to.be.an.instanceof(Object);
+      expect(p.lineage).to.be.an.instanceof(Array);
+      expect(p.lineageIndex).to.be.an.instanceof(Array);
+      expect(p.lineageR).to.be.an.instanceof(Array);
+      expect(p.lineageRIndex).to.be.an.instanceof(Array);
+      expect(p.listItems).to.equal(null);
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
     });
 
     it('should instantiate one-directory patterns correctly', function () {
-      const p = new of.Pattern('00-atoms/00-colors.mustache');
+      const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('00-colors');
       expect(p.outfileExtension).to.equal('.html');
+      expect(p.pathsPublic.annotations).to.equal('annotations');
+      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
+      expect(p.pathsPublic.images).to.equal('_assets');
+      expect(p.pathsPublic.js).to.equal('_scripts');
+      expect(p.pathsPublic.css).to.equal('_styles');
+      expect(p.pathsPublic.cssBld).to.equal('_styles/bld');
+      expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
+      expect(p.pathsPublic.patterns).to.equal('patterns');
+      expect(p.pathsPublic.static).to.equal('static');
+      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.relPath).to.equal('00-atoms/00-colors.mustache');
       expect(p.subdir).to.equal('00-atoms');
       expect(p.flatPatternPath).to.equal('00-atoms');
-      expect(p.relPath).to.equal('00-atoms/00-colors.mustache');
       expect(p.relPathTrunc).to.equal('00-atoms/00-colors');
-      expect(p.jsonFileData instanceof Object).to.equal(true);
       expect(p.name).to.equal('00-atoms-00-colors');
       expect(p.patternBaseNamePhp).to.equal('colors');
       expect(p.patternBaseName).to.equal('colors');
       expect(p.patternLink).to.equal('00-atoms-00-colors/00-atoms-00-colors.html');
-      expect(p.patternGroup).to.equal('atoms');
       expect(p.patternName).to.equal('Colors');
+      expect(p.patternType).to.equal('atoms');
       expect(p.patternPartial).to.equal('atoms-colors');
       expect(p.patternPartialPhp).to.equal('atoms-colors');
-      expect(p.patternSubGroup).to.equal('atoms');
+      expect(p.patternSubType).to.equal('');
       expect(p.allData).to.equal(null);
+      expect(p.extendedTemplate).to.equal('');
+      expect(p.fepletComp).to.equal(null);
+      expect(p.fepletParse).to.equal(null);
+      expect(p.frontMatterData).to.be.an.instanceof(Array);
+      expect(p.frontMatterRelPathTrunc).to.equal('');
+      expect(p.header).to.equal('');
+      expect(p.footer).to.equal('');
+      expect(p.isFrontMatter).to.equal(false);
       expect(p.isPattern).to.equal(true);
-      expect(p.isPreprocessed).to.equal(false);
-      expect(p.isPseudopattern).to.equal(false);
-      expect(Array.isArray(p.lineage)).to.equal(true);
-      expect(Array.isArray(p.lineageIndex)).to.equal(true);
-      expect(Array.isArray(p.lineageR)).to.equal(true);
-      expect(Array.isArray(p.lineageRIndex)).to.equal(true);
+      expect(p.isPreProcessed).to.equal(false);
+      expect(p.isPseudoPattern).to.equal(false);
+      expect(p.jsonFileData).to.be.an.instanceof(Object);
+      expect(p.lineage).to.be.an.instanceof(Array);
+      expect(p.lineageIndex).to.be.an.instanceof(Array);
+      expect(p.lineageR).to.be.an.instanceof(Array);
+      expect(p.lineageRIndex).to.be.an.instanceof(Array);
+      expect(p.listItems).to.equal(null);
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
     });
 
-    it('should instantiate patterns with no numbers in patternGroup correctly', function () {
-      const p = new of.Pattern('atoms/colors.mustache', {d: 123});
+    it('should instantiate patterns with no numbers in patternType correctly', function () {
+      const p = new of.Pattern('atoms/colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('colors');
       expect(p.outfileExtension).to.equal('.html');
+      expect(p.pathsPublic.annotations).to.equal('annotations');
+      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
+      expect(p.pathsPublic.images).to.equal('_assets');
+      expect(p.pathsPublic.js).to.equal('_scripts');
+      expect(p.pathsPublic.css).to.equal('_styles');
+      expect(p.pathsPublic.cssBld).to.equal('_styles/bld');
+      expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
+      expect(p.pathsPublic.patterns).to.equal('patterns');
+      expect(p.pathsPublic.static).to.equal('static');
+      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.relPath).to.equal('atoms/colors.mustache');
       expect(p.subdir).to.equal('atoms');
       expect(p.flatPatternPath).to.equal('atoms');
-      expect(p.relPath).to.equal('atoms/colors.mustache');
       expect(p.relPathTrunc).to.equal('atoms/colors');
-      expect(p.jsonFileData instanceof Object).to.equal(true);
       expect(p.name).to.equal('atoms-colors');
       expect(p.patternBaseNamePhp).to.equal('colors');
       expect(p.patternBaseName).to.equal('colors');
       expect(p.patternLink).to.equal('atoms-colors/atoms-colors.html');
-      expect(p.patternGroup).to.equal('atoms');
       expect(p.patternName).to.equal('Colors');
+      expect(p.patternType).to.equal('atoms');
       expect(p.patternPartial).to.equal('atoms-colors');
       expect(p.patternPartialPhp).to.equal('atoms-colors');
-      expect(p.patternSubGroup).to.equal('atoms');
+      expect(p.patternSubType).to.equal('');
       expect(p.allData).to.equal(null);
+      expect(p.extendedTemplate).to.equal('');
+      expect(p.fepletComp).to.equal(null);
+      expect(p.fepletParse).to.equal(null);
+      expect(p.frontMatterData).to.be.an.instanceof(Array);
+      expect(p.frontMatterRelPathTrunc).to.equal('');
+      expect(p.header).to.equal('');
+      expect(p.footer).to.equal('');
+      expect(p.isFrontMatter).to.equal(false);
       expect(p.isPattern).to.equal(true);
-      expect(p.isPreprocessed).to.equal(false);
-      expect(p.isPseudopattern).to.equal(false);
-      expect(Array.isArray(p.lineage)).to.equal(true);
-      expect(Array.isArray(p.lineageIndex)).to.equal(true);
-      expect(Array.isArray(p.lineageR)).to.equal(true);
-      expect(Array.isArray(p.lineageRIndex)).to.equal(true);
+      expect(p.isPreProcessed).to.equal(false);
+      expect(p.isPseudoPattern).to.equal(false);
+      expect(p.jsonFileData).to.be.an.instanceof(Object);
+      expect(p.lineage).to.be.an.instanceof(Array);
+      expect(p.lineageIndex).to.be.an.instanceof(Array);
+      expect(p.lineageR).to.be.an.instanceof(Array);
+      expect(p.lineageRIndex).to.be.an.instanceof(Array);
+      expect(p.listItems).to.equal(null);
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
     });
 
     it('should capitalize patternName correctly', function () {
-      const p = new of.Pattern('00-atoms/00-global/00-colors-alt.mustache');
+      const p = new of.Pattern('00-atoms/00-global/00-colors-alt.mustache', patternlab);
 
       expect(p.patternBaseName).to.equal('colors-alt');
       expect(p.patternName).to.equal('Colors Alt');
     });
   });
 
-  describe('PatternType constructor', function () {
+  describe('PatternItem constructor', function () {
     it('should initialize correctly', function () {
-      const t = new of.PatternType('test');
+      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
+      const i = new of.PatternItem('test', p);
 
-      expect(t.patternTypeLC).to.equal('test');
-      expect(t.patternTypeUC).to.equal('Test');
-      expect(Array.isArray(t.patternTypeItems)).to.equal(true);
-      expect(Array.isArray(t.patternTypeItemsIndex)).to.equal(true);
-      expect(Array.isArray(t.patternItems)).to.equal(true);
-      expect(Array.isArray(t.patternItemsIndex)).to.equal(true);
+      expect(i.patternName).to.equal('test');
+      expect(i.pattern).to.equal(p);
+      expect(i.patternLink).to.equal(p.patternLink);
+      expect(i.patternPartial).to.equal(p.patternPartial);
+      expect(i.subdir).to.equal(p.subdir);
+      expect(i.flatPatternPath).to.equal(p.flatPatternPath);
+      expect(i.pathsPublic).to.equal(p.pathsPublic);
+      expect(i.patternType).to.equal(p.patternType);
+      expect(i.patternSubType).to.equal(p.patternSubType);
+      expect(i.patternState).to.equal(p.patternState);
     });
 
-    it('should capitalize patternTypeUC correctly', function () {
-      const t = new of.PatternType('page-templates');
+    it('should initialize patternType viewall items correctly', function () {
+      const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
+      const i = new of.PatternItem('View All', p);
 
-      expect(t.patternTypeLC).to.equal('page-templates');
-      expect(t.patternTypeUC).to.equal('Page Templates');
+      expect(i.patternLink).to.equal('00-atoms/index.html');
+      expect(i.patternPartial).to.equal('viewall-atoms');
+    });
+
+    it('should initialize patternSubType viewall items correctly', function () {
+      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
+      const i = new of.PatternItem('View All', p);
+
+      expect(i.patternLink).to.equal('00-atoms-00-global/index.html');
+      expect(i.patternPartial).to.equal('viewall-atoms-global');
     });
   });
 
   describe('PatternSubType constructor', function () {
     it('should initialize correctly', function () {
-      const st = new of.PatternSubType('test');
+      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
+      const st = new of.PatternSubType(p);
 
-      expect(st.patternSubTypeLC).to.equal('test');
-      expect(st.patternSubTypeUC).to.equal('Test');
-      expect(Array.isArray(st.patternSubTypeItems)).to.equal(true);
-      expect(Array.isArray(st.patternSubTypeItemsIndex)).to.equal(true);
-    });
-
-    it('should capitalize patternSubTypeUC correctly', function () {
-      const st = new of.PatternSubType('global-concepts');
-
-      expect(st.patternSubTypeLC).to.equal('global-concepts');
-      expect(st.patternSubTypeUC).to.equal('Global Concepts');
+      expect(st.patternSubTypeLC).to.equal('global');
+      expect(st.patternSubTypeUC).to.equal('Global');
+      expect(st.patternPartial).to.equal('viewall-atoms-global');
+      expect(st.flatPatternPath).to.equal(p.flatPatternPath);
+      expect(st.pathsPublic).to.equal(p.pathsPublic);
+      expect(st.patternSubTypeItems).to.be.an.instanceof(Array);
     });
   });
 
-  describe('PatternSubTypeItem constructor', function () {
+  describe('PatternType constructor', function () {
     it('should initialize correctly', function () {
-      const sti = new of.PatternSubTypeItem('test');
+      const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
+      const t = new of.PatternType(p);
 
-      expect(sti.patternName).to.equal('Test');
-      expect(sti.patternPath).to.equal('');
+      expect(t.patternTypeLC).to.equal('atoms');
+      expect(t.patternTypeUC).to.equal('Atoms');
+      expect(t.patternPartial).to.equal('viewall-atoms');
+      expect(t.flatPatternPath).to.equal('00-atoms');
+      expect(t.pathsPublic).to.equal(p.pathsPublic);
+      expect(t.patternTypeItems).to.be.an.instanceof(Array);
+      expect(t.patternSubTypes).to.be.an.instanceof(Array);
+      expect(t.patternSubTypesIndex).to.be.an.instanceof(Array);
     });
 
-    it('should capitalize patternName correctly', function () {
-      const sti = new of.PatternSubTypeItem('nav button');
+    it('should initialize correctly when given a subType', function () {
+      const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
+      const t = new of.PatternType(p);
 
-      expect(sti.patternName).to.equal('Nav Button');
+      expect(t.patternTypeLC).to.equal('atoms');
+      expect(t.patternTypeUC).to.equal('Atoms');
+      expect(t.patternPartial).to.equal('viewall-atoms');
+      expect(t.flatPatternPath).to.equal('00-atoms');
+      expect(t.pathsPublic).to.equal(p.pathsPublic);
+      expect(t.patternTypeItems).to.be.an.instanceof(Array);
+      expect(t.patternSubTypes).to.be.an.instanceof(Array);
+      expect(t.patternSubTypesIndex).to.be.an.instanceof(Array);
+    });
+  });
+
+  describe('PatternViewall constructor', function () {
+    it('should initialize correctly', function () {
+      const v = new of.PatternViewall('00-atoms/index.html', 'viewall content');
+
+      expect(v.path).to.equal('00-atoms/index.html');
+      expect(v.content).to.equal('viewall content');
     });
   });
 });

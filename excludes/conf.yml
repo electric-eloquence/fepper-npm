@@ -5,20 +5,6 @@ livereload_port: 35729
 # to run multiple Fepper instances, you'll need to set this to false.
 kill_zombies: true
 
-# timeout_main sets the number of milliseconds to wait for asynchronous tasks to
-# complete before Fepper opens in a browser. This was an issue in the past, but
-# may have been remedied by smarter code. This setting remains here in case the
-# application ever fails to launch on browser-open again.
-timeout_main: 0
-
-# The "headed" conf is for internal Fepper development only. This allows
-# fepper-npm to be installed with `npm link`. Uncomment for this purpose. The 
-# name is admittedly awkward but is necessary to flag a true condition for 
-# linking the npm. Other conditions do not need a flag. Furthermore, you need to 
-# disable gulp in fepper-npm's node_modules directory. Rename it to 
-# "gulp-disabled". Rename it back to "gulp" when you need it again.
-#headed: true
-
 app_dir: node_modules/fepper
 backend_dir: backend
 extend_dir: extend

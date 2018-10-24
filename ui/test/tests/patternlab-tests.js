@@ -9,7 +9,7 @@ const {
 } = require('../test-harness')();
 
 // Preprocess the patternlab object.
-patternlab.preprocessAllPatterns(patternsDir);
+patternlab.preProcessAllPatterns(patternsDir);
 
 describe('Patternlab', function () {
   describe('buildPatternData', function () {
@@ -17,7 +17,7 @@ describe('Patternlab', function () {
       // Build pattern data and get data result.
       const dataResult = patternlab.buildPatternData(dataDir);
 
-      expect(dataResult instanceof Object).to.equal(true);
+      expect(dataResult).to.be.an.instanceof(Object);
       expect(dataResult.data).to.equal('test');
     });
   });

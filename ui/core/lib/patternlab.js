@@ -17,47 +17,59 @@ const JSON5 = require('json5');
 const slash = require('slash');
 const utils = require('fepper-utils');
 
-const ListItemsBuilder = require('./list-items-builder');
-const LineageHunter = require('./lineage-hunter');
-const PatternAssembler = require('./pattern-assembler');
-const PatternExporter = require('./pattern-exporter');
-const PseudopatternHunter = require('./pseudopattern-hunter');
+const AnnotationsBuilder = require('./annotations-builder');
+const ListItemsBuilder = require('./listitems-builder');
+const LineageBuilder = require('./lineage-builder');
+const PatternBuilder = require('./pattern-builder');
+const PseudoPatternBuilder = require('./pseudo-pattern-builder');
 const UiBuilder = require('./ui-builder');
+const UiCompiler = require('./ui-compiler');
+const ViewallBuilder = require('./viewall-builder');
 
 module.exports = class {
   constructor(config, cwd) {
     this.config = config;
     this.utils = utils;
 
-    if (!this.config.paths.core) {
-      this.config.paths.core = this.utils.pathResolve(slash(__dirname), '..');
-    }
-
     // The app's working directory can be submitted as a param to resolve relative paths.
-    this.cwd = cwd || this.utils.pathResolve(this.config.paths.core, '..', '..', '..', '..');
+    this.cwd = slash(cwd || path.resolve(__dirname, '..', '..', '..', '..', '..'));
 
-    this.utils.uiConfigNormalize(this.config, this.cwd);
+    // Normalize configs if necessary.
+    if (!this.config.paths.core) {
+      this.utils.uiConfigNormalize(
+        this.config,
+        this.cwd,
+        slash(global.appDir || path.resolve(__dirname, '..', '..', '..'))
+      );
+    }
 
     this.data = {};
     this.dataKeysSchemaObj = {};
     this.dataKeys = {};
-    this.enc = (global.conf && global.conf.enc) || 'utf8';
+    this.enc = this.utils.deepGet(global, 'conf.enc') || 'utf8';
     this.footer = '';
+    this.listItems = {};
     this.partials = {};
     this.partialsComp = {};
+    this.patternPaths = {};
     this.patterns = [];
-    this.subTypePatterns = {};
+    this.patternTypes = [];
+    this.patternTypesIndex = [];
+    this.portReloader = this.utils.deepGet(global, 'conf.livereload_port') || '';
+    this.portServer = this.utils.deepGet(global, 'conf.express_port') || '';
     this.useListItems = false;
     this.userHead = '';
     this.userFoot = '';
-    this.viewall = '';
+    this.viewallPatterns = {};
 
+    this.annotationsBuilder = new AnnotationsBuilder(this);
     this.listItemsBuilder = new ListItemsBuilder(this);
-    this.lineageHunter = new LineageHunter(this);
-    this.patternAssembler = new PatternAssembler(this);
-    this.patternExporter = new PatternExporter(this);
+    this.lineageBuilder = new LineageBuilder(this);
+    this.patternBuilder = new PatternBuilder(this);
+    this.pseudoPatternBuilder = new PseudoPatternBuilder(this);
     this.uiBuilder = new UiBuilder(this);
-    this.pseudopatternHunter = new PseudopatternHunter(this);
+    this.uiCompiler = new UiCompiler(this);
+    this.viewallBuilder = new ViewallBuilder(this);
   }
 
   // PRIVATE METHODS
@@ -72,60 +84,20 @@ module.exports = class {
   buildPatterns() {
     const patternsDir = this.config.paths.source.patterns;
 
-    this.preprocessAllPatterns(patternsDir); // diveSync to populate patternlab.patterns array.
-    this.preprocessDataAndParams();
+    this.preProcessAllPatterns(patternsDir);
+    this.preProcessDataAndParams();
     this.prepWrite();
-    this.processAllPatterns(); // Process patterns and write them to file system.
-
-    // Export patterns if necessary.
-    this.patternExporter.main(this);
+    // Delegating processAllPatterns() to UiBuilder. This Patternlab class should manage its own properties and provide
+    // utility functions. Reading, data processing, writing, etc. should be delegated.
+    this.uiBuilder.processAllPatterns();
+    this.viewallBuilder.writeViewalls();
+    this.uiBuilder.writePatternlabData();
 
     // Log memory usage if debug === true.
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
       this.utils.log(`The patterns-only build used approximately ${Math.round(used * 100) / 100} MB`);
-    }
-  }
-
-  buildViewAll() {
-    // Allow viewall templates to be overridden.
-    if (this.config.paths.source.ui) {
-      const viewallCustomDir = `${this.config.paths.source.ui}/viewall`;
-
-      if (fs.existsSync(viewallCustomDir + '/partials/pattern-section.mustache')) {
-        this.patternSection = fs.readFileSync(viewallCustomDir + '/partials/pattern-section.mustache', this.enc);
-      }
-      if (fs.existsSync(viewallCustomDir + '/partials/pattern-section-sub-type.mustache')) {
-        this.patternSectionSubType = fs.readFileSync(
-          viewallCustomDir + '/partials/pattern-section-sub-type.mustache', this.enc
-        );
-      }
-      if (fs.existsSync(viewallCustomDir + '/viewall.mustache')) {
-        this.viewall = fs.readFileSync(viewallCustomDir + '/viewall.mustache', this.enc);
-      }
-    }
-
-    const viewallCoreDir = `${this.config.paths.core}/styleguide/viewall`;
-
-    try {
-      if (!this.patternSection) {
-        this.patternSection = fs.readFileSync(viewallCoreDir + '/partials/pattern-section.mustache', this.enc);
-      }
-      if (!this.patternSectionSubType) {
-        this.patternSectionSubType = fs.readFileSync(
-          viewallCoreDir + '/partials/pattern-section-sub-type.mustache', this.enc
-        );
-      }
-      if (!this.viewall) {
-        this.viewall = fs.readFileSync(viewallCoreDir + '/viewall.mustache', this.enc);
-      }
-    }
-    catch (err) {
-      this.utils.error('ERROR: Missing an essential file from ' + viewallCoreDir);
-      this.utils.error(err.message || err);
-
-      throw err;
     }
   }
 
@@ -143,21 +115,48 @@ module.exports = class {
         const stat = fs.statSync(file);
 
         if (!stat.isDirectory()) {
-          fs.unlinkSync(file);
+          fs.removeSync(file);
         }
       }
     );
   }
 
-  preprocessAllPatterns(patternsDir) {
+  isPatternExcluded(pattern) {
+    if (!pattern.isPattern) {
+      return true;
+    }
+    // Return true if the 1st character of pattern type, subType, further nested dirs, or filename is an underscore.
+    else if (
+      pattern.relPath.charAt(0) === '_' ||
+      pattern.relPath.indexOf('/_') > -1
+    ) {
+      return true;
+    }
+
+    // Retaining inconsistent camelCasing from Pattern Lab. The casing of the "styleGuideExcludes" config is publicly
+    // documented by Pattern Lab and is unlikely to change. Internally, "styleguide" will be all lowercase.
+    // Return true if the pattern is configured to be excluded in patternlab-config.json.
+    const styleguideExcludes = this.config.styleGuideExcludes || [];
+
+    if (Array.isArray(styleguideExcludes) && styleguideExcludes.length) {
+      const partial = pattern.patternPartial;
+      const partialType = partial.substring(0, partial.indexOf('-'));
+
+      if (styleguideExcludes.indexOf(partialType) > -1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  preProcessAllPatterns(patternsDir) {
     try {
       this.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) {
       this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/data.json`);
-      this.utils.error(err.message || err);
-
-      this.data = {};
+      this.utils.error(err);
     }
 
     try {
@@ -167,9 +166,7 @@ module.exports = class {
     }
     catch (err) {
       this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/listitems.json`);
-      this.utils.error(err.message || err);
-
-      this.listItems = {};
+      this.utils.error(err);
     }
 
     const immutableDir = `${this.config.paths.core}/immutable`;
@@ -180,21 +177,14 @@ module.exports = class {
     }
     catch (err) {
       this.utils.error('ERROR: Missing an essential file from ' + immutableDir);
-      this.utils.error(err.message || err);
-
-      throw err;
+      this.utils.error(err);
     }
 
     this.data.link = {};
-    this.partials = {};
-    this.partialsComp = {};
-    this.patterns = [];
-    this.subTypePatterns = {};
+    this.data.pathsPublic = this.config.pathsPublic;
 
-    this.buildViewAll();
-    this.setCacheBust();
-
-    const patternlab = this;
+    this.viewallBuilder.readViewallTemplates();
+    this.setCacheBuster();
 
     diveSync(
       patternsDir,
@@ -205,22 +195,24 @@ module.exports = class {
           return;
         }
         // Submit relPath.
-        this.patternAssembler.preprocessPattern(slash(path.relative(patternsDir, file)), patternlab);
+        this.patternBuilder.preProcessPattern(slash(path.relative(patternsDir, file)));
       }
     );
   }
 
-  preprocessDataAndParams() {
+  preProcessDataAndParams() {
+    this.annotationsBuilder.main();
+
     if (this.useListItems) {
       this.listItemsBuilder.listItemsBuild(this);
     }
 
     // Create an array of data keys to not render when preprocessing partials.
     this.utils.extendButNotOverride(this.dataKeysSchemaObj, this.data);
-    this.dataKeys = Feplet.preprocessContextKeys(this.dataKeysSchemaObj);
+    this.dataKeys = Feplet.preProcessContextKeys(this.dataKeysSchemaObj);
 
     // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
-    this.patternAssembler.preprocessPartialParams(this);
+    this.patternBuilder.preProcessPartialParams(this);
   }
 
   prepWrite() {
@@ -230,7 +222,7 @@ module.exports = class {
     }
     catch (err) {
       if (this.config.debug) {
-        this.utils.error(err.message || err);
+        this.utils.error(err);
 
         let warnHead = 'Could not find optional user-defined header, usually found at ';
         warnHead += './source/_meta/_00-head.mustache. It was likely deleted.';
@@ -244,7 +236,7 @@ module.exports = class {
     }
     catch (err) {
       if (this.config.debug) {
-        this.utils.error(err.message || err);
+        this.utils.error(err);
 
         let warnFoot = 'Could not find optional user-defined footer, usually found at ';
         warnFoot += './source/_meta/_01-foot.mustache. It was likely deleted.';
@@ -263,36 +255,40 @@ module.exports = class {
     }
   }
 
-  processAllPatterns() {
-    for (let i = 0, l = this.patterns.length; i < l; i++) {
-      this.patternAssembler.processPattern(this.patterns[i], this);
-      this.patternAssembler.writePattern(this.patterns[i], this);
-      this.patternAssembler.freePattern(this.patterns[i], this);
-    }
-  }
-
-  setCacheBust() {
+  setCacheBuster() {
     if (this.config.cacheBust) {
-      if (this.config.debug) {
-        this.utils.log('Setting cacheBuster value for frontend assets.');
-      }
-
-      this.cacheBuster = '?' + Date.now();
+      this.cacheBuster = this.data.cacheBuster = '?' + Date.now();
     }
     else {
-      this.cacheBuster = '';
+      this.cacheBuster = this.data.cacheBuster = '';
     }
   }
 
   // PUBLIC METHODS
 
-  build(options) {
+  build(options, debug = false) {
     if (options && options.constructor === Object) {
       this.config = this.utils.extendButNotOverride(options, this.config);
     }
 
+    const debugOrig = this.config.debug;
+
+    if (debug) {
+      this.config.debug = true;
+    }
+
     this.buildPatterns();
-    this.uiBuilder.main(this);
+
+    // Log memory usage when debug === true.
+    if (this.config.debug) {
+      const used = process.memoryUsage().heapUsed / 1024 / 1024;
+
+      this.utils.log(`The full build used approximately ${Math.round(used * 100) / 100} MB`);
+    }
+
+    if (debug) {
+      this.config.debug = debugOrig;
+    }
   }
 
   compileui(options) {
@@ -300,12 +296,10 @@ module.exports = class {
       this.config = this.utils.extendButNotOverride(options, this.config);
     }
 
-    const componentizer = new (require('../styleguide/componentizer'))(this);
-
-    return componentizer.main(true);
+    this.uiCompiler.main();
   }
 
-  getPattern(patternName) {
+  getPattern(queryStr) {
     let i = this.patterns.length;
 
     // Going from highest index to lowest index because multiple patterns can have the same .patternPartial name and we
@@ -316,7 +310,7 @@ module.exports = class {
     while (i--) {
       const pattern = this.patterns[i];
 
-      switch (patternName) {
+      switch (queryStr) {
         case pattern.patternPartialPhp:
         case pattern.patternPartial:
         case pattern.relPathTrunc:
@@ -333,12 +327,12 @@ module.exports = class {
 User Interface CLI
 
 Use:
-    fp <task> [<additional args>...]
+    fp <task> [<additional args>... [-d | --debug]]
 
 Tasks:
     fp ui:build         Build the patterns and frontend, outputting to the public directory.
     fp ui:clean         Delete all patterns in the public directory.
-    fp ui:compile       Compile the UI frontend and build the patterns.
+    fp ui:compile       Compile the UI frontend and build the patterns and frontend.
     fp ui:compileui     Compile the UI frontend only.
     fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to the public directory.
     fp ui:copy-styles   Copy _styles to the public directory (for injection into browser without refresh.

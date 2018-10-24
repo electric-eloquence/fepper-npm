@@ -5,20 +5,24 @@
  /* eslint-disable max-len */
 'use strict';
 
+const fs = require('fs');
+
 exports.head = `
 <!DOCTYPE html>
 <html>
   <head>
     <title id="title">{{ title }}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
 
-    <!-- never cache -->
+    <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
+
+    {{{ patternlabHead }}}
+
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
   </head>
 
@@ -41,15 +45,15 @@ exports.landingBody = `
       <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter" {{ attributes }}>
         <div>
           <label for="url">URL:</label>
-          <input name="url" type="text" value="{{ url }}" style="width: 100%;" />
+          <input name="url" type="text" value="{{ url }}" style="width: 100%;">
         </div>
         <div>
           <label for="selector">Target Selector:</label>
-          <input name="selector" type="text" value="{{ selector }}" style="width: 100%;" />
+          <input name="selector" type="text" value="{{ selector }}" style="width: 100%;">
         </div>
         <textarea name="html2json" style="display: none;"></textarea>
         <div class="cf" style="padding-top: 10px;">
-          <input name="url-form" type="submit" value="Submit" style="float: left;" />
+          <input name="url-form" type="submit" value="Submit" style="float: left;">
           <button id="help-button" style="float: right;">Help</button>
         </div>
       </form>
@@ -70,9 +74,9 @@ exports.importerPrefix = `
       <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
         <div>Yes, import into Fepper.</div>
         <label for="import-form">Enter a filename to save this under:</label>
-        <input name="filename" type="text" value="" style="width: 100%" />
-        <input name="url" type="hidden" value="{{ url }}" />
-        <input name="selector" type="hidden" value="{{ selector }}" />
+        <input name="filename" type="text" value="" style="width: 100%">
+        <input name="url" type="hidden" value="{{ url }}">
+        <input name="selector" type="hidden" value="{{ selector }}">
         <textarea name="html2json" style="display: none;"></textarea>
         <textarea name="mustache" style="display: none;">`;
 
@@ -82,7 +86,7 @@ exports.json = `
 
 exports.importerSuffix = `
         </textarea>
-        <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;" />
+        <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;">
       </form>
       <h3>Otherwise, correct the URL and Target Selector and submit again.</h3>`;
 
@@ -93,8 +97,19 @@ exports.success = `
 
 exports.foot = `
     </main>
+
+    {{{ patternlabFoot }}}
+
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/jquery.cookie/jquery.cookie.js"></script>
     <script src="/node_modules/fepper-ui/scripts/timestamper.js"></script>
   </body>
 </html>`;
+
+exports.getImmutableHeader = (conf) => {
+  return fs.readFileSync(`${conf.ui.paths.core}/immutable/immutable-header.mustache`, conf.enc);
+};
+
+exports.getImmutableFooter = (conf) => {
+  return fs.readFileSync(`${conf.ui.paths.core}/immutable/immutable-footer.mustache`, conf.enc);
+};

@@ -5,12 +5,9 @@
   <h1>foo</h1>
   <div id="sg-patterns">
     {{# partials }}
-      {{# patternSectionSubType }}
-        {{> patternSectionSubType }}
-      {{/ patternSectionSubType }}
-      {{^ patternSectionSubType }}
-        {{> patternSection }}
-      {{/ patternSectionSubType }}
+      {{> patternSectionType }}
+      {{> patternSectionSubType }}
+      {{> patternSection }}
     {{/ partials }}
   </div> <!--end #sg-patterns-->
 

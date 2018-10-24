@@ -5,66 +5,15 @@
  */
 'use strict';
 
+const Fepper = require('fepper');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const requireDir = require('require-dir');
 const runSequence = require('run-sequence');
-const slash = require('slash');
 const utils = require('fepper-utils');
-
-const Fepper = require('./core/fepper');
-
-// Set globals.
-// Determine rootDir whether running headless or whether running a full implementation.
-// global.appDir as set here might be temporary and be reset as the app_dir value from conf.yml.
-const thisDir = global.appDir = slash(__dirname);
-let rootDir = '';
-let isHeaded = false;
-
-if (process.env.HEADED) {
-  isHeaded = true;
-}
-
-if (process.env.ROOT_DIR) {
-  rootDir = slash(process.env.ROOT_DIR);
-
-  if (!fs.existsSync(rootDir)) {
-    rootDir = '';
-  }
-}
-else {
-  // utils.findup() will replace backslashes with slashes.
-  rootDir = utils.findup('fepper.command', thisDir);
-
-  if (rootDir) {
-    isHeaded = true;
-  }
-}
-
-// The only existing headless use-case is testing.
-if (!isHeaded) {
-  rootDir = `${thisDir}/test`;
-}
-
-if (!rootDir) {
-  utils.error('It appears you are trying to run Fepper from a critically broken environment! Exiting!');
-
-  return;
-}
-
-global.rootDir = rootDir;
-
-utils.conf(isHeaded); // This resets global.appDir if conf.app_dir differs from it.
-utils.pref(isHeaded);
-
-if (!global.conf || !global.pref) {
-  return;
-}
 
 // Instantiate a Fepper object and attach it to the global object.
 global.fepper = new Fepper();
-
-// Proceed with tasking.
 const conf = global.conf;
 
 // Require tasks in task directories.
@@ -235,8 +184,9 @@ gulp.task('data', (cb) => {
   args.push('ui:build');
 
   if (conf.ui.cleanPublic) {
-    args.push('ui:copy');
-    args.push('ui:copy-styles');
+    args.push('ui:copy:assets');
+    args.push('ui:copy:scripts');
+    args.push('ui:copy:styles');
   }
 
   args.push(cb);
@@ -273,8 +223,9 @@ gulp.task('once', (cb) => {
 
   args.push('ui:clean');
   args.push('ui:build');
-  args.push('ui:copy');
-  args.push('ui:copy-styles');
+  args.push('ui:copy:assets');
+  args.push('ui:copy:scripts');
+  args.push('ui:copy:styles');
 
   extensionsPush('once:postprocess', args);
   args.push(cb);
@@ -305,10 +256,10 @@ gulp.task('restart', (cb) => {
   });
 
   // An added measure for power usage, delete any lingering install.log, normally deleted by the plain `fp` task.
-  const log = `${rootDir}/install.log`;
+  const log = `${global.rootDir}/install.log`;
 
   if (fs.existsSync(log)) {
-    fs.unlinkSync(log);
+    fs.removeSync(log);
   }
 
   runSequence.apply(null, args);
@@ -321,6 +272,7 @@ gulp.task('static', (cb) => {
   args.push('once');
   args.push('fepper:static-generate');
   extensionsPush('static:postprocess', args);
+  args.push('ui:copy:static');
   args.push(cb);
   runSequence.apply(null, args);
 });
@@ -344,12 +296,4 @@ gulp.task('template', (cb) => {
   extensionsPush('template:postprocess', args);
   args.push(cb);
   runSequence.apply(null, args);
-});
-
-gulp.task('test', (cb) => {
-  runSequence(
-    'test:eslint',
-    'test:mocha',
-    cb
-  );
 });

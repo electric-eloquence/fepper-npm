@@ -5,22 +5,22 @@
 .sg-header .sg-icon {
   display: block;
   width: auto;
-  height: 2rem;
-  font-size: 1rem;
-  padding: 0.5rem 0.25rem 0.375rem 0.25rem;
+  height: 3.2rem;
+  font-size: 1.6rem;
+  padding: 0.8rem 0.4rem 0.6rem 0.4rem;
 }
 .sg-acc-handle.sg-icon::after {
-  top: -4px;
+  top: -0.45rem;
 }
 @media all and (min-width: 1281px) {
   .sg-header .sg-icon {
-    padding-right: 0.4375rem;
-    padding-left: 0.4375rem;
+    padding-right: 0.7rem;
+    padding-left: 0.7rem;
   }
 }
 
 .sg-checklist .sg-checklist-icon::before {
-  margin-right: 0.4em;
+  margin-right: 0.4rem;
 }
 
 .sg-icon-search::before,
@@ -48,7 +48,7 @@
 }
 .sg-view > ul {
   position: absolute;
-  top: 2em;
+  top: 3.2rem;
   left: 0;
 }
 

@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
@@ -73,7 +75,7 @@ module.exports = class {
     /* STATIC PAGES */
 
     // Fepper static files.
-    app.use('/fepper-core', express.static(`${this.conf.app_dir}/core/webserved`));
+    app.use('/fepper-core', express.static(path.resolve(__dirname, '..', 'webserved')));
 
     // Webserved directories.
     // Serve the backend's static files where the document root and top-level

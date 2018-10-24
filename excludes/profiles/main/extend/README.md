@@ -49,3 +49,9 @@ workarounds for this:
   * `global.conf.ui.pathsRelative` stores relative versions of the values in 
     `global.conf.ui.paths`.
   * This will still probably require `options.cwd` in the second parameter.
+
+### Fepper Utils
+
+Common utilty functions for custom extensions are available from the 
+<a href="https://www.npmjs.com/package/fepper-utils" target="_blank">Fepper Utils</a> 
+NPM. Its API documentation can be viewed by following the link.

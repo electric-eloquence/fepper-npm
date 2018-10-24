@@ -13,8 +13,8 @@ const {
 } = require('../test-harness')();
 
 // Preprocess the patternlab object.
-patternlab.preprocessAllPatterns(patternsDir);
-patternlab.preprocessDataAndParams();
+patternlab.preProcessAllPatterns(patternsDir);
+patternlab.preProcessDataAndParams();
 
 // Get test patterns.
 const atomPattern = patternlab.getPattern('test-styled-atom');
@@ -26,14 +26,14 @@ const partialPattern = patternlab.getPattern('test1-parametered-partial');
 const recursivePattern = patternlab.getPattern('test1-recursive-includer');
 const antiInfinityPattern = patternlab.getPattern('test1-anti-infinity-tester');
 
-patternlab.patternAssembler.processPattern(atomPattern, patternlab);
-patternlab.patternAssembler.processPattern(nestedPattern, patternlab);
-patternlab.patternAssembler.processPattern(nesterPattern, patternlab);
-patternlab.patternAssembler.processPattern(multiPattern, patternlab);
-patternlab.patternAssembler.processPattern(simplePattern, patternlab);
-patternlab.patternAssembler.processPattern(partialPattern, patternlab);
-patternlab.patternAssembler.processPattern(recursivePattern, patternlab);
-patternlab.patternAssembler.processPattern(antiInfinityPattern, patternlab);
+patternlab.patternBuilder.processPattern(atomPattern, patternlab);
+patternlab.patternBuilder.processPattern(nestedPattern, patternlab);
+patternlab.patternBuilder.processPattern(nesterPattern, patternlab);
+patternlab.patternBuilder.processPattern(multiPattern, patternlab);
+patternlab.patternBuilder.processPattern(simplePattern, patternlab);
+patternlab.patternBuilder.processPattern(partialPattern, patternlab);
+patternlab.patternBuilder.processPattern(recursivePattern, patternlab);
+patternlab.patternBuilder.processPattern(antiInfinityPattern, patternlab);
 
 describe('Parameter Hunter', function () {
   it('should find and extend templates with a parameter', function () {

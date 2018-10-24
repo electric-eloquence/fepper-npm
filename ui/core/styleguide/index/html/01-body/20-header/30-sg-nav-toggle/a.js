@@ -1,14 +1,14 @@
-module.exports = {
-  href: '#sg-nav-container',
-  className: 'sg-nav-toggle',
-  dangerouslySetInnerHTML: {
-    __html: 'Menu'
-  },
-  onClick: (ev) => {
-    window.FEPPER_UI.reRenderFns.push(() => {
-      ev.preventDefault();
-      $('.sg-nav-container').toggleClass('active');
-    });
-    window.uiInst.handleEvent();
+const uiFns = window.FEPPER_UI.uiFns;
+
+$('.sg-nav-toggle').click(function (e) {
+  e.preventDefault();
+
+  const $sgNavContainer = $('.sg-nav-container');
+  const isActive = $sgNavContainer.hasClass('active');
+
+  uiFns.closeAllPanels();
+
+  if (!isActive) {
+    $sgNavContainer.addClass('active');
   }
-};
+});

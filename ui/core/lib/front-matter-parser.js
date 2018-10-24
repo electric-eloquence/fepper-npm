@@ -86,10 +86,10 @@ exports.main = (fileContent) => {
 
     if (frontMatterObj.content) {
       if (frontMatterData) {
-        frontMatterData.comment = marked(frontMatterObj.content);
+        frontMatterData.annotation = marked(frontMatterObj.content);
       }
       else {
-        frontMatterData = {comment: marked(frontMatterObj.content)};
+        frontMatterData = {annotation: marked(frontMatterObj.content)};
       }
     }
 

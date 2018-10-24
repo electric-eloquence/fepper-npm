@@ -354,3 +354,10 @@ td {
   font-size: 20px;
   margin-bottom: 10px;
 }
+
+.mustache-browser__back {
+  color: blue;
+  font-size: 1.4rem;
+  position: relative;
+  top: -2rem;
+}

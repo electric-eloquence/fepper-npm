@@ -46,8 +46,10 @@ module.exports = class {
         output += htmlMd + '\n';
         output += this.html.foot;
         output = output.replace('{{ title }}', 'Fepper');
+        output = output.replace('{{{ patternlabHead }}}', '');
         output = output.replace('{{ main_id }}', 'readme');
         output = output.replace('{{ main_class }}', 'readme');
+        output = output.replace('{{{ patternlabFoot }}}', '');
 
         res.send(output);
       });

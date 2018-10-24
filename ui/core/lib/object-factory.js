@@ -2,25 +2,32 @@
 
 const path = require('path');
 
+function spaceAndCapitalize(name) {
+  return name
+    .split('-')
+    .reduce(function (accum, curr) {
+      return accum.charAt(0).toUpperCase() + accum.slice(1) + ' ' + curr.charAt(0).toUpperCase() + curr.slice(1);
+    }, '')
+    .trim();
+}
+
 exports.Pattern = class {
-  constructor(relPath, data) {
+  constructor(relPath, patternlab) {
     // We expect relPath to be the path of the pattern template, relative to the root of the pattern tree.
     // Parse out the path parts and save the useful ones.
     const pathObj = path.parse(relPath);
 
+    this.cacheBuster = patternlab.cacheBuster;
     this.fileExtension = pathObj.ext; // '.mustache'
     this.fileName = pathObj.name; // '00-colors'
     this.outfileExtension = '.html';
-    this.subdir = pathObj.dir; // '00-elements/00-global'
-
-    this.flatPatternPath = this.subdir.replace(/\//g, '-'); // '00-elements-00-global'
+    this.pathsPublic = patternlab.config.pathsPublic;
     this.relPath = relPath; // '00-elements/00-global/00-colors.mustache'
+    this.subdir = pathObj.dir; // '00-elements/00-global'
+    this.flatPatternPath = this.subdir.replace(/\//g, '-'); // '00-elements-00-global'
     this.relPathTrunc = `${this.subdir}/${pathObj.name}`; // '00-elements/00-global/00-colors'
 
-    // The JSON used to render values in the pattern.
-    this.jsonFileData = data || {};
-
-    // This is the unique name, subDir + fileName (sans extension).
+    // This is the unique name, subdir + fileName (sans extension).
     // '00-elements-00-global-00-colors'
     this.name = this.subdir.replace(/\//g, '-') + '-' + this.fileName.replace(/~/g, '-');
 
@@ -35,68 +42,100 @@ exports.Pattern = class {
     // '00-elements-00-global-00-colors/00-elements-00-global-00-colors.html'
     this.patternLink = `${this.name}/${this.name + this.outfileExtension}`;
 
-    // The top-level pattern group this pattern belongs to, i.e. "elements".
-    this.patternGroup = pathObj.dir.split('/')[0].replace(/^\d*-/, '');
-
     // This is the human-readable name for the ui. Replace hyphens with space, 1st letters capital.
-    this.patternName = this.patternBaseName.split('-').reduce((val, working) => {
-      return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-    }, '').trim();
+    this.patternName = spaceAndCapitalize(this.patternBaseName);
+
+    // The top-level pattern type this pattern belongs to, i.e. "elements".
+    this.patternType = pathObj.dir.split('/')[0].replace(/^\d*-/, '');
 
     // For identifying patterns via url search param. Also the "shorthand" key for identifying patterns in Mustache.
-    this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
+    this.patternPartial = this.patternType + '-' + this.patternBaseName;
 
     // For Pattern Lab PHP compatibility with respect to tildes.
-    this.patternPartialPhp = this.patternGroup + '-' + this.patternBaseNamePhp;
+    this.patternPartialPhp = this.patternType + '-' + this.patternBaseNamePhp;
 
-    // The sub-group this pattern belongs to.
-    this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
+    // The sub-type this pattern belongs to, e.g. 'global'
+    this.patternSubType = this.subdir.indexOf('/') > -1 ? path.basename(this.subdir).replace(/^\d*-/, '') : '';
 
     this.allData = null;
+    this.extendedTemplate = '';
+    this.fepletComp = null;
+    this.fepletParse = null;
     this.frontMatterData = [];
     this.frontMatterRelPathTrunc = '';
+    this.header = '';
+    this.footer = '';
     this.isFrontMatter = false;
     this.isPattern = true;
-    this.isPreprocessed = false;
-    this.isPseudopattern = false;
+    this.isPreProcessed = false;
+    this.isPseudoPattern = false;
+    this.jsonFileData = {};
     this.lineage = [];
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
+    this.listItems = null;
     this.patternState = '';
     this.template = '';
   }
 };
 
-exports.PatternSubType = class {
-  constructor(name) {
-    this.patternSubTypeLC = name;
-    this.patternSubTypeUC = name.split('-').reduce(function (val, working) {
-      return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-    }, '').trim();
-    this.patternSubTypeItems = [];
-    this.patternSubTypeItemsIndex = [];
+exports.PatternItem = class {
+  constructor(name, pattern) {
+    this.patternName = name;
+    this.pattern = pattern;
+
+    if (name === 'View All') {
+      this.patternLink = `${pattern.flatPatternPath}/index.html`;
+
+      if (pattern.patternSubType) {
+        this.patternPartial = `viewall-${pattern.patternType}-${pattern.patternSubType}`;
+      }
+      else {
+        this.patternPartial = `viewall-${pattern.patternType}`;
+      }
+    }
+    else {
+      this.patternLink = pattern.patternLink;
+      this.patternPartial = pattern.patternPartial;
+    }
+
+    this.subdir = pattern.subdir;
+    this.flatPatternPath = pattern.flatPatternPath;
+    this.pathsPublic = pattern.pathsPublic;
+    this.patternType = pattern.patternType;
+    this.patternSubType = pattern.patternSubType;
+    this.patternState = pattern.patternState;
   }
 };
 
-exports.PatternSubTypeItem = class {
-  constructor(name) {
-    this.patternPath = '';
-    this.patternName = name.split(' ').reduce(function (val, working) {
-      return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-    }, '').trim();
+exports.PatternSubType = class {
+  constructor(pattern) {
+    this.patternSubTypeLC = pattern.patternSubType;
+    this.patternSubTypeUC = spaceAndCapitalize(pattern.patternSubType);
+    this.patternPartial = `viewall-${pattern.patternType}-${pattern.patternSubType}`;
+    this.flatPatternPath = pattern.flatPatternPath;
+    this.pathsPublic = pattern.pathsPublic;
+    this.patternSubTypeItems = [];
   }
 };
 
 exports.PatternType = class {
-  constructor(name) {
-    this.patternTypeLC = name;
-    this.patternTypeUC = name.split('-').reduce(function (val, working) {
-      return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-    }, '').trim();
+  constructor(pattern) {
+    this.patternTypeLC = pattern.patternType;
+    this.patternTypeUC = spaceAndCapitalize(pattern.patternType);
+    this.patternPartial = `viewall-${pattern.patternType}`;
+    this.flatPatternPath = pattern.subdir.split('/')[0];
+    this.pathsPublic = pattern.pathsPublic;
     this.patternTypeItems = [];
-    this.patternTypeItemsIndex = [];
-    this.patternItems = [];
-    this.patternItemsIndex = [];
+    this.patternSubTypes = [];
+    this.patternSubTypesIndex = [];
+  }
+};
+
+exports.PatternViewall = class {
+  constructor(path, content) {
+    this.path = path;
+    this.content = content;
   }
 };
