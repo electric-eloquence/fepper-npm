@@ -55,7 +55,7 @@
     "express": "^4.16.3",
     "faye-websocket": "^0.11.1",
     "feplet": "^0.2.0",
-    "fepper-utils": "^1.0.4",
+    "fepper-utils": "1.1.0-rc.0",
     "fs-extra": "^7.0.0",
     "gray-matter": "^3.1.1",
     "he": "1.1.0",
