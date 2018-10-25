@@ -8,6 +8,10 @@ uiProps.sgTAnnotations.addEventListener(
   function (e) {
     e.preventDefault();
 
+    if (annotationsViewer.mustacheBrowser) {
+      return;
+    }
+
     annotationsViewer.toggleAnnotations();
 
     // If viewall, scroll to the focused pattern.
@@ -23,6 +27,10 @@ uiProps.sgTCode.addEventListener(
   'click',
   function (e) {
     e.preventDefault();
+
+    if (codeViewer.mustacheBrowser) {
+      return;
+    }
 
     codeViewer.toggleCode();
 

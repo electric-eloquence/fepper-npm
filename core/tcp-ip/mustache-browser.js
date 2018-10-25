@@ -129,8 +129,7 @@ module.exports = class {
           code = this.toHtmlEntitiesAndLinks(code);
 
           if (typeof req.query.title === 'string') {
-            const patternPartial = req.query.title;
-            code = `<h2>${patternPartial}</h2>\n${code}`;
+            code = `<h2>${req.query.title}</h2>\n${code}`;
           }
 
           // Render the output with HTML head and foot.
