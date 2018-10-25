@@ -75,7 +75,7 @@ module.exports = class {
 
         const basename = path.basename(file);
 
-        if (basename.charAt(0) !== '_' || basename.indexOf(extname) !== basename.length - extname.length) {
+        if (basename.charAt(0) !== '_' || basename.slice(-extname.length) !== extname) {
           return;
         }
 
