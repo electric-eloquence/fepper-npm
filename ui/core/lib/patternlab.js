@@ -299,7 +299,7 @@ module.exports = class {
     this.uiCompiler.main();
   }
 
-  getPattern(queryStr) {
+  getPattern(query) {
     let i = this.patterns.length;
 
     // Going from highest index to lowest index because multiple patterns can have the same .patternPartial name and we
@@ -309,8 +309,7 @@ module.exports = class {
     // 00-atoms/01-local/00-colors.mustache -> atoms-colors
     while (i--) {
       const pattern = this.patterns[i];
-
-      switch (queryStr) {
+      switch (query) {
         case pattern.patternPartialPhp:
         case pattern.patternPartial:
         case pattern.relPathTrunc:
