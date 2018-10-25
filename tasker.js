@@ -85,7 +85,7 @@ if (fs.existsSync(extendDir)) {
         const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
         const statAtLevel1 = fs.statSync(fileAtLevel1);
 
-        if (statAtLevel1.isFile() && fileAtLevel1.indexOf(suffix) === fileAtLevel1.length - suffix.length) {
+        if (statAtLevel1.isFile() && fileAtLevel1.slice(-suffix.length) === suffix) {
           require(fileAtLevel1);
         }
         else if (statAtLevel1.isDirectory()) {
@@ -106,7 +106,7 @@ if (fs.existsSync(extendDir)) {
           const fileAtLevel2 = `${dirAtLevel1}/${basenameAtLevel2}`;
           const statAtLevel2 = fs.statSync(fileAtLevel2);
 
-          if (statAtLevel2.isFile() && fileAtLevel2.indexOf(suffix) === fileAtLevel2.length - suffix.length) {
+          if (statAtLevel2.isFile() && fileAtLevel2.slice(-suffix.length) === suffix) {
             require(fileAtLevel2);
           }
         }
