@@ -7,10 +7,18 @@ require('../test-harness');
 const fepper = global.fepper;
 const mustacheBrowser = fepper.tcpIp.fpExpress.mustacheBrowser;
 
-const partialTag = '{{> 02-components/00-global/00-header(\'partial?\': true) }}';
-const partialTag1 = '{{> 02-components/00-global/00-footer.mustache }}';
-const partialPath = mustacheBrowser.partialTagToPath(partialTag);
-const partialPath1 = mustacheBrowser.partialTagToPath(partialTag1);
+const partialTag = '{{> 02-components/00-global/00-header.mustache }}';
+const partialTag1 = '{{> 02-components/00-global/00-header(\'partial?\': true) }}';
+const partialTag2 = '{{> components-header:foo }}';
+const partialTag3 = '{{> components-header:foo|bar }}';
+const partialTag4 = '{{> components-header:foo(\'partial?\': true) }}';
+const partialTag5 = '{{> components-header:foo|bar(\'partial?\': true) }}';
+const patternIdentifier = mustacheBrowser.stripPartialTag(partialTag);
+const patternIdentifier1 = mustacheBrowser.stripPartialTag(partialTag1);
+const patternIdentifier2 = mustacheBrowser.stripPartialTag(partialTag2);
+const patternIdentifier3 = mustacheBrowser.stripPartialTag(partialTag3);
+const patternIdentifier4 = mustacheBrowser.stripPartialTag(partialTag4);
+const patternIdentifier5 = mustacheBrowser.stripPartialTag(partialTag5);
 
 let mustache = '<section id="one" class="test">{{> 02-components/00-global/00-header(\'partial?\': true) }}</section>' +
   '<section id="two" class="test">{{> 02-components/00-global/01-footer.mustache }}</section><script></script>' +
@@ -42,25 +50,55 @@ describe('Mustache Browser', function () {
     expect(htmlEntitiesAndLinks).to.equal(expectation);
   });
 
-  it('should strip Mustache tags to get partial path', function () {
+  it('should strip Mustache tags of Mustache syntax to get pattern identifiers', function () {
     expect(partialTag).to.contain('{{>');
     expect(partialTag).to.contain('}}');
-    expect(partialTag).to.contain('(');
-    expect(partialTag).to.contain(')');
-    expect(partialPath).to.not.contain('{{>');
-    expect(partialPath).to.not.contain('}}');
-    expect(partialPath).to.not.contain('(');
-    expect(partialPath).to.not.contain(')');
-    expect(partialPath).to.equal('02-components/00-global/00-header.mustache');
+    expect(patternIdentifier).to.not.contain('{{>');
+    expect(patternIdentifier).to.not.contain('}}');
+    expect(patternIdentifier).to.equal('02-components/00-global/00-header.mustache');
   });
 
-  it('should append .mustache extension to end of partials with no extension', function () {
-    expect(partialTag).to.not.contain('.mustache');
-    expect(partialPath.indexOf('.mustache')).to.equal(partialPath.length - 9);
+  it('should strip Mustache tags of parameters to get pattern identifiers', function () {
+    expect(partialTag1).to.contain('(');
+    expect(partialTag1).to.contain(')');
+    expect(patternIdentifier1).to.not.contain('(');
+    expect(patternIdentifier1).to.not.contain(')');
+    expect(patternIdentifier1).to.equal('02-components/00-global/00-header');
   });
 
-  it('should not append .mustache extension to end of partials with extension', function () {
-    expect(partialTag1).to.contain('.mustache');
-    expect(partialPath1.indexOf('.mustache')).to.equal(partialPath.length - 9);
+  it('should strip Mustache tags of single styleModifiers to get pattern identifiers', function () {
+    expect(partialTag2).to.contain(':');
+    expect(patternIdentifier2).to.not.contain(':');
+    expect(patternIdentifier2).to.equal('components-header');
+  });
+
+  it('should strip Mustache tags of multiple styleModifiers to get pattern identifiers', function () {
+    expect(partialTag3).to.contain(':');
+    expect(partialTag3).to.contain('|');
+    expect(patternIdentifier3).to.not.contain(':');
+    expect(patternIdentifier3).to.not.contain('|');
+    expect(patternIdentifier3).to.equal('components-header');
+  });
+
+  it('should strip Mustache tags of single styleModifiers and parameters to get pattern identifiers', function () {
+    expect(partialTag4).to.contain(':');
+    expect(partialTag4).to.contain('(');
+    expect(partialTag4).to.contain(')');
+    expect(patternIdentifier4).to.not.contain(':');
+    expect(patternIdentifier4).to.not.contain('(');
+    expect(patternIdentifier4).to.not.contain(')');
+    expect(patternIdentifier4).to.equal('components-header');
+  });
+
+  it('should strip Mustache tags of multiple styleModifiers and parameters to get pattern identifiers', function () {
+    expect(partialTag5).to.contain(':');
+    expect(partialTag5).to.contain('|');
+    expect(partialTag5).to.contain('(');
+    expect(partialTag5).to.contain(')');
+    expect(patternIdentifier5).to.not.contain(':');
+    expect(patternIdentifier5).to.not.contain('|');
+    expect(patternIdentifier5).to.not.contain('(');
+    expect(patternIdentifier5).to.not.contain(')');
+    expect(patternIdentifier5).to.equal('components-header');
   });
 });

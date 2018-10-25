@@ -7,11 +7,12 @@ const backButton =
   '<a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();">&lt; back</a>';
 
 module.exports = class {
-  constructor(options, html) {
+  constructor(options, html, ui) {
     this.conf = options.conf;
     this.html = html;
     this.immutableHeader = this.html.getImmutableHeader(this.conf);
     this.immutableFooter = this.html.getImmutableFooter(this.conf);
+    this.ui = ui;
   }
 
   /**
@@ -34,7 +35,7 @@ module.exports = class {
     }
 
     template += this.html.foot;
-
+    const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
     const patternlabFoot = Feplet.render(
       this.immutableFooter,
       {
@@ -42,12 +43,11 @@ module.exports = class {
         portServer: this.conf.express_port
       }
     );
-
     const output = Feplet.render(
       template,
       {
         title: 'Fepper Mustache Browser',
-        patternlabHead: this.immutableHeader,
+        patternlabHead,
         main_id: 'no-result',
         main_class: 'mustache-browser no-result',
         patternlabFoot
@@ -63,7 +63,7 @@ module.exports = class {
    * @param {string} partialParam - Mustache syntax.
    * @return {string} Partial path.
    */
-  partialTagToPath(partialParam) {
+  stripPartialTag(partialParam) {
     // Strip opening Mustache braces and control character.
     let partial = partialParam.replace(/^\{\{>\s*/, '');
     // Strip parentheses-wrapped parameter submission.
@@ -72,10 +72,6 @@ module.exports = class {
     partial = partial.replace(/\:[\w\-\|]+/, '');
     // Strip closing Mustache braces.
     partial = partial.replace(/\s*\}\}$/, '');
-
-    if (partial.indexOf('.mustache') !== partial.length - 9) {
-      partial = partial + '.mustache';
-    }
 
     return partial;
   }
@@ -86,11 +82,11 @@ module.exports = class {
    * @param {string} codeParam - HTML/Mustache.
    * @return {string} Stripped code.
    */
-  spanTokensStrip(codeParam) {
+  stripSpanTokens(codeParam) {
     let code = codeParam.replace(/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/g, '$1');
 
     if (/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/.test(code)) {
-      code = this.spanTokensStrip(code);
+      code = this.stripSpanTokens(code);
     }
 
     return code;
@@ -128,12 +124,13 @@ module.exports = class {
         try {
           let code = req.query.code;
           // Strip Pattern Lab's token span tags.
-          code = this.spanTokensStrip(code);
+          code = this.stripSpanTokens(code);
           // HTML entities and links.
           code = this.toHtmlEntitiesAndLinks(code);
 
           if (typeof req.query.title === 'string') {
-            code = `<h2>${req.query.title}</h2>\n${code}`;
+            const patternPartial = req.query.title;
+            code = `<h2>${patternPartial}</h2>\n${code}`;
           }
 
           // Render the output with HTML head and foot.
@@ -141,7 +138,7 @@ module.exports = class {
           template += backButton;
           template += '{{{ code }}}';
           template += this.html.foot;
-
+          const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
           const patternlabFoot = Feplet.render(
             this.immutableFooter,
             {
@@ -149,12 +146,11 @@ module.exports = class {
               portServer: this.conf.express_port
             }
           );
-
           const output = Feplet.render(
             template,
             {
               title: 'Fepper Mustache Browser',
-              patternlabHead: this.immutableHeader,
+              patternlabHead,
               main_id: 'mustache-browser',
               main_class: 'mustache-browser',
               code,
@@ -171,8 +167,10 @@ module.exports = class {
       else if (typeof req.query.partial === 'string') {
         try {
           // Requires verbosely pathed Mustache partial syntax.
-          let partial = this.partialTagToPath(req.query.partial.trim());
-          let fullPath = `${this.conf.ui.paths.source.patterns}/${partial}`;
+          const queryPartial = this.stripPartialTag(req.query.partial.trim());
+          const pattern = this.ui.patternlab.getPattern(queryPartial);
+
+          let fullPath = `${this.conf.ui.paths.source.patterns}/${pattern.relPath}`;
           // Check if query string correlates to actual Mustache file.
           let stat = fs.statSync(fullPath);
 
@@ -185,10 +183,10 @@ module.exports = class {
               // Render the output with HTML head and foot.
               let template = this.html.head;
               template += backButton;
-              template += `<h2>${partial}</h2>`;
+              template += `<h2>${pattern.patternPartial}</h2>`;
               template += '{{{ entitiesAndLinks }}}';
               template += this.html.foot;
-
+              const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
               const patternlabFoot = Feplet.render(
                 this.immutableFooter,
                 {
@@ -196,12 +194,11 @@ module.exports = class {
                   portServer: this.conf.express_port
                 }
               );
-
               const output = Feplet.render(
                 template,
                 {
                   title: 'Fepper Mustache Browser',
-                  patternlabHead: this.immutableHeader,
+                  patternlabHead,
                   main_id: 'mustache-browser',
                   main_class: 'mustache-browser',
                   entitiesAndLinks,

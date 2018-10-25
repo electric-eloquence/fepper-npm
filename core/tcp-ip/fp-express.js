@@ -16,14 +16,15 @@ const Readme = require('./readme');
 const Success = require('./success');
 
 module.exports = class {
-  constructor(options) {
+  constructor(options, ui) {
     this.conf = options.conf;
     this.pref = options.pref;
     this.html = html;
+    this.ui = ui;
 
     this.gatekeeper = new Gatekeeper(options, html);
     this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
-    this.mustacheBrowser = new MustacheBrowser(options, html);
+    this.mustacheBrowser = new MustacheBrowser(options, html, ui);
     this.readme = new Readme(options, html);
     this.success = new Success(options, html);
 
