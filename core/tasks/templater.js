@@ -197,7 +197,7 @@ module.exports = class {
         filter: (pathname, dir) => {
           if (
             pathname.indexOf(`${nosyncStr}/`) > -1 ||
-            pathname.indexOf(nosyncStr) === pathname.length - nosyncStr.length
+            pathname.slice(-nosyncStr.length) === nosyncStr
           ) {
             return false;
           }

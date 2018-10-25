@@ -82,8 +82,8 @@ module.exports = class {
       const f = files[i];
 
       if (
-        (f.indexOf('html') === f.length - 4) &&
-        (f.indexOf('markup-only.html') !== f.length - 16) &&
+        f.slice(-5) === '.html' &&
+        f.slice(-17) !== '.markup-only.html' &&
         path.basename(f) !== 'index.html'
       ) {
         let regex;
@@ -108,7 +108,7 @@ module.exports = class {
           // Copy homepage to index.html.
           if (
             this.dataJson.homepage &&
-            f.indexOf(`${this.dataJson.homepage}.html`) === (f.length - this.dataJson.homepage.length - 5)
+            f.slice(-(`${this.dataJson.homepage}.html`.length)) === `${this.dataJson.homepage}.html`
           ) {
 
             fs.outputFileSync(`${this.staticDir}/index.html`, tmpStr);
