@@ -49,11 +49,13 @@ module.exports = class {
         output += '<p>&nbsp;</p>\n';
         output += this.html.foot;
         output = output.replace('{{ title }}', successMsg);
+        output = output.replace('{{{ patternlabHead }}}', '');
         output = output.replace('{{ main_id }}', 'success-page');
         output = output.replace('{{ main_class }}', 'success-page');
         output = output.replace('{{ msg_class }}', 'success');
         output = output.replace('{{ message }}', `<h1>${successMsg}</h1>`);
         output = output.replace(/\{\{ host \}\}/g, req.headers.host);
+        output = output.replace('{{{ patternlabFoot }}}', '');
 
         res.send(output);
       });
