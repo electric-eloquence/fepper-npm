@@ -53,7 +53,7 @@ module.exports = class {
     this.utils = options.utils = utils;
 
     this.tasks = new Tasks(options);
-    this.tcpIp = new TcpIp(options);
     this.ui = new Ui(options);
+    this.tcpIp = new TcpIp(options, this.ui);
   }
 };

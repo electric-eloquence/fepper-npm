@@ -26,7 +26,7 @@ exports.head = `
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
   </head>
 
-  <body style="width: 100%;" class="text">
+  <body class="text">
     <main id="{{ main_id }}" class="{{ main_class }}">`;
 
 exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{ message }}</div>';

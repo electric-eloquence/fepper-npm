@@ -435,10 +435,18 @@ module.exports = class {
 
   freePattern(pattern) {
     // Will free significant memory if processing many templates.
-    // Since the patterns won't be used again, there are no harmful aftereffects.
     for (let key in pattern) {
       if (!pattern.hasOwnProperty(key)) {
         continue;
+      }
+
+      // Retain these keys so patterns can continue to be looked up.
+      switch (key) {
+        case 'patternPartialPhp':
+        case 'patternPartial':
+        case 'relPathTrunc':
+        case 'relPath':
+          continue;
       }
 
       delete pattern[key];
