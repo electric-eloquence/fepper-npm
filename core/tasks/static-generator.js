@@ -25,7 +25,6 @@ module.exports = class {
     this.scriptsSuffix = this.scriptsDir.replace(`${this.sourceDir}/`, '');
     this.stylesSuffix = this.stylesDir.replace(`${this.sourceDir}/`, '');
 
-    this.dataJson = this.utils.data();
     this.pagesPrefix = this.conf.ui.paths.source.pages.replace(`${this.conf.ui.paths.source.patterns}/`, '');
   }
 
@@ -86,6 +85,7 @@ module.exports = class {
         f.slice(-17) !== '.markup-only.html' &&
         path.basename(f) !== 'index.html'
       ) {
+        const dataJson = this.utils.data();
         let regex;
         let regexStr;
         let tmpStr = fs.readFileSync(f, this.conf.enc);
@@ -98,7 +98,7 @@ module.exports = class {
 
         tmpStr = this.convertCacheBusters(tmpStr);
         tmpStr = this.convertPaths(tmpStr);
-        tmpStr = this.convertLinksHomepage(tmpStr);
+        tmpStr = this.convertLinksHomepage(tmpStr, dataJson.homepage);
         tmpStr = this.convertLinksSibling(tmpStr);
 
         // Load .jsbeautifyrc and beautify html.
@@ -107,8 +107,8 @@ module.exports = class {
         try {
           // Copy homepage to index.html.
           if (
-            this.dataJson.homepage &&
-            f.slice(-(`${this.dataJson.homepage}.html`.length)) === `${this.dataJson.homepage}.html`
+            dataJson.homepage &&
+            f.slice(-(`${dataJson.homepage}.html`.length)) === `${dataJson.homepage}.html`
           ) {
 
             fs.outputFileSync(`${this.staticDir}/index.html`, tmpStr);
@@ -142,14 +142,14 @@ module.exports = class {
     return content.replace(/(href|src)\s*=\s*("|')..\/..\//gi, '$1=$2');
   }
 
-  convertLinksHomepage(content_) {
+  convertLinksHomepage(content_, homepage) {
     let content = content_;
 
-    if (this.dataJson.homepage) {
-      let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*\\/' + this.dataJson.homepage, 'gi');
+    if (homepage) {
+      let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*\\/' + homepage, 'gi');
       content = content.replace(homepageRegex, '$1"index');
 
-      homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*\\/' + this.dataJson.homepage, 'gi');
+      homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*\\/' + homepage, 'gi');
       content = content.replace(homepageRegex, '$1\'index');
     }
 
