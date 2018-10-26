@@ -1,5 +1,19 @@
 # Fepper Changelog
 
+### v0.27.0
+* Mustache browser:
+  * Back button
+  * Browser history backward and forward functionality
+  * Links enabled for shorthand pattern partial syntax
+* Code and annotations panels
+  * Disabled for Mustache browser
+  * Enabled for each pattern in a View All
+  * Opens on page load if configured to do so
+* Removed gulp entirely from fepper-npm
+* Can submit CLI switch to run in debug mode
+* Works with file protocol
+* Fepper class can be instantiated more easily
+
 ### v0.26.4
 * Minor syntax improvements to code
 * Fixing static-generator bug
