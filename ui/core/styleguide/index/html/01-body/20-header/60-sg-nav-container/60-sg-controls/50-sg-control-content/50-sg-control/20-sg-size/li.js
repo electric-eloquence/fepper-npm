@@ -23,8 +23,6 @@ $sgFormLabel.click(function (e) {
   if (uiProps.sw > 767 && uiProps.sw <= 1024) {
     $sgFormLabel.parents('.sg-size').toggleClass('active');
   }
-
-  return false;
 });
 
 // Remove active classes if browser is resized outside small sw.
