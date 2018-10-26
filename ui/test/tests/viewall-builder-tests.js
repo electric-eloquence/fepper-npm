@@ -7,12 +7,12 @@ const {
   patternlab
 } = require('../test-harness')();
 
-const styleguideViewall = `${patternlab.config.paths.public.patterns}/styleguide/styleguide.html`;
+const viewallViewall = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
 const patternTypeViewall = `${patternlab.config.paths.public.patterns}/00-test/index.html`;
 const patternSubTypeViewall = `${patternlab.config.paths.public.patterns}/facebook-cambridge-analytica/index.html`;
 
-if (fs.existsSync(styleguideViewall)) {
-  fs.removeSync(styleguideViewall);
+if (fs.existsSync(viewallViewall)) {
+  fs.removeSync(viewallViewall);
 }
 if (fs.existsSync(patternTypeViewall)) {
   fs.removeSync(patternTypeViewall);
@@ -21,7 +21,7 @@ if (fs.existsSync(patternSubTypeViewall)) {
   fs.removeSync(patternSubTypeViewall);
 }
 
-const styleguideViewallExistsBefore = fs.existsSync(styleguideViewall);
+const viewallViewallExistsBefore = fs.existsSync(viewallViewall);
 const patternTypeViewallExistsBefore = fs.existsSync(patternTypeViewall);
 const patternSubTypeViewallExistsBefore = fs.existsSync(patternSubTypeViewall);
 
@@ -35,31 +35,31 @@ const subTypeItem = `<div class="sg-pattern-example cf">
         </div>`;
 
 describe('Viewall Builder', function () {
-  let styleguideViewallExistsAfter;
+  let viewallViewallExistsAfter;
   let patternTypeViewallExistsAfter;
   let patternSubTypeViewallExistsAfter;
 
-  let styleguideViewallContent;
+  let viewallViewallContent;
   let patternTypeViewallContent;
   let patternSubTypeViewallContent;
 
   before(function () {
     patternlab.patternsonly();
 
-    styleguideViewallExistsAfter = fs.existsSync(styleguideViewall);
+    viewallViewallExistsAfter = fs.existsSync(viewallViewall);
     patternTypeViewallExistsAfter = fs.existsSync(patternTypeViewall);
     patternSubTypeViewallExistsAfter = fs.existsSync(patternSubTypeViewall);
 
-    styleguideViewallContent = fs.readFileSync(styleguideViewall, patternlab.enc);
+    viewallViewallContent = fs.readFileSync(viewallViewall, patternlab.enc);
     patternTypeViewallContent = fs.readFileSync(patternTypeViewall, patternlab.enc);
     patternSubTypeViewallContent = fs.readFileSync(patternSubTypeViewall, patternlab.enc);
   });
 
-  it('should write styleguide.html', function () {
-    expect(styleguideViewallExistsBefore).to.equal(false);
-    expect(styleguideViewallExistsAfter).to.equal(true);
-    expect(styleguideViewallContent).to.contain(typeItem);
-    expect(styleguideViewallContent).to.contain(subTypeItem);
+  it('should write viewall.html', function () {
+    expect(viewallViewallExistsBefore).to.equal(false);
+    expect(viewallViewallExistsAfter).to.equal(true);
+    expect(viewallViewallContent).to.contain(typeItem);
+    expect(viewallViewallContent).to.contain(subTypeItem);
   });
 
   it('should write patternType viewall', function () {
@@ -77,10 +77,10 @@ describe('Viewall Builder', function () {
   });
 
   it('should override stylguide.html with custom code', function () {
-    expect(styleguideViewallContent).to.include('<h1>foo</h1>');
-    expect(styleguideViewallContent).to.include('<h2>bar</h2>');
-    expect(styleguideViewallContent).to.include('<h3>baz</h3>');
-    expect(styleguideViewallContent).to.include('<h4>bez</h4>');
+    expect(viewallViewallContent).to.include('<h1>foo</h1>');
+    expect(viewallViewallContent).to.include('<h2>bar</h2>');
+    expect(viewallViewallContent).to.include('<h3>baz</h3>');
+    expect(viewallViewallContent).to.include('<h4>bez</h4>');
   });
 
   it('should override patternType viewall with custom code', function () {
