@@ -7,6 +7,10 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
 function findSupportedStyleExtensions(dir, styleExtSupported) {
+  if (!fs.existsSync(dir)) {
+    return;
+  }
+
   let items = fs.readdirSync(dir);
 
   for (let i = 0, l = items.length; i < l; i++) {
