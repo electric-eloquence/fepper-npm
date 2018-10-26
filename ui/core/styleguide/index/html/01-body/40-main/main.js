@@ -57,6 +57,4 @@ $('#sg-rightpull').mousedown(function (e) {
       uiFns.sizeiframe(viewportWidth, false);
     }
   });
-
-  return false;
 });
