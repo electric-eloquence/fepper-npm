@@ -59,9 +59,9 @@ module.exports = class {
       this.viewallBuilder.viewallPageHead = firstPattern.header +
         Feplet.render(this.viewallBuilder.viewallTemplateHead, firstPattern.allData);
 
-      this.viewallPatterns.styleguide = new objectFactory.PatternViewall(
-        // Naming the HTML file styleguide.html instead of index.html to allow naming a Type "styleguide"
-        `${this.public.patterns}/styleguide/styleguide.html`,
+      this.viewallPatterns.viewall = new objectFactory.PatternViewall(
+        // Naming the HTML file viewall.html instead of index.html to allow naming a Type "viewall" however unlikely.
+        `${this.public.patterns}/viewall/viewall.html`,
         this.viewallBuilder.viewallPageHead
       );
     }
@@ -206,7 +206,7 @@ module.exports = class {
 
     // Finish writing viewall.
     if (this.isViewallValid) {
-      this.viewallBuilder.buildViewallFooter('viewall', 'styleguide');
+      this.viewallBuilder.buildViewallFooter('viewall', 'viewall');
     }
 
     // Fully remove no longer needed data from patternTypes array so we don't write a huge patternlab-data.js file.

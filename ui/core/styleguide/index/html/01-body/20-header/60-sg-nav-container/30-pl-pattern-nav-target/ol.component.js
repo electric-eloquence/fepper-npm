@@ -29,7 +29,7 @@ module.exports = {
   {{/ patternTypeItems }}
   </ol></li>
 {{/ patternTypes }}
-<li><a href="{{ pathsPublic.patterns }}/styleguide/styleguide.html" class="sg-pop" data-patternpartial="viewall">All</a></li>
+<li><a href="{{ pathsPublic.patterns }}/viewall/viewall.html" class="sg-pop" data-patternpartial="viewall">All</a></li>
 `
   }
 };

@@ -39,7 +39,7 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.styleguide.content += viewallTypeHead;
+    this.viewallPatterns.viewall.content += viewallTypeHead;
     this.viewallPatterns[patternType.flatPatternPath].content += viewallTypeHead;
 
     if (patternSubType) {
@@ -56,7 +56,7 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.styleguide.content += viewallTypeBody;
+    this.viewallPatterns.viewall.content += viewallTypeBody;
     this.viewallPatterns[patternType.flatPatternPath].content += viewallTypeBody;
   }
 
@@ -69,7 +69,7 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.styleguide.content += viewallSubTypeHead;
+    this.viewallPatterns.viewall.content += viewallSubTypeHead;
     this.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeHead;
     this.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeHead;
   }
@@ -83,7 +83,7 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.styleguide.content += viewallSubTypeBody;
+    this.viewallPatterns.viewall.content += viewallSubTypeBody;
     this.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeBody;
     this.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeBody;
   }
@@ -258,8 +258,8 @@ module.exports = class {
       }
     }
 
-    // Add styleguide to patternPaths.
-    this.patternlab.patternPaths['viewall'] = `${this.pathsPublic.patterns}/styleguide/styleguide.html`;
+    // Add viewall to patternPaths.
+    this.patternlab.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/viewall.html`;
   }
 
   readViewallTemplates() {
