@@ -14,7 +14,7 @@ module.exports = class {
    * file system. This does not need to be submitted as a callback, and therefore, does not need to be a closure.
    *
    * @param {object} req - Express request.
-   * @return {string} The timestamp cookie value or empty string.
+   * @returns {string} The timestamp cookie value or empty string.
    */
   gatekeep(req) {
     const timestampFile = `${this.rootDir}/.timestamp`;

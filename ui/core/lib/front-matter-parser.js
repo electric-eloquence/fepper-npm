@@ -21,7 +21,7 @@ const matter = require('gray-matter');
  *
  * @param {string} fileContent - raw text.
  * @param {object} patternlab - Pattern Lab object.
- * @return {array} Array of data objects.
+ * @returns {array} Array of data objects.
  */
 exports.main = (fileContent) => {
   const frontMatterDataArr = [];

@@ -106,7 +106,7 @@ module.exports = class {
   }
 
   /**
-   * @return {object} The configured Express app.
+   * @returns {object} The configured Express app.
    */
   main() {
     return this.expressApp;

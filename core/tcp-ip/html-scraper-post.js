@@ -42,7 +42,7 @@ module.exports = class {
 
   /**
    * @param {string} selectorRaw - CSS selector plus optional array index.
-   * @return {object} An object storing properties of the selector.
+   * @returns {object} An object storing properties of the selector.
    */
   elementParse(selectorRaw) {
     const selectorObj = this.selectorValidate(selectorRaw);
@@ -74,7 +74,7 @@ module.exports = class {
    * @param {object} html2jsonObj - The object returned by html2json.
    * @param {object|null} persistentObj_ - A mutating object persisting to return results. Not submitted at level 0.
    * @param {number} level - The level of recursion. Not submitted at level 0.
-   * @return {object} An html2json object containing the matched elements. Only returns at level 0.
+   * @returns {object} An html2json object containing the matched elements. Only returns at level 0.
    */
   elementSelect(selector_, html2jsonObj, persistentObj_ = null, level = 0) {
     // Validate 1st param.
@@ -176,7 +176,7 @@ module.exports = class {
    * @param {string} mustache - Mustache code for submission to file write.
    * @param {string} msgClass - e.g. success, error.
    * @param {string} message - Message to end-user.
-   * @return {string} HTML.
+   * @returns {string} HTML.
    */
   htmlOutput(jsonForData, targetHtml_, mustache, msgClass = '', message = '') {
     const dataStr = JSON.stringify(jsonForData, null, 2);
@@ -222,7 +222,7 @@ module.exports = class {
    * Sanitize scraped HTML.
    *
    * @param {string} html_ - raw HTML.
-   * @return {string} Sanitized HTML.
+   * @returns {string} Sanitized HTML.
    */
   htmlSanitize(html_) {
     let html = html_.replace(/<script(.*?)>/g, '<code$1>');
@@ -237,7 +237,7 @@ module.exports = class {
    * Parse JSON from targeted HTML.
    *
    * @param {string} targetHtml - sanitized HTML.
-   * @return {object} jsonForMustache and jsonForData.
+   * @returns {object} jsonForMustache and jsonForData.
    */
   htmlToJsons(targetHtml) {
     const jsonForData = {scrape: [{}]};
@@ -261,7 +261,7 @@ module.exports = class {
 
   /**
    * @param {string} filename - Filename.
-   * @return {boolean} True or false.
+   * @returns {boolean} True or false.
    */
   filenameValidate(filename) {
     if (filename === this.conf.scrape.scraper_file) {
@@ -358,7 +358,7 @@ module.exports = class {
   /**
    * @param {object} jsonForMustache - JSON for conversion to Mustache syntax.
    * @param {object} jsonForData - JSON for data ingestion by Mustache.
-   * @return {string} Mustache code.
+   * @returns {string} Mustache code.
    */
   jsonToMustache(jsonForMustache, jsonForData) {
     let mustache = '<body></body>';
@@ -386,7 +386,7 @@ module.exports = class {
 
   /**
    * @param {string} str_ - The text requiring sane newlines.
-   * @return {string} Text stripped of carriage returns and with just a line feed at the end (no additional whitespace).
+   * @returns {string} Text stripped of carriage returns and with just a line feed at the end (no additional whitespace).
    */
   newlineFormat(str_) {
     let str = str_.replace(/\r/g, '');
@@ -481,7 +481,7 @@ module.exports = class {
    * Validate syntax of Target Selector input.
    *
    * @param {string} selectorRaw_ - CSS selector plus optional array index.
-   * @return {array} CSS selector and its index if it comprises more than one element.
+   * @returns {array} CSS selector and its index if it comprises more than one element.
    */
   selectorValidate(selectorRaw_) {
     const selectorRaw = selectorRaw_.trim();
@@ -538,7 +538,7 @@ module.exports = class {
    *
    * @param {string} html2jsonObj - An html2json object.
    * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
-   * @return {object} An object containing an html2json object containing all nodes, and another containg only one.
+   * @returns {object} An object containing an html2json object containing all nodes, and another containg only one.
    */
   targetHtmlGet(html2jsonObj) {
     const allObj = new HtmlObj();
