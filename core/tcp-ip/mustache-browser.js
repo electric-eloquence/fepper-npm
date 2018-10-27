@@ -61,7 +61,7 @@ module.exports = class {
    * Strip Mustache tag to only the partial path.
    *
    * @param {string} partialParam - Mustache syntax.
-   * @return {string} Partial path.
+   * @returns {string} Partial path.
    */
   stripPartialTag(partialParam) {
     // Strip opening Mustache braces and control character.
@@ -80,7 +80,7 @@ module.exports = class {
    * Recursively strip token span tags output by the Pattern Lab code viewer.
    *
    * @param {string} codeParam - HTML/Mustache.
-   * @return {string} Stripped code.
+   * @returns {string} Stripped code.
    */
   stripSpanTokens(codeParam) {
     let code = codeParam.replace(/<span class="token [\S\s]*?>([\S\s]*?)<\/span>/g, '$1');
@@ -96,7 +96,7 @@ module.exports = class {
    * Make angle brackets, indentation, and newlines viewable as HTML and hotlink partials.
    *
    * @param {string} data - HTML/Mustache.
-   * @return {string} Viewable and linkable code.
+   * @returns {string} Viewable and linkable code.
    */
   toHtmlEntitiesAndLinks(data) {
     let entitiesAndLinks = data.replace(/"/g, '&quot;');
