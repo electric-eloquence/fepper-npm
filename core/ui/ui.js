@@ -76,7 +76,7 @@ module.exports = class {
     }
   }
 
-  copyStyles() {
+  copyStylesRoot() {
     fs.ensureDirSync(this.pubDir.css);
     diveSync(
       this.srcDir.css,
@@ -94,12 +94,67 @@ module.exports = class {
         }
       }
     );
+  }
 
-    try {
-      fs.copySync(this.srcDir.cssBld, this.pubDir.cssBld);
-    }
-    catch (err) {
-      this.utils.error(err);
-    }
+  copyStylesBld() {
+    fs.ensureDirSync(this.pubDir.cssBld);
+    diveSync(
+      this.srcDir.cssBld,
+      {
+        filter: (pathStr, dir) => {
+          const pathObj = path.parse(pathStr);
+
+          if (dir || pathObj.ext === '.css') {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+      },
+      (err, file) => {
+        if (err) {
+          this.utils.error(err);
+        }
+
+        try {
+          fs.copyFileSync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
+        }
+        catch (err1) {
+          this.utils.error(err1);
+        }
+      }
+    );
+  }
+
+  copyStylesOther() {
+    fs.ensureDirSync(this.pubDir.cssBld);
+    diveSync(
+      this.srcDir.cssBld,
+      {
+        filter: (pathStr, dir) => {
+          const pathObj = path.parse(pathStr);
+
+          if (dir || pathObj.ext !== '.css') {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+      },
+      (err, file) => {
+        if (err) {
+          this.utils.error(err);
+        }
+
+        try {
+          fs.copyFileSync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
+        }
+        catch (err1) {
+          this.utils.error(err1);
+        }
+      }
+    );
   }
 };
