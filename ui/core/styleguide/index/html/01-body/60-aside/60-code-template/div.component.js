@@ -13,12 +13,12 @@ module.exports = {
 </div>
 <div id="sg-code-lineage" style="display: none;">
   <p>
-    The <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> pattern contains the following patterns: <span id="sg-code-lineage-fill"></span>
+    The <span id="sg-code-lineage-pattern-name" class="sg-code-pattern-name"></span> pattern includes the following patterns: <span id="sg-code-lineage-fill"></span>
   </p>
 </div>
 <div id="sg-code-lineager" style="display: none;">
   <p>
-    The <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> pattern is included in the following patterns: <span id="sg-code-lineager-fill"></span>
+    The <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> pattern is included by the following patterns: <span id="sg-code-lineager-fill"></span>
   </p>
 </div>
 <div id="sg-code-markup">
