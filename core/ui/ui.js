@@ -87,7 +87,7 @@ module.exports = class {
         }
 
         try {
-          fs.copyFileSync(file, `${this.pubDir.css}/${path.basename(file)}`);
+          fs.copySync(file, `${this.pubDir.css}/${path.basename(file)}`);
         }
         catch (err1) {
           this.utils.error(err1);
@@ -118,7 +118,7 @@ module.exports = class {
         }
 
         try {
-          fs.copyFileSync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
+          fs.copySync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
         }
         catch (err1) {
           this.utils.error(err1);
@@ -149,7 +149,7 @@ module.exports = class {
         }
 
         try {
-          fs.copyFileSync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
+          fs.copySync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
         }
         catch (err1) {
           this.utils.error(err1);
