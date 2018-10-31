@@ -1,5 +1,8 @@
 # Fepper Changelog
 
+### v0.27.2
+* Fixed fatal watch task error in Windows 10
+
 ### v0.27.1
 * Fixed watching of patterns
 * Mustache browser:
