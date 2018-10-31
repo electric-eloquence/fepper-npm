@@ -1,6 +1,7 @@
 # Fepper Changelog
 
 ### v0.27.1
+* Fixed watching of patterns
 * Mustache browser:
   * Replaced "back" text with arrow
   * Linked pattern title to pattern page
