@@ -40,7 +40,24 @@ gulp.task('ui:copy:static', function (cb) {
 });
 
 gulp.task('ui:copy:styles', function (cb) {
-  ui.copyStyles();
+  ui.copyStylesRoot();
+  ui.copyStylesBld();
+  ui.copyStylesOther();
+  cb();
+});
+
+gulp.task('ui:copy:styles-root', function (cb) {
+  ui.copyStylesRoot();
+  cb();
+});
+
+gulp.task('ui:copy:styles-bld', function (cb) {
+  ui.copyStylesBld();
+  cb();
+});
+
+gulp.task('ui:copy:styles-other', function (cb) {
+  ui.copyStylesOther();
   cb();
 });
 
