@@ -1,5 +1,18 @@
 # Fepper Changelog
 
+### v0.27.1
+* Mustache browser:
+  * Replaced "back" text with arrow
+  * Linked pattern title to pattern page
+  * Restores pattern browsing when using back buttons to exit Mustache browser
+  * History works with pattern title link
+* Omitting scrape directory from viewall
+* Removed debug argument from patternlab.build()
+* Removed ui:patternsonly task
+* In windows:
+  * Fixed scroll behavior of annotations and code toggles on viewall pages
+  * Fixed Mustache Browser code rendering
+
 ### v0.27.0
 * Mustache browser:
   * Back button
