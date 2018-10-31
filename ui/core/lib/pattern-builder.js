@@ -442,6 +442,7 @@ module.exports = class {
 
       // Retain these keys so patterns can continue to be looked up.
       switch (key) {
+        case 'patternLink':
         case 'patternPartialPhp':
         case 'patternPartial':
         case 'relPathTrunc':

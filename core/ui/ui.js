@@ -21,9 +21,6 @@ module.exports = class {
     if (typeof arg === 'undefined') {
       this.patternlab.build();
     }
-    else if (arg === 'patternsonly') {
-      this.patternlab.patternsonly();
-    }
     else if (arg === 'help') {
       this.patternlab.help();
     }

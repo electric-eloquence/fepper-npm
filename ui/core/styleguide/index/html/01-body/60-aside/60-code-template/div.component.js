@@ -4,7 +4,7 @@ module.exports = {
   dangerouslySetInnerHTML: {
     __html: `
 <div id="sg-code-close" class="sg-view-close">
-  <a href="#" id="sg-code-close-btn" class="sg-view-close-btn">&times;</a>
+  <a href="#" id="sg-code-close-btn" class="sg-view-close-btn">&#x2715;</a>
 </div>
 <div id="sg-code-pattern-state" style="display: none;">
   <p>

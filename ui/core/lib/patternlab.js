@@ -82,23 +82,6 @@ module.exports = class {
   }
 
   buildPatterns() {
-    const patternsDir = this.config.paths.source.patterns;
-
-    this.preProcessAllPatterns(patternsDir);
-    this.preProcessDataAndParams();
-    this.prepWrite();
-    // Delegating processAllPatterns() to UiBuilder. This Patternlab class should manage its own properties and provide
-    // utility functions. Reading, data processing, writing, etc. should be delegated.
-    this.uiBuilder.processAllPatterns();
-    this.viewallBuilder.writeViewalls();
-    this.uiBuilder.writePatternlabData();
-
-    // Log memory usage if debug === true.
-    if (this.config.debug) {
-      const used = process.memoryUsage().heapUsed / 1024 / 1024;
-
-      this.utils.log(`The patterns-only build used approximately ${Math.round(used * 100) / 100} MB`);
-    }
   }
 
   emptyFilesNotDirs(publicDir) {
@@ -182,6 +165,7 @@ module.exports = class {
 
     this.data.link = {};
     this.data.pathsPublic = this.config.pathsPublic;
+    this.patterns = [];
 
     this.viewallBuilder.readViewallTemplates();
     this.setCacheBuster();
@@ -266,28 +250,35 @@ module.exports = class {
 
   // PUBLIC METHODS
 
-  build(options, debug = false) {
+  build(options) {
     if (options && options.constructor === Object) {
       this.config = this.utils.extendButNotOverride(options, this.config);
     }
 
-    const debugOrig = this.config.debug;
+    const patternsDir = this.config.paths.source.patterns;
 
-    if (debug) {
-      this.config.debug = true;
+    this.preProcessAllPatterns(patternsDir);
+    this.preProcessDataAndParams();
+    this.prepWrite();
+    // Delegating processAllPatterns() to UiBuilder. This Patternlab class should manage its own properties and provide
+    // utility functions. Reading, data processing, writing, etc. should be delegated to its member classes.
+    this.uiBuilder.processAllPatterns();
+    this.viewallBuilder.writeViewalls();
+    this.uiBuilder.writePatternlabData();
+
+    // Update access and modified times of public/index.html to trigger LiveReload.
+    const unixTime = Date.now() / 1000;
+    const indexHtml = `${this.config.paths.public.root}/index.html`;
+
+    if (fs.existsSync(indexHtml)) {
+      fs.utimesSync(indexHtml, unixTime, unixTime);
     }
-
-    this.buildPatterns();
 
     // Log memory usage when debug === true.
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-      this.utils.log(`The full build used approximately ${Math.round(used * 100) / 100} MB`);
-    }
-
-    if (debug) {
-      this.config.debug = debugOrig;
+      this.utils.log(`The build used approximately ${Math.round(used * 100) / 100} MB`);
     }
   }
 
@@ -336,18 +327,9 @@ Tasks:
     fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to the public directory.
     fp ui:copy-styles   Copy _styles to the public directory (for injection into browser without refresh.
     fp ui:help          Get more information about Fepper UI CLI commands.
-    fp ui:patternsonly  Build the patterns only, outputting to the public directory.
 `;
 
     this.utils.info(out);
-  }
-
-  patternsonly(options) {
-    if (options && options.constructor === Object) {
-      this.config = this.utils.extendButNotOverride(options, this.config);
-    }
-
-    this.buildPatterns();
   }
 
   resetConfig(config) {

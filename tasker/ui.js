@@ -48,8 +48,3 @@ gulp.task('ui:help', function (cb) {
   ui.build('help');
   cb();
 });
-
-gulp.task('ui:patternsonly', function (cb) {
-  ui.build('patternsonly');
-  cb();
-});
