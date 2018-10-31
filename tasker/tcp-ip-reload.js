@@ -6,7 +6,6 @@ const refresh = require('../core/lib/gulp-refresh');
 
 const conf = global.conf;
 const pubDir = global.conf.ui.paths.public;
-const srcDir = global.conf.ui.paths.source;
 const pubDirRel = global.conf.ui.pathsRelative.public;
 const srcDirRel = global.conf.ui.pathsRelative.source;
 
