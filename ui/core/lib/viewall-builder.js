@@ -127,6 +127,9 @@ module.exports = class {
   }
 
   processViewallData() {
+    this.patternlab.patternTypes = [];
+    this.patternlab.patternTypesIndex = [];
+
     for (let i = 0; i < this.patternlab.patterns.length; i++) {
       let j;
       const pattern = this.patternlab.patterns[i];
@@ -227,6 +230,13 @@ module.exports = class {
         }
 
         if (!patternNext || pattern.patternType !== patternNext.patternType) {
+          // Omit scrape directory from viewalls.
+          const scrapeTypeName = this.source.scrape.replace(`${this.source.patterns}/`, '').replace(/^\d*-/, '');
+
+          if (pattern.patternType === scrapeTypeName) {
+            break;
+          }
+
           let patternSubst;
 
           // If this is a subType, we need to clone the pattern object and modify some of its string values.
@@ -323,7 +333,9 @@ module.exports = class {
     const keys = Object.keys(this.viewallPatterns);
 
     // Iterate backwards to free up more memory early.
-    for (let i = keys.length - 1; i >= 0; i--) {
+    let i = keys.length;
+
+    while (i--) {
       const viewall = this.viewallPatterns[keys[i]];
 
       fs.outputFileSync(viewall.path, viewall.content);

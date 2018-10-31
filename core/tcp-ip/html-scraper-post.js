@@ -386,7 +386,7 @@ module.exports = class {
 
   /**
    * @param {string} str_ - The text requiring sane newlines.
-   * @returns {string} Text stripped of carriage returns and with just a line feed at the end (no additional whitespace).
+   * @returns {string} Text stripped of carriage returns, with just a line feed at the end (no additional whitespace).
    */
   newlineFormat(str_) {
     let str = str_.replace(/\r/g, '');

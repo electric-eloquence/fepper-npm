@@ -66,13 +66,16 @@ module.exports = class {
       );
     }
 
+    // Omit scrape directory from viewalls.
+    const scrapeTypeName = this.source.scrape.replace(`${this.source.patterns}/`, '').replace(/^\d*-/, '');
+
     // Process patterns and viewall in the same nested loop.
     // This way, memory can be freed for both at the end of each loop.
     for (let i = 0; i < this.patternlab.patternTypes.length; i++) {
       let j;
       const patternType = this.patternlab.patternTypes[i];
 
-      if (this.isViewallValid) {
+      if (this.isViewallValid && patternType.patternTypeLC !== scrapeTypeName) {
         this.viewallPatterns[patternType.flatPatternPath] = new objectFactory.PatternViewall(
           `${this.public.patterns}/${patternType.flatPatternPath}/index.html`,
           this.viewallBuilder.viewallPageHead
@@ -120,7 +123,7 @@ module.exports = class {
             // If this pattern is excluded, mark for deletion from nav.
             patternType.patternTypeItems[j] = null;
           }
-          else {
+          else if (patternType.patternTypeLC !== scrapeTypeName) {
             this.viewallBuilder.buildViewallTypeBody(patternTypeItem, patternType);
           }
         }
@@ -199,7 +202,7 @@ module.exports = class {
       }
 
       // Finish writing type viewall.
-      if (this.isViewallValid) {
+      if (this.isViewallValid && patternType.patternTypeLC !== scrapeTypeName) {
         this.viewallBuilder.buildViewallFooter(patternType.patternPartial, patternType.flatPatternPath);
       }
     }

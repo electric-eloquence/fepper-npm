@@ -46,7 +46,6 @@ Fepper exposes these methods on the `patternlab` object:
 
 * build: function (options)
 * compileui: function (options)
-* patternsonly: function (options)
 * resetConfig: function (config)
 
 The `options` argument is optional. If submitted, it must be an object whose 
@@ -65,28 +64,57 @@ performance and core features</a>.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
 
-Using this NPM decoupled from a full Fepper project requires manually compiling 
-the UI. Use the following code as a template for manual compilation:
+Using this NPM decoupled from a full Fepper project requires compiling the UI by 
+running this Node.js script:
 
 ```javascript
 patternlab.compileui();
-patternlab.build();
 ```
+
+The word "compile" takes on a special meaning in Fepper, referring to assembling 
+"components" into a whole. "Build" refers to outputting patterns into the UI.
 
 All aspects of the UI are available for customization. For example, the toolbar 
 can accept additions, modifications, and deletions per the needs of end users. 
-The UI is built by recursive, functional React calls. The recursion tree is 
-reflected by the directory structure containing the modules which compose the 
-UI. To override any given module, copy the directory structure leading to the 
-module from 
+The UI markup is compiled by recursive, functional React calls. The recursion 
+tree is reflected by the directory structure containing the modules which 
+compose the UI. To override any given module, copy the directory structure 
+leading to the module from 
 <a href="https://github.com/electric-eloquence/fepper-npm/tree/dev/ui/core/styleguide/index/html" target="_blank">
 https&colon;//github.com/electric-eloquence/fepper-npm/tree/dev/ui/core/styleguide/index/html</a> 
 to `source/_ui/index/html`, respective to your implementation. Modifications to 
 modules in that directory will override the corresponding modules in core. 
 Additions (so long as they are correctly nested) will also be recognized.
 
-While it is a better practice to componentize scripts this way, generic 
-modifications to UI JavaScript can be added to `source/_scripts/ui-extender.js`.
+A working example of UI customization can be found at 
+<a href="https://github.com/electric-eloquence/fepper-drupal/blob/dev/source/_ui/index/html/00-head/head.component.js" target="_blank">
+https&colon;//github.com/electric-eloquence/fepper-drupal/blob/dev/source/_ui/index/html/00-head/head.component.js</a>. 
+The Fepper for Drupal project overrides its HTML title to read "Fepper D8" 
+instead of "Fepper". In order to do so, it has the `head.component.js` module 
+nested in directories that correspond to the tags that nest the `head` HTML 
+element. Both `head.component.js` and its nesting directories must be named 
+similarly their corresponding elements. `.component.js` indicates that the file 
+is a module to be rendered by React. 
+<a href="https://reactjs.org/docs/dom-elements.html" target="_blank">
+It must export properties that `React.createElement()` understands</a>. 
+The numeric prefix to `00-head` orders it to precede `01-foot`, even though 
+"foot" precedes "head" alphabetically.
+
+In this example, by allowing customizations in the `00-head` directory separate 
+from the core components, core updates will be respected for all components 
+except for the HTML head.
+
+Browser JavaScript and CSS customizations can (and should) be componentized 
+this way as well. While a head element is unlikely to have associated scripts or 
+styles, the UI's main element does have its scripts and styles componentized as 
+<a href="https://github.com/electric-eloquence/fepper-npm/tree/dev/ui/core/styleguide/index/html/01-body/40-main" target="_blank">
+`main.js` and `main.css` in `index/html/01-body/40-main`</a>. A big advantage 
+for this type of componentization comes when elements are renamed or deleted. 
+When you rename or delete the element, are you _absolutely_ sure you'll rename 
+or delete accordingly in some far-flung, monolithic script or style file?
+
+Alas, no one should be _forced_ to componentize this way. Generic modifications 
+to UI scripts can be added to `source/_scripts/ui-extender.js`.
 
 Similarly, generic modifications to UI CSS can be added to 
 `source/_styles/pattern-scaffolding.css`. (The file is named this way to adhere 
