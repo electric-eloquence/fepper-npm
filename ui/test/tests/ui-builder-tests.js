@@ -63,7 +63,7 @@ describe('UI Builder', function () {
   let patternlabDataContent;
 
   before(function () {
-    patternlab.patternsonly();
+    patternlab.build();
 
     patternHtmlExistsAfter = fs.existsSync(patternHtml);
     patternMarkupExistsAfter = fs.existsSync(patternMarkup);

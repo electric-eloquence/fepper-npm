@@ -31,7 +31,6 @@ describe('UI Builder', function () {
 
   before(function () {
     patternlab.compileui();
-    patternlab.patternsonly();
 
     indexContent = fs.readFileSync(uiIndex, patternlab.enc);
     cssContent = fs.readFileSync(uiCss, patternlab.enc);

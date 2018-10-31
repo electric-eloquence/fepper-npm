@@ -44,7 +44,7 @@ describe('Viewall Builder', function () {
   let patternSubTypeViewallContent;
 
   before(function () {
-    patternlab.patternsonly();
+    patternlab.build();
 
     viewallViewallExistsAfter = fs.existsSync(viewallViewall);
     patternTypeViewallExistsAfter = fs.existsSync(patternTypeViewall);

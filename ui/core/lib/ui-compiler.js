@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
-function findSupportedStyleExtensions(dir, styleExtSupported) {
+function findSupportedStyleExtensions(dir, styleExtsSupported) {
   if (!fs.existsSync(dir)) {
     return;
   }
@@ -22,12 +22,12 @@ function findSupportedStyleExtensions(dir, styleExtSupported) {
     if (stat.isFile()) {
       const ext = path.extname(itemFull);
 
-      if (ext && styleExtSupported.indexOf(ext) === -1 && item[0] !== '.') {
-        styleExtSupported.push(ext);
+      if (ext && styleExtsSupported.indexOf(ext) === -1 && item[0] !== '.') {
+        styleExtsSupported.push(ext);
       }
     }
     else if (stat.isDirectory()) {
-      findSupportedStyleExtensions(itemFull, styleExtSupported);
+      findSupportedStyleExtensions(itemFull, styleExtsSupported);
     }
   }
 }
@@ -39,12 +39,10 @@ module.exports = class {
     this.componentsDirCoreRoot = `${this.config.paths.core}/styleguide`;
     this.componentsArr = [];
     this.pathsPublic = patternlab.config.pathsPublic;
-    this.styleExtSupported = ['.css'];
+    this.styleExtsSupported = ['.css'];
     this.utils = patternlab.utils;
     this.componentsDirCustomRoot = this.utils.deepGet(this, 'config.paths.source.ui');
     this.styleguidePath = this.config.paths.public.styleguide;
-
-    findSupportedStyleExtensions(this.config.paths.source.css, this.styleExtSupported);
   }
 
   readDirectoriesFirst(dir) {
@@ -154,7 +152,7 @@ module.exports = class {
       const ext = path.extname(item);
 
       if (
-        this.styleExtSupported.indexOf(ext) > -1 ||
+        this.styleExtsSupported.indexOf(ext) > -1 ||
         ext === '.js' && item.slice(-13) !== '.component.js'
       ) {
         let pathFull;
@@ -168,7 +166,7 @@ module.exports = class {
 
         const content = fs.readFileSync(pathFull, 'utf8');
 
-        if (this.styleExtSupported.indexOf(ext) > -1) {
+        if (this.styleExtsSupported.indexOf(ext) > -1) {
           fs.appendFileSync(`${this.styleguidePath}/styles/ui${ext}`, content);
         }
         else if (ext === '.js' && item.slice(-13) !== '.component.js') {
@@ -227,9 +225,11 @@ module.exports = class {
   }
 
   main() {
+    findSupportedStyleExtensions(this.config.paths.source.css, this.styleExtsSupported);
+
     // Delete old compiled styles.
-    for (let i = 0, l = this.styleExtSupported.length; i < l; i++) {
-      const ext = this.styleExtSupported[i];
+    for (let i = 0, l = this.styleExtsSupported.length; i < l; i++) {
+      const ext = this.styleExtsSupported[i];
       const fileStyles = `${this.styleguidePath}/styles/ui${ext}`;
 
       if (fs.existsSync(fileStyles)) {
