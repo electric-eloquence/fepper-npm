@@ -282,7 +282,7 @@ module.exports = class {
     }
   }
 
-  compileui(options) {
+  compile(options) {
     if (options && options.constructor === Object) {
       this.config = this.utils.extendButNotOverride(options, this.config);
     }
@@ -320,10 +320,9 @@ Use:
     fp <task> [<additional args>... [-d | --debug]]
 
 Tasks:
-    fp ui:build         Build the patterns and frontend, outputting to the public directory.
+    fp ui:build         Build the patterns, outputting to the public directory.
     fp ui:clean         Delete all patterns in the public directory.
-    fp ui:compile       Compile the UI frontend and build the patterns and frontend.
-    fp ui:compileui     Compile the UI frontend only.
+    fp ui:compile       Compile the user interface from its component parts.
     fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to the public directory.
     fp ui:copy-styles   Copy _styles to the public directory (for injection into browser without refresh.
     fp ui:help          Get more information about Fepper UI CLI commands.

@@ -30,7 +30,7 @@ describe('UI Builder', function () {
   let jsContent;
 
   before(function () {
-    patternlab.compileui();
+    patternlab.compile();
 
     indexContent = fs.readFileSync(uiIndex, patternlab.enc);
     cssContent = fs.readFileSync(uiCss, patternlab.enc);
