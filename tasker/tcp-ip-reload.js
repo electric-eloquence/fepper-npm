@@ -49,9 +49,9 @@ gulp.task('tcp-ip-reload:watch', function () {
   // We cannot use absolute paths in the first param for gulp.watch(). Therefore we must specify cwd in the 2nd.
   // Must use '/**/*' and not '/**' because '/**' watches '..'
   gulp.watch(srcDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['ui:build']);
-  gulp.watch(srcDirRel.css + '/*', {cwd: global.rootDir}, ['ui:copy:styles-root']);
-  gulp.watch(srcDirRel.cssBld + '/**/*.css', {cwd: global.rootDir}, ['ui:copy:styles-bld']);
-  gulp.watch(srcDirRel.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['ui:copy:styles-other']);
+  gulp.watch(srcDirRel.css + '/*', {cwd: global.rootDir}, ['ui:copy:styles:root']);
+  gulp.watch(srcDirRel.cssBld + '/**/*.css', {cwd: global.rootDir}, ['ui:copy:styles:bld']);
+  gulp.watch(srcDirRel.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['ui:copy:styles:other']);
   gulp.watch(srcDirRel.data + '/_data.json', {cwd: global.rootDir}, ['data']);
   gulp.watch(srcDirRel.data + '/listitems.json', {cwd: global.rootDir}, ['ui:build']);
   gulp.watch(srcDirRel.images + '/**/*', {cwd: global.rootDir}, ['ui:copy:assets']);

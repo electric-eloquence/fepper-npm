@@ -45,7 +45,7 @@ be instantiated from any directory within any task runner or custom application.
 Fepper exposes these methods on the `patternlab` object:
 
 * build: function (options)
-* compileui: function (options)
+* compile: function (options)
 * resetConfig: function (config)
 
 The `options` argument is optional. If submitted, it must be an object whose 

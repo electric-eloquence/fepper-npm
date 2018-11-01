@@ -39,12 +39,7 @@ module.exports = class {
   }
 
   compile() {
-    this.patternlab.compileui();
-    this.build();
-  }
-
-  compileui() {
-    this.patternlab.compileui();
+    this.patternlab.compile();
   }
 
   copyAssets() {
