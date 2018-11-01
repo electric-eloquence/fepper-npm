@@ -15,12 +15,7 @@ gulp.task('ui:clean', function (cb) {
 });
 
 gulp.task('ui:compile', function (cb) {
-  ui.compile(); // Also runs ui.build().
-  cb();
-});
-
-gulp.task('ui:compileui', function (cb) {
-  ui.compileui();
+  ui.compile();
   cb();
 });
 
@@ -46,17 +41,17 @@ gulp.task('ui:copy:styles', function (cb) {
   cb();
 });
 
-gulp.task('ui:copy:styles-root', function (cb) {
+gulp.task('ui:copy:styles:root', function (cb) {
   ui.copyStylesRoot();
   cb();
 });
 
-gulp.task('ui:copy:styles-bld', function (cb) {
+gulp.task('ui:copy:styles:bld', function (cb) {
   ui.copyStylesBld();
   cb();
 });
 
-gulp.task('ui:copy:styles-other', function (cb) {
+gulp.task('ui:copy:styles:other', function (cb) {
   ui.copyStylesOther();
   cb();
 });
