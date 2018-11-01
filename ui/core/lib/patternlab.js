@@ -290,6 +290,11 @@ module.exports = class {
     this.uiCompiler.main();
   }
 
+  // DEPRECATED. Will be removed.
+  compileui(options) {
+    this.compile(options);
+  }
+
   getPattern(query) {
     let i = this.patterns.length;
 
