@@ -68,11 +68,12 @@ Using this NPM decoupled from a full Fepper project requires compiling the UI by
 running this Node.js script:
 
 ```javascript
-patternlab.compileui();
+patternlab.compile();
 ```
 
 The word "compile" takes on a special meaning in Fepper, referring to assembling 
-"components" into a whole. "Build" refers to outputting patterns into the UI.
+"components" into a whole. "Build" refers to outputting patterns to be displayed 
+by the UI.
 
 All aspects of the UI are available for customization. For example, the toolbar 
 can accept additions, modifications, and deletions per the needs of end users. 
