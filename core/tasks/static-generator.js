@@ -28,7 +28,7 @@ module.exports = class {
     this.pagesPrefix = this.conf.ui.paths.source.pages.replace(`${this.conf.ui.paths.source.patterns}/`, '');
   }
 
-  compilePages() {
+  generatePages() {
     const files = [];
 
     // Load js-beautify with options configured in .jsbeautifyrc
@@ -269,13 +269,13 @@ module.exports = class {
     let webservedDirsShort;
 
     try {
-      // Delete old assets, scripts, styles in static dir. Then, recreate them.
+      // Delete old assets, scripts, styles in static dir. Then, recreate the directories.
       fs.removeSync(`${this.staticDir}/${this.assetsSuffix}`);
       fs.removeSync(`${this.staticDir}/${this.scriptsSuffix}`);
       fs.removeSync(`${this.staticDir}/${this.stylesSuffix}`);
-      fs.mkdirSync(`${this.staticDir}/${this.assetsSuffix}`);
-      fs.mkdirSync(`${this.staticDir}/${this.scriptsSuffix}`);
-      fs.mkdirSync(`${this.staticDir}/${this.stylesSuffix}`);
+      fs.ensureDirSync(`${this.staticDir}/${this.assetsSuffix}`);
+      fs.ensureDirSync(`${this.staticDir}/${this.scriptsSuffix}`);
+      fs.ensureDirSync(`${this.staticDir}/${this.stylesSuffix}`);
 
       // Copy assets, scripts, styles directories.
       this.copyAssetsDir();
@@ -287,11 +287,11 @@ module.exports = class {
       return;
     }
 
-    // Delete old pages.
+    // Delete old static site pages.
     this.deletePages();
 
-    // Copy pages directory.
-    this.compilePages();
+    // Generate new static site pages.
+    this.generatePages();
 
     // Copy npms if necessary.
     this.copyNpms();
