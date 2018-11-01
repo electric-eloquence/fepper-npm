@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.27.3
+* Deprecated `compileui`, replaced with just `compile`
+* Documentation updated to reflect that
+
 ### v0.27.2
 * Fixed fatal watch task error in Windows 10
 
