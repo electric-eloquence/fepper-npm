@@ -59,7 +59,7 @@ describe('Static Generator', function () {
   let staticSiblingContent;
 
   before(function () {
-    staticGenerator.compilePages();
+    staticGenerator.generatePages();
 
     staticIndexExistsAfter = fs.existsSync(staticIndex);
     staticSiblingExistsAfter = fs.existsSync(staticSibling);
