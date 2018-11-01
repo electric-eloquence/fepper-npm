@@ -1,5 +1,5 @@
 /**
- * Compiles templates in Pattern Lab to templates in backend.
+ * Translates templates in Pattern Lab to templates consumable by the backend.
  *
  * Converts Mustache tags into whatever type of tokens are used by the backend
  * webapp based on mappings in a YAML file named similarly to the Mustache
@@ -172,7 +172,7 @@ module.exports = class {
         let code = this.mustacheRecurse(mustacheFile);
         // Iterate through tokens and replace keys for values in the code.
         code = this.tokensReplace(data, code);
-        // Write compiled templates.
+        // Write translated templates.
         const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
         // Log to console.
