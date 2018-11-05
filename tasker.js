@@ -184,9 +184,9 @@ gulp.task('data', (cb) => {
   args.push('ui:build');
 
   if (conf.ui.cleanPublic) {
-    args.push('ui:copy:assets');
-    args.push('ui:copy:scripts');
-    args.push('ui:copy:styles');
+    args.push('ui:copy-assets');
+    args.push('ui:copy-scripts');
+    args.push('ui:copy-styles');
   }
 
   args.push(cb);
@@ -223,9 +223,9 @@ gulp.task('once', (cb) => {
 
   args.push('ui:clean');
   args.push('ui:build');
-  args.push('ui:copy:assets');
-  args.push('ui:copy:scripts');
-  args.push('ui:copy:styles');
+  args.push('ui:copy-assets');
+  args.push('ui:copy-scripts');
+  args.push('ui:copy-styles');
 
   extensionsPush('once:postprocess', args);
   args.push(cb);
@@ -272,7 +272,7 @@ gulp.task('static', (cb) => {
   args.push('once');
   args.push('fepper:static-generate');
   extensionsPush('static:postprocess', args);
-  args.push('ui:copy:static');
+  args.push('ui:copy-static');
   args.push(cb);
   runSequence.apply(null, args);
 });
