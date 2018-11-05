@@ -15,10 +15,12 @@ const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
 
 let binNpm = 'npm';
+let binNpx = 'npx';
 
 // Spawn npm.cmd if Windows and not BASH.
 if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
   binNpm = 'npm.cmd';
+  binNpx = 'npx.cmd';
 }
 
 function downloadFileFromRepo(file) {
@@ -39,6 +41,10 @@ function fpUpdate(cb) {
 
   // Update core npms.
   process.chdir(global.rootDir);
+
+  // Find the latest fepper-npm release and update package.json.
+  spawnSync(binNpx, ['--upgrade', 'fepper'], {stdio: 'inherit'});
+
   utils.log(`Running \`npm update\` in ${global.rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
@@ -68,6 +74,11 @@ function fpUpdate(cb) {
   // Update public dir npms.
   if (fs.existsSync(publicDir)) {
     process.chdir(publicDir);
+
+    // Find the latest feplet and fepper-ui releases and update public/package.json.
+    spawnSync(binNpx, ['--upgrade', 'feplet'], {stdio: 'inherit'});
+    spawnSync(binNpx, ['--upgrade', 'fepper-ui'], {stdio: 'inherit'});
+
     utils.log(`Running \`npm update\` in ${publicDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
