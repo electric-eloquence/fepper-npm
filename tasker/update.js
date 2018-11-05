@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const https = require('https');
 const spawnSync = require('child_process').spawnSync;
 
 const fs = require('fs-extra');
@@ -20,6 +21,17 @@ if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\s
   binNpm = 'npm.cmd';
 }
 
+function downloadFileFromRepo(file) {
+  const repoDir = 'https://raw.githubusercontent.com/electric-eloquence/fepper/release';
+  const writeStream = fs.createWriteStream(file);
+
+  https.get(`${repoDir}/${file}`, (res) => {
+    res.pipe(writeStream);
+  }).on('error', (err) => {
+    utils.error(err);
+  });
+}
+
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm -global update` on fepper-cli...');
@@ -29,6 +41,22 @@ function fpUpdate(cb) {
   process.chdir(global.rootDir);
   utils.log(`Running \`npm update\` in ${global.rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
+
+  // Update distro files.
+  downloadFileFromRepo('LICENSE');
+  downloadFileFromRepo('README.md');
+  downloadFileFromRepo('fepper.command');
+
+  const runDir = 'run';
+
+  if (!fs.existsSync(runDir)) {
+    fs.ensureDirSync(runDir);
+  }
+
+  downloadFileFromRepo(`${runDir}/install-base.js`);
+  downloadFileFromRepo(`${runDir}/install-windows.js`);
+  downloadFileFromRepo(`${runDir}/install.js`);
+  downloadFileFromRepo(`${runDir}/update.js`);
 
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
