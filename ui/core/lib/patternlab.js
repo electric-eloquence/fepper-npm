@@ -251,6 +251,16 @@ module.exports = class {
   // PUBLIC METHODS
 
   build(options) {
+    const indexHtml = `${this.config.paths.public.root}/index.html`;
+
+    // Throw error if UI hasn't been compiled.
+    if (!fs.existsSync(indexHtml)) {
+      utils.error('There is no public/index.html, which means the UI needs to be compiled.');
+      utils.log('Please run `fp ui:compile`.');
+
+      throw new Error('ENOENT');
+    }
+
     if (options && options.constructor === Object) {
       this.config = this.utils.extendButNotOverride(options, this.config);
     }
@@ -268,11 +278,8 @@ module.exports = class {
 
     // Update access and modified times of public/index.html to trigger LiveReload.
     const unixTime = Date.now() / 1000;
-    const indexHtml = `${this.config.paths.public.root}/index.html`;
 
-    if (fs.existsSync(indexHtml)) {
-      fs.utimesSync(indexHtml, unixTime, unixTime);
-    }
+    fs.utimesSync(indexHtml, unixTime, unixTime);
 
     // Log memory usage when debug === true.
     if (this.config.debug) {

@@ -22,7 +22,7 @@ gulp.task('ui:compile', function (cb) {
 
 gulp.task('ui:compileui', function (cb) {
   utils.error('Task \'ui:compileui\' no longer exists. It has been replaced by `ui:compile`.');
-  utils.log('Please run `fp ui:compile` or better yet, `fp update` on the command line.');
+  utils.log('Please run `fp ui:compile` or better yet, `fp update`.');
   cb();
 });
 
