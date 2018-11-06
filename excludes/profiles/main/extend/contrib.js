@@ -15,7 +15,11 @@ gulp.task('contrib:frontend-copy', [
 
 gulp.task('contrib:once', [
   // Comment or delete if you wish to disable this.
-  'stylus:once'
+  'stylus:diff-then-comment'
+  // If you are a power-user, delete 'stylus:diff-then-comment'. If you still want Stylus, uncomment 'stylus:once' for
+  // better performance, or replace with 'stylus:no-comment' (also more performant) if you do not want line comments in
+  // your CSS.
+  //'stylus:once'
 ]);
 
 gulp.task('contrib:static', [
