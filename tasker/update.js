@@ -67,6 +67,14 @@ function fpUpdate(cb) {
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
+
+    // If the fp-stylus extension is installed, find the latest release and update package.json.
+    const extendPackages = fs.readFileSync('package.json', global.conf.enc);
+
+    if (extendPackages.indexOf('fp-stylus') > -1) {
+      spawnSync(binNpx, ['--upgrade', 'fp-stylus'], {stdio: 'inherit'});
+    }
+
     utils.log(`Running \`npm update\` in ${extendDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
