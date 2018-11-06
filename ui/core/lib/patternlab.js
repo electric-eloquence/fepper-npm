@@ -81,9 +81,6 @@ module.exports = class {
     return jsonData;
   }
 
-  buildPatterns() {
-  }
-
   emptyFilesNotDirs(publicDir) {
     diveSync(
       publicDir,
@@ -253,7 +250,12 @@ module.exports = class {
   build(options) {
     const indexHtml = `${this.config.paths.public.root}/index.html`;
 
-    // Throw error if UI hasn't been compiled.
+    // If UI hasn't been compiled, try to compile.
+    if (!fs.existsSync(indexHtml)) {
+      this.compile();
+    }
+
+    // Throw error if compilation fails.
     if (!fs.existsSync(indexHtml)) {
       utils.error('There is no public/index.html, which means the UI needs to be compiled.');
       utils.log('Please run `fp ui:compile`.');
