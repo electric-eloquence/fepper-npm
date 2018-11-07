@@ -4,6 +4,7 @@
 /npm-debug.log
 /pattern_exports/
 /public/
+/test/public/node_modules/fepper-ui/data/*
 /ui/test/pattern_exports/*
 /ui/test/public/*
 ignore/
