@@ -1,5 +1,10 @@
 # Fepper Changelog
 
+### v0.27.4
+* Able to update distro with `fp update`
+* Restored `fp ui:copy-styles` naming convention
+* When Mustache browsing pseudo-pattern, Mustache browser pulls main pattern's code
+
 ### v0.27.3
 * Deprecated `compileui`, replaced with just `compile`
 * Documentation updated to reflect that
