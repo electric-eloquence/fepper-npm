@@ -445,6 +445,7 @@ module.exports = class {
         case 'patternLink':
         case 'patternPartialPhp':
         case 'patternPartial':
+        case 'pseudoPatternPartial':
         case 'relPathTrunc':
         case 'relPath':
           continue;
