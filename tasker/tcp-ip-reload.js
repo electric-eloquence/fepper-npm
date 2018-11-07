@@ -20,11 +20,6 @@ gulp.task('tcp-ip-reload:annotations', function () {
     .pipe(refresh());
 });
 
-gulp.task('tcp-ip-reload:assets', function () {
-  return gulp.src(pubDir.images + '/**/*')
-    .pipe(refresh());
-});
-
 gulp.task('tcp-ip-reload:index', function () {
   return gulp.src(pubDir.root + '/index.html')
     .pipe(refresh());
@@ -61,7 +56,6 @@ gulp.task('tcp-ip-reload:watch', function () {
   gulp.watch(pubDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:annotations']);
   gulp.watch(pubDirRel.css + '/**/*.css', {cwd: global.rootDir}, ['tcp-ip-reload:styles-inject']);
   gulp.watch(pubDirRel.css + '/**/!(*.css)', {cwd: global.rootDir}, ['tcp-ip-reload:styles-reload']);
-  gulp.watch(pubDirRel.images + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:assets']);
   gulp.watch(pubDirRel.js + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:scripts']);
   gulp.watch(pubDirRel.root + '/index.html', {cwd: global.rootDir}, ['tcp-ip-reload:index']);
 });
