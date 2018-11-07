@@ -28,7 +28,6 @@ module.exports = class {
           pattern.patternPartial);
       }
 
-      // We want to do everything we normally would here, except instead read the pseudoPattern data.
       const variantFileName = `${this.patternlab.config.paths.source.patterns}/${pseudoPattern.relPath}`;
 
       let variantFileStr = '';
@@ -51,12 +50,13 @@ module.exports = class {
       this.patternlab.utils.extendButNotOverride(variantAllData, pattern.allData);
 
       // Fill out the properties of this pseudoPattern.
-      pseudoPattern.jsonFileData = variantLocalData;
-      pseudoPattern.template = pattern.template;
+      pseudoPattern.allData = variantAllData;
       pseudoPattern.fepletParse = pattern.fepletParse;
       pseudoPattern.fepletComp = pattern.fepletComp;
       pseudoPattern.isPseudoPattern = true;
-      pseudoPattern.allData = variantAllData;
+      pseudoPattern.jsonFileData = variantLocalData;
+      pseudoPattern.pseudoPatternPartial = pattern.patternPartial;
+      pseudoPattern.template = pattern.template;
     }
   }
 };

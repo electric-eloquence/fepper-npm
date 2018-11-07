@@ -76,6 +76,7 @@ exports.Pattern = class {
     this.lineageRIndex = [];
     this.listItems = null;
     this.patternState = '';
+    this.pseudoPatternPartial = ''; // For pseudo-patterns only. Will be the same as the main pattern's patternPartial.
     this.template = '';
   }
 };

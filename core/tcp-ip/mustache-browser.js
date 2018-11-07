@@ -13,6 +13,7 @@ module.exports = class {
     this.immutableHeader = this.html.getImmutableHeader(this.conf);
     this.immutableFooter = this.html.getImmutableFooter(this.conf);
     this.ui = ui;
+    this.utils = options.utils;
   }
 
   getPattern(queryPartial) {
@@ -123,54 +124,69 @@ module.exports = class {
       try {
         // Can be verbose or shorthand partial syntax. Use patternlab.getPattern() to query.
         const queryPartial = this.stripPartialTag(req.query.partial.trim());
-        const pattern = this.ui.patternlab.getPattern(queryPartial);
+        let pattern = this.ui.patternlab.getPattern(queryPartial);
 
-        let fullPath = `${this.conf.ui.paths.source.patterns}/${pattern.relPath}`;
+        if (!pattern) {
+          this.noResult(req, res);
+
+          return;
+        }
+
+        // In the case of pseudo-patterns, title and link to the pseudo-pattern while showing the code to its main.
+        const patternLink = pattern.patternLink;
+        const patternPartial = pattern.patternPartial;
+
+        if (pattern.pseudoPatternPartial) {
+          pattern = this.ui.patternlab.getPattern(pattern.pseudoPatternPartial);
+        }
+
+        const fullPath = `${this.conf.ui.paths.source.patterns}/${pattern.relPath}`;
         // Check if query string correlates to actual Mustache file.
-        let stat = fs.statSync(fullPath);
+        const stat = fs.statSync(fullPath);
 
         if (stat.isFile()) {
-          fs.readFile(fullPath, this.conf.enc, function (err, data) {
-            // Render the Mustache code if it does.
-            // First, link the Mustache tags.
-            let entitiesAndLinks = this.toHtmlEntitiesAndLinks(data);
+          const mustacheCode = fs.readFileSync(fullPath, this.conf.enc);
 
-            // Render the output with HTML head and foot.
-            let template = this.html.head;
-            template += backButton;
-            template += `<h2><a
-              href="../${this.conf.ui.pathsPublic.patterns}/${pattern.patternLink}"
-              class="fp-express mustache-browser__pattern-link">${pattern.patternPartial}</a></h2>`;
-            template += '{{{ entitiesAndLinks }}}';
-            template += this.html.foot;
-            const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
-            const patternlabFoot = Feplet.render(
-              this.immutableFooter,
-              {
-                portReloader: this.conf.livereload_port,
-                portServer: this.conf.express_port
-              }
-            );
-            const output = Feplet.render(
-              template,
-              {
-                title: 'Fepper Mustache Browser',
-                patternlabHead,
-                main_id: 'mustache-browser',
-                main_class: 'mustache-browser',
-                entitiesAndLinks,
-                patternlabFoot
-              }
-            );
+          // Render the Mustache code if it does correlate.
+          // First, link the Mustache tags.
+          let entitiesAndLinks = this.toHtmlEntitiesAndLinks(mustacheCode);
 
-            res.send(output);
-          }.bind(this));
+          // Render the output with HTML head and foot.
+          let template = this.html.head;
+          template += backButton;
+          template += `<h2><a
+            href="../${this.conf.ui.pathsPublic.patterns}/${patternLink}"
+            class="fp-express mustache-browser__pattern-link">${patternPartial}</a></h2>`;
+          template += '{{{ entitiesAndLinks }}}';
+          template += this.html.foot;
+          const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
+          const patternlabFoot = Feplet.render(
+            this.immutableFooter,
+            {
+              portReloader: this.conf.livereload_port,
+              portServer: this.conf.express_port
+            }
+          );
+          const output = Feplet.render(
+            template,
+            {
+              title: 'Fepper Mustache Browser',
+              patternlabHead,
+              main_id: 'mustache-browser',
+              main_class: 'mustache-browser',
+              entitiesAndLinks,
+              patternlabFoot
+            }
+          );
+
+          res.send(output);
         }
         else {
           this.noResult(req, res);
         }
       }
       catch (err) {
+        this.utils.error(err);
         this.noResult(req, res);
       }
     };
