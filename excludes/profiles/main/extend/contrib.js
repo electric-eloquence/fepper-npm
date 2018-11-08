@@ -36,5 +36,8 @@ gulp.task('contrib:template', [
 
 gulp.task('contrib:watch', [
   // Comment or delete if you wish to disable this.
-  'stylus:watch'
+  'stylus:watch-write-tmp'
+  // If you are a power-user, delete 'stylus:watch-write-tmp'. If you still want Stylus, uncomment 'stylus:watch' for
+  // better performance.
+  //'stylus:watch'
 ]);
