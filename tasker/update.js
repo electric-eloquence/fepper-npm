@@ -36,14 +36,14 @@ function downloadFileFromRepo(file) {
 
 function fpUpdate(cb) {
   // Update global npm.
-  utils.log('Running `npm -global update` on fepper-cli...');
+  utils.log('Running `npm --global update` on fepper-cli...');
   spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
 
   // Update core npms.
   process.chdir(global.rootDir);
 
   // Find the latest fepper-npm release and update package.json.
-  spawnSync(binNpx, ['--upgrade', 'fepper'], {stdio: 'inherit'});
+  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper'], {stdio: 'inherit'});
 
   utils.log(`Running \`npm update\` in ${global.rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
@@ -72,7 +72,7 @@ function fpUpdate(cb) {
     const extendPackages = fs.readFileSync('package.json', global.conf.enc);
 
     if (extendPackages.indexOf('fp-stylus') > -1) {
-      spawnSync(binNpx, ['--upgrade', 'fp-stylus'], {stdio: 'inherit'});
+      spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fp-stylus'], {stdio: 'inherit'});
     }
 
     utils.log(`Running \`npm update\` in ${extendDir}...`);
@@ -84,14 +84,15 @@ function fpUpdate(cb) {
     process.chdir(publicDir);
 
     // Find the latest feplet and fepper-ui releases and update public/package.json.
-    spawnSync(binNpx, ['--upgrade', 'feplet'], {stdio: 'inherit'});
-    spawnSync(binNpx, ['--upgrade', 'fepper-ui'], {stdio: 'inherit'});
+    spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'feplet'], {stdio: 'inherit'});
+    spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper-ui'], {stdio: 'inherit'});
 
     utils.log(`Running \`npm update\` in ${publicDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
 
   // Finish up.
+  process.chdir(global.appDir);
   runSequence(
     'ui:compile',
     cb
