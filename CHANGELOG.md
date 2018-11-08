@@ -4,7 +4,7 @@
 * Able to update distro with `fp update`
 * Restored `fp ui:copy-styles` naming convention
 * When Mustache browsing pseudo-pattern, Mustache browser pulls main pattern's code
-* Upgrading `fp-stylus` extension to better differentiate between editing CSS-only and editing Stylus-only
+* Upgraded `fp-stylus` extension to better differentiate between editing CSS-only and editing Stylus-only
 
 ### v0.28.0
 * Deprecated `compileui`, replaced with just `compile`
