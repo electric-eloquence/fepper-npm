@@ -48,6 +48,7 @@ function fpUpdate(cb) {
 
   utils.log(`Running \`npm update\` in ${rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
+  spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
 
   // Update distro files.
   downloadFileFromRepo('LICENSE');
@@ -77,6 +78,7 @@ function fpUpdate(cb) {
 
     utils.log(`Running \`npm update\` in ${extendDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
@@ -89,6 +91,7 @@ function fpUpdate(cb) {
 
     utils.log(`Running \`npm update\` in ${publicDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
   }
 
   // Finish up.
