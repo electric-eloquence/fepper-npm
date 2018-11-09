@@ -78,7 +78,7 @@ function fpUpdate(cb) {
 
     utils.log(`Running \`npm update\` in ${extendDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
-    spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
@@ -91,7 +91,7 @@ function fpUpdate(cb) {
 
     utils.log(`Running \`npm update\` in ${publicDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
-    spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
   }
 
   // Finish up.
