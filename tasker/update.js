@@ -77,22 +77,20 @@ function fpUpdate(cb) {
     }
 
     utils.log(`Running \`npm update\` in ${extendDir}...`);
-    spawnSync(binNpm, ['update'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['update', '--no-package-lock'], {stdio: 'inherit'});
     spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
-  if (fs.existsSync(publicDir)) {
-    process.chdir(publicDir);
+  process.chdir(publicDir);
 
-    // Find the latest feplet and fepper-ui releases and update public/package.json.
-    spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'feplet'], {stdio: 'inherit'});
-    spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper-ui'], {stdio: 'inherit'});
+  // Find the latest feplet and fepper-ui releases and update public/package.json.
+  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'feplet'], {stdio: 'inherit'});
+  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper-ui'], {stdio: 'inherit'});
 
-    utils.log(`Running \`npm update\` in ${publicDir}...`);
-    spawnSync(binNpm, ['update'], {stdio: 'inherit'});
-    spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
-  }
+  utils.log(`Running \`npm update\` in ${publicDir}...`);
+  spawnSync(binNpm, ['update', '--no-package-lock'], {stdio: 'inherit'});
+  spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
 
   // Finish up.
   process.chdir(global.appDir);
