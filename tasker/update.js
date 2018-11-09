@@ -13,6 +13,7 @@ const utils = require('fepper-utils');
 
 const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
+const rootDir = global.rootDir;
 
 let binNpm = 'npm';
 let binNpx = 'npx';
@@ -25,7 +26,7 @@ if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\s
 
 function downloadFileFromRepo(file) {
   const repoDir = 'https://raw.githubusercontent.com/electric-eloquence/fepper/release';
-  const writeStream = fs.createWriteStream(file);
+  const writeStream = fs.createWriteStream(`${rootDir}/${file}`);
 
   https.get(`${repoDir}/${file}`, (res) => {
     res.pipe(writeStream);
@@ -40,12 +41,12 @@ function fpUpdate(cb) {
   spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
 
   // Update core npms.
-  process.chdir(global.rootDir);
+  process.chdir(rootDir);
 
   // Find the latest fepper-npm release and update package.json.
   spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper'], {stdio: 'inherit'});
 
-  utils.log(`Running \`npm update\` in ${global.rootDir}...`);
+  utils.log(`Running \`npm update\` in ${rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
   // Update distro files.
