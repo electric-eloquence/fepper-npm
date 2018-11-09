@@ -63,7 +63,6 @@ function fpUpdate(cb) {
   downloadFileFromRepo(`${runDir}/install-base.js`);
   downloadFileFromRepo(`${runDir}/install-windows.js`);
   downloadFileFromRepo(`${runDir}/install.js`);
-  downloadFileFromRepo(`${runDir}/update.js`);
 
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
