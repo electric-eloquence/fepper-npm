@@ -1,5 +1,9 @@
 # Fepper Changelog
 
+### v0.28.2
+* More specific path for writing updates in `fp update`
+* Removed `npm run update` script
+
 ### v0.28.1
 * Able to update distro with `fp update`
 * Restored `fp ui:copy-styles` naming convention
