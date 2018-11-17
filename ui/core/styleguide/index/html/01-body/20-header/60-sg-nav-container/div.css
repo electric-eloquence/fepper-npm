@@ -2,8 +2,7 @@
   .sg-nav-container {
     overflow: hidden;
     max-height: 0;
-    -webkit-transition: max-height 0.1s ease-out;
-            transition: max-height 0.1s ease-out;
+    transition: max-height 0.1s ease-out;
   }
   .sg-nav-container.active {
     max-height: 80rem;
@@ -28,8 +27,7 @@
   position: relative;
   top: 0;
   right: -0.2rem;
-  -webkit-transition: all 0.1s ease-out;
-          transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
 }
 @media all and (min-width: 768px) {
   .sg-acc-handle::after {
@@ -46,8 +44,6 @@
 .sg-acc-handle.active::after {
   top: -0.2rem;
   color: #808080;
-  -webkit-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
@@ -61,20 +57,7 @@
   padding: 0;
   list-style: none;
   min-width: 16rem;
-  -webkit-transition: max-height 0.1s ease-out;
-          transition: max-height 0.1s ease-out;
-  /**
-  * List items appearing in each accordion panel
-  */
-  /**
-  * Links appearing in each accordion panel
-  */
-  /**
-  * Active is when accordion panel is open
-  */
-  /**
-  * Right align accordion dropdown
-  */
+  transition: max-height 0.1s ease-out;
 }
 .sg-acc-panel li {
   background: #222;

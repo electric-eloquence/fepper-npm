@@ -1,6 +1,5 @@
 .sg-view-container {
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   display: none;
   font-family: Helvetica, "Liberation Sans", "Roboto", sans-serif;
@@ -27,11 +26,6 @@
 }
 .sg-view-container.anim-ready {
   display: block;
-  -webkit-transition: bottom 0.3s ease-out;
-  -moz-transition: bottom 0.3s ease-out;
-  -webkit-transition: bottom 0.3s ease-out;
-  -ms-transition: bottom 0.3s ease-out;
-  -o-transition: bottom 0.3s ease-out;
   transition: bottom 0.3s ease-out;
 }
 
