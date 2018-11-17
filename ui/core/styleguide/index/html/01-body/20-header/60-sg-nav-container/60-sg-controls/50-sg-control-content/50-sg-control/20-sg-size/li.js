@@ -51,7 +51,7 @@ $sgSizeEms.keydown(function (e) {
   }
   else if (e.keyCode === 13) { // If the Enter key is hit.
     e.preventDefault();
-    sizeiframe(Math.round(val * bodyFontSize)); // Size Iframe to value of text box.
+    sizeiframe(Math.round(val * bodyFontSize)); // Size iframe to value of text box.
   }
 });
 
@@ -79,7 +79,7 @@ $sgSizePx.keydown(function (e) {
   }
   else if (e.keyCode === 13) { // If the Enter key is hit.
     e.preventDefault();
-    sizeiframe(val); // Size Iframe to value of text box.
+    sizeiframe(val); // Size iframe to value of text box.
     $(this).blur();
   }
 });
