@@ -15,11 +15,13 @@ const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
 const rootDir = global.rootDir;
 
+const isWindows = (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe');
+
 let binNpm = 'npm';
 let binNpx = 'npx';
 
 // Spawn npm.cmd if Windows and not BASH.
-if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
+if (isWindows) {
   binNpm = 'npm.cmd';
   binNpx = 'npx.cmd';
 }
@@ -38,7 +40,13 @@ function downloadFileFromRepo(file) {
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm --global update` on fepper-cli...');
-  spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+
+  const spawnObj = spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+
+  if (!isWindows && spawnObj.status !== 0) {
+    utils.log('Running this command again as root/Administrator...');
+    spawnSync('sudo', [binNpm, 'update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+  }
 
   // Update core npms.
   process.chdir(rootDir);
