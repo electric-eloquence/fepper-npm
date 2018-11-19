@@ -1,6 +1,5 @@
 /**
- * Nav list
- * 1) appears as an <ol>
+ * Appears as an ol.
  */
 .sg-nav {
   list-style: none;
@@ -8,12 +7,6 @@
   padding: 0;
   position: relative;
   z-index: 3;
-  /**
-  * Nav <ol> list
-  */
-  /**
-  * Links within the nav
-  */
 }
 .sg-nav > li {
   cursor: pointer;
@@ -36,9 +29,7 @@
 }
 
 /**
- * Item navigation
- * 1) Third-level links are stylistically different
- * than first and second nav links.
+ * Third-level links are stylistically different than first and second nav links.
  */
 .sg-item-nav {
   list-style: none;

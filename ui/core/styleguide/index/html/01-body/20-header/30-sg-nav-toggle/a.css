@@ -1,8 +1,7 @@
 /**
-* Nav toggle expands and collapses .sg-nav
-* 1) On larger viewports, the toggle gets hidden and
-* the full nav is displayed across the top.
-*/
+ * Nav toggle expands and collapses .sg-nav.
+ * On larger viewports, the toggle gets hidden and the full nav is displayed across the top.
+ */
 .sg-nav-toggle {
   display: inline-block;
   position: relative;

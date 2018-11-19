@@ -16,9 +16,8 @@
 }
 
 /**
-* Accordions are dropdowns used for the primary nav and
-* tools dropdowns.
-*/
+ * Accordions are dropdowns used for the primary nav and tools dropdowns.
+ */
 .sg-acc-handle::after {
   content: '▼';
   color: rgba(255, 255, 255, 0.25);
@@ -48,8 +47,8 @@
 }
 
 /**
-* Accordion panel
-*/
+ * Accordion panel
+ */
 .sg-acc-panel {
   overflow: hidden;
   max-height: 0;
