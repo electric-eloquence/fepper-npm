@@ -1,8 +1,7 @@
 /**
-* Pattern Lab's header is fixed across the top of the viewport and
-* contains the primary pattern navigation, viewport resizing items,
-* and tools.
-*/
+ * Pattern Lab's header is fixed across the top of the viewport and contains the primary pattern navigation, viewport
+ * resizing items, and tools.
+ */
 .sg-header {
   background: #000;
   color: #fff;
@@ -14,12 +13,6 @@
   z-index: 1;
   width: 100%;
   min-width: 32rem;
-  /**
-  * All lists appearing in the header
-  */
-  /**
-  * All links appearing in the header
-  */
 }
 .sg-header ul {
   padding: 0;
