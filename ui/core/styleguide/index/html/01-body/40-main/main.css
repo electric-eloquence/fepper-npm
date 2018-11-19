@@ -1,7 +1,6 @@
 /**
-* Viewport wrapper div
-* 1) This wrapper div occupies all remaining viewport space after the header
-*/
+ * This wrapper div occupies all remaining viewport space after the header.
+ */
 #sg-vp-wrap {
   text-align: center;
   width: 100%;
@@ -14,9 +13,8 @@
 }
 
 /**
-* Cover
-* 1) This is an invisible div that sits above the iframe and is used in JS for manual viewport resizing purposes
-*/
+ * This is an invisible div that sits above the iframe and is used in JS for manual viewport resizing purposes.
+ */
 #sg-cover {
   width: 100%;
   height: 100%;
@@ -27,9 +25,8 @@
 }
 
 /**
-* Gen Container
-* 1) This is the iframe container
-*/
+ * This is the iframe container.
+ */
 #sg-gen-container {
   height: 100%;
   position: relative;
@@ -40,9 +37,8 @@
 }
 
 /**
-* Viewport iframe
-* 1) This is the actual iframe
-*/
+ * This is the actual iframe.
+ */
 #sg-viewport {
   position: absolute;
   height: 100%;
@@ -58,9 +54,8 @@
 }
 
 /**
-* Right pull container
-* 1) Container used for manual resizing
-*/
+ * Container used for manual resizing.
+ */
 #sg-rightpull-container {
   width: 1.4rem;
   float: right;
@@ -70,9 +65,8 @@
 }
 
 /**
-* Right pull
-* 1) This is the handle that lets users resize the viewport
-*/
+ * This is the handle that lets users resize the viewport.
+ */
 #sg-rightpull {
   margin: 0;
   width: 100%;
@@ -88,6 +82,9 @@
   background: #666;
 }
 
+/**
+ * This is an added class that is activated by JS to transition the width of the viewport.
+ */
 .vp-animate {
-  transition: width .8s ease-out;
+  transition: width 0.8s ease-out;
 }
