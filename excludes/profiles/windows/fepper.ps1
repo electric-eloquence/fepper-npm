@@ -41,7 +41,7 @@ else
 {
   iwr -OutFile $nodeMsi https://nodejs.org/dist/$nodeVersion/$nodeMsi
   msiexec /i $nodeMsiFull
-  echo "You must install Node.js to continue. After it has finished installing, restart your computer."
+  echo "Please follow the prompts to install Node.js."
 }
 
 PAUSE
