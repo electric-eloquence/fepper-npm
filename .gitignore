@@ -2,6 +2,7 @@
 .DS_Store
 .publish/
 /npm-debug.log
+/package-lock.json
 /pattern_exports/
 /public/
 /test/public/node_modules/fepper-ui/data/*
