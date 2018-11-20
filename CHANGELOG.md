@@ -1,5 +1,15 @@
 # Fepper Changelog
 
+### v0.29.0
+* Removing reference to fepper-windows project
+* `fp update` updating Windows scripts universally
+* Deprecating index.js
+* Using global.conf.is\_windows
+* Better image rendering in MS Edge
+* `fp update` will attempt to run `npm update -g` as root if denied permission
+* Moving npm-check-updates devDependency to distros
+* Reinstating vp-animate class, removing css vendor prefixes where unnecessary
+
 ### v0.28.2
 * More specific path for writing updates in `fp update`
 * Removed `npm run update` script
