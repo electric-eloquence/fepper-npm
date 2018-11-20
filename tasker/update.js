@@ -15,7 +15,10 @@ const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
 const rootDir = global.rootDir;
 
-const isWindows = (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe');
+const isWindows = (
+  global.conf.is_windows ||
+  process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe' // Deprecated condition.
+);
 
 let binNpm = 'npm';
 let binNpx = 'npx';
@@ -74,6 +77,12 @@ function fpUpdate(cb) {
   downloadFileFromRepo('README.md');
   downloadFileFromRepo('fepper.command');
 
+  // If Windows, update Windows scripts.
+  if (isWindows) {
+    downloadFileFromRepoWindows('fepper.ps1');
+    downloadFileFromRepoWindows('fepper.vbs');
+  }
+
   const runDir = 'run';
 
   if (!fs.existsSync(runDir)) {
@@ -131,5 +140,5 @@ gulp.task('update-windows', cb => {
   process.chdir(rootDir);
   downloadFileFromRepoWindows('fepper.ps1');
   downloadFileFromRepoWindows('fepper.vbs');
-  fpUpdate(cb);
+  process.chdir(global.appDir);
 });
