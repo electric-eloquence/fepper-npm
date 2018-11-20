@@ -203,7 +203,7 @@ module.exports = class {
         },
         (err, file) => {
           if (err) {
-            utils.error(err);
+            this.utils.error(err);
           }
 
           const stat = fs.lstatSync(file);
@@ -228,7 +228,7 @@ module.exports = class {
       },
       (err, file) => {
         if (err) {
-          utils.error(err);
+          this.utils.error(err);
         }
 
         try {
@@ -237,7 +237,7 @@ module.exports = class {
           fs.copySync(file, `${this.staticDir}/${suffix}`);
         }
         catch (err1) {
-          utils.error(err1);
+          this.utils.error(err1);
         }
       }
     );
@@ -255,7 +255,7 @@ module.exports = class {
       },
       (err, file) => {
         if (err) {
-          utils.error(err);
+          this.utils.error(err);
         }
 
         if (path.extname(file) === '.html') {
