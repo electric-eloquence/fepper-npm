@@ -75,7 +75,6 @@ function fpUpdate(cb) {
   }
 
   downloadFileFromRepo(`${runDir}/install-base.js`);
-  downloadFileFromRepo(`${runDir}/install-windows.js`);
   downloadFileFromRepo(`${runDir}/install.js`);
 
   // Update extension npms.
