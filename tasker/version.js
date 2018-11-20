@@ -10,7 +10,10 @@ const publicDir = global.conf.ui.paths.public.root;
 let binNpm = 'npm';
 
 // Spawn npm.cmd if Windows and not BASH.
-if (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe') {
+if (
+  global.conf.is_windows ||
+  process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe' // Deprecated condition.
+) {
   binNpm = 'npm.cmd';
 }
 
