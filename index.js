@@ -1,5 +1,7 @@
 'use strict';
 
+/* THIS FILE IS DEPRECATED. IT WILL BE REMOVED. */
+
 const cp = require('child_process');
 const path = require('path');
 
