@@ -40,17 +40,6 @@ function downloadFileFromRepo(file) {
   });
 }
 
-function downloadFileFromRepoWindows(file) {
-  const repoDir = 'https://raw.githubusercontent.com/electric-eloquence/fepper-windows/release';
-  const writeStream = fs.createWriteStream(`${rootDir}/${file}`);
-
-  https.get(`${repoDir}/${file}`, (res) => {
-    res.pipe(writeStream);
-  }).on('error', (err) => {
-    utils.error(err);
-  });
-}
-
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm --global update` on fepper-cli...');
@@ -76,12 +65,8 @@ function fpUpdate(cb) {
   downloadFileFromRepo('LICENSE');
   downloadFileFromRepo('README.md');
   downloadFileFromRepo('fepper.command');
-
-  // If Windows, update Windows scripts.
-  if (isWindows) {
-    downloadFileFromRepoWindows('fepper.ps1');
-    downloadFileFromRepoWindows('fepper.vbs');
-  }
+  downloadFileFromRepo('fepper.ps1');
+  downloadFileFromRepo('fepper.vbs');
 
   const runDir = 'run';
 
@@ -134,11 +119,4 @@ gulp.task('up', cb => {
 
 gulp.task('update', cb => {
   fpUpdate(cb);
-});
-
-gulp.task('update-windows', cb => {
-  process.chdir(rootDir);
-  downloadFileFromRepoWindows('fepper.ps1');
-  downloadFileFromRepoWindows('fepper.vbs');
-  process.chdir(global.appDir);
 });
