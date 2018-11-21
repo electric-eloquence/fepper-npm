@@ -11,6 +11,7 @@ const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const utils = require('fepper-utils');
 
+const enc = global.conf.enc;
 const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
 const rootDir = global.rootDir;
@@ -21,12 +22,10 @@ const isWindows = (
 );
 
 let binNpm = 'npm';
-let binNpx = 'npx';
 
 // Spawn npm.cmd if Windows and not BASH.
 if (isWindows) {
   binNpm = 'npm.cmd';
-  binNpx = 'npx.cmd';
 }
 
 function downloadFileFromRepo(file) {
@@ -38,6 +37,27 @@ function downloadFileFromRepo(file) {
   }).on('error', (err) => {
     utils.error(err);
   });
+}
+
+function parseNpmOutdated(npmPackage) {
+  const spawnObj = spawnSync(binNpm, ['outdated', npmPackage]);
+  const stdoutStr = spawnObj.stdout.toString(enc).trim();
+  const stdoutRows = stdoutStr.split('\n');
+
+  if (stdoutRows.length > 1) {
+    utils.log(stdoutStr);
+
+    const stdoutCols = stdoutRows[1].split(/ +/);
+
+    if (stdoutCols[1] && stdoutCols[3]) {
+      return {
+        current: stdoutCols[1],
+        latest: stdoutCols[3]
+      };
+    }
+  }
+
+  return null;
 }
 
 function fpUpdate(cb) {
@@ -54,12 +74,16 @@ function fpUpdate(cb) {
   // Update core npms.
   process.chdir(rootDir);
 
-  // Find the latest fepper-npm release and update package.json.
-  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper'], {stdio: 'inherit'});
+  // Find the latest fepper-npm release and update to it if available.
+  const fepperVersions = parseNpmOutdated('fepper');
+
+  if (fepperVersions && fepperVersions.current !== fepperVersions.latest) {
+    spawnSync(binNpm, ['uninstall', '--save-dev', 'fepper']);
+    spawnSync(binNpm, ['install', '--save-dev', 'fepper'], {stdio: 'inherit'});
+  }
 
   utils.log(`Running \`npm update\` in ${rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
-  spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
 
   // Update distro files.
   downloadFileFromRepo('CHANGELOG.md');
@@ -82,24 +106,40 @@ function fpUpdate(cb) {
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
 
-    // If the fp-stylus extension is installed, find the latest release and update package.json.
+    // If the fp-stylus extension is installed, find the latest release and update to it if available.
     const extendPackages = fs.readFileSync('package.json', global.conf.enc);
 
     if (extendPackages.indexOf('fp-stylus') > -1) {
-      spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fp-stylus'], {stdio: 'inherit'});
+      const fpStylusVersions = parseNpmOutdated('fp-stylus');
+
+      if (fpStylusVersions && fpStylusVersions.current !== fpStylusVersions.latest) {
+        spawnSync(binNpm, ['uninstall', '--save-dev', 'fp-stylus']);
+        spawnSync(binNpm, ['install', '--save-dev', 'fp-stylus'], {stdio: 'inherit'});
+      }
     }
 
     utils.log(`Running \`npm update\` in ${extendDir}...`);
-    spawnSync(binNpm, ['update', '--no-package-lock'], {stdio: 'inherit'});
-    spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
+    spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
   process.chdir(publicDir);
 
-  // Find the latest feplet and fepper-ui releases and update public/package.json.
-  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'feplet'], {stdio: 'inherit'});
-  spawnSync(binNpx, ['npm-check-updates', '--upgrade', 'fepper-ui'], {stdio: 'inherit'});
+  // Find the latest feplet release and update to it if available.
+  const fepletVersions = parseNpmOutdated('fp-stylus');
+
+  if (fepletVersions && fepletVersions.current !== fepletVersions.latest) {
+    spawnSync(binNpm, ['uninstall', '--save-dev', 'feplet']);
+    spawnSync(binNpm, ['install', '--save-dev', 'feplet'], {stdio: 'inherit'});
+  }
+
+  // Find the latest feplet release and update to it if available.
+  const fepperUiVersions = parseNpmOutdated('fepper-ui');
+
+  if (fepperUiVersions && fepperUiVersions.current !== fepperUiVersions.latest) {
+    spawnSync(binNpm, ['uninstall', '--save-dev', 'fepper-ui']);
+    spawnSync(binNpm, ['install', '--save-dev', 'fepper-ui'], {stdio: 'inherit'});
+  }
 
   utils.log(`Running \`npm update\` in ${publicDir}...`);
   spawnSync(binNpm, ['update', '--no-package-lock'], {stdio: 'inherit'});
