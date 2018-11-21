@@ -1,4 +1,4 @@
-# Fepper Changelog
+# Fepper NPM Changelog
 
 ### v0.29.0
 * Removing reference to fepper-windows project
