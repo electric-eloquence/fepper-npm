@@ -73,6 +73,7 @@ function fpUpdate(cb) {
 
   // Update core npms.
   process.chdir(rootDir);
+  utils.log(`Running \`npm update\` in ${rootDir}...`);
 
   // Find the latest fepper-npm release and update if updatable.
   const fepperVersions = parseNpmOutdated('fepper');
@@ -90,7 +91,6 @@ function fpUpdate(cb) {
     spawnSync(binNpm, ['install', '--save-dev', 'fepper-utils'], {stdio: 'inherit'});
   }
 
-  utils.log(`Running \`npm update\` in ${rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
   // Update distro files.
@@ -113,6 +113,7 @@ function fpUpdate(cb) {
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
+    utils.log(`Running \`npm update\` in ${extendDir}...`);
 
     // If the fp-stylus extension is installed, find the latest release and update if updatable.
     const extendPackages = fs.readFileSync('package.json', global.conf.enc);
@@ -126,12 +127,12 @@ function fpUpdate(cb) {
       }
     }
 
-    utils.log(`Running \`npm update\` in ${extendDir}...`);
     spawnSync(binNpm, ['update'], {stdio: 'inherit'});
   }
 
   // Update public dir npms.
   process.chdir(publicDir);
+  utils.log(`Running \`npm update\` in ${publicDir}...`);
 
   // Find the latest feplet release and update if updatable.
   const fepletVersions = parseNpmOutdated('feplet');
@@ -149,7 +150,6 @@ function fpUpdate(cb) {
     spawnSync(binNpm, ['install', '--save-dev', 'fepper-ui'], {stdio: 'inherit'});
   }
 
-  utils.log(`Running \`npm update\` in ${publicDir}...`);
   spawnSync(binNpm, ['update', '--no-package-lock'], {stdio: 'inherit'});
   spawnSync(binNpm, ['install', '--ignore-scripts', '--no-package-lock'], {stdio: 'inherit'});
 
