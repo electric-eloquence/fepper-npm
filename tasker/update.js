@@ -126,7 +126,7 @@ function fpUpdate(cb) {
   process.chdir(publicDir);
 
   // Find the latest feplet release and update if updatable.
-  const fepletVersions = parseNpmOutdated('fp-stylus');
+  const fepletVersions = parseNpmOutdated('feplet');
 
   if (fepletVersions && fepletVersions.current !== fepletVersions.latest) {
     spawnSync(binNpm, ['uninstall', '--save-dev', 'feplet']);
