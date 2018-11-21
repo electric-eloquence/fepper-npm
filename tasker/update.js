@@ -74,7 +74,7 @@ function fpUpdate(cb) {
   // Update core npms.
   process.chdir(rootDir);
 
-  // Find the latest fepper-npm release and update to it if available.
+  // Find the latest fepper-npm release and update if updatable.
   const fepperVersions = parseNpmOutdated('fepper');
 
   if (fepperVersions && fepperVersions.current !== fepperVersions.latest) {
@@ -106,7 +106,7 @@ function fpUpdate(cb) {
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
 
-    // If the fp-stylus extension is installed, find the latest release and update to it if available.
+    // If the fp-stylus extension is installed, find the latest release and update if updatable.
     const extendPackages = fs.readFileSync('package.json', global.conf.enc);
 
     if (extendPackages.indexOf('fp-stylus') > -1) {
@@ -125,7 +125,7 @@ function fpUpdate(cb) {
   // Update public dir npms.
   process.chdir(publicDir);
 
-  // Find the latest feplet release and update to it if available.
+  // Find the latest feplet release and update if updatable.
   const fepletVersions = parseNpmOutdated('fp-stylus');
 
   if (fepletVersions && fepletVersions.current !== fepletVersions.latest) {
@@ -133,7 +133,7 @@ function fpUpdate(cb) {
     spawnSync(binNpm, ['install', '--save-dev', 'feplet'], {stdio: 'inherit'});
   }
 
-  // Find the latest feplet release and update to it if available.
+  // Find the latest feplet release and update if updatable.
   const fepperUiVersions = parseNpmOutdated('fepper-ui');
 
   if (fepperUiVersions && fepperUiVersions.current !== fepperUiVersions.latest) {
