@@ -1,6 +1,8 @@
 'use strict';
 
 /* THIS FILE IS DEPRECATED. IT WILL BE REMOVED. */
+console.warn('fepper-cli <= v1.1.0 is deprecated for fepper-npm >= v0.29.0.');
+console.warn('Please run `fp update`.');
 
 const cp = require('child_process');
 const path = require('path');
