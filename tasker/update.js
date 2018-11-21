@@ -62,6 +62,7 @@ function fpUpdate(cb) {
   spawnSync(binNpm, ['install', '--ignore-scripts'], {stdio: 'inherit'});
 
   // Update distro files.
+  downloadFileFromRepo('CHANGELOG.md');
   downloadFileFromRepo('LICENSE');
   downloadFileFromRepo('README.md');
   downloadFileFromRepo('fepper.command');
