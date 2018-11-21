@@ -82,6 +82,14 @@ function fpUpdate(cb) {
     spawnSync(binNpm, ['install', '--save-dev', 'fepper'], {stdio: 'inherit'});
   }
 
+  // Find the latest fepper-utils release and update if updatable.
+  const fepperUtilsVersions = parseNpmOutdated('fepper-utils');
+
+  if (fepperUtilsVersions && fepperUtilsVersions.current !== fepperUtilsVersions.latest) {
+    spawnSync(binNpm, ['uninstall', '--save-dev', 'fepper-utils']);
+    spawnSync(binNpm, ['install', '--save-dev', 'fepper-utils'], {stdio: 'inherit'});
+  }
+
   utils.log(`Running \`npm update\` in ${rootDir}...`);
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
