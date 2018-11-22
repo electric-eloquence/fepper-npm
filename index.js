@@ -3,8 +3,8 @@
 /* THIS FILE IS DEPRECATED. IT WILL BE REMOVED. */
 
 /* eslint-disable no-console */
-console.warn('fepper-cli <= 1.1.0 is deprecated for fepper-npm >= 0.29.0.');
-console.warn('Please run `fp update`.');
+console.warn('\x1b[33mfepper-cli <= 1.1.0 is deprecated for fepper-npm >= 0.29.0.\x1b[0m');
+console.warn('\x1b[33mPlease run `fp update`.\x1b[0m');
 /* eslint-enable no-console */
 
 const cp = require('child_process');
