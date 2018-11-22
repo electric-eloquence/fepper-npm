@@ -3,7 +3,7 @@
 /* THIS FILE IS DEPRECATED. IT WILL BE REMOVED. */
 
 /* eslint-disable no-console */
-console.warn('fepper-cli <= v1.1.0 is deprecated for fepper-npm >= v0.29.0.');
+console.warn('fepper-cli <= 1.1.0 is deprecated for fepper-npm >= 0.29.0.');
 console.warn('Please run `fp update`.');
 /* eslint-enable no-console */
 
