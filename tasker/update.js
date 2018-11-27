@@ -39,8 +39,8 @@ function downloadFileFromRepo(file) {
   });
 }
 
-function parseNpmOutdated(npmPackage) {
-  const spawnObj = spawnSync(binNpm, ['outdated', npmPackage]);
+function parseNpmOutdated(npmPackage, addlArgsArr = []) {
+  const spawnObj = spawnSync(binNpm, ['outdated', npmPackage].concat(addlArgsArr));
   const stdoutStr = spawnObj.stdout.toString(enc).trim();
   const stdoutRows = stdoutStr.split('\n');
 
@@ -64,11 +64,19 @@ function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm --global update` on fepper-cli...');
 
-  const spawnObj = spawnSync(binNpm, ['update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+  const fepperCliVersions = parseNpmOutdated('fepper-cli', ['--global']);
 
-  if (!isWindows && spawnObj.status !== 0) {
-    utils.log('Running this command again as root/Administrator...');
-    spawnSync('sudo', [binNpm, 'update', '-g', 'fepper-cli'], {stdio: 'inherit'});
+  if (fepperCliVersions && fepperCliVersions.current !== fepperCliVersions.latest) {
+    const spawnObj = spawnSync(binNpm, ['uninstall', '--global', 'fepper-cli']);
+
+    if (isWindows || spawnObj.status === 0) {
+      spawnSync(binNpm, ['install', '--global', 'fepper-cli'], {stdio: 'inherit'});
+    }
+    else {
+      utils.log('Running this command again as root/Administrator...');
+      spawnSync('sudo', [binNpm, 'uninstall', '--global', 'fepper-cli']);
+      spawnSync('sudo', [binNpm, 'install', '--global', 'fepper-cli'], {stdio: 'inherit'});
+    }
   }
 
   // Update core npms.
