@@ -8,6 +8,7 @@ const express = require('express');
 
 const html = require('../lib/html');
 
+const ErrorResponse = require('./error-response');
 const Gatekeeper = require('./gatekeeper');
 const HtmlScraper = require('./html-scraper');
 const HtmlScraperPost = require('./html-scraper-post');
@@ -22,6 +23,7 @@ module.exports = class {
     this.html = html;
     this.ui = ui;
 
+    this.errorResponse = new ErrorResponse(options, html);
     this.gatekeeper = new Gatekeeper(options, html);
     this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
     this.mustacheBrowser = new MustacheBrowser(options, html, ui);
@@ -99,8 +101,11 @@ module.exports = class {
       }
     }
 
-    // For everything else, document root = Pattern Lab's public directory.
+    // For all other static requests, document root = public directory.
     app.use(express.static(this.conf.ui.paths.public.root));
+
+    // If the request has fallen through this far, respond with a 404.
+    app.use(this.errorResponse.notFound());
 
     this.expressApp = app;
   }
