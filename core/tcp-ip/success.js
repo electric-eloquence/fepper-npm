@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-
+const Feplet = require('feplet');
+const fs = require('fs-extra');
 const marked = require('marked');
 
 module.exports = class {
@@ -40,22 +40,24 @@ module.exports = class {
           return;
         }
 
-        let output = '';
+        let outputFpt = this.html.headWithMsg;
+        outputFpt += this.html.success;
+        outputFpt += htmlMd + '\n';
+        outputFpt += '<p>&nbsp;</p>\n';
+        outputFpt += '<p>&nbsp;</p>\n';
+        outputFpt += this.html.foot;
 
-        output += this.html.headWithMsg;
-        output += this.html.success;
-        output += htmlMd + '\n';
-        output += '<p>&nbsp;</p>\n';
-        output += '<p>&nbsp;</p>\n';
-        output += this.html.foot;
-        output = output.replace('{{ title }}', successMsg);
-        output = output.replace('{{{ patternlabHead }}}', '');
-        output = output.replace('{{ main_id }}', 'success-page');
-        output = output.replace('{{ main_class }}', 'success-page');
-        output = output.replace('{{ msg_class }}', 'success');
-        output = output.replace('{{ message }}', `<h1>${successMsg}</h1>`);
-        output = output.replace(/\{\{ host \}\}/g, req.headers.host);
-        output = output.replace('{{{ patternlabFoot }}}', '');
+        const output = Feplet.render(
+          outputFpt,
+          {
+            title: successMsg,
+            main_id: 'success-page',
+            main_class: 'success-page',
+            msg_class: 'success',
+            message: `<h1>${successMsg}</h1>`,
+            host: req.headers.host
+          }
+        );
 
         res.send(output);
       });

@@ -1,5 +1,6 @@
 'use strict';
 
+const Feplet = require('feplet');
 const request = require('request');
 
 module.exports = class {
@@ -43,9 +44,19 @@ module.exports = class {
         return;
       }
 
+      const srcPatterns = `${this.conf.ui.paths.source.patterns}/`;
+      const srcScrape = this.conf.ui.paths.source.scrape;
+      const scrapePrefix = srcScrape.replace(srcPatterns, '');
+      const scrapePath = `/patterns/${scrapePrefix}-00-html-scraper/${scrapePrefix}-00-html-scraper.html`;
+
+      let attributes = '';
+
+      if (req.headers.referer.indexOf(scrapePath) > -1) {
+        attributes = 'target="_blank"';
+      }
+
       let message = '';
       let msgClass = '';
-      let output = '';
       let selector = '';
       let url = '';
 
@@ -64,28 +75,23 @@ module.exports = class {
         }
       }
 
-      output += '<!DOCTYPE html>\n';
-      output += '<html>\n';
-      output += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
-      output += this.html.scraperTitle;
-      output += this.html.landingBody;
-      output += '</html>\n';
+      let outputFpt = '<!DOCTYPE html>\n';
+      outputFpt += '<html>\n';
+      outputFpt += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
+      outputFpt += this.html.scraperTitle;
+      outputFpt += this.html.landingBody;
+      outputFpt += '</html>\n';
 
-      output = output.replace('{{ main_id }}', 'scraper');
-      output = output.replace('{{ main_class }}', 'scraper');
-      output = output.replace('{{ url }}', url);
-      output = output.replace('{{ selector }}', selector);
-
-      const srcPatterns = `${this.conf.ui.paths.source.patterns}/`;
-      const srcScrape = this.conf.ui.paths.source.scrape;
-      const scrapePrefix = srcScrape.replace(srcPatterns, '');
-      const scrapePath = `/patterns/${scrapePrefix}-00-html-scraper/${scrapePrefix}-00-html-scraper.html`;
-      let attributes = '';
-
-      if (req.headers.referer.indexOf(scrapePath) > -1) {
-        attributes = 'target="_blank"';
-      }
-      output = output.replace('{{ attributes }}', attributes);
+      const output = Feplet.render(
+        outputFpt,
+        {
+          main_id: 'scraper',
+          main_class: 'scraper',
+          attributes,
+          url,
+          selector
+        }
+      );
 
       res.send(output);
     };
@@ -95,16 +101,21 @@ module.exports = class {
     return (req, res) => {
       // Gatekept by fepper-ui/scripts/html-scraper-ajax.js.
 
-      let output = '';
-      output += this.html.headWithMsg;
-      output += this.html.scraperTitle;
-      output += '<script src="node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>\n';
-      output += this.html.foot;
-      output = output.replace('{{ title }}', 'Fepper HTML Scraper');
-      output = output.replace('{{ main_id }}', 'scraper');
-      output = output.replace('{{ main_class }}', 'scraper');
-      output = output.replace('{{ msg_class }}', '');
-      output = output.replace('{{ message }}', '');
+      let outputFpt = this.html.headWithMsg;
+      outputFpt += this.html.scraperTitle;
+      outputFpt += '<script src="node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>\n';
+      outputFpt += this.html.foot;
+
+      const output = Feplet.render(
+        outputFpt,
+        {
+          title: 'Fepper HTML Scraper',
+          main_id: 'scraper',
+          main_class: 'scraper',
+          msg_class: '',
+          message: ''
+        }
+      );
 
       res.send(output);
     };
