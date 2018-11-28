@@ -139,7 +139,7 @@ module.exports = class {
         continue;
       }
 
-      if (!this.patternlab.isPatternExcluded(pattern)) {
+      if (!pattern.isHidden) {
         this.addToPatternPaths(pattern);
       }
 
@@ -193,14 +193,14 @@ module.exports = class {
 
       // Check if we are moving to a new subType in the next loop.
       for (j = i; j < this.patternlab.patterns.length; j++) {
-        if (this.patternlab.isPatternExcluded(pattern)) {
+        if (pattern.isHidden) {
           break;
         }
 
         const patternNext = this.patternlab.patterns[j + 1];
 
         if (patternNext) {
-          if (this.patternlab.isPatternExcluded(patternNext)) {
+          if (patternNext.isHidden) {
             continue;
           }
 
