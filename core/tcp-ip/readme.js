@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-
+const Feplet = require('feplet');
+const fs = require('fs-extra');
 const marked = require('marked');
 
 module.exports = class {
@@ -42,14 +42,18 @@ module.exports = class {
           return;
         }
 
-        let output = this.html.head;
-        output += htmlMd + '\n';
-        output += this.html.foot;
-        output = output.replace('{{ title }}', 'Fepper');
-        output = output.replace('{{{ patternlabHead }}}', '');
-        output = output.replace('{{ main_id }}', 'readme');
-        output = output.replace('{{ main_class }}', 'readme');
-        output = output.replace('{{{ patternlabFoot }}}', '');
+        let outputFpt = this.html.head;
+        outputFpt += htmlMd + '\n';
+        outputFpt += this.html.foot;
+
+        const output = Feplet.render(
+          outputFpt,
+          {
+            title: 'Fepper',
+            main_id: 'readme',
+            main_class: 'readme'
+          }
+        );
 
         res.send(output);
       });

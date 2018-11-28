@@ -1,9 +1,10 @@
 'use strict';
 
-const fs = require('fs-extra');
 const path = require('path');
 
 const beautify = require('js-beautify').html;
+const Feplet = require('feplet');
+const fs = require('fs-extra');
 const he = require('he');
 const html2json = require('html2json').html2json;
 const json2html = require('html2json').json2html;
@@ -190,30 +191,34 @@ module.exports = class {
       msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
     }
 
-    let output = '';
-
-    output += this.html.headWithMsg;
-    output += this.html.scraperTitle;
-    output += this.html.reviewerPrefix;
-    output += '<div>' + targetHtml + '</div>';
-    output += this.html.reviewerSuffix;
-    output += this.html.importerPrefix;
-    output += mustache;
-    output += this.html.json;
+    let outputFpt = this.html.headWithMsg;
+    outputFpt += this.html.scraperTitle;
+    outputFpt += this.html.reviewerPrefix;
+    outputFpt += '<div>' + targetHtml + '</div>';
+    outputFpt += this.html.reviewerSuffix;
+    outputFpt += this.html.importerPrefix;
+    outputFpt += '{{{ mustache }}}';
+    outputFpt += this.html.json;
 
     // Escape double-quotes.
-    output += dataStr.replace(/&quot;/g, '&bsol;&quot;');
-    output += this.html.importerSuffix;
-    output += '<script src="/node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>';
-    output += this.html.foot;
-    output = output.replace('{{ title }}', 'Fepper HTML Scraper');
-    output = output.replace('{{ main_id }}', 'scraper');
-    output = output.replace('{{ main_class }}', 'scraper');
-    output = output.replace('{{ msg_class }}', msgClass);
-    output = output.replace('{{ message }}', msgPrefix + message);
-    output = output.replace('{{ attributes }}', '');
-    output = output.replace('{{ url }}', url);
-    output = output.replace('{{ selector }}', selector);
+    outputFpt += dataStr.replace(/&quot;/g, '&bsol;&quot;');
+    outputFpt += this.html.importerSuffix;
+    outputFpt += '<script src="/node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>';
+    outputFpt += this.html.foot;
+
+    const output = Feplet.render(
+      outputFpt,
+      {
+        title: 'Fepper HTML Scraper',
+        main_id: 'scraper',
+        main_class: 'scraper',
+        msg_class: msgClass,
+        message: msgPrefix + message,
+        url,
+        selector,
+        mustache
+      }
+    );
 
     return output;
   }
