@@ -29,7 +29,7 @@ exports.head = `
   <body class="text">
     <main id="{{ main_id }}" class="{{ main_class }}">`;
 
-exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{ message }}</div>';
+exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>';
 
 exports.scraperTitle = `
       <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>`;
@@ -45,7 +45,7 @@ exports.landingBody = `
       <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter" {{ attributes }}>
         <div>
           <label for="url">URL:</label>
-          <input name="url" type="text" value="{{ url }}" style="width: 100%;">
+          <input name="url" type="text" value="{{{ url }}}" style="width: 100%;">
         </div>
         <div>
           <label for="selector">Target Selector:</label>
@@ -73,9 +73,9 @@ exports.importerPrefix = `
       <h3>Does this HTML look right?</h3>
       <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
         <div>Yes, import into Fepper.</div>
-        <label for="import-form">Enter a filename to save this under:</label>
+        <label for="import-form">Enter a filename to save this under (extension not necessary):</label>
         <input name="filename" type="text" value="" style="width: 100%">
-        <input name="url" type="hidden" value="{{ url }}">
+        <input name="url" type="hidden" value="{{{ url }}}">
         <input name="selector" type="hidden" value="{{ selector }}">
         <textarea name="html2json" style="display: none;"></textarea>
         <textarea name="mustache" style="display: none;">`;
