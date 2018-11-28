@@ -94,7 +94,8 @@ module.exports = class {
       // Create the more complex lineage object.
       const l = {
         lineagePattern: ancestorPattern.patternPartial,
-        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + ancestorPattern.patternLink
+        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + ancestorPattern.patternLink,
+        isHidden: ancestorPattern.isHidden
       };
 
       if (ancestorPattern.patternState) {
@@ -113,7 +114,8 @@ module.exports = class {
       // Create the more complex lineage object in reverse.
       const lr = {
         lineagePattern: pattern.patternPartial,
-        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + pattern.patternLink
+        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + pattern.patternLink,
+        isHidden: pattern.isHidden
       };
 
       if (pattern.patternState) {

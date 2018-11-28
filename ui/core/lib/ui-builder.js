@@ -101,7 +101,7 @@ module.exports = class {
         }
 
         // Write pattern.
-        if (!this.patternlab.isPatternExcluded(pattern)) {
+        if (!pattern.isHidden) {
           this.patternlab.patternBuilder.writePattern(pattern);
         }
 
@@ -119,8 +119,8 @@ module.exports = class {
 
         // Write viewall body.
         if (this.isViewallValid) {
-          if (this.patternlab.isPatternExcluded(pattern)) {
-            // If this pattern is excluded, mark for deletion from nav.
+          if (pattern.isHidden) {
+            // If this pattern is hidden, mark for deletion from nav.
             patternType.patternTypeItems[j] = null;
           }
           else if (patternType.patternTypeLC !== scrapeTypeName) {
@@ -162,7 +162,7 @@ module.exports = class {
           }
 
           // Write pattern.
-          if (!this.patternlab.isPatternExcluded(pattern)) {
+          if (!pattern.isHidden) {
             this.patternlab.patternBuilder.writePattern(pattern);
           }
 
@@ -180,8 +180,8 @@ module.exports = class {
 
           // Write viewall body.
           if (this.isViewallValid) {
-            if (this.patternlab.isPatternExcluded(pattern)) {
-              // If this pattern is excluded, mark for deletion from nav.
+            if (pattern.isHidden) {
+              // If this pattern is hidden, mark for deletion from nav.
               patternSubType.patternSubTypeItems[k] = null;
             }
             else {

@@ -69,6 +69,7 @@ module.exports = class {
     pattern.frontMatterData = frontMatterParser.main(pattern.template);
     pattern.frontMatterRelPathTrunc = pattern.relPathTrunc;
     pattern.isFrontMatter = true;
+    pattern.isHidden = true;
     pattern.isPattern = false;
     // Unset Patternlab.getPattern identifiers.
     pattern.patternPartialPhp = '';
@@ -365,12 +366,34 @@ module.exports = class {
         pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
     }
 
+    // Exclude hidden lineage items from array destined for output.
+    const lineage = [];
+
+    for (let lineageItem of pattern.lineage) {
+      if (!lineageItem.isHidden) {
+        lineage.push(lineageItem);
+      }
+    }
+
+    const lineageExists = Boolean(lineage.length);
+
+    // Exclude hidden lineageR items from array destined for output.
+    const lineageR = [];
+
+    for (let lineageRItem of pattern.lineageR) {
+      if (!lineageRItem.isHidden) {
+        lineageR.push(lineageRItem);
+      }
+    }
+
+    const lineageRExists = Boolean(lineageR.length);
+
     // Stringify these data for individual pattern rendering and use on the styleguide.
     pattern.allData.patternData = JSON.stringify({
-      lineage: pattern.lineage,
-      lineageExists: pattern.lineageExists,
-      lineageR: pattern.lineageR,
-      lineageRExists: pattern.lineageRExists,
+      lineage,
+      lineageExists,
+      lineageR,
+      lineageRExists,
       patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
       patternExtension: pattern.fileExtension,
       patternName: pattern.patternName,
@@ -393,8 +416,8 @@ module.exports = class {
     const footerPartial = Feplet.render(this.patternlab.footer, {
       cacheBuster: this.patternlab.cacheBuster,
       isPattern: pattern.isPattern,
-      lineage: JSON.stringify(pattern.lineage),
-      lineageR: JSON.stringify(pattern.lineageR),
+      lineage: JSON.stringify(lineage),
+      lineageR: JSON.stringify(lineageR),
       patternData: pattern.allData.patternData,
       patternPartial: pattern.patternPartial,
       patternState: pattern.patternState,

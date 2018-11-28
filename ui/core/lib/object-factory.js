@@ -2,6 +2,32 @@
 
 const path = require('path');
 
+function isPatternHidden(pattern, config) {
+  // Return true if the 1st character of pattern type, subType, further nested dirs, or filename is an underscore.
+  if (
+    pattern.relPath.charAt(0) === '_' ||
+    pattern.relPath.indexOf('/_') > -1
+  ) {
+    return true;
+  }
+
+  // Retaining inconsistent camelCasing from Pattern Lab. The casing of the "styleGuideExcludes" config is publicly
+  // documented by Pattern Lab and is unlikely to change. Internally, "styleguide" will be all lowercase.
+  // Return true if the pattern is configured to be excluded in patternlab-config.json.
+  const styleguideExcludes = config.styleGuideExcludes || [];
+
+  if (Array.isArray(styleguideExcludes) && styleguideExcludes.length) {
+    const partial = pattern.patternPartial;
+    const partialType = partial.substring(0, partial.indexOf('-'));
+
+    if (styleguideExcludes.indexOf(partialType) > -1) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function spaceAndCapitalize(name) {
   return name
     .split('-')
@@ -78,6 +104,9 @@ exports.Pattern = class {
     this.patternState = '';
     this.pseudoPatternPartial = ''; // For pseudo-patterns only. Will be the same as the main pattern's patternPartial.
     this.template = '';
+
+    // Dependent on other properties being set.
+    this.isHidden = isPatternHidden(this, patternlab.config);
   }
 };
 
