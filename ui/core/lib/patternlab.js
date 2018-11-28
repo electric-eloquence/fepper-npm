@@ -101,35 +101,6 @@ module.exports = class {
     );
   }
 
-  isPatternExcluded(pattern) {
-    if (!pattern.isPattern) {
-      return true;
-    }
-    // Return true if the 1st character of pattern type, subType, further nested dirs, or filename is an underscore.
-    else if (
-      pattern.relPath.charAt(0) === '_' ||
-      pattern.relPath.indexOf('/_') > -1
-    ) {
-      return true;
-    }
-
-    // Retaining inconsistent camelCasing from Pattern Lab. The casing of the "styleGuideExcludes" config is publicly
-    // documented by Pattern Lab and is unlikely to change. Internally, "styleguide" will be all lowercase.
-    // Return true if the pattern is configured to be excluded in patternlab-config.json.
-    const styleguideExcludes = this.config.styleGuideExcludes || [];
-
-    if (Array.isArray(styleguideExcludes) && styleguideExcludes.length) {
-      const partial = pattern.patternPartial;
-      const partialType = partial.substring(0, partial.indexOf('-'));
-
-      if (styleguideExcludes.indexOf(partialType) > -1) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   preProcessAllPatterns(patternsDir) {
     try {
       this.data = this.buildPatternData(this.config.paths.source.data);
