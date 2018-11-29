@@ -1,5 +1,11 @@
 # Fepper NPM Changelog
 
+### v0.29.1
+* `fp update` updates fepper-cli even when behind a major version
+* 404 page
+* Better hiding of excluded patterns
+* Fepper Express app using Feplet instead of string replace
+
 ### v0.29.0
 * Removing reference to fepper-windows project
 * `fp update` updates Windows scripts universally
