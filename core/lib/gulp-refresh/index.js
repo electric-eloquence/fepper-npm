@@ -1,6 +1,6 @@
 'use strict'
 
-const es = require('event-stream')
+const mapStream = require('../map-stream');
 const minilr = require('../mini-lr')
 const path = require('path')
 const relative = path.relative
@@ -35,7 +35,7 @@ var options = {
 module.exports = exports = function (opts) {
   options = Object.assign(options, opts)
 
-  var glr = es.map(function (file, done) {
+  var glr = mapStream(function (file, done) {
     var filePath = file.path
     exports.changed(filePath)
     done(null, file)
