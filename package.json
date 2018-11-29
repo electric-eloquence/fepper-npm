@@ -3,7 +3,6 @@
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "core/fepper.js",
   "scripts": {
-    "prepush": "npm test",
     "test:eslint:extend": "eslint excludes/extend/*.js && eslint excludes/extend/*/*.js && eslint excludes/extend/*/*/*.js",
     "test:eslint:fepper": "eslint core/**/*.js",
     "test:eslint:tasker": "eslint tasker/**/*.js",
@@ -15,6 +14,11 @@
     "test:mocha:ui": "mocha ui/test/tests/*.js",
     "test:mocha": "npm run test:mocha:core && npm run test:mocha:ui",
     "test": "npm run test:eslint && npm run test:mocha"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
   },
   "repository": {
     "type": "git",
@@ -76,7 +80,7 @@
     "eslint": "3.x",
     "fepper-ui": "^0.5.2",
     "fepper-utils": "^1.1.5",
-    "husky": "^0.14.3",
+    "husky": "^1.2.0",
     "json-eval": "^1.0.4",
     "mocha": "5.x"
   }
