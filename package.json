@@ -16,11 +16,6 @@
     "test:mocha": "npm run test:mocha:core && npm run test:mocha:ui",
     "test": "npm run test:eslint && npm run test:mocha"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
@@ -80,7 +75,6 @@
     "eslint": "3.x",
     "fepper-ui": "^0.5.2",
     "fepper-utils": "^1.1.5",
-    "husky": "^1.2.0",
     "json-eval": "^1.0.4",
     "mocha": "5.x"
   }
