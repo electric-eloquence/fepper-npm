@@ -1,6 +1,6 @@
 # Fepper NPM Changelog
 
-### v0.29.1
+### v0.30.0
 * `fp update` updates fepper-cli even when behind a major version
 * 404 page
 * Better hiding of excluded patterns
