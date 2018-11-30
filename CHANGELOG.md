@@ -6,7 +6,7 @@
 * Better hiding of excluded patterns
 * Fepper Express app using Feplet instead of string replace
 
-### v0.29.0
+### v0.29.0 - deprecated
 * Removing reference to fepper-windows project
 * `fp update` updates Windows scripts universally
 * Deprecating index.js
@@ -17,24 +17,24 @@
 * Removing css vendor prefixes where unnecessary
 * Reenabling animation of pattern window resize
 
-### v0.28.2
+### v0.28.2 - deprecated
 * More specific path for writing updates in `fp update`
 * Removed `npm run update` script
 
-### v0.28.1
+### v0.28.1 - deprecated
 * Able to update distro with `fp update`
 * Restored `fp ui:copy-styles` naming convention
 * When Mustache browsing pseudo-pattern, Mustache browser pulls main pattern's code
 * Upgraded `fp-stylus` extension to better differentiate between editing CSS-only and editing Stylus-only
 
-### v0.28.0
+### v0.28.0 - deprecated
 * Deprecated `compileui`, replaced with just `compile`
 * Documentation updated to reflect that
 
-### v0.27.2
+### v0.27.2 - deprecated
 * Fixed fatal watch task error in Windows 10
 
-### v0.27.1
+### v0.27.1 - deprecated
 * Fixed watching of patterns
 * Mustache browser:
   * Replaced "back" text with arrow
@@ -48,7 +48,7 @@
   * Fixed scroll behavior of annotations and code toggles on viewall pages
   * Fixed Mustache Browser code rendering
 
-### v0.27.0
+### v0.27.0 - deprecated
 * Mustache browser:
   * Back button
   * Browser history backward and forward functionality
