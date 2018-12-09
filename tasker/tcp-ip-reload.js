@@ -2,7 +2,7 @@
 
 const gulp = require('gulp');
 
-const refresh = require('../core/lib/gulp-refresh');
+const reload = require('gulp-livereload');
 
 const conf = global.conf;
 const pubDir = global.conf.ui.paths.public;
@@ -12,32 +12,32 @@ const srcDirRel = global.conf.ui.pathsRelative.source;
 // Not using template literals because VIM doesn't syntax highlight the slash+asterisks correctly.
 
 gulp.task('tcp-ip-reload:listen', function () {
-  refresh.listen({port: conf.livereload_port});
+  reload.listen({port: conf.livereload_port});
 });
 
 gulp.task('tcp-ip-reload:annotations', function () {
   return gulp.src(pubDir.annotations + '/**/*')
-    .pipe(refresh());
+    .pipe(reload());
 });
 
 gulp.task('tcp-ip-reload:index', function () {
   return gulp.src(pubDir.root + '/index.html')
-    .pipe(refresh());
+    .pipe(reload());
 });
 
 gulp.task('tcp-ip-reload:styles-inject', function () {
   return gulp.src(pubDir.css + '/**/*.css')
-    .pipe(refresh());
+    .pipe(reload());
 });
 
 gulp.task('tcp-ip-reload:styles-reload', function () {
   return gulp.src(pubDir.css + '/**/!(*.css)')
-    .pipe(refresh());
+    .pipe(reload());
 });
 
 gulp.task('tcp-ip-reload:scripts', function () {
   return gulp.src(pubDir.js + '/**/*')
-    .pipe(refresh());
+    .pipe(reload());
 });
 
 gulp.task('tcp-ip-reload:watch', function () {
