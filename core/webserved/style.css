@@ -64,7 +64,7 @@ html {
 
 body {
   background: white;
-  font-family: Helvetica, "Liberation Sans", "Roboto", sans-serif;
+  font-family: Helvetica, "Nimbus Sans L", "Liberation Sans", "Roboto", sans-serif;
   font-size: 1.6em;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
@@ -152,7 +152,7 @@ p {
 
 code {
   background-color:#eeeeee;
-  font-family: Courier, "Liberation Mono", "Roboto Mono", monospace;
+  font-family: Courier, "Nimbus Mono L", "Droid Sans Mono", monospace;
   font-size: 0.9em;
 }
 
@@ -346,7 +346,7 @@ td {
 }
 
 .mustache-browser {
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: Monaco, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
   font-size: 13px;
 }
 
