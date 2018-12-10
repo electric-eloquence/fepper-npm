@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.30.1
+* Updating to more secure dependencies
+
 ### v0.30.0
 * `fp update` updates fepper-cli even when behind a major version
 * 404 page
