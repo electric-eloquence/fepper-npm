@@ -47,7 +47,7 @@
   },
   "homepage": "http://fepper.io/",
   "engines": {
-    "node": ">=8.5.0"
+    "node": ">=8.10.0"
   },
   "dependencies": {
     "body-parser": "^1.6.3",
