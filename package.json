@@ -4,7 +4,7 @@
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "core/fepper.js",
   "scripts": {
-    "test:eslint:extend": "eslint excludes/extend/*.js && eslint excludes/extend/*/*.js && eslint excludes/extend/*/*/*.js",
+    "test:eslint:extend": "eslint excludes/profiles/base/extend/**/*.js excludes/profiles/main/extend/**/*.js",
     "test:eslint:fepper": "eslint core/**/*.js",
     "test:eslint:tasker": "eslint tasker/**/*.js",
     "test:eslint:root": "eslint *.js",
