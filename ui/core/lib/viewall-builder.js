@@ -338,10 +338,12 @@ module.exports = class {
     while (i--) {
       const viewall = this.viewallPatterns[keys[i]];
 
-      fs.outputFileSync(viewall.path, viewall.content);
+      if (viewall.path && viewall.content) {
+        fs.outputFileSync(viewall.path, viewall.content);
 
-      delete viewall.content;
-      delete viewall.path;
+        delete viewall.content;
+        delete viewall.path;
+      }
     }
   }
 };
