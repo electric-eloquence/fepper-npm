@@ -42,7 +42,7 @@ exports.forbidden = `
     </section>`;
 
 exports.landingBody = `
-      <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter" {{ attributes }}>
+      <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter">
         <div>
           <label for="url">URL:</label>
           <input name="url" type="text" value="{{{ url }}}" style="width: 100%;">
