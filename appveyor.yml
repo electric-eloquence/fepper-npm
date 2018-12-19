@@ -18,7 +18,8 @@ test_script:
   - node --version
   - npm --version
   # Run tests.
-  - npm test
+  # Cannot run `npm test` because linting fails on Node v8.10.0
+  - npm run test:mocha
 
 # Don't actually build.
 build: off
