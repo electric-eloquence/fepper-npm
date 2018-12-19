@@ -49,12 +49,6 @@ module.exports = class {
       const scrapePrefix = srcScrape.replace(srcPatterns, '');
       const scrapePath = `/patterns/${scrapePrefix}-00-html-scraper/${scrapePrefix}-00-html-scraper.html`;
 
-      let attributes = '';
-
-      if (req.headers.referer.indexOf(scrapePath) > -1) {
-        attributes = 'target="_blank"';
-      }
-
       let message = '';
       let msgClass = '';
       let selector = '';
@@ -87,7 +81,6 @@ module.exports = class {
         {
           main_id: 'scraper',
           main_class: 'scraper',
-          attributes,
           url,
           selector
         }
