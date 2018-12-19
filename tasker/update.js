@@ -28,8 +28,7 @@ if (isWindows) {
   binNpm = 'npm.cmd';
 }
 
-function downloadFileFromRepo(file) {
-  const repoDir = 'https://raw.githubusercontent.com/electric-eloquence/fepper/release';
+function downloadFileFromRepo(file, repoDir) {
   const writeStream = fs.createWriteStream(`${rootDir}/${file}`);
 
   https.get(`${repoDir}/${file}`, (res) => {
@@ -101,13 +100,21 @@ function fpUpdate(cb) {
 
   spawnSync(binNpm, ['update'], {stdio: 'inherit'});
 
+  const rootPackageJson = fs.readJsonSync('./package.json');
+
+  if (rootPackageJson.repository && rootPackageJson.repository.url) {
+    let repoDir = rootPackageJson.repository.url.replace('git+', '');
+    repoDir = repoDir.replace('github', 'raw.githubusercontent');
+    repoDir = repoDir.replace('.git', '/release');
+  }
+
   // Update distro files.
-  downloadFileFromRepo('CHANGELOG.md');
-  downloadFileFromRepo('LICENSE');
-  downloadFileFromRepo('README.md');
-  downloadFileFromRepo('fepper.command');
-  downloadFileFromRepo('fepper.ps1');
-  downloadFileFromRepo('fepper.vbs');
+  downloadFileFromRepo('CHANGELOG.md', repoDir);
+  downloadFileFromRepo('LICENSE', repoDir);
+  downloadFileFromRepo('README.md', repoDir);
+  downloadFileFromRepo('fepper.command', repoDir);
+  downloadFileFromRepo('fepper.ps1', repoDir);
+  downloadFileFromRepo('fepper.vbs', repoDir);
 
   const runDir = 'run';
 
@@ -124,9 +131,12 @@ function fpUpdate(cb) {
     utils.log(`Running \`npm update\` in ${extendDir}...`);
 
     // If the fp-stylus extension is installed, find the latest release and update if updatable.
-    const extendPackages = fs.readFileSync('package.json', global.conf.enc);
+    const extendPackageJson = fs.readJsonSync('./package.json');
 
-    if (extendPackages.indexOf('fp-stylus') > -1) {
+    if (
+      extendPackageJson.devDependencies &&
+      Object.keys(extendPackageJson.devDependencies).indexOf('fp-stylus') > -1
+    ) {
       const fpStylusVersions = parseNpmOutdated('fp-stylus');
 
       if (fpStylusVersions && fpStylusVersions.current !== fpStylusVersions.latest) {
