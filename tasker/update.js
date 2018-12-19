@@ -59,6 +59,15 @@ function parseNpmOutdated(npmPackage, addlArgsArr = []) {
   return null;
 }
 
+function slashPerOS(directoryPath) {
+  if (isWindows) {
+    return directoryPath.replace(/\//g, '\\');
+  }
+  else {
+    return directoryPath;
+  }
+}
+
 function fpUpdate(cb) {
   // Update global npm.
   utils.log('Running `npm --global update` on fepper-cli...');
@@ -80,7 +89,7 @@ function fpUpdate(cb) {
 
   // Update core npms.
   process.chdir(rootDir);
-  utils.log(`Running \`npm update\` in ${rootDir}...`);
+  utils.log(`Running \`npm update\` in ${slashPerOS(rootDir)}...`);
 
   // Find the latest fepper-npm release and update if updatable.
   const fepperVersions = parseNpmOutdated('fepper');
@@ -128,7 +137,7 @@ function fpUpdate(cb) {
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
     process.chdir(extendDir);
-    utils.log(`Running \`npm update\` in ${extendDir}...`);
+    utils.log(`Running \`npm update\` in ${slashPerOS(extendDir)}...`);
 
     // If the fp-stylus extension is installed, find the latest release and update if updatable.
     const extendPackageJson = fs.readJsonSync('./package.json');
@@ -150,7 +159,7 @@ function fpUpdate(cb) {
 
   // Update public dir npms.
   process.chdir(publicDir);
-  utils.log(`Running \`npm update\` in ${publicDir}...`);
+  utils.log(`Running \`npm update\` in ${slashPerOS(publicDir)}...`);
 
   // Find the latest feplet release and update if updatable.
   const fepletVersions = parseNpmOutdated('feplet');
