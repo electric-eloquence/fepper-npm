@@ -44,11 +44,6 @@ module.exports = class {
         return;
       }
 
-      const srcPatterns = `${this.conf.ui.paths.source.patterns}/`;
-      const srcScrape = this.conf.ui.paths.source.scrape;
-      const scrapePrefix = srcScrape.replace(srcPatterns, '');
-      const scrapePath = `/patterns/${scrapePrefix}-00-html-scraper/${scrapePrefix}-00-html-scraper.html`;
-
       let message = '';
       let msgClass = '';
       let selector = '';
