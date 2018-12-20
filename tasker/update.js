@@ -115,15 +115,15 @@ function fpUpdate(cb) {
     let repoDir = rootPackageJson.repository.url.replace('git+', '');
     repoDir = repoDir.replace('github', 'raw.githubusercontent');
     repoDir = repoDir.replace('.git', '/release');
-  }
 
-  // Update distro files.
-  downloadFileFromRepo('CHANGELOG.md', repoDir);
-  downloadFileFromRepo('LICENSE', repoDir);
-  downloadFileFromRepo('README.md', repoDir);
-  downloadFileFromRepo('fepper.command', repoDir);
-  downloadFileFromRepo('fepper.ps1', repoDir);
-  downloadFileFromRepo('fepper.vbs', repoDir);
+    // Update distro files.
+    downloadFileFromRepo('CHANGELOG.md', repoDir);
+    downloadFileFromRepo('LICENSE', repoDir);
+    downloadFileFromRepo('README.md', repoDir);
+    downloadFileFromRepo('fepper.command', repoDir);
+    downloadFileFromRepo('fepper.ps1', repoDir);
+    downloadFileFromRepo('fepper.vbs', repoDir);
+  }
 
   const runDir = 'run';
 
