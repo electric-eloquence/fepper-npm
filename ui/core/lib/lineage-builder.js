@@ -78,7 +78,7 @@ module.exports = class {
 
       // Skip if no ancestorPattern.
       if (!ancestorPattern) {
-        this.patternlab.utils.error('Could not find pattern ' + ancestorPatternName);
+        this.patternlab.utils.error('`' + pattern.relPath + '` is missing pattern `' + ancestorPatternName + '`');
 
         continue;
       }
