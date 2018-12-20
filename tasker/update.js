@@ -75,7 +75,7 @@ function fpUpdate(cb) {
   const fepperCliVersions = parseNpmOutdated('fepper-cli', ['--global']);
 
   if (fepperCliVersions && fepperCliVersions.current !== fepperCliVersions.latest) {
-    const spawnObj = spawnSync(binNpm, ['uninstall', '--global', 'fepper-cli']);
+    const spawnObj = spawnSync(binNpm, ['uninstall', '--global', 'fepper-cli'], {stdio: 'inherit'});
 
     if (isWindows || spawnObj.status === 0) {
       spawnSync(binNpm, ['install', '--global', 'fepper-cli'], {stdio: 'inherit'});
