@@ -123,16 +123,16 @@ function fpUpdate(cb) {
     downloadFileFromRepo('fepper.command', repoDir);
     downloadFileFromRepo('fepper.ps1', repoDir);
     downloadFileFromRepo('fepper.vbs', repoDir);
+
+    const runDir = 'run';
+
+    if (!fs.existsSync(runDir)) {
+      fs.ensureDirSync(runDir);
+    }
+
+    downloadFileFromRepo(`${runDir}/install-base.js`, repoDir);
+    downloadFileFromRepo(`${runDir}/install.js`, repoDir);
   }
-
-  const runDir = 'run';
-
-  if (!fs.existsSync(runDir)) {
-    fs.ensureDirSync(runDir);
-  }
-
-  downloadFileFromRepo(`${runDir}/install-base.js`);
-  downloadFileFromRepo(`${runDir}/install.js`);
 
   // Update extension npms.
   if (fs.existsSync(extendDir)) {
