@@ -1,3 +1,7 @@
+.eslintignore
+.eslintrc.json
+.travis.yml
 /excludes/fepper-branding.*
 /test/
 /ui/test/
+appveyor.yml
