@@ -113,8 +113,8 @@ function fpUpdate(cb) {
 
   if (rootPackageJson.repository && rootPackageJson.repository.url) {
     let repoDir = rootPackageJson.repository.url.replace('git+', '');
-    repoDir = repoDir.replace('github', 'raw.githubusercontent');
     repoDir = repoDir.replace('.git', '/release');
+    repoDir = repoDir.replace('github', 'raw.githubusercontent');
 
     // Update distro files.
     downloadFileFromRepo('CHANGELOG.md', repoDir);
