@@ -1,5 +1,15 @@
 # Fepper NPM Changelog
 
+### v0.30.2
+* Better font support across platforms
+* Corrected test:eslint:extend npm script
+* Checking for viewall.path and viewall.content before outputing viewall
+* Fixed curly braces in html output for readme and success pages
+* `fp update` gets direct downloads from distro repo
+* In `fp update`, outputting directory separators specific to os
+* Removed target="\_blank" from html scraper
+* More helpful missing pattern error message
+
 ### v0.30.1
 * Updating to more secure dependencies
 
