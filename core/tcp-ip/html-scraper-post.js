@@ -161,8 +161,7 @@ module.exports = class {
       fs.outputFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
       fs.outputFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
-      let msg = 'Go back to the "Fepper - scrape-html-scraper" tab and refresh the browser to check that your ' +
-        'template appears under the "Scrape" menu.';
+      let msg = 'Refresh the browser to check that your template appears under the "Scrape" menu.';
 
       this.redirectWithMsg('success', msg, '', '');
     }
