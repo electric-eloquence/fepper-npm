@@ -67,49 +67,49 @@ module.exports = class {
     const partialsArr = this.partialTagScan(pattern.fepletParse, []);
 
     for (let i = 0, l = partialsArr.length; i < l; i++) {
-      const ancestorPatternName = this.matchPattern(partialsArr[i]);
+      const descendentPatternName = this.matchPattern(partialsArr[i]);
 
-      // Skip if no ancestorPatternName.
-      if (!ancestorPatternName) {
+      // Skip if no descendentPatternName.
+      if (!descendentPatternName) {
         continue;
       }
 
-      const ancestorPattern = this.patternlab.getPattern(ancestorPatternName);
+      const descendentPattern = this.patternlab.getPattern(descendentPatternName);
 
-      // Skip if no ancestorPattern.
-      if (!ancestorPattern) {
-        this.patternlab.utils.error('`' + pattern.relPath + '` is missing pattern `' + ancestorPatternName + '`');
+      // Skip if no descendentPattern.
+      if (!descendentPattern) {
+        this.patternlab.utils.error('`' + pattern.relPath + '` is missing pattern `' + descendentPatternName + '`');
 
         continue;
       }
 
-      // Skip if ancestorPattern has already been indexed.
-      if (pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) > -1) {
+      // Skip if descendentPattern has already been indexed.
+      if (pattern.lineageIndex.indexOf(descendentPattern.patternPartial) > -1) {
         continue;
       }
 
       // Add to lineageIndex.
-      pattern.lineageIndex.push(ancestorPattern.patternPartial);
+      pattern.lineageIndex.push(descendentPattern.patternPartial);
 
       // Create the more complex lineage object.
       const l = {
-        lineagePattern: ancestorPattern.patternPartial,
-        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + ancestorPattern.patternLink,
-        isHidden: ancestorPattern.isHidden
+        lineagePattern: descendentPattern.patternPartial,
+        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + descendentPattern.patternLink,
+        isHidden: descendentPattern.isHidden
       };
 
-      if (ancestorPattern.patternState) {
-        l.lineageState = ancestorPattern.patternState;
+      if (descendentPattern.patternState) {
+        l.lineageState = descendentPattern.patternState;
       }
 
       pattern.lineage.push(l);
 
       // Only add to lineageRIndex if it hadn't been indexed before.
-      if (ancestorPattern.lineageRIndex.indexOf(pattern.patternPartial) > -1) {
+      if (descendentPattern.lineageRIndex.indexOf(pattern.patternPartial) > -1) {
         continue;
       }
 
-      ancestorPattern.lineageRIndex.push(pattern.patternPartial);
+      descendentPattern.lineageRIndex.push(pattern.patternPartial);
 
       // Create the more complex lineage object in reverse.
       const lr = {
@@ -122,7 +122,7 @@ module.exports = class {
         lr.lineageState = pattern.patternState;
       }
 
-      ancestorPattern.lineageR.push(lr);
+      descendentPattern.lineageR.push(lr);
     }
   }
 };
