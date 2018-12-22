@@ -31,3 +31,5 @@ branches:
   only:
     - master
     - release
+
+skip_tags: true
