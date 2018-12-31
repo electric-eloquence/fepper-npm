@@ -31,8 +31,8 @@ module.exports = class {
         try {
           htmlMd = marked(dat);
           // Escape curly braces so they don't get interpreted as stashes.
-          htmlMd = htmlMd.replace(/\{/g, '&lbrace;');
-          htmlMd = htmlMd.replace(/\}/g, '&rbrace;');
+          htmlMd = htmlMd.replace(/\{/g, '&lcub;');
+          htmlMd = htmlMd.replace(/\}/g, '&rcub;');
         }
         catch (err1) {
           const internalServerError = 500;
