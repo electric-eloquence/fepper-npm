@@ -154,7 +154,6 @@ describe('Parameter Hunter', function () {
     const param = '{missing-val: , : missing-key, : , , foo: "Hello World"}';
     jsonEval(param);
 
-    // eslint-disable-next-line no-console
     console.log('Pattern Lab should catch JSON5.parse() errors and output useful debugging information...');
   });
 

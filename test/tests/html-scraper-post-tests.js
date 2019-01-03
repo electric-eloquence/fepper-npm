@@ -200,13 +200,11 @@ describe('HTML Scraper Post', function () {
   describe('HTML Converter', function () {
     it('should return a JSON object', function () {
       expect(jsons.jsonForMustache).to.be.an('object');
-      // eslint-disable-next-line no-unused-expressions
       expect(jsons.jsonForMustache).to.not.be.empty;
     });
 
     it('should return an array', function () {
       expect(jsons.jsonForData).to.be.an('object');
-      // eslint-disable-next-line no-unused-expressions
       expect(jsons.jsonForData).to.not.be.empty;
     });
   });
@@ -325,7 +323,6 @@ describe('HTML Scraper Post', function () {
     });
 
     it('should correctly format newlines in file body', function () {
-      // eslint-disable-next-line max-len
       const mustache = '{{# scrape }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ scrape }}';
 
       expect(htmlScraperPost.newlineFormat(mustache)).to.equal(
