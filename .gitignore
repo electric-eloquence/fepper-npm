@@ -1,6 +1,7 @@
 *.log
 .*.swp
 .DS_Store
+.tmp
 /ui/test/pattern_exports/
 /ui/test/public/
 ignore/
