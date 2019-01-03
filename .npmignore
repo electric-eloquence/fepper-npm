@@ -1,7 +1,7 @@
 *.log
 .*
 !.jsbeautifyrc
-/excludes/fepper-branding.*
 appveyor.yml
+excludes/fepper-branding.*
 test/
 ui/test/
