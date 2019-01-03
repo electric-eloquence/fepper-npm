@@ -1,7 +1,6 @@
-.eslintignore
-.eslintrc.json
-.travis.yml
+!.jsbeautifyrc
+*.log
+.*
 /excludes/fepper-branding.*
-/test/
-/ui/test/
 appveyor.yml
+test/

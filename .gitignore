@@ -1,7 +1,6 @@
+*.log
 .*.swp
 .DS_Store
-.publish/
-/npm-debug.log
 /package-lock.json
 /pattern_exports/
 /public/
