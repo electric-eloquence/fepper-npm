@@ -1,10 +1,10 @@
-!/test/public/node_modules/
 *.log
 .*.swp
 .DS_Store
 /pattern_exports/
 /public/
 /test/public/node_modules/fepper-ui/data/*
+!/test/public/node_modules/
 /ui/test/pattern_exports/*
 /ui/test/public/*
 ignore/
