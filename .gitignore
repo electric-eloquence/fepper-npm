@@ -1,12 +1,10 @@
 *.log
 .*.swp
 .DS_Store
-/pattern_exports/
-/public/
-/test/public/node_modules/fepper-ui/data/*
-/ui/test/pattern_exports/*
-/ui/test/public/*
+/ui/test/pattern_exports/
+/ui/test/public/
 ignore/
 node_modules/
 !/test/public/node_modules/
+/test/public/node_modules/fepper-ui/data/*
 package-lock.json
