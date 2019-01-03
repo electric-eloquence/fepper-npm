@@ -77,14 +77,12 @@ describe('Templater', function () {
   it('should write to the default templates directory', function () {
     const output = fs.readFileSync(templatesDir + '/00-homepage.tpl.php', conf.enc).trim();
 
-    // eslint-disable-next-line max-len
     expect(output).to.equal('<div class="page" id="page"><a href=""><img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a><?php print $page[\'footer\']; ?></div>');
   });
 
   it('should write to nested directories within the default templates directory', function () {
     const output = fs.readFileSync(templatesDir + '/nested/00-nested.tpl.php', conf.enc).trim();
 
-    // eslint-disable-next-line max-len
     expect(output).to.equal('<div class="page" id="page"><a href=""><img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a><?php print $page[\'footer\']; ?></div>');
   });
 
