@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const {
   patternlab,
   patternsDir
-} = require('../test-harness')();
+} = require('../init')();
 const patternBuilder = patternlab.patternBuilder;
 
 // Preprocess the patternlab object.

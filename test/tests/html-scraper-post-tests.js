@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const fs = require('fs-extra');
 const html2json = require('html2json').html2json;
 
-require('../test-harness');
+require('../init');
 
 const fepper = global.fepper;
 const conf = fepper.conf;

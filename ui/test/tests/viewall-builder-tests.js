@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 const {
   patternlab
-} = require('../test-harness')();
+} = require('../init')();
 
 const viewallViewall = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
 const patternTypeViewall = `${patternlab.config.paths.public.patterns}/00-test/index.html`;
