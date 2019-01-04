@@ -6,7 +6,7 @@ const {
   dataDir,
   patternlab,
   patternsDir
-} = require('../test-harness')();
+} = require('../init')();
 
 // Preprocess the patternlab object.
 patternlab.preProcessAllPatterns(patternsDir);
