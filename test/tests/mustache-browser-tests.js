@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 
-require('../test-harness');
+require('../init');
 
 const fepper = global.fepper;
 const mustacheBrowser = fepper.tcpIp.fpExpress.mustacheBrowser;

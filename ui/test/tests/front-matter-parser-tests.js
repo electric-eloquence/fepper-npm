@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const {
   patternlab,
   patternsDir
-} = require('../test-harness')();
+} = require('../init')();
 const frontMatterParser = require('../../core/lib/front-matter-parser');
 
 // Preprocess the patternlab object.

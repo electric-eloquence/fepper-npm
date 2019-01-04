@@ -6,7 +6,7 @@ const of = require('../../core/lib/object-factory');
 
 const {
   patternlab
-} = require('../test-harness')();
+} = require('../init')();
 
 describe('Object Factory', function () {
   describe('Pattern constructor', function () {

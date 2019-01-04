@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const {
   patternlab,
   patternsDir
-} = require('../test-harness')();
+} = require('../init')();
 
 const annotationsJs = `${patternlab.config.paths.public.annotations}/annotations.js`;
 

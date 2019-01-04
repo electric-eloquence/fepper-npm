@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 const {
   patternlab
-} = require('../test-harness')();
+} = require('../init')();
 
 const uiIndex = `${patternlab.config.paths.public.root}/index.html`;
 const uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
