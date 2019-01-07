@@ -8,7 +8,7 @@
 <h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 [![Known Vulnerabilities](https://snyk.io/test/github/electric-eloquence/fepper-npm/badge.svg)](https://snyk.io/test/github/electric-eloquence/fepper-npm)
-[![Mac/Linux Build Status](https://img.shields.io/travis/electric-eloquence/fepper-npm.svg)](https://travis-ci.org/electric-eloquence/fepper-npm)
+[![Mac/Linux Build Status](https://img.shields.io/travis/electric-eloquence/fepper-npm.svg?label=mac%20%26%20linux)](https://travis-ci.org/electric-eloquence/fepper-npm)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm.svg?label=windows)](https://ci.appveyor.com/project/e2tha-e/fepper-npm)
 ![Node Version](https://img.shields.io/node/v/fepper.svg)
 [![License](https://img.shields.io/github/license/electric-eloquence/fepper-npm.svg)](https://raw.githubusercontent.com/electric-eloquence/fepper-npm/release/LICENSE)
