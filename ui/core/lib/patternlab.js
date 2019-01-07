@@ -153,8 +153,6 @@ module.exports = class {
   }
 
   preProcessDataAndParams() {
-    this.annotationsBuilder.main();
-
     if (this.useListItems) {
       this.listItemsBuilder.listItemsBuild(this);
     }
@@ -205,6 +203,8 @@ module.exports = class {
       this.emptyFilesNotDirs(this.config.paths.public.css);
       fs.emptyDirSync(this.config.paths.public.patterns);
     }
+
+    this.annotationsBuilder.main();
   }
 
   setCacheBuster() {
