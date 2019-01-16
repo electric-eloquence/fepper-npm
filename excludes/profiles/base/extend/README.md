@@ -33,17 +33,6 @@ The values in `patternlab-config.json` are exposed through `global.conf.ui`.
 Please note that all paths in `patternlab-config.json` will be converted to 
 absolute paths in `global.conf.ui`.
 
-`gulp.watch` will not work correctly with absolute paths. There are two 
-workarounds for this:
- 
-* Hard-code a relative path as the first `gulp.watch` parameter. Pass an 
-  absolute path (from `global.conf.ui.paths` or otherwise) as the `options.cwd` 
-  value for the second parameter.
-* Pass a value from `global.conf.ui.pathsRelative` as the first parameter.
-  * `global.conf.ui.pathsRelative` stores relative versions of the values in 
-    `global.conf.ui.paths`.
-  * This will still probably require `options.cwd` in the second parameter.
-
 ### Fepper Utils
 
 Common utilty functions for custom extensions are available from the 
