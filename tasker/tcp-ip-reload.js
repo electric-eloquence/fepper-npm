@@ -6,8 +6,7 @@ const reload = require('gulp-livereload');
 
 const conf = global.conf;
 const pubDir = global.conf.ui.paths.public;
-const pubDirRel = global.conf.ui.pathsRelative.public;
-const srcDirRel = global.conf.ui.pathsRelative.source;
+const srcDir = global.conf.ui.paths.source;
 
 // Not using template literals because VIM doesn't syntax highlight the slash+asterisks correctly.
 
@@ -41,21 +40,19 @@ gulp.task('tcp-ip-reload:scripts', function () {
 });
 
 gulp.task('tcp-ip-reload:watch', function () {
-  // We cannot use absolute paths in the first param for gulp.watch(). Therefore we must specify cwd in the 2nd.
-  // Must use '/**/*' and not '/**' because '/**' watches '..'
-  gulp.watch(srcDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['ui:build']);
-  gulp.watch(srcDirRel.css + '/*', {cwd: global.rootDir}, ['ui:copy-styles:root']);
-  gulp.watch(srcDirRel.cssBld + '/**/*.css', {cwd: global.rootDir}, ['ui:copy-styles:bld']);
-  gulp.watch(srcDirRel.cssBld + '/**/!(*.css)', {cwd: global.rootDir}, ['ui:copy-styles:other']);
-  gulp.watch(srcDirRel.data + '/_data.json', {cwd: global.rootDir}, ['data']);
-  gulp.watch(srcDirRel.data + '/listitems.json', {cwd: global.rootDir}, ['ui:build']);
-  gulp.watch(srcDirRel.images + '/**/*', {cwd: global.rootDir}, ['ui:copy-assets']);
-  gulp.watch(srcDirRel.js + '/**/*', {cwd: global.rootDir}, ['ui:copy-scripts']);
-  gulp.watch(srcDirRel.meta + '/**/*', {cwd: global.rootDir}, ['ui:compile']);
-  gulp.watch(srcDirRel.patterns + '/**/*', {cwd: global.rootDir}, ['data']);
-  gulp.watch(pubDirRel.annotations + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:annotations']);
-  gulp.watch(pubDirRel.css + '/**/*.css', {cwd: global.rootDir}, ['tcp-ip-reload:styles-inject']);
-  gulp.watch(pubDirRel.css + '/**/!(*.css)', {cwd: global.rootDir}, ['tcp-ip-reload:styles-reload']);
-  gulp.watch(pubDirRel.js + '/**/*', {cwd: global.rootDir}, ['tcp-ip-reload:scripts']);
-  gulp.watch(pubDirRel.root + '/index.html', {cwd: global.rootDir}, ['tcp-ip-reload:index']);
+  gulp.watch(srcDir.annotations + '/**/*', ['ui:build']);
+  gulp.watch(srcDir.css + '/*', ['ui:copy-styles:root']);
+  gulp.watch(srcDir.cssBld + '/**/*.css', ['ui:copy-styles:bld']);
+  gulp.watch(srcDir.cssBld + '/**/!(*.css)', ['ui:copy-styles:other']);
+  gulp.watch(srcDir.data + '/_data.json', ['data']);
+  gulp.watch(srcDir.data + '/listitems.json', ['ui:build']);
+  gulp.watch(srcDir.images + '/**/*', ['ui:copy-assets']);
+  gulp.watch(srcDir.js + '/**/*', ['ui:copy-scripts']);
+  gulp.watch(srcDir.meta + '/**/*', ['ui:compile']);
+  gulp.watch(srcDir.patterns + '/**/*', ['data']);
+  gulp.watch(pubDir.annotations + '/**/*', ['tcp-ip-reload:annotations']);
+  gulp.watch(pubDir.css + '/**/*.css', ['tcp-ip-reload:styles-inject']);
+  gulp.watch(pubDir.css + '/**/!(*.css)', ['tcp-ip-reload:styles-reload']);
+  gulp.watch(pubDir.js + '/**/*', ['tcp-ip-reload:scripts']);
+  gulp.watch(pubDir.root + '/index.html', ['tcp-ip-reload:index']);
 });
