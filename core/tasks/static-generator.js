@@ -132,8 +132,8 @@ module.exports = class {
   convertCacheBusters(content_) {
     let content = content_;
 
-    content = content.replace(/((href|src)\s*=\s*"[^"]*)\?\d*/gi, '$1');
-    content = content.replace(/((href|src)\s*=\s*'[^']*)\?\d*/gi, '$1');
+    content = content.replace(/((href|src)\s*=\s*"[^"]*)\?\d+/gi, '$1');
+    content = content.replace(/((href|src)\s*=\s*'[^']*)\?\d+/gi, '$1');
 
     return content;
   }
