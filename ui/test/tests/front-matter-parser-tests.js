@@ -68,7 +68,7 @@ describe('Front Matter Parser', function () {
 
       annotationsJsExistsBefore = fs.existsSync(annotationsJs);
 
-      patternlab.preProcessDataAndParams();
+      patternlab.build();
       require(annotationsJs);
 
       annotations = global.annotations;
