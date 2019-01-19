@@ -20,8 +20,7 @@ describe('Annotations Builder', function () {
   let annotations;
 
   before(function () {
-    patternlab.preProcessAllPatterns(patternsDir);
-    patternlab.preProcessDataAndParams();
+    patternlab.build();
     require(annotationsJs);
 
     annotations = global.annotations;
