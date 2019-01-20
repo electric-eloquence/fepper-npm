@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.30.3
+* Fixed over-aggressive removal of query params on static site generation
+
 ### v0.30.2
 * Better font support across platforms
 * Corrected test:eslint:extend npm script
