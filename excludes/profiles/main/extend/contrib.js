@@ -38,6 +38,7 @@ gulp.task('contrib:watch', [
   // Comment or delete if you wish to disable this.
   'stylus:watch-write-tmp'
   // If you are a power-user, delete 'stylus:watch-write-tmp'. If you still want Stylus, uncomment 'stylus:watch' for
-  // better performance.
+  // better performance, or replace with 'stylus:watch-no-comment' (also more performant) if you do not want line
+  // comments in your CSS.
   //'stylus:watch'
 ]);
