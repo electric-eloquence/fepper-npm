@@ -48,7 +48,7 @@ if (cusExists) {
 
 if (fs.existsSync(extendDir)) {
   // Search for extension tasks and require them.
-  // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob NPM.
+  // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob npm.
   // (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
   // wouldn't be any additional download overhead, but we don't want this bit of additional maintenance upkeep.)
   //
