@@ -13,7 +13,7 @@
 ![Node Version](https://img.shields.io/node/v/fepper.svg)
 [![License](https://img.shields.io/github/license/electric-eloquence/fepper-npm.svg)](https://raw.githubusercontent.com/electric-eloquence/fepper-npm/release/LICENSE)
 
-### This is the NPM that powers these Fepper prototypers:
+### This is the npm that powers these Fepper prototypers:
 
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main distribution.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
@@ -68,7 +68,7 @@ performance and core features</a>.
 
 ### <a id="upfront-and-onscreen"></a>Upfront and Onscreen
 
-Using this NPM decoupled from a full Fepper project requires compiling the UI by 
+Using this npm decoupled from a full Fepper project requires compiling the UI by 
 running this line of Node.js:
 
 ```javascript
