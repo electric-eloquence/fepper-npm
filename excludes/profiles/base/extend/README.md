@@ -2,7 +2,7 @@
 
 ### Contributed extensions
 
-* Install and update contributed extensions with NPM.
+* Install and update contributed extensions with npm.
 * Add the tasks to `extend/contrib.js` (and `extend/auxiliary/auxiliary_contrib.js`
   if necessary) in order for Fepper to run them.
 * Contributed Fepper extensions can be found at https://www.npmjs.com/ by 
@@ -37,4 +37,4 @@ absolute paths in `global.conf.ui`.
 
 Common utilty functions for custom extensions are available from the 
 <a href="https://www.npmjs.com/package/fepper-utils" target="_blank">Fepper Utils</a> 
-NPM. Its API documentation can be viewed by following the link.
+npm. Its API documentation can be viewed by following the link.

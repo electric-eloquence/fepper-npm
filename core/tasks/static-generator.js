@@ -35,7 +35,7 @@ module.exports = class {
     const rcLoader = new RcLoader('.jsbeautifyrc', {});
     const rcOpts = rcLoader.for(this.rootDir, {lookup: true});
 
-    // Resorting to this long, rather unreadable block of code to obviate requiring the large glob NPM.
+    // Resorting to this long, rather unreadable block of code to obviate requiring the large glob npm.
     // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
     // Choosing for...of loops and their readability in exchange for performance.
 
