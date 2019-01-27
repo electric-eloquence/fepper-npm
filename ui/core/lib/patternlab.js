@@ -82,6 +82,10 @@ module.exports = class {
   }
 
   emptyFilesNotDirs(publicDir) {
+    if (!fs.existsSync(publicDir)) {
+      return;
+    }
+
     diveSync(
       publicDir,
       (err, file) => {
