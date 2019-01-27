@@ -3,6 +3,9 @@
   "version": "0.30.4-rc.0",
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "core/fepper.js",
+  "bin": {
+    "fepper": "index.js"
+  },
   "scripts": {
     "test:eslint:extend": "eslint excludes/profiles/base/extend/**/*.js excludes/profiles/main/extend/**/*.js",
     "test:eslint:fepper": "eslint core/**/*.js",
@@ -74,8 +77,5 @@
     "fepper-utils": "^1.1.6",
     "json-eval": "^1.0.6",
     "mocha": "5.x"
-  },
-  "bin": {
-    "fepper": "index.js"
   }
 }
