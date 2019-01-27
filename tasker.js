@@ -30,23 +30,24 @@ const auxCusExists = fs.existsSync(auxCusFile);
 const conExists = fs.existsSync(conFile);
 const cusExists = fs.existsSync(cusFile);
 
-if (auxConExists) {
-  require(auxConFile);
-}
+// Do not run this block during installation because the required files may not be in place.
+if (process.argv[4] !== 'install' && fs.existsSync(extendDir)) {
+  if (auxConExists) {
+    require(auxConFile);
+  }
 
-if (auxCusExists) {
-  require(auxCusFile);
-}
+  if (auxCusExists) {
+    require(auxCusFile);
+  }
 
-if (conExists) {
-  require(conFile);
-}
+  if (conExists) {
+    require(conFile);
+  }
 
-if (cusExists) {
-  require(cusFile);
-}
+  if (cusExists) {
+    require(cusFile);
+  }
 
-if (fs.existsSync(extendDir)) {
   // Search for extension tasks and require them.
   // Resorting to this long, rather unreadable block of code to obviate requiring the large Glob npm.
   // (Yes, other dependencies also depend on Glob, so if Fepper were to stay in sync with at least one of them, there
