@@ -1,5 +1,11 @@
 # Fepper NPM Changelog
 
+### v0.30.4
+* Reinstated index.js as the primary launcher
+* Install task skips requiring of extensions
+* Update task writes to tmp file so interruptions don't corrupt files
+* Font update for code blocks on webserved pages
+
 ### v0.30.3
 * Fixed over-aggressive removal of query params on static site generation
 
