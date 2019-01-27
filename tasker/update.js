@@ -15,6 +15,7 @@ const enc = global.conf.enc;
 const extendDir = global.conf.extend_dir;
 const publicDir = global.conf.ui.paths.public.root;
 const rootDir = global.rootDir;
+const tmpDir = `${rootDir}/.tmp`;
 
 const isWindows = (
   global.conf.is_windows ||
@@ -23,16 +24,19 @@ const isWindows = (
 
 let binNpm = 'npm';
 
-// Spawn npm.cmd if Windows and not BASH.
+// Spawn npm.cmd if Windows.
 if (isWindows) {
   binNpm = 'npm.cmd';
 }
 
 function downloadFileFromRepo(file, repoDir) {
-  const writeStream = fs.createWriteStream(`${rootDir}/${file}`);
+  const writeStream = fs.createWriteStream(`${tmpDir}/${file}`);
 
   https.get(`${repoDir}/${file}`, (res) => {
-    res.pipe(writeStream);
+    res.pipe(writeStream)
+      .on('close', () => {
+        fs.moveSync(`${tmpDir}/${file}`, `${rootDir}/${file}`, {overwrite: true});
+      });
   }).on('error', (err) => {
     utils.error(err);
   });
@@ -188,6 +192,16 @@ function fpUpdate(cb) {
   );
 }
 
+// Prep.
+if (!fs.existsSync(tmpDir)) {
+  fs.mkdirSync(tmpDir);
+}
+
+if (!fs.existsSync(`${tmpDir}/run`)) {
+  fs.mkdirSync(`${tmpDir}/run`);
+}
+
+// Declare gulp tasks.
 gulp.task('up', cb => {
   fpUpdate(cb);
 });
