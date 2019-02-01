@@ -297,7 +297,7 @@ describe('HTML Scraper Post', function () {
   <section>{{ section_1 }}</section>
   <section>{{ section_2 }}</section>
   <script></script>
-  <br/>
+  <br />
   <div></div>
   <p></p>
   <textarea></textarea>
@@ -309,6 +309,10 @@ describe('HTML Scraper Post', function () {
   });
 
   describe('File Writer', function () {
+    after(function () {
+      fs.unlinkSync(scrapeDir + '/0-test.1_2');
+    });
+
     it('should validate user-submitted filename', function () {
       const validFilename = '0-test.1_2';
       const invalidChar = '0-test.1_2!';
