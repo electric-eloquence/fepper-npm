@@ -8,6 +8,7 @@ const fs = require('fs-extra');
 const he = require('he');
 const html2json = require('html2json').html2json;
 const json2html = require('html2json').json2html;
+const RcLoader = require('rcloader');
 const utils = require('fepper-utils');
 
 class HtmlObj {
@@ -25,12 +26,14 @@ class JsonForData {
 
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
-  constructor(req, res, conf, gatekeeper, html) {
+  constructor(req, res, conf, gatekeeper, html, options) {
     this.req = req;
     this.res = res;
     this.conf = conf;
     this.gatekeeper = gatekeeper;
     this.html = html;
+    this.appDir = options.appDir;
+    this.rootDir = options.rootDir;
 
     // Set some defaults for possibly non-existent nested request properties.
     this.filename = (this.req && this.req.body && this.req.body.filename) || '';
@@ -365,6 +368,19 @@ module.exports = class {
    * @returns {string} Mustache code.
    */
   jsonToMustache(jsonForMustache, jsonForData) {
+    const rcFile = '.jsbeautifyrc';
+    const rcLoader = new RcLoader(rcFile);
+    let rcOpts;
+
+    // First, try to load .jsbeautifyrc with user-configurable options.
+    if (fs.existsSync(`${this.rootDir}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.rootDir}/${rcFile}`, {lookup: false});
+    }
+    // Else, load the .jsbeautifyrc that ships with fepper-npm.
+    else {
+      rcOpts = rcLoader.for(`${this.appDir}/${rcFile}`, {lookup: false});
+    }
+
     let mustache = '<body></body>';
 
     try {
@@ -383,7 +399,11 @@ module.exports = class {
       mustache = mustache.replace(/<\/body>\s*$/, '\n');
     }
 
-    mustache = beautify(mustache, {indent_size: 2});
+    // Delete empty lines.
+    mustache = mustache.replace(/^\s*$\n/gm, '');
+
+    // Load .jsbeautifyrc and beautify html.
+    mustache = beautify(mustache, rcOpts);
 
     return mustache;
   }

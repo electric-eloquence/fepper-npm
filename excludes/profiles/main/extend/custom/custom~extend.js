@@ -6,9 +6,8 @@
 'use strict';
 
 const gulp = require('gulp');
-// Commonly used modules.
-// const runSequence = require('run-sequence'); // https://www.npmjs.com/package/run-sequence
-// const utils = require('fepper-utils');       // https://www.npmjs.com/package/fepper-utils
+// Commonly used utility functions.
+// const utils = require('fepper-utils'); // https://www.npmjs.com/package/fepper-utils
 
 const conf = global.conf;    // Read from conf.yml
 // const pref = global.pref; // Read from pref.yml

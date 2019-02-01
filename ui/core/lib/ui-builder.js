@@ -22,8 +22,22 @@ module.exports = class {
     const patternsToExport = this.config.patternExportPatternPartials;
 
     // Load js-beautify with options configured in .jsbeautifyrc.
-    const rcLoader = new RcLoader('.jsbeautifyrc', {});
-    const rcOpts = rcLoader.for(this.patternlab.cwd, {lookup: true});
+    const rcFile = '.jsbeautifyrc';
+    const rcLoader = new RcLoader(rcFile);
+    let rcOpts;
+
+    // First, try to load .jsbeautifyrc with user-configurable options.
+    if (fs.existsSync(`${this.patternlab.cwd}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.cwd}/${rcFile}`, {lookup: false});
+    }
+    // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
+    else if (fs.existsSync(`${this.patternlab.appDir}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.appDir}/${rcFile}`, {lookup: false});
+    }
+    // Else, lookup for any existing .jsbeautifyrc.
+    else {
+      rcOpts = rcLoader.for(__dirname, {lookup: true});
+    }
 
     this.viewallBuilder = this.patternlab.viewallBuilder;
     this.viewallBuilder.preParseViewallMarkup();
@@ -108,7 +122,7 @@ module.exports = class {
         // Export pattern.
         if (Array.isArray(patternsToExport)) {
           if (patternsToExport.indexOf(pattern.patternPartial) > -1) {
-            const patternPartialCode = beautify(pattern.extendedTemplate, rcOpts) + '\n';
+            const patternPartialCode = beautify(pattern.extendedTemplate, rcOpts);
 
             fs.outputFileSync(
               `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
@@ -169,7 +183,7 @@ module.exports = class {
           // Export pattern.
           if (Array.isArray(patternsToExport)) {
             if (patternsToExport.indexOf(pattern.patternPartial) > -1) {
-              const patternPartialCode = beautify(pattern.extendedTemplate, rcOpts) + '\n';
+              const patternPartialCode = beautify(pattern.extendedTemplate, rcOpts);
 
               fs.outputFileSync(
                 `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,

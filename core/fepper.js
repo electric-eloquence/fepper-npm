@@ -10,7 +10,9 @@ const Ui = require('./ui/ui');
 
 module.exports = class {
   constructor(cwd) {
-    // global.appDir is thus far only used in fepper-utils, but is mandatory as such.
+    // global.appDir and global.rootDir are used in the gulp app, fepper-utils, extensions, etc.
+    // The Pattern Lab fork contained within Fepper uses global in case it is invoked completely independent of Fepper.
+    // They stray from the object-oriented paradigm, but where oo is applicable, try to refrain from using global.
     global.appDir = slash(path.resolve(__dirname, '..'));
 
     let rootDir = '';
@@ -47,6 +49,7 @@ module.exports = class {
 
     const options = {};
 
+    this.appDir = options.rootDir = global.appDir;
     this.conf = options.conf = global.conf;
     this.pref = options.pref = global.pref;
     this.rootDir = options.rootDir = global.rootDir;

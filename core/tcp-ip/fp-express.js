@@ -70,7 +70,7 @@ module.exports = class {
 
     // HTML scraper and importer actions.
     app.post('/html-scraper', (req, res) => {
-      const htmlScraperPost = new HtmlScraperPost(req, res, this.conf, this.gatekeeper, this.html);
+      const htmlScraperPost = new HtmlScraperPost(req, res, this.conf, this.gatekeeper, this.html, options);
 
       htmlScraperPost.main();
     });

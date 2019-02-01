@@ -8,7 +8,6 @@ const spawnSync = require('child_process').spawnSync;
 
 const fs = require('fs-extra');
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 const utils = require('fepper-utils');
 
 const enc = global.conf.enc;
@@ -186,7 +185,7 @@ function fpUpdate(cb) {
 
   // Finish up.
   process.chdir(global.appDir);
-  runSequence(
+  gulp.runSequence(
     'ui:compile',
     cb
   );

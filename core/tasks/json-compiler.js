@@ -1,5 +1,5 @@
 /**
- * Compiles partial JSON files into data.json.
+ * Compiles partial JSON files into data.json. Maintains line breaks and indentation for readability of data.json.
  *
  * Source files:
  * - _data.json
@@ -95,7 +95,7 @@ module.exports = class {
       }
     );
 
-    // Delete (optional) opening curly brace from _appendix.json.
+    // Delete opening curly brace from _appendix.json.
     tmp = fs.readFileSync(appendix, this.conf.enc);
     // Delete curly brace and any whitespace at beginning of file.
     tmp = tmp.replace(/^\s*\{/, '');
