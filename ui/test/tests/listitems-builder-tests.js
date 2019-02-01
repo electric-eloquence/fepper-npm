@@ -27,11 +27,11 @@ patternlab.patternBuilder.processPattern(listItemsPatternNested, patternlab);
 
 describe('ListItems Builder', function () {
   it('should find and output basic repeating blocks', function () {
-    let expectation = '  <span class="test_base ">\n      \n      Fizzle crazy tortor. Sed rizzle. Pimpin&#39; dolor ' +
+    let expectation = '<span class="test_base ">\n\n  Fizzle crazy tortor. Sed rizzle. Pimpin&#39; dolor ' +
       'dapibizzle turpis tempizzle fo shizzle my nizzle. Maurizzle pellentesque its fo rizzle izzle turpis. Get down ' +
       'get down we gonna chung nizzle. Shizzlin dizzle eleifend rhoncizzle break it down. In yo ghetto platea ' +
       'dictumst. Bling bling dapibizzle. Curabitur break yo neck, yall fo, pretizzle eu, go to hizzle dope, own ' +
-      'yo&#39; vitae, nunc. Bizzle suscipizzle. Semper velit sizzle fo.\n  </span>\n';
+      'yo&#39; vitae, nunc. Bizzle suscipizzle. Semper velit sizzle fo.\n</span>\n';
 
     expect(listItemPattern.extendedTemplate).to.equal(expectation);
   });
