@@ -15,7 +15,8 @@ const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
   null,
   conf,
   fepper.tcpIp.fpExpress.gatekeeper,
-  fepper.tcpIp.fpExpress.html
+  fepper.tcpIp.fpExpress.html,
+  {appDir: fepper.appDir, rootDir: fepper.rootDir}
 );
 const req = {body: {target: '', url: ''}};
 const scrapeDir = `${conf.ui.paths.source.patterns}/98-scrape`;
@@ -286,7 +287,6 @@ describe('HTML Scraper Post', function () {
       const mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
 
       expect(mustache).to.equal(`{{# scrape }}
-
 <body>
   <section id="one" class="test">{{ one }}</section>
   <section id="two" class="test">{{ two }}</section>
@@ -303,7 +303,8 @@ describe('HTML Scraper Post', function () {
   <textarea></textarea>
   <!-- comment -->
 </body>
-{{/ scrape }}`);
+{{/ scrape }}
+`);
     });
   });
 

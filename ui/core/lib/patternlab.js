@@ -29,17 +29,18 @@ const ViewallBuilder = require('./viewall-builder');
 module.exports = class {
   constructor(config, cwd) {
     this.config = config;
-    this.utils = utils;
 
-    // The app's working directory can be submitted as a param to resolve relative paths.
-    this.cwd = slash(cwd || path.resolve(__dirname, '..', '..', '..', '..', '..'));
+    // The current working directory can be submitted as a param to resolve relative paths.
+    this.cwd = slash(cwd || global.rootDir || path.resolve(__dirname, '..', '..', '..', '..', '..'));
+    this.appDir = slash(global.appDir || path.resolve(__dirname, '..', '..', '..'));
+    this.utils = utils;
 
     // Normalize configs if necessary.
     if (!this.config.paths.core) {
       this.utils.uiConfigNormalize(
         this.config,
         this.cwd,
-        slash(global.appDir || path.resolve(__dirname, '..', '..', '..'))
+        this.appDir
       );
     }
 
