@@ -1,5 +1,14 @@
 # Fepper NPM Changelog
 
+### v0.30.5
+* When cleaning public dir, checks that subdirs exist before emptying
+* Updated HTML beautification
+* Replaced run-sequence with gulp.runSequence (v3-lts)
+* Moved some dependencies from distros to this npm
+* Better assignment of this.appDir in UI
+* tasker.js exports gulp instance for customization and testing
+* Appendixer doesn't exit if missing appendix file
+
 ### v0.30.4
 * Reinstated index.js as the primary launcher
 * Install task skips requiring of extensions
