@@ -23,7 +23,7 @@ module.exports = class {
     let jsonStr = '{\n';
     let vars;
 
-    if (!fs.existsSync(appendix) || !fs.existsSync(varFile)) {
+    if (!fs.existsSync(varFile)) {
       return;
     }
 

@@ -5,14 +5,13 @@
  */
 'use strict';
 
-const Fepper = require('fepper');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const requireDir = require('require-dir');
-const runSequence = require('run-sequence');
 const utils = require('fepper-utils');
 
 // Instantiate a Fepper object and attach it to the global object.
+const Fepper = require('./core/fepper');
 global.fepper = new Fepper();
 const conf = global.conf;
 
@@ -173,7 +172,7 @@ gulp.task('default', (cb) => {
     cb();
     utils.log(`Listening on port ${conf.express_port}`);
   });
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('data', (cb) => {
@@ -191,7 +190,7 @@ gulp.task('data', (cb) => {
   }
 
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('frontend-copy', (cb) => {
@@ -201,11 +200,11 @@ gulp.task('frontend-copy', (cb) => {
   args.push(['fepper:copy-assets', 'fepper:copy-scripts', 'fepper:copy-styles']);
   extensionsPush('frontend-copy:postprocess', args);
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('install', (cb) => {
-  runSequence(
+  gulp.runSequence(
     'install:copy',
     cb
   );
@@ -230,7 +229,7 @@ gulp.task('once', (cb) => {
 
   extensionsPush('once:postprocess', args);
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('restart', (cb) => {
@@ -263,7 +262,7 @@ gulp.task('restart', (cb) => {
     fs.removeSync(log);
   }
 
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('static', (cb) => {
@@ -275,7 +274,7 @@ gulp.task('static', (cb) => {
   extensionsPush('static:postprocess', args);
   args.push('ui:copy-static');
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('syncback', (cb) => {
@@ -286,7 +285,7 @@ gulp.task('syncback', (cb) => {
   args.push('template');
   extensionsPush('syncback:postprocess', args);
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
 
 gulp.task('template', (cb) => {
@@ -296,5 +295,8 @@ gulp.task('template', (cb) => {
   args.push('fepper:template');
   extensionsPush('template:postprocess', args);
   args.push(cb);
-  runSequence.apply(null, args);
+  gulp.runSequence.apply(null, args);
 });
+
+// Export gulp instance for customization, testing, etc.
+module.exports = gulp;

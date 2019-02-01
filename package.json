@@ -59,7 +59,7 @@
     "gulp-livereload": "^4.0.1",
     "he": "1.1.0",
     "html2json": "^1.0.2",
-    "js-beautify": "1.6.4",
+    "js-beautify": "^1.8.9",
     "js-yaml": "^3.12.1",
     "json5": "0.5.1",
     "marked": "^0.5.2",
@@ -68,6 +68,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "request": "^2.40.0",
+    "require-dir": "^0.3.2",
     "slash": "^2.0.0"
   },
   "devDependencies": {
