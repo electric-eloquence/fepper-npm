@@ -57,7 +57,7 @@ describe('Pattern Builder', function () {
     it('should include partials directly within templates', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    \n</span>\n';
+      const atomExtendedTemplate = '<span class="test_base ">\n\n\n</span>\n';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.include(atomTemplate);
@@ -69,7 +69,7 @@ describe('Pattern Builder', function () {
     it('should recursively include nested partials', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    \n</span>\n';
+      const atomExtendedTemplate = '<span class="test_base ">\n\n\n</span>\n';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.include(atomTemplate);
