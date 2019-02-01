@@ -2,9 +2,11 @@
 
 const path = require('path');
 
+const beautify = require('js-beautify').html;
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
+const RcLoader = require('rcloader');
 
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
@@ -338,8 +340,26 @@ module.exports = class {
       return;
     }
 
+    // Load js-beautify with options configured in .jsbeautifyrc.
+    const rcFile = '.jsbeautifyrc';
+    const rcLoader = new RcLoader(rcFile);
+    let rcOpts;
+
+    // First, try to load .jsbeautifyrc with user-configurable options.
+    if (fs.existsSync(`${this.patternlab.cwd}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.cwd}/${rcFile}`, {lookup: false});
+    }
+    // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
+    else if (fs.existsSync(`${this.patternlab.appDir}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.appDir}/${rcFile}`, {lookup: false});
+    }
+    // Else, lookup for any existing .jsbeautifyrc.
+    else {
+      rcOpts = rcLoader.for(__dirname, {lookup: true});
+    }
+
     // The tilde suffix will sort pseudoPatterns after basePatterns.
-    // So first, check if this is not a pseudoPattern (therefore a basePattern) and look for its pseudoPattern variants.
+    // So first, check if this is not a pseudoPattern (therefore a basePattern) and set up the .allData property.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
 
       if (pattern.jsonFileData) {
@@ -353,17 +373,17 @@ module.exports = class {
 
       // Set cacheBuster property on allData.
       pattern.allData.cacheBuster = pattern.cacheBuster;
-
-      pattern.extendedTemplate =
-        pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
-      this.patternlab.pseudoPatternBuilder.main(pattern);
     }
 
-    // Identified a pseudoPattern by checking if this is a file containing same name, with ~ in it, ending in .json.
-    // Copy its basePattern.extendedTemplate to extendedTemplate and return.
-    else {
-      pattern.extendedTemplate =
-        pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
+    // Render .extendedTemplate whether pseudoPattern or not.
+    pattern.extendedTemplate =
+      pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
+    // Beautify .extendedTemplate.
+    pattern.extendedTemplate = beautify(pattern.extendedTemplate, rcOpts);
+
+    // If this is not a pseudoPattern (therefore a basePattern), look for its pseudoPattern variants.
+    if (!this.isPseudoPatternJson(pattern.relPath)) {
+      this.patternlab.pseudoPatternBuilder.main(pattern);
     }
 
     // Exclude hidden lineage items from array destined for output.
