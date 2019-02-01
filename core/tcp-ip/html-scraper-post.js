@@ -381,6 +381,7 @@ module.exports = class {
       rcOpts = rcLoader.for(`${this.appDir}/${rcFile}`, {lookup: false});
     }
 
+    rcOpts.indent_handlebars = false;
     let mustache = '<body></body>';
 
     try {
