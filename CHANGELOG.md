@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.30.6
+* Better frontend-copier logic for non-existent backend directory
+
 ### v0.30.5
 * When cleaning public dir, checks that subdirs exist before emptying
 * Updated HTML beautification
