@@ -173,6 +173,10 @@ module.exports = class {
               if (targetDir) {
                 srcDir = path.dirname(files[i]);
               }
+              else if (targetDirDefault) {
+                srcDir += `/${frontendDir}`;
+                targetDir = targetDirDefault;
+              }
 
               // Unset templates_dir in local YAML data.
               delete data[frontendDataKey];
@@ -186,7 +190,7 @@ module.exports = class {
           srcDir += `/${frontendDir}`;
         }
 
-        if (targetDirDefault && !targetDir) {
+        if (!targetDir && targetDirDefault) {
           targetDir = targetDirDefault;
         }
 
