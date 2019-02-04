@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.30.7
+* Minor bug fix - using arrow syntax to allow `this` keyword within function
+
 ### v0.30.6
 * Better frontend-copier logic for non-existent backend directory
 
