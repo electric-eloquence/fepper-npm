@@ -39,7 +39,8 @@ module.exports = class {
     const srcDir = this.conf.ui.paths.source[plName];
     const srcDirBld = this.conf.ui.paths.source[`${plName}Bld`];
 
-    function glob(src) {
+    // Using arrow syntax to allow `this` keyword within.
+    const glob = (src) => {
       diveSync(
         src,
         {
@@ -68,7 +69,7 @@ module.exports = class {
           }
         }
       );
-    }
+    };
 
     switch (frontendType) {
       case 'assets': {
