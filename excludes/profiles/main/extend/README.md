@@ -11,8 +11,9 @@ from `extend/contrib.js`.
 * Install and update contributed extensions with npm.
 * Add the tasks to `extend/contrib.js` (and `extend/auxiliary/auxiliary_contrib.js`
   if necessary) in order for Fepper to run them.
-* Contributed Fepper extensions can be found at https://www.npmjs.com/ by 
-  searching for "Fepper extension".
+* Contributed Fepper extensions can be found at 
+  <a href="https://www.npmjs.com/search?q=fepper%20extension" target="_blank">
+  https://www.npmjs.com/search?q=fepper%20extension</a>
 
 ### Custom extensions
 
@@ -27,7 +28,9 @@ from `extend/contrib.js`.
   instance will be independent of any other gulp instance on your system.
 * The `fp` command is an alias for `gulp` (among other things). Any `fp` task 
   can be included in a custom task.
-* Fepper only supports gulp 3 syntax.
+* Fepper only supports 
+  <a href="https://github.com/electric-eloquence/gulp#readme" target="_blank">gulp 3</a> 
+  syntax.
 
 ### Confs and prefs
 
@@ -44,3 +47,11 @@ absolute paths in `global.conf.ui`.
 Common utilty functions for custom extensions are available from the 
 <a href="https://www.npmjs.com/package/fepper-utils" target="_blank">Fepper Utils</a> 
 npm. Its API documentation can be viewed by following the link.
+
+### CSS Preprocessor Line Comments
+
+Fepper's CSS preprocessing extensions default toward the writing of line 
+comments for debugging purposes. If a project decision is made to style with one 
+of them, it would be a good idea to have version control ignore CSS builds in 
+the `source` directory. This would avoid committing line comments, which could 
+otherwise lead to a morass of conflicts.
