@@ -51,7 +51,9 @@ npm. Its API documentation can be viewed by following the link.
 ### CSS Preprocessor Line Comments
 
 Fepper's CSS preprocessing extensions default toward the writing of line 
-comments for debugging purposes. If a project decision is made to style with one 
-of them, it would be a good idea to have version control ignore CSS builds in 
-the `source` directory. This would avoid committing line comments, which could 
-otherwise lead to a morass of conflicts.
+comments for debugging purposes. Doing so provides an unambiguous indication 
+that the CSS was preprocessed and that direct edits to the CSS should be 
+avoided. If a project decision is made to style with one of them, it would be a 
+good idea to have version control ignore CSS builds in the `source` directory. 
+This would avoid committing line comments, which could otherwise lead to a 
+morass of conflicts.
