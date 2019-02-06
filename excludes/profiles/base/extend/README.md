@@ -44,7 +44,7 @@ npm. Its API documentation can be viewed by following the link.
 
 ### CSS Preprocessor Line Comments
 
-Fepper's CSS preprocessing extensions default toward the writing of line 
+Fepper's CSS preprocessing extensions default toward the printing of line 
 comments for debugging purposes. Doing so provides an unambiguous indication 
 that the CSS was preprocessed and that direct edits to the CSS should be 
 avoided. If a project decision is made to style with one of them, it would be a 
