@@ -1,6 +1,6 @@
 # Fepper NPM Changelog
 
-### v0.30.7
+### v0.31.0
 * Minor bug fix - using arrow syntax to allow `this` keyword within function
 
 ### v0.30.6
