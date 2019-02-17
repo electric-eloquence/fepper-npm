@@ -175,7 +175,7 @@ module.exports = class {
         // Write translated templates.
         const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
-        this.utils.log('Template %s translated.', dest.replace(this.rootDir, '').replace(/^\//, ''));
+        this.utils.log('Template \x1b[36m%s\x1b[0m translated.', dest.replace(this.rootDir, '').replace(/^\//, ''));
       }
       catch (err) {
         this.utils.error(err);
