@@ -280,9 +280,6 @@ module.exports = class {
   }
 
   main() {
-    let webservedDirsFull;
-    let webservedDirsShort;
-
     try {
       // Delete old assets, scripts, styles in static dir. Then, recreate the directories.
       fs.removeSync(`${this.staticDir}/${this.assetsSuffix}`);
@@ -314,11 +311,8 @@ module.exports = class {
 
     // Copy webserved directories.
     if (Array.isArray(this.pref.backend.webserved_dirs)) {
-      webservedDirsFull = this.pref.backend.webserved_dirs;
-    }
+      const webservedDirsShort = this.utils.webservedDirnamesTruncate(this.pref.backend.webserved_dirs);
 
-    if (webservedDirsFull) {
-      webservedDirsShort = this.utils.webservedDirnamesTruncate(webservedDirsFull);
       this.utils.webservedDirsCopy(webservedDirsFull, webservedDirsShort, this.staticDir);
     }
   }
