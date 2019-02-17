@@ -83,15 +83,10 @@ module.exports = class {
     // Webserved directories.
     // Serve the backend's static files where the document root and top-level
     // directory are configured in backend.webserved_dirs in pref.yml.
-    let webservedDirs = null;
-
     if (Array.isArray(this.pref.backend.webserved_dirs)) {
-      webservedDirs = this.pref.backend.webserved_dirs;
-    }
-
-    if (webservedDirs) {
-      for (let i = 0; i < webservedDirs.length; i++) {
-        let webservedDirSplit = webservedDirs[i].split('/');
+      for (let i = 0; i < this.pref.backend.webserved_dirs.length; i++) {
+        const webservedDir = this.pref.backend.webserved_dirs[i];
+        const webservedDirSplit = webservedDir.split('/');
 
         webservedDirSplit.shift();
         app.use(
