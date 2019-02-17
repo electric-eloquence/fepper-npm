@@ -212,7 +212,7 @@ module.exports = class {
           }
 
           this.utils.log(
-            'Copied %s to %s.',
+            'Copied \x1b[36m%s\x1b[0m to \x1b[36m%s\x1b[0m.',
             files[i].replace(this.rootDir, '').replace(/^\//, ''),
             targetFilePath.replace(this.rootDir, '').replace(/^\//, '')
           );
