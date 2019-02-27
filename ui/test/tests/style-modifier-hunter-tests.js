@@ -81,23 +81,23 @@ describe('Style Modifier Hunter', function () {
 
   it(
     'should recursively replace a style modifier tag in a child nested below the immediate child of the first parent',
-    function () {
-      // Get test pattern.
-      const parentPattern = patternlab.getPattern('test-styled-organism');
-      const middlePattern = patternlab.getPattern('test-styled-molecule');
+    function ()
+  {
+    // Get test pattern.
+    const parentPattern = patternlab.getPattern('test-styled-organism');
+    const middlePattern = patternlab.getPattern('test-styled-molecule');
 
-      // Process test pattern.
-      patternlab.patternBuilder.processPattern(parentPattern, patternlab);
+    // Process test pattern.
+    patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
-      // Assert.
-      expect(parentPattern.template).to.equal('{{> test-styled-molecule }}\n');
-      expect(middlePattern.template).to.equal('{{> test-styled-atom }}\n{{> test-styled-atom:test_1 }}\n');
-      expect(childPattern.template).to.equal(
-        '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n'
-      );
-      expect(parentPattern.extendedTemplate).to.equal(
-        '<span class="test_base ">\n\n\n</span>\n<span class="test_base test_1">\n\n\n</span>\n'
-      );
-    }
-  );
+    // Assert.
+    expect(parentPattern.template).to.equal('{{> test-styled-molecule }}\n');
+    expect(middlePattern.template).to.equal('{{> test-styled-atom }}\n{{> test-styled-atom:test_1 }}\n');
+    expect(childPattern.template).to.equal(
+      '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n'
+    );
+    expect(parentPattern.extendedTemplate).to.equal(
+      '<span class="test_base ">\n\n\n</span>\n<span class="test_base test_1">\n\n\n</span>\n'
+    );
+  });
 });
