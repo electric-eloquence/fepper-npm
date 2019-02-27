@@ -60,24 +60,24 @@ describe('UI Builder', function () {
 
   it(
     'should recognize a similarly named and hierarchically structured custom component module and overrides its corresponding core component module',
-    function () {
-      expect(indexContent).to.include('id="foo"');
-    }
-  );
+    function ()
+  {
+    expect(indexContent).to.include('id="foo"');
+  });
 
   it(
     'should recognize that a component has a custom sibling not in core and adds this sibling and its descendents to the DOM',
-    function () {
-      expect(indexContent).to.include('<div>bar</div>');
-    }
-  );
+    function ()
+  {
+    expect(indexContent).to.include('<div>bar</div>');
+  });
 
   it(
     'should recognize that a component at the end of branch has a custom child not in core and adds this child and its descendents to the DOM',
-    function () {
-      expect(indexContent).to.include('<div>baz</div>');
-    }
-  );
+    function ()
+  {
+    expect(indexContent).to.include('<div>baz</div>');
+  });
 
   it('should override componentized css', function () {
     expect(cssContent).to.include('/* foo */');

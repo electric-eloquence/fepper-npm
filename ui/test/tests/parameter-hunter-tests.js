@@ -73,23 +73,23 @@ describe('Parameter Hunter', function () {
 
   it(
     'should parse parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes',
-    function () {
-      const param = '{\'description\': \'true not,\\\'true\\\'\'}';
-      const evald = jsonEval(param);
+    function ()
+  {
+    const param = '{\'description\': \'true not,\\\'true\\\'\'}';
+    const evald = jsonEval(param);
 
-      expect(JSON.stringify(evald)).to.equal('{"description":"true not,\'true\'"}');
-    }
-  );
+    expect(JSON.stringify(evald)).to.equal('{"description":"true not,\'true\'"}');
+  });
 
   it(
     'should parse parameters with single-quoted keys and double-quoted values wrapping internal single-quotes',
-    function () {
-      const param = '{\'description\': "true not:\'true\'"}';
-      const evald = jsonEval(param);
+    function ()
+  {
+    const param = '{\'description\': "true not:\'true\'"}';
+    const evald = jsonEval(param);
 
-      expect(JSON.stringify(evald)).to.equal('{"description":"true not:\'true\'"}');
-    }
-  );
+    expect(JSON.stringify(evald)).to.equal('{"description":"true not:\'true\'"}');
+  });
 
   it('should parse parameters with double-quoted keys and unquoted values', function () {
     const param = '{"description": true}';
@@ -100,23 +100,23 @@ describe('Parameter Hunter', function () {
 
   it(
     'should parse parameters with double-quoted keys and single-quoted values wrapping internal double-quotes',
-    function () {
-      const param = '{"description": \'true not{"true"\'}';
-      const evald = jsonEval(param);
+    function ()
+  {
+    const param = '{"description": \'true not{"true"\'}';
+    const evald = jsonEval(param);
 
-      expect(JSON.stringify(evald)).to.equal('{"description":"true not{\\"true\\""}');
-    }
-  );
+    expect(JSON.stringify(evald)).to.equal('{"description":"true not{\\"true\\""}');
+  });
 
   it(
     'should parse parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes',
-    function () {
-      const param = '{"description": "true not}\\"true\\""}';
-      const evald = jsonEval(param);
+    function ()
+  {
+    const param = '{"description": "true not}\\"true\\""}';
+    const evald = jsonEval(param);
 
-      expect(JSON.stringify(evald)).to.equal('{"description":"true not}\\"true\\""}');
-    }
-  );
+    expect(JSON.stringify(evald)).to.equal('{"description":"true not}\\"true\\""}');
+  });
 
   it('should parse parameters with combination of quoting schemes for keys and values', function () {
     let param = '{description: true, \'foo\': false, "bar": false, \'single\': true, \'singlesingle\': \'true\', ' +
@@ -174,8 +174,9 @@ describe('Parameter Hunter', function () {
 
   it(
     'should correctly limit recursion on partials that call themselves but within restricted conditions',
-    function () {
-      const expectation = `<h1 id="title">foo</h1>
+    function ()
+  {
+    const expectation = `<h1 id="title">foo</h1>
 <p id="message"></p>
 <h1 id="title">foo</h1>
 <p id="message"></p>
@@ -183,7 +184,6 @@ describe('Parameter Hunter', function () {
 <p id="message"></p>
 `;
 
-      expect(antiInfinityPattern.extendedTemplate).to.equal(expectation);
-    }
-  );
+    expect(antiInfinityPattern.extendedTemplate).to.equal(expectation);
+  });
 });
