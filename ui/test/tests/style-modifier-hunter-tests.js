@@ -79,10 +79,8 @@ describe('Style Modifier Hunter', function () {
     expect(parentPattern.extendedTemplate).to.equal('<span class="test_base foo1 foo2">\n  2\n\n</span>\n');
   });
 
-  it(
-    'should recursively replace a style modifier tag in a child nested below the immediate child of the first parent',
-    function ()
-  {
+  it('should recursively replace a style modifier tag in a child nested below the immediate child of the first parent\
+', function () {
     // Get test pattern.
     const parentPattern = patternlab.getPattern('test-styled-organism');
     const middlePattern = patternlab.getPattern('test-styled-molecule');

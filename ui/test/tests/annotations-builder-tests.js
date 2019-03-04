@@ -4,8 +4,7 @@ const expect = require('chai').expect;
 const fs = require('fs-extra');
 
 const {
-  patternlab,
-  patternsDir
+  patternlab
 } = require('../init')();
 
 const annotationsJs = `${patternlab.config.paths.public.annotations}/annotations.js`;

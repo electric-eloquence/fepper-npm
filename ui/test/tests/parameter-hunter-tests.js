@@ -71,20 +71,16 @@ describe('Parameter Hunter', function () {
     expect(JSON.stringify(evald)).to.equal('{"description":true}');
   });
 
-  it(
-    'should parse parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes',
-    function ()
-  {
+  it('should parse parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes\
+', function () {
     const param = '{\'description\': \'true not,\\\'true\\\'\'}';
     const evald = jsonEval(param);
 
     expect(JSON.stringify(evald)).to.equal('{"description":"true not,\'true\'"}');
   });
 
-  it(
-    'should parse parameters with single-quoted keys and double-quoted values wrapping internal single-quotes',
-    function ()
-  {
+  it('should parse parameters with single-quoted keys and double-quoted values wrapping internal single-quotes\
+', function () {
     const param = '{\'description\': "true not:\'true\'"}';
     const evald = jsonEval(param);
 
@@ -98,20 +94,16 @@ describe('Parameter Hunter', function () {
     expect(JSON.stringify(evald)).to.equal('{"description":true}');
   });
 
-  it(
-    'should parse parameters with double-quoted keys and single-quoted values wrapping internal double-quotes',
-    function ()
-  {
+  it('should parse parameters with double-quoted keys and single-quoted values wrapping internal double-quotes\
+', function () {
     const param = '{"description": \'true not{"true"\'}';
     const evald = jsonEval(param);
 
     expect(JSON.stringify(evald)).to.equal('{"description":"true not{\\"true\\""}');
   });
 
-  it(
-    'should parse parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes',
-    function ()
-  {
+  it('should parse parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes\
+', function () {
     const param = '{"description": "true not}\\"true\\""}';
     const evald = jsonEval(param);
 
@@ -154,6 +146,7 @@ describe('Parameter Hunter', function () {
     const param = '{missing-val: , : missing-key, : , , foo: "Hello World"}';
     jsonEval(param);
 
+    // eslint-disable-next-line no-console
     console.log('Pattern Lab should catch JSON5.parse() errors and output useful debugging information...');
   });
 
@@ -172,10 +165,8 @@ describe('Parameter Hunter', function () {
     expect(recursivePattern.extendedTemplate).to.equal('<h1 id="title">foo</h1>\n<p id="message"></p>\n');
   });
 
-  it(
-    'should correctly limit recursion on partials that call themselves but within restricted conditions',
-    function ()
-  {
+  it('should correctly limit recursion on partials that call themselves but within restricted conditions\
+', function () {
     const expectation = `<h1 id="title">foo</h1>
 <p id="message"></p>
 <h1 id="title">foo</h1>
