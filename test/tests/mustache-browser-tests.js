@@ -86,10 +86,8 @@ describe('Mustache Browser', function () {
     expect(pattern.relPath).to.equal('02-components/00-global/00-header~localhost.json');
   });
 
-  it(
-    'should return a Pattern object on submission of a shorthand PHP syntax pseudo-pattern query partial',
-    function ()
-  {
+  it('should return a Pattern object on submission of a shorthand PHP syntax pseudo-pattern query partial\
+', function () {
     const pattern = mustacheBrowser.getPattern('components-header~localhost');
 
     expect(pattern).to.be.instanceof(ObjectFactory.Pattern);

@@ -10,7 +10,7 @@
     "test:eslint:fepper": "eslint core/**/*.js",
     "test:eslint:tasker": "eslint tasker/**/*.js",
     "test:eslint:root": "eslint *.js",
-    "test:eslint:test": "eslint test",
+    "test:eslint:test": "eslint test && eslint ui/test",
     "test:eslint:ui": "eslint ui/**/*.js",
     "test:eslint": "npm run test:eslint:extend && npm run test:eslint:fepper && npm run test:eslint:tasker && npm run test:eslint:root && npm run test:eslint:test && npm run test:eslint:ui",
     "test:mocha:core": "mocha test/tests/*.js",
