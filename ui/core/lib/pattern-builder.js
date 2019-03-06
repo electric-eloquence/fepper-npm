@@ -380,7 +380,8 @@ module.exports = class {
       rcOpts = rcLoader.for(__dirname, {lookup: true});
     }
 
-    // In order for js-beautify to indent Handlebars correctly, any space between control characters #, ^, and /, and
+    // We sometimes want the rendered templates to be Handlebars, or another language using tags delimited by stashes.
+    // In order for js-beautify to indent such code correctly, any space between control characters #, ^, and /, and
     // the variable name must be removed. However, we want to add the spaces back later.
     // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
     extendedTemplate = extendedTemplate.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
@@ -398,7 +399,7 @@ module.exports = class {
     // Write extendedTemplate to pattern object.
     pattern.extendedTemplate = extendedTemplate;
 
-    // If this is not a pseudoPattern (therefore a basePattern), look for its pseudoPattern variants.
+    // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
       this.patternlab.pseudoPatternBuilder.main(pattern);
     }
