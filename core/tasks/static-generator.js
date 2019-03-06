@@ -115,7 +115,9 @@ module.exports = class {
         // Delete empty lines.
         tmpStr = tmpStr.replace(/^\s*$\n/gm, '');
 
-        // Beautify html.
+        // Beautify html. The UI beautifies stash-delimited template tags for the output of .markup-only.html files in
+        // the public/patterns directory. We do not concern ourselves with that here because we are strictly outputting
+        // markup to be rendered by browsers.
         tmpStr = beautify(tmpStr, rcOpts);
 
         try {
