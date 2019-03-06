@@ -340,24 +340,6 @@ module.exports = class {
       return;
     }
 
-    // Load js-beautify with options configured in .jsbeautifyrc.
-    const rcFile = '.jsbeautifyrc';
-    const rcLoader = new RcLoader(rcFile);
-    let rcOpts;
-
-    // First, try to load .jsbeautifyrc with user-configurable options.
-    if (fs.existsSync(`${this.patternlab.cwd}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.patternlab.cwd}/${rcFile}`, {lookup: false});
-    }
-    // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
-    else if (fs.existsSync(`${this.patternlab.appDir}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.patternlab.appDir}/${rcFile}`, {lookup: false});
-    }
-    // Else, lookup for any existing .jsbeautifyrc.
-    else {
-      rcOpts = rcLoader.for(__dirname, {lookup: true});
-    }
-
     // The tilde suffix will sort pseudoPatterns after basePatterns.
     // So first, check if this is not a pseudoPattern (therefore a basePattern) and set up the .allData property.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
@@ -379,15 +361,33 @@ module.exports = class {
     let extendedTemplate =
       pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
 
-    // Prep for beautifcation.
-    // In order for js-beautify's to indent Handlebars correctly, any space between control characters #, ^, and /, and
+    // Prepare to beautify extendedTemplate.
+    // Load js-beautify with options configured in .jsbeautifyrc.
+    const rcFile = '.jsbeautifyrc';
+    const rcLoader = new RcLoader(rcFile);
+    let rcOpts;
+
+    // First, try to load .jsbeautifyrc with user-configurable options.
+    if (fs.existsSync(`${this.patternlab.cwd}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.cwd}/${rcFile}`, {lookup: false});
+    }
+    // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
+    else if (fs.existsSync(`${this.patternlab.appDir}/${rcFile}`)) {
+      rcOpts = rcLoader.for(`${this.patternlab.appDir}/${rcFile}`, {lookup: false});
+    }
+    // Else, lookup for any existing .jsbeautifyrc.
+    else {
+      rcOpts = rcLoader.for(__dirname, {lookup: true});
+    }
+
+    // In order for js-beautify to indent Handlebars correctly, any space between control characters #, ^, and /, and
     // the variable name must be removed. However, we want to add the spaces back later.
     // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
     extendedTemplate = extendedTemplate.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
     extendedTemplate = extendedTemplate.replace(/(\{\{\^)(\s+)(\S+)/g, '$1$3$2\u00A0');
     extendedTemplate = extendedTemplate.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
 
-    // Load .jsbeautifyrc and beautify extendedTemplate.
+    // Beautify extendedTemplate.
     extendedTemplate = beautify(extendedTemplate, rcOpts);
 
     // Add back removed spaces to retain the look intended by the author.
