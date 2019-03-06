@@ -53,7 +53,7 @@ exports.Pattern = class {
     this.flatPatternPath = this.subdir.replace(/\//g, '-'); // '00-elements-00-global'
     this.relPathTrunc = `${this.subdir}/${pathObj.name}`; // '00-elements/00-global/00-colors'
 
-    // This is the unique name, subdir + fileName (sans extension).
+    // This is the unique name.
     // '00-elements-00-global-00-colors'
     this.name = this.subdir.replace(/\//g, '-') + '-' + this.fileName.replace(/~/g, '-');
 
