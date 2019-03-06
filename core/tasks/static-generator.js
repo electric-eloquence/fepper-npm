@@ -310,8 +310,10 @@ module.exports = class {
     this.copyNpms();
 
     // Copy webserved directories.
-    if (Array.isArray(this.pref.backend.webserved_dirs)) {
-      const webservedDirsShort = this.utils.webservedDirnamesTruncate(this.pref.backend.webserved_dirs);
+    const webservedDirsFull = this.pref.backend.webserved_dirs;
+
+    if (Array.isArray(webservedDirsFull)) {
+      const webservedDirsShort = this.utils.webservedDirnamesTruncate(webservedDirsFull);
 
       this.utils.webservedDirsCopy(webservedDirsFull, webservedDirsShort, this.staticDir);
     }
