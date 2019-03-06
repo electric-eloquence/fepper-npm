@@ -403,7 +403,9 @@ module.exports = class {
     // Delete empty lines.
     mustache = mustache.replace(/^\s*$\n/gm, '');
 
-    // Load .jsbeautifyrc and beautify html.
+    // Beautify html. The UI adds some extra steps to the beautification of stash-delimited template tags.
+    // However, that scenario does not present itself here because we do not get control structures besides
+    // the # and /  for the scrape tags.
     mustache = beautify(mustache, rcOpts);
 
     return mustache;
