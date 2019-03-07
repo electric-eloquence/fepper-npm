@@ -397,6 +397,9 @@ module.exports = class {
     extendedTemplate = extendedTemplate.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
     extendedTemplate = extendedTemplate.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
 
+    // Delete empty lines.
+    extendedTemplate = extendedTemplate.replace(/^\s*$\n/gm, '');
+
     // Write extendedTemplate to pattern object.
     pattern.extendedTemplate = extendedTemplate;
 
