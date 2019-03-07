@@ -239,6 +239,7 @@ exports.extendButNotOverride = (obj1, obj2) => {
 };
 
 exports.escapeReservedRegexChars = (regexStr) => {
+  // eslint-disable-next-line no-useless-escape
   return regexStr.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 };
 
@@ -273,6 +274,7 @@ exports.extCheck = (ext) => {
       extNormalized = `.${extNormalized}`;
     }
 
+    // eslint-disable-next-line no-useless-escape
     if (extNormalized.match(/^\.[\w\-\.\/]+$/)) {
       return extNormalized;
     }

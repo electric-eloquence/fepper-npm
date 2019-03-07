@@ -270,8 +270,7 @@ describe('HTML Scraper Post', function () {
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
 
-      expect(targetHtml).to.equal(
-`<section id="test2">
+      expect(targetHtml).to.equal(`<section id="test2">
   <div class="nested">
     <div class="nested-further">Barf</div>
   </div>
@@ -330,8 +329,7 @@ describe('HTML Scraper Post', function () {
     it('should correctly format newlines in file body', function () {
       const mustache = '{{# scrape }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ scrape }}';
 
-      expect(htmlScraperPost.newlineFormat(mustache)).to.equal(
-`{{# scrape }}
+      expect(htmlScraperPost.newlineFormat(mustache)).to.equal(`{{# scrape }}
   <body>
     <section id="one" class="test">{{ test_5 }}</section>
     <section id="two" class="test">{{ test_6 }}</section>
