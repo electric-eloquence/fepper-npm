@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.31.3
+* `fp update` preserves file permissions
+
 ### v0.31.2
 * Dependency updates
 * Added text color highlights to console log messages
