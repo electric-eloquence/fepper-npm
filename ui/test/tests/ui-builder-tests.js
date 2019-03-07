@@ -37,12 +37,8 @@ const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
 const expectedContent = `<span class="test_base ">
-
-
 </span>
 <span class="test_base test_1">
-
-
 </span>
 `;
 
