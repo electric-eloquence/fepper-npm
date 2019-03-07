@@ -37,10 +37,10 @@ module.exports = class {
       let codeSplit = code.split('{{');
 
       for (let i = 0; i < codeSplit.length; i++) {
-        // Signal the OK to recurse by appending partial tags with the .mustache
-        // extension. We do NOT want to recurse EVERY included partial because
-        // then the outputted file will not contain any partials, which defeats
-        // the purpose of recursing templates in the first place.
+        // Signal the OK to recurse by appending partial tags with the .mustache extension.
+        // We do NOT want to recurse EVERY included partial because then the outputted file will not
+        // contain any partials, which defeats the purpose of recursing templates in the first place.
+        // eslint-disable-next-line no-useless-escape
         if (/^>\s*[\w\-\.\/~]+\.mustache\s*\}\}/.test(codeSplit[i])) {
           let partial = codeSplit[i].split('}}');
           partial[0] = partial[0].replace(/^>\s*/, '').trim();
@@ -225,6 +225,7 @@ module.exports = class {
     let dest = file.replace(srcDirParam, '');
 
     // Replace underscore prefixes.
+    // eslint-disable-next-line no-useless-escape
     dest = dest.replace(/\/_([^\/]+)$/, '/$1');
     dest = templatesDir + dest;
     dest = dest.replace(/\.mustache$/, templatesExt);
@@ -254,6 +255,7 @@ module.exports = class {
 
     // Delete remaining Mustache tags if configured to do so.
     if (!this.pref.templater.retain_mustache) {
+      // eslint-disable-next-line no-useless-escape
       code = code.replace(/\{\{[^\(]*?(\([\S\s]*?\))?\s*\}?\}\}\s*\n?/g, '');
     }
     // Replace escaped curly braces.

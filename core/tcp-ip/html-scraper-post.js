@@ -275,6 +275,7 @@ module.exports = class {
       return false;
     }
 
+    // eslint-disable-next-line no-useless-escape
     return /^[0-9a-z][\w\-\.]*$/i.test(filename);
   }
 
@@ -535,6 +536,7 @@ module.exports = class {
     }
 
     // Validate that name is a css selector.
+    // eslint-disable-next-line no-useless-escape
     if (!/^(#|\.)?[a-z][\w#\-\.]*$/i.test(name)) {
       if (this.req) {
         this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');

@@ -98,6 +98,7 @@ module.exports = class {
     entitiesAndLinks =
       entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&" class="fp-express">$&</a>');
     // Strip parameters.
+    // eslint-disable-next-line no-useless-escape
     entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^\(]*)\([^"]*\)([^"]*\}\})/g, '$1$2');
     // Strip styleModifiers.
     entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^"]*):[^"]*(\}\})/g, '$1$2');

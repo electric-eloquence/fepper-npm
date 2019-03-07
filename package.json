@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "chai": "4.x",
-    "eslint": "3.x",
+    "eslint": "5.x",
     "fepper-ui": "*",
     "fepper-utils": "*",
     "husky": "1.x",
