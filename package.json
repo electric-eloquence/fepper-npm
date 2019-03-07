@@ -53,7 +53,7 @@
     "cookie-parser": "^1.4.3",
     "diveSync": "^0.3.0",
     "express": "^4.16.3",
-    "feplet": "*",
+    "feplet": "^0.2.4",
     "fs-extra": "^7.0.1",
     "gray-matter": "^3.1.1",
     "gulp-livereload": "^4.0.1",
@@ -74,10 +74,9 @@
   "devDependencies": {
     "chai": "4.x",
     "eslint": "3.x",
-    "fepper-ui": "*",
-    "fepper-utils": "*",
-    "husky": "1.x",
-    "json-eval": "*",
+    "fepper-ui": "^0.5.4",
+    "fepper-utils": "^1.1.7",
+    "json-eval": "^1.0.7",
     "mocha": "6.x"
   }
 }
