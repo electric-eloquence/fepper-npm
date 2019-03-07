@@ -37,7 +37,7 @@ patternlab.patternBuilder.processPattern(antiInfinityPattern, patternlab);
 
 describe('Parameter Hunter', function () {
   it('should find and extend templates with a parameter', function () {
-    expect(nestedPattern.extendedTemplate).to.equal('<span class="test_base ">\n  paramMessage\n\n</span>\n');
+    expect(nestedPattern.extendedTemplate).to.equal('<span class="test_base ">\n  paramMessage\n</span>\n');
   });
 
   it('should find and extend templates with multiple parameters', function () {
@@ -46,7 +46,7 @@ describe('Parameter Hunter', function () {
   });
 
   it('should find and extend templates with mixed parameter and global data', function () {
-    expect(nesterPattern.extendedTemplate).to.equal('<span class="test_base ">\n  paramMessage\n\n</span>\n');
+    expect(nesterPattern.extendedTemplate).to.equal('<span class="test_base ">\n  paramMessage\n</span>\n');
   });
 
   // Test quoting options.
