@@ -34,8 +34,8 @@ describe('Pseudo-Pattern Hunter', function () {
   });
 
   it('should render the base pattern and pseudo-pattern each with their own data', function () {
-    expect(basePattern.extendedTemplate).to.equal('<span class="test_base ">\n\n\n</span>\n');
-    expect(altPattern.extendedTemplate).to.equal('<span class="test_base ">\n  alternateMessage\n\n</span>\n');
+    expect(basePattern.extendedTemplate).to.equal('<span class="test_base ">\n</span>\n');
+    expect(altPattern.extendedTemplate).to.equal('<span class="test_base ">\n  alternateMessage\n</span>\n');
     expect(altPattern.extendedTemplate).to.not.equal(basePattern.extendedTemplate);
   });
 });
