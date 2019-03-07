@@ -380,7 +380,8 @@ module.exports = class {
       rcOpts = rcLoader.for(__dirname, {lookup: true});
     }
 
-    // We sometimes want the rendered templates to be Handlebars, or another language using tags delimited by stashes.
+    // We sometimes want .markup-only.html files to be in a template language with tags delimited by stashes.
+    // (This is particularly the case for using the fp-tpl-compile extension to compile Handlebars.)
     // In order for js-beautify to indent such code correctly, any space between control characters #, ^, and /, and
     // the variable name must be removed. However, we want to add the spaces back later.
     // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
