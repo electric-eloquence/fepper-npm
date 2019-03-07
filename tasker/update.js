@@ -29,12 +29,30 @@ if (isWindows) {
 }
 
 function downloadFileFromRepo(file, repoDir) {
-  const writeStream = fs.createWriteStream(`${tmpDir}/${file}`);
+  const fileDest = `${rootDir}/${file}`;
+  const fileTmp = `${tmpDir}/${file}`;
+  const writeStream = fs.createWriteStream(fileTmp);
+  let stat;
+
+  if (!isWindows) {
+    try {
+      stat = fs.statSync(fileDest);
+    }
+    catch (err) {
+      // Fail gracefully.
+    }
+  }
 
   https.get(`${repoDir}/${file}`, (res) => {
     res.pipe(writeStream)
       .on('close', () => {
-        fs.moveSync(`${tmpDir}/${file}`, `${rootDir}/${file}`, {overwrite: true});
+        fs.readFile(fileTmp, () => {
+          fs.moveSync(fileTmp, fileDest, {overwrite: true});
+
+          if (stat && stat.mode) {
+            fs.chmodSync(fileDest, stat.mode);
+          }
+        });
       });
   }).on('error', (err) => {
     utils.error(err);
