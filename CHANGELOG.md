@@ -2,6 +2,7 @@
 
 ### v0.31.3
 * `fp update` preserves file permissions
+* Deleting empty lines in extendedTemplate
 
 ### v0.31.2
 * Dependency updates
