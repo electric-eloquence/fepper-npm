@@ -1,5 +1,9 @@
 # Fepper NPM Changelog
 
+### v0.31.2
+* Dependency updates
+* Added text color highlights to console log messages
+
 ### v0.31.1
 * Fixed documentation links in toolbar
 
