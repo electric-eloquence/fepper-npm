@@ -3,6 +3,10 @@
 ### v0.31.3
 * `fp update` preserves file permissions
 * Deleting empty lines in extendedTemplate
+* Exposing instance\_file preference for subclassing Fepper class
+* Moved HTML beautification to fepper-utils
+* Fixed HTML for viewalls
+* Build performance improvements
 
 ### v0.31.2
 * Dependency updates
