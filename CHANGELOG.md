@@ -1,6 +1,6 @@
 # Fepper NPM Changelog
 
-### v0.31.3
+### v0.32.0
 * `fp update` preserves file permissions
 * Deleting empty lines in extendedTemplate
 * Exposing instance\_file preference for subclassing Fepper class
