@@ -6,6 +6,7 @@ const opn = require('opn');
 
 module.exports = class {
   constructor(options) {
+    this.options = options;
     this.conf = options.conf;
     this.rootDir = options.rootDir;
   }

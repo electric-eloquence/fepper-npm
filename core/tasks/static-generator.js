@@ -2,13 +2,12 @@
 
 const path = require('path');
 
-const beautify = require('js-beautify').html;
 const diveSync = require('diveSync');
 const fs = require('fs-extra');
-const RcLoader = require('rcloader');
 
 module.exports = class {
   constructor(options) {
+    this.options = options;
     this.appDir = options.appDir;
     this.conf = options.conf;
     this.pref = options.pref;
@@ -31,20 +30,6 @@ module.exports = class {
 
   generatePages() {
     const files = [];
-
-    // Load .jsbeautifyrc.
-    const rcFile = '.jsbeautifyrc';
-    const rcLoader = new RcLoader(rcFile);
-    let rcOpts;
-
-    // First, try to load .jsbeautifyrc with user-configurable options.
-    if (fs.existsSync(`${this.rootDir}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.rootDir}/${rcFile}`, {lookup: false});
-    }
-    // Else, load the .jsbeautifyrc that ships with fepper-npm.
-    else {
-      rcOpts = rcLoader.for(`${this.appDir}/${rcFile}`, {lookup: false});
-    }
 
     // Resorting to this long, rather unreadable block of code to obviate requiring the large glob npm.
     // Require scripts ending in "~extend.js" at Level 1 and Level 2 below the "extend" directory.
@@ -111,14 +96,7 @@ module.exports = class {
         tmpStr = this.convertPaths(tmpStr);
         tmpStr = this.convertLinksHomepage(tmpStr, dataJson.homepage);
         tmpStr = this.convertLinksSibling(tmpStr);
-
-        // Delete empty lines.
-        tmpStr = tmpStr.replace(/^\s*$\n/gm, '');
-
-        // Beautify html. The UI beautifies stash-delimited template tags for the output of .markup-only.html files in
-        // the public/patterns directory. We do not concern ourselves with that here because we are strictly outputting
-        // markup to be rendered by browsers.
-        tmpStr = beautify(tmpStr, rcOpts);
+        tmpStr = this.utils.beautifyTemplate(tmpStr);
 
         try {
           // Copy homepage to index.html.

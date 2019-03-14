@@ -18,6 +18,7 @@ const Success = require('./success');
 
 module.exports = class {
   constructor(options, ui) {
+    this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
     this.html = html;
@@ -104,11 +105,15 @@ module.exports = class {
     // If the request has fallen through this far, respond with a 404.
     app.use(this.errorResponse.notFound());
 
+    this.app = global.expressApp = app;
+
+    // Deprecated property. Will be removed.
     this.expressApp = app;
   }
 
   /**
    * @returns {object} The configured Express app.
+   * @deprecated will be removed.
    */
   main() {
     return this.expressApp;

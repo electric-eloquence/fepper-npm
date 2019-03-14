@@ -7,7 +7,7 @@ const yaml = require('js-yaml');
 
 module.exports = () => {
   try {
-    const yml = fs.readFileSync(`${__dirname}/conf.yml`, 'utf8');
+    const yml = fs.readFileSync(`${slash(__dirname)}/conf.yml`, 'utf8');
     global.conf = yaml.safeLoad(yml);
   }
   catch (err) {

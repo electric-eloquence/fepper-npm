@@ -164,7 +164,7 @@ module.exports = class {
           pathFull = `${dirCore}/${item}`;
         }
 
-        const content = fs.readFileSync(pathFull, 'utf8');
+        const content = fs.readFileSync(pathFull, this.patternlab.enc);
 
         if (this.styleExtsSupported.indexOf(ext) > -1) {
           fs.appendFileSync(`${this.styleguidePath}/styles/ui${ext}`, content);

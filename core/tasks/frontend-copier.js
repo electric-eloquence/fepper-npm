@@ -9,6 +9,7 @@ const yaml = require('js-yaml');
 
 module.exports = class {
   constructor(options) {
+    this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
     this.rootDir = options.rootDir;

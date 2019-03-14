@@ -152,7 +152,7 @@ p {
 
 code {
   background-color:#eeeeee;
-  font-family: Monaco, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
+  font-family: Menlo, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
   font-size: 0.875em;
 }
 
@@ -346,7 +346,7 @@ td {
 }
 
 .mustache-browser {
-  font-family: Monaco, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
+  font-family: Menlo, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
   font-size: 13px;
 }
 

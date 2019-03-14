@@ -4,6 +4,7 @@ const Feplet = require('feplet');
 
 module.exports = class {
   constructor(options, html) {
+    this.options = options;
     this.conf = options.conf;
     this.html = html;
     this.immutableFooter = this.html.getImmutableFooter(this.conf);

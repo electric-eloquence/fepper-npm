@@ -2,11 +2,9 @@
 
 const path = require('path');
 
-const beautify = require('js-beautify').html;
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
-const RcLoader = require('rcloader');
 
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
@@ -14,6 +12,7 @@ const Pattern = require('./object-factory').Pattern;
 module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
+    this.utils = patternlab.utils;
   }
 
   // PRIVATE METHODS
@@ -38,7 +37,7 @@ module.exports = class {
     // If the pattern is new, we must register it with various data structures!
     if (isNew) {
       if (this.patternlab.config.debug) {
-        this.patternlab.utils.log('Found new pattern ' + pattern.patternPartial);
+        this.utils.log('Found new pattern ' + pattern.patternPartial);
       }
 
       this.patternlab.patterns.push(pattern);
@@ -73,6 +72,7 @@ module.exports = class {
     pattern.isFrontMatter = true;
     pattern.isHidden = true;
     pattern.isPattern = false;
+
     // Unset Patternlab.getPattern identifiers.
     pattern.patternPartialPhp = '';
     pattern.patternPartial = '';
@@ -101,6 +101,7 @@ module.exports = class {
   }
 
   setState(pattern) {
+
     // Check for a corresponding Front Matter file to the pattern and get the patternState from its data.
     for (let i = 0, l = this.patternlab.patterns.length; i < l; i++) {
       const fmCandidate = this.patternlab.patterns[i];
@@ -157,18 +158,18 @@ module.exports = class {
           pattern.jsonFileData = JSON5.parse(jsonFileStr);
 
           if (this.patternlab.config.debug) {
-            this.patternlab.utils.log('Found pattern-specific JSON data for ' + pattern.patternPartial);
+            this.utils.log('Found pattern-specific JSON data for ' + pattern.patternPartial);
           }
         }
         catch (err) {
-          this.patternlab.utils.error('There was an error parsing pattern-specific JSON for ' + pattern.relPath);
-          this.patternlab.utils.error(err);
+          this.utils.error('There was an error parsing pattern-specific JSON for ' + pattern.relPath);
+          this.utils.error(err);
         }
       }
 
       // If file is named in the syntax for variants, add data keys to dataKeysSchemaObj, add and return pattern.
       if (this.isPseudoPatternJson(fileName)) {
-        this.patternlab.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
+        this.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
         this.addPattern(pattern);
 
         return pattern;
@@ -212,20 +213,20 @@ module.exports = class {
         pattern.listItems = JSON5.parse(jsonFileStr);
 
         if (this.patternlab.config.debug) {
-          this.patternlab.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
+          this.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
         }
 
         this.patternlab.listItemsBuilder.listItemsBuild(pattern);
-        this.patternlab.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.patternlab.data.listItems);
+        this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.patternlab.data.listItems);
       }
       catch (err) {
-        this.patternlab.utils.error('There was an error parsing pattern-specific listitems.json for ' +
+        this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
           pattern.relPath);
-        this.patternlab.utils.error(err);
+        this.utils.error(err);
       }
     }
 
-    this.patternlab.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
+    this.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
     pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.patternlab.enc);
 
     const scan = Feplet.scan(pattern.template);
@@ -345,7 +346,8 @@ module.exports = class {
     if (!this.isPseudoPatternJson(pattern.relPath)) {
 
       if (pattern.jsonFileData) {
-        pattern.allData = this.patternlab.utils.extendButNotOverride(pattern.jsonFileData, this.patternlab.data);
+        pattern.allData =
+          this.utils.extendButNotOverride(JSON.parse(JSON.stringify(pattern.jsonFileData)), this.patternlab.data);
       }
       else {
         pattern.jsonFileData = {};
@@ -357,57 +359,40 @@ module.exports = class {
       pattern.allData.cacheBuster = pattern.cacheBuster;
     }
 
-    // Render extendedTemplate whether pseudoPattern or not.
-    let extendedTemplate =
+    // Render extendedTemplate whether pseudoPattern or not. Write it to pattern object.
+    pattern.extendedTemplate =
       pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
-
-    // Prepare to beautify extendedTemplate.
-    // Load js-beautify with options configured in .jsbeautifyrc.
-    const rcFile = '.jsbeautifyrc';
-    const rcLoader = new RcLoader(rcFile);
-    let rcOpts;
-
-    // First, try to load .jsbeautifyrc with user-configurable options.
-    if (fs.existsSync(`${this.patternlab.cwd}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.patternlab.cwd}/${rcFile}`, {lookup: false});
-    }
-    // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
-    else if (fs.existsSync(`${this.patternlab.appDir}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.patternlab.appDir}/${rcFile}`, {lookup: false});
-    }
-    // Else, lookup for any existing .jsbeautifyrc.
-    else {
-      rcOpts = rcLoader.for(__dirname, {lookup: true});
-    }
-
-    // We sometimes want .markup-only.html files to be in a template language with tags delimited by stashes.
-    // (This is particularly the case for using the fp-tpl-compile extension to compile Handlebars.)
-    // In order for js-beautify to indent such code correctly, any space between control characters #, ^, and /, and
-    // the variable name must be removed. However, we want to add the spaces back later.
-    // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
-    extendedTemplate = extendedTemplate.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
-    extendedTemplate = extendedTemplate.replace(/(\{\{\^)(\s+)(\S+)/g, '$1$3$2\u00A0');
-    extendedTemplate = extendedTemplate.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
-
-    // Beautify extendedTemplate.
-    extendedTemplate = beautify(extendedTemplate, rcOpts);
-
-    // Add back removed spaces to retain the look intended by the author.
-    extendedTemplate = extendedTemplate.replace(/(\{\{#)(\S+)(\s+)\u00A0/g, '$1$3$2');
-    extendedTemplate = extendedTemplate.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
-    extendedTemplate = extendedTemplate.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
-
-    // Delete empty lines.
-    extendedTemplate = extendedTemplate.replace(/^\s*$\n/gm, '');
-
-    // Write extendedTemplate to pattern object.
-    pattern.extendedTemplate = extendedTemplate;
 
     // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
       this.patternlab.pseudoPatternBuilder.main(pattern);
     }
 
+    // Render header.
+    const dataKeys = Object.keys(pattern.jsonFileData);
+    let header;
+    let useUserHeadLocal = false;
+
+    for (let i = 0, l = this.patternlab.userHeadComp.length; i < l; i++) {
+      const compItem = this.patternlab.userHeadComp[i];
+
+      if (compItem.tag === '_v') {
+        if (dataKeys.indexOf(compItem.n) > -1) {
+          useUserHeadLocal = true;
+
+          break;
+        }
+      }
+    }
+
+    if (useUserHeadLocal) {
+      header = Feplet.render(this.patternlab.userHeadRaw, pattern.allData);
+    }
+    else {
+      header = this.patternlab.userHeadGlobal;
+    }
+
+    // Prepare footer.
     // Exclude hidden lineage items from array destined for output.
     const lineage = [];
 
@@ -443,18 +428,7 @@ module.exports = class {
       patternState: pattern.patternState
     });
 
-    let head;
-
-    if (this.patternlab.userHead) {
-      head = this.patternlab.userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.patternlab.header);
-    }
-    else {
-      head = this.patternlab.header;
-    }
-
-    let headHtml = Feplet.render(head, pattern.allData);
-
-    // Set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer.
+    // Set the pattern-specific footer by compiling the general-footer with data, and then adding it to userFoot.
     const footerPartial = Feplet.render(this.patternlab.footer, {
       cacheBuster: this.patternlab.cacheBuster,
       isPattern: pattern.isPattern,
@@ -467,11 +441,19 @@ module.exports = class {
       portServer: this.patternlab.portServer
     });
 
-    let footerHtml = this.patternlab.userFoot.replace(/\{\{\{?\s*patternlabFoot\s*\}?\}\}/i, footerPartial);
-    footerHtml = Feplet.render(footerHtml, pattern.allData);
+    // Build footer.
+    let footer = '';
 
-    pattern.header = headHtml;
-    pattern.footer = footerHtml;
+    for (let i = 0, l = this.patternlab.userFootSplit.length; i < l; i++) {
+      if (i > 0) {
+        footer += footerPartial;
+      }
+
+      footer += this.patternlab.userFootSplit[i];
+    }
+
+    pattern.header = header;
+    pattern.footer = footer;
   }
 
   writePattern(pattern) {

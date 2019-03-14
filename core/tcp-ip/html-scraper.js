@@ -5,6 +5,7 @@ const request = require('request');
 
 module.exports = class {
   constructor(options, html, gatekeeper) {
+    this.options = options;
     this.conf = options.conf;
     this.utils = options.utils;
 
