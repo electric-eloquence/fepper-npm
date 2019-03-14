@@ -8,6 +8,7 @@ const backButton =
 
 module.exports = class {
   constructor(options, html, ui) {
+    this.options = options;
     this.conf = options.conf;
     this.html = html;
     this.immutableHeader = this.html.getImmutableHeader(this.conf);

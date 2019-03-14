@@ -8,12 +8,27 @@
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const requireDir = require('require-dir');
+const slash = require('slash');
 const utils = require('fepper-utils');
 
-// Instantiate a Fepper object and attach it to the global object.
-const Fepper = require('./core/fepper');
-global.fepper = new Fepper();
-const conf = global.conf;
+// We need to set globals in order to parse prefs in order to see if the user wants to instantiate a custom subclass.
+global.appDir = slash(__dirname);
+const rootDir = global.rootDir = utils.findupRootDir(null, __dirname);
+const conf = global.conf = utils.conf(); // This runs utils.uiConfigNormalize().
+const pref = global.pref = utils.pref();
+
+let instanceFile;
+
+if (pref.instance_file) {
+  instanceFile = `${rootDir}/${pref.instance_file}`;
+}
+else {
+  instanceFile = './core/fepper';
+}
+
+// Instantiate Fepper.
+const Fepper = require(instanceFile);
+new Fepper();
 
 // Require tasks in task directories.
 requireDir('./tasker');
@@ -149,15 +164,15 @@ function extensionsPush(taskName, argsArr, tasksArr = []) {
   }
 }
 
-// Main tasks.
+// Declare gulp tasks.
+
 gulp.task('default', (cb) => {
   const args = [];
 
   args.push('once');
-  args.push('tcp-ip-load:init');
 
-  // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
-  // They must run before global.expressApp starts listening and tcp-ip-reload starts watching.
+  // TCP-IP overrides must run before the Express app starts listening and gulp starts watching the file system in order
+  // to live reload changes.
   extensionsPush('tcp-ip', args);
   args.push(['tcp-ip-load:listen', 'tcp-ip-reload:listen']);
 
@@ -236,10 +251,9 @@ gulp.task('restart', (cb) => {
   const args = [];
 
   args.push('once');
-  args.push('tcp-ip-load:init');
 
-  // TCP-IP overrides must run after tcp-ip-load:init in order for there to be a global.expressApp object to override.
-  // They must run before global.expressApp starts listening and tcp-ip-reload starts watching.
+  // TCP-IP overrides must run before the Express app starts listening and gulp starts watching the file system in order
+  // to live reload changes.
   extensionsPush('tcp-ip', args);
   args.push(['tcp-ip-load:listen', 'tcp-ip-reload:listen']);
 
@@ -256,7 +270,7 @@ gulp.task('restart', (cb) => {
   });
 
   // An added measure for power-usage, delete any lingering install.log, normally deleted by the plain `fp` task.
-  const log = `${global.rootDir}/install.log`;
+  const log = `${rootDir}/install.log`;
 
   if (fs.existsSync(log)) {
     fs.removeSync(log);

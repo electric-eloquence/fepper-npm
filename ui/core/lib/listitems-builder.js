@@ -5,6 +5,7 @@ const Pattern = require('./object-factory').Pattern;
 module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
+    this.utils = patternlab.utils;
   }
 
   listItemsBuild(container) {
@@ -32,7 +33,7 @@ module.exports = class {
       listItemsArr.push(container.listItems[i]);
     }
 
-    this.patternlab.utils.shuffle(listItemsArr);
+    this.utils.shuffle(listItemsArr);
 
     let containerData;
 

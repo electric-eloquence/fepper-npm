@@ -44,9 +44,9 @@ const Patternlab = require('fepper/ui/core/lib/patternlab');
 const patternlab = new Patternlab(config, cwd);
 ```
 
-Fepper's `Patternlab` constructor recognizes a second argument (a working 
-directory argument) for instantiating a `patternlab` object. This allows it to 
-be instantiated from any directory within any task runner or custom application.
+Fepper's `Patternlab` constructor recognizes a second argument (current working 
+directory) for instantiating a `patternlab` object. This allows it to be 
+instantiated from any directory within any task runner or custom application.
 
 Fepper exposes these methods on the `patternlab` object:
 
@@ -61,7 +61,8 @@ object consumed by the `Patternlab` constructor.
 Keep in mind that configs overridden by an `options` argument will persist 
 through all future operations on that `Patternlab` instance. In order to revert 
 the configs back to the original configs, call `resetConfig` with the original 
-configs.
+configs. `resetConfig` will reset any number of properties submitted but will 
+not delete any preexisting properties.
 
 Fepper is 100% compatible with Pattern Lab PHP Mustache code. It aims to 
 maintain parity with the PHP distribution with respect to 

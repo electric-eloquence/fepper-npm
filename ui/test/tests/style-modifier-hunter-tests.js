@@ -33,7 +33,7 @@ describe('Style Modifier Hunter', function () {
     expect(childPattern.template).to
       .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to
-      .equal('<span class="test_base ">\n</span>\n<span class="test_base test_1">\n</span>\n');
+      .equal('<span class="test_base ">\n    \n    \n</span>\n<span class="test_base test_1">\n    \n    \n</span>\n');
   });
 
   it('should replace pipe-delimited multiple style modifiers with space-delimited classes', function () {
@@ -48,7 +48,7 @@ describe('Style Modifier Hunter', function () {
     expect(childPattern.template).to
       .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to
-      .equal('<span class="test_base foo1 foo2">\n</span>\n');
+      .equal('<span class="test_base foo1 foo2">\n    \n    \n</span>\n');
   });
 
   it('should replace a style modifier tag with a single class when the parent also submits a parameter', function () {
@@ -62,7 +62,7 @@ describe('Style Modifier Hunter', function () {
     expect(parentPattern.template).to.equal('{{> test-styled-atom:test_2(message: \'1\') }}\n');
     expect(childPattern.template).to
       .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
-    expect(parentPattern.extendedTemplate).to.equal('<span class="test_base test_2">\n  1\n</span>\n');
+    expect(parentPattern.extendedTemplate).to.equal('<span class="test_base test_2">\n    1\n    \n</span>\n');
   });
 
   it('should replace a style modifier tag with multiple classes when the parent also submits a parameter', function () {
@@ -76,7 +76,7 @@ describe('Style Modifier Hunter', function () {
     expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2(message: \'2\') }}\n\n');
     expect(childPattern.template).to
       .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
-    expect(parentPattern.extendedTemplate).to.equal('<span class="test_base foo1 foo2">\n  2\n</span>\n');
+    expect(parentPattern.extendedTemplate).to.equal('<span class="test_base foo1 foo2">\n    2\n    \n</span>\n\n');
   });
 
   it('should recursively replace a style modifier tag in a child nested below the immediate child of the first parent\
@@ -95,7 +95,7 @@ describe('Style Modifier Hunter', function () {
       '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n'
     );
     expect(parentPattern.extendedTemplate).to.equal(
-      '<span class="test_base ">\n</span>\n<span class="test_base test_1">\n</span>\n'
+      '<span class="test_base ">\n    \n    \n</span>\n<span class="test_base test_1">\n    \n    \n</span>\n'
     );
   });
 });

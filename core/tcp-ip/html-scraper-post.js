@@ -2,14 +2,11 @@
 
 const path = require('path');
 
-const beautify = require('js-beautify').html;
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const he = require('he');
 const html2json = require('html2json').html2json;
 const json2html = require('html2json').json2html;
-const RcLoader = require('rcloader');
-const utils = require('fepper-utils');
 
 class HtmlObj {
   constructor() {
@@ -32,8 +29,10 @@ module.exports = class {
     this.conf = conf;
     this.gatekeeper = gatekeeper;
     this.html = html;
+    this.options = options;
     this.appDir = options.appDir;
     this.rootDir = options.rootDir;
+    this.utils = options.utils;
 
     // Set some defaults for possibly non-existent nested request properties.
     this.filename = (this.req && this.req.body && this.req.body.filename) || '';
@@ -169,7 +168,7 @@ module.exports = class {
       this.redirectWithMsg('success', msg, '', '');
     }
     catch (err) {
-      utils.error(err);
+      this.utils.error(err);
     }
   }
 
@@ -256,7 +255,7 @@ module.exports = class {
     }
     catch (err) {
       // Can work with null jsonForMustache.
-      utils.warn(err);
+      this.utils.warn(err);
     }
 
     if (jsonForMustache) {
@@ -369,27 +368,13 @@ module.exports = class {
    * @returns {string} Mustache code.
    */
   jsonToMustache(jsonForMustache, jsonForData) {
-    const rcFile = '.jsbeautifyrc';
-    const rcLoader = new RcLoader(rcFile);
-    let rcOpts;
-
-    // First, try to load .jsbeautifyrc with user-configurable options.
-    if (fs.existsSync(`${this.rootDir}/${rcFile}`)) {
-      rcOpts = rcLoader.for(`${this.rootDir}/${rcFile}`, {lookup: false});
-    }
-    // Else, load the .jsbeautifyrc that ships with fepper-npm.
-    else {
-      rcOpts = rcLoader.for(`${this.appDir}/${rcFile}`, {lookup: false});
-    }
-
-    rcOpts.indent_handlebars = false;
     let mustache = '<body></body>';
 
     try {
       mustache = json2html(jsonForMustache);
     }
     catch (err) {
-      utils.error(err);
+      this.utils.error(err);
     }
 
     if (jsonForData.scrape) {
@@ -401,13 +386,7 @@ module.exports = class {
       mustache = mustache.replace(/<\/body>\s*$/, '\n');
     }
 
-    // Delete empty lines.
-    mustache = mustache.replace(/^\s*$\n/gm, '');
-
-    // Beautify html. The UI adds some extra steps to the beautification of stash-delimited template tags.
-    // However, that scenario does not present itself here because we do not get control structures besides
-    // the # and /  for the scrape tags.
-    mustache = beautify(mustache, rcOpts);
+    mustache = this.utils.beautifyTemplate(mustache);
 
     return mustache;
   }
@@ -501,7 +480,7 @@ module.exports = class {
       this.res.send(output);
     }
     catch (err) {
-      utils.error(err);
+      this.utils.error(err);
     }
   }
 
@@ -688,7 +667,7 @@ module.exports = class {
         html2jsonObj = JSON.parse(this.html2json);
       }
       catch (err) {
-        utils.error(err);
+        this.utils.error(err);
 
         message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ' +
           'syntactically correct.';
@@ -720,7 +699,7 @@ module.exports = class {
         return;
       }
       catch (err) {
-        utils.error(err);
+        this.utils.error(err);
       }
     }
   }

@@ -7,6 +7,7 @@ const fs = require('fs-extra');
 
 module.exports = class {
   constructor(options) {
+    this.options = options;
     this.conf = options.conf;
     this.rootDir = options.rootDir;
     this.utils = options.utils;
