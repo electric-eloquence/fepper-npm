@@ -7,7 +7,12 @@ const html2json = require('html2json').html2json;
 require('../init');
 
 const fepper = global.fepper;
-const conf = fepper.conf;
+const {
+  appDir,
+  conf,
+  rootDir,
+  utils
+} = fepper;
 
 // Instantiating with null requests and responses, because we don't want actual response or redirect behavior.
 const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
@@ -16,7 +21,7 @@ const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
   conf,
   fepper.tcpIp.fpExpress.gatekeeper,
   fepper.tcpIp.fpExpress.html,
-  {appDir: fepper.appDir, rootDir: fepper.rootDir}
+  {appDir, rootDir, utils}
 );
 const req = {body: {target: '', url: ''}};
 const scrapeDir = conf.ui.paths.source.scrape;
@@ -286,22 +291,22 @@ describe('HTML Scraper Post', function () {
       const mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
 
       expect(mustache).to.equal(`{{# scrape }}
-<body>
-  <section id="one" class="test">{{ one }}</section>
-  <section id="two" class="test">{{ two }}</section>
-  <section class="test">{{ test }}</section>
-  <section class="test">{{ test_1 }}</section>
-  <section class="test">{{ test_2 }}</section>
-  <section>{{ section }}</section>
-  <section>{{ section_1 }}</section>
-  <section>{{ section_2 }}</section>
-  <script></script>
-  <br />
-  <div></div>
-  <p></p>
-  <textarea></textarea>
-  <!-- comment -->
-</body>
+  <body>
+    <section id="one" class="test">{{ one }}</section>
+    <section id="two" class="test">{{ two }}</section>
+    <section class="test">{{ test }}</section>
+    <section class="test">{{ test_1 }}</section>
+    <section class="test">{{ test_2 }}</section>
+    <section>{{ section }}</section>
+    <section>{{ section_1 }}</section>
+    <section>{{ section_2 }}</section>
+    <script></script>
+    <br />
+    <div></div>
+    <p></p>
+    <textarea></textarea>
+    <!-- comment -->
+  </body>
 {{/ scrape }}
 `);
     });

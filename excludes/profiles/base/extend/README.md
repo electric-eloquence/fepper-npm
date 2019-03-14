@@ -13,7 +13,7 @@
 
 * Write custom extensions in the `extend/custom` directory.
 * Extensions require a file ending in "~extend.js" in order for Fepper to 
-  recognize their tasks.
+  recognize their gulp tasks.
 * The "\*~extend.js" file can be directly under `extend/custom`, or nested one 
   directory deep, but no deeper.
 * Add the tasks to `extend/custom.js` (and `extend/auxiliary/auxiliary_custom.js`

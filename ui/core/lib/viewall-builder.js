@@ -15,8 +15,8 @@ module.exports = class {
     this.patternSectionType = '';
     this.public = patternlab.config.paths.public;
     this.source = patternlab.config.paths.source;
+    this.utils = patternlab.utils;
     this.viewallPageHead = '';
-    this.viewallPageFoot = '';
     this.viewallPaths = {};
     this.viewallPatterns = patternlab.viewallPatterns;
     this.viewallTemplateFull = '';
@@ -98,29 +98,32 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns[name].content += this.viewallTemplateFoot + viewallFooter + this.viewallUserFoot;
+    let userFoot = '';
+
+    for (let i = 0, l = this.patternlab.userFootSplit.length; i < l; i++) {
+      if (i > 0) {
+        userFoot += viewallFooter;
+      }
+
+      userFoot += this.patternlab.userFootSplit[i];
+    }
+
+    this.viewallPatterns[name].content += this.viewallTemplateFoot + userFoot;
   }
 
   preParseViewallMarkup() {
     const viewallSplit = this.viewallTemplateFull.split(/\{\{[#\/]\s*partials\s*\}\}/);
 
     if (viewallSplit.length < 3) {
-      this.patternlab.utils.error('The "partials" list in viewall.mustache must have valid opening and closing tags!');
+      this.utils.error('The "partials" list in viewall.mustache must have valid opening and closing tags!');
     }
     else if (viewallSplit.length > 3) {
-      this.patternlab.utils.error('There can be only one "partials" list in viewall.mustache!');
+      this.utils.error('There can be only one "partials" list in viewall.mustache!');
     }
     else {
       this.viewallTemplateHead = viewallSplit[0];
       this.viewallTemplateBody = viewallSplit[1];
       this.viewallTemplateFoot = viewallSplit[2];
-      this.viewallPageHead = '';
-      this.viewallUserFoot = Feplet.render(
-        this.patternlab.userFoot,
-        {
-          cacheBuster: this.patternlab.cacheBuster
-        }
-      );
     }
 
     this.isViewallValid = (viewallSplit.length === 3);
@@ -324,8 +327,8 @@ module.exports = class {
       }
     }
     catch (err) {
-      this.patternlab.utils.error('ERROR: Missing an essential file from ' + viewallCoreDir);
-      this.patternlab.utils.error(err);
+      this.utils.error('ERROR: Missing an essential file from ' + viewallCoreDir);
+      this.utils.error(err);
     }
   }
 

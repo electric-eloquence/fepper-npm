@@ -3,6 +3,7 @@
 module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
+    this.utils = patternlab.utils;
   }
 
   // PRIVATE METHODS
@@ -78,7 +79,7 @@ module.exports = class {
 
       // Skip if no descendentPattern.
       if (!descendentPattern) {
-        this.patternlab.utils.error('`' + pattern.relPath + '` is missing pattern `' + descendentPatternName + '`');
+        this.utils.error('`' + pattern.relPath + '` is missing pattern `' + descendentPatternName + '`');
 
         continue;
       }

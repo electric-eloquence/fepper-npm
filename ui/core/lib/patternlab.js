@@ -60,7 +60,10 @@ module.exports = class {
     this.portServer = this.utils.deepGet(global, 'conf.express_port') || '';
     this.useListItems = false;
     this.userHead = '';
-    this.userFoot = '';
+    this.userHeadComp = [];
+    this.userHeadGlobal = '';
+    this.userHeadRaw = '';
+    this.userFootSplit = [];
     this.viewallPatterns = {};
 
     this.annotationsBuilder = new AnnotationsBuilder(this);
@@ -171,33 +174,54 @@ module.exports = class {
   }
 
   prepWrite() {
+    let userHead;
+
     // Set user defined head and foot if they exist.
     try {
-      this.userHead = fs.readFileSync(`${this.config.paths.source.meta}/_00-head.mustache`, this.enc);
+      userHead = fs.readFileSync(`${this.config.paths.source.meta}/_00-head.mustache`, this.enc);
     }
     catch (err) {
       if (this.config.debug) {
-        this.utils.error(err);
+        this.utils.warn(err);
 
         let warnHead = 'Could not find optional user-defined header, usually found at ';
         warnHead += './source/_meta/_00-head.mustache. It was likely deleted.';
 
-        this.utils.error(warnHead);
+        utils.warn(warnHead);
       }
+
+      // Default HTML head.
+      userHead = fs.readFileSync(`${this.appDir}/excludes/profiles/base/source/_meta/_00-head.mustache`, this.enc);
     }
 
+    userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.header);
+    this.userHeadComp = Feplet.scan(userHead);
+    this.userHeadGlobal = Feplet.render(userHead, this.data);
+    this.userHeadRaw = userHead;
+
+    let userFoot;
+
     try {
-      this.userFoot = fs.readFileSync(`${this.config.paths.source.meta}/_01-foot.mustache`, this.enc);
+      userFoot = fs.readFileSync(`${this.config.paths.source.meta}/_01-foot.mustache`, this.enc);
     }
     catch (err) {
       if (this.config.debug) {
-        this.utils.error(err);
+        this.utils.warn(err);
 
         let warnFoot = 'Could not find optional user-defined footer, usually found at ';
         warnFoot += './source/_meta/_01-foot.mustache. It was likely deleted.';
 
-        this.utils.error(warnFoot);
+        this.utils.warn(warnFoot);
       }
+
+      // Default HTML foot.
+      userFoot = fs.readFileSync(`${this.appDir}/excludes/profiles/base/source/_meta/_01-foot.mustache`, this.enc);
+    }
+
+    const userFootSplit = userFoot.split(/\{\{\{?\s*patternlabFoot\s*\}?\}\}/i);
+
+    for (let i = 0, l = userFootSplit.length; i < l; i++) {
+      this.userFootSplit[i] = Feplet.render(userFootSplit[i], this.data);
     }
 
     // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
@@ -248,6 +272,7 @@ module.exports = class {
     this.preProcessAllPatterns(patternsDir);
     this.preProcessDataAndParams();
     this.prepWrite();
+
     // Delegating processAllPatterns() to UiBuilder. This Patternlab class should manage its own properties and provide
     // utility functions. Reading, data processing, writing, etc. should be delegated to its member classes.
     this.uiBuilder.processAllPatterns();

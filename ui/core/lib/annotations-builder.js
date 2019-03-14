@@ -11,6 +11,7 @@ module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
     this.config = patternlab.config;
+    this.utils = patternlab.utils;
   }
 
   main() {
@@ -22,7 +23,7 @@ module.exports = class {
       (err, file) => {
         // Log any errors.
         if (err) {
-          this.patternlab.utils.error(err);
+          this.utils.error(err);
           return;
         }
 

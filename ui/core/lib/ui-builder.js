@@ -11,13 +11,18 @@ module.exports = class {
     this.config = patternlab.config;
     this.public = patternlab.config.paths.public;
     this.source = patternlab.config.paths.source;
+    this.utils = patternlab.utils;
     this.viewallBuilder = null;
     this.viewallPatterns = patternlab.viewallPatterns;
     this.isViewallValid = false;
   }
 
   processAllPatterns() {
-    const patternsToExport = this.config.patternExportPatternPartials;
+    let patternsToExport;
+
+    if (Array.isArray(this.config.patternExportPatternPartials) && this.config.patternExportPatternPartials.length) {
+      patternsToExport = this.config.patternExportPatternPartials;
+    }
 
     this.viewallBuilder = this.patternlab.viewallBuilder;
     this.viewallBuilder.preParseViewallMarkup();
@@ -25,7 +30,7 @@ module.exports = class {
 
     this.isViewallValid = this.viewallBuilder.isViewallValid;
 
-    // Need to process the first pattern in this.patternlab.patternTypes array in order to write viewall output.
+    // Need to process the first pattern in this.patternlab.patternTypes array in order to build viewall output.
     // Need to do this before the nested for loop.
     let isFirstPatternSubType;
     let firstPattern;
@@ -51,7 +56,7 @@ module.exports = class {
       }
 
       this.viewallBuilder.viewallPageHead = firstPattern.header +
-        Feplet.render(this.viewallBuilder.viewallTemplateHead, firstPattern.allData);
+        Feplet.render(this.viewallBuilder.viewallTemplateHead, this.patternlab.data);
 
       this.viewallPatterns.viewall = new objectFactory.PatternViewall(
         // Naming the HTML file viewall.html instead of index.html to allow naming a Type "viewall" however unlikely.
@@ -100,15 +105,13 @@ module.exports = class {
         }
 
         // Export pattern.
-        if (Array.isArray(patternsToExport)) {
-          if (patternsToExport.indexOf(pattern.patternPartial) > -1) {
-            const patternPartialCode = pattern.extendedTemplate;
+        if (patternsToExport && patternsToExport.indexOf(pattern.patternPartial) > -1) {
+          const patternPartialCode = this.utils.beautifyTemplate(pattern.extendedTemplate);
 
-            fs.outputFileSync(
-              `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
-              patternPartialCode
-            );
-          }
+          fs.outputFileSync(
+            `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
+            patternPartialCode
+          );
         }
 
         // Write viewall body.
@@ -161,15 +164,13 @@ module.exports = class {
           }
 
           // Export pattern.
-          if (Array.isArray(patternsToExport)) {
-            if (patternsToExport.indexOf(pattern.patternPartial) > -1) {
-              const patternPartialCode = pattern.extendedTemplate;
+          if (patternsToExport && patternsToExport.indexOf(pattern.patternPartial) > -1) {
+            const patternPartialCode = this.utils.beautifyTemplate(pattern.extendedTemplate);
 
-              fs.outputFileSync(
-                `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
-                patternPartialCode
-              );
-            }
+            fs.outputFileSync(
+              `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
+              patternPartialCode
+            );
           }
 
           // Write viewall body.
@@ -186,7 +187,7 @@ module.exports = class {
           this.patternlab.patternBuilder.freePattern(pattern);
         }
 
-        // Finish writing subType viewall.
+        // Finish building subType viewall.
         if (this.isViewallValid) {
           this.viewallBuilder.buildViewallFooter(
             patternSubType.patternPartial,
@@ -195,13 +196,13 @@ module.exports = class {
         }
       }
 
-      // Finish writing type viewall.
+      // Finish building type viewall.
       if (this.isViewallValid && patternType.patternTypeLC !== scrapeTypeName) {
         this.viewallBuilder.buildViewallFooter(patternType.patternPartial, patternType.flatPatternPath);
       }
     }
 
-    // Finish writing viewall.
+    // Finish building viewall.
     if (this.isViewallValid) {
       this.viewallBuilder.buildViewallFooter('viewall', 'viewall');
     }

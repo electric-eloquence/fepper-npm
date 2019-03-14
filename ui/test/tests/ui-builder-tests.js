@@ -36,9 +36,18 @@ const patternMustacheExistsBefore = fs.existsSync(patternMustache);
 const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-const expectedContent = `<span class="test_base ">
+const beautifiedContent = `<span class="test_base ">
 </span>
 <span class="test_base test_1">
+</span>
+`;
+const expectedContent = `<span class="test_base ">
+    
+    
+</span>
+<span class="test_base test_1">
+    
+    
 </span>
 `;
 
@@ -91,7 +100,7 @@ describe('UI Builder', function () {
   it('should export patterns to the pattern_exports directory', function () {
     expect(patternExportExistsBefore).to.equal(false);
     expect(patternExportExistsAfter).to.equal(true);
-    expect(patternExportContent).to.equal(expectedContent);
+    expect(patternExportContent).to.equal(beautifiedContent);
   });
 
   it('should write patternlab-data.js for browser consumption', function () {

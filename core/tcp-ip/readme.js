@@ -6,6 +6,7 @@ const marked = require('marked');
 
 module.exports = class {
   constructor(options, html) {
+    this.options = options;
     this.conf = options.conf;
     this.rootDir = options.rootDir;
     this.utils = options.utils;
