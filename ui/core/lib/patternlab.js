@@ -59,10 +59,9 @@ module.exports = class {
     this.portReloader = this.utils.deepGet(global, 'conf.livereload_port') || '';
     this.portServer = this.utils.deepGet(global, 'conf.express_port') || '';
     this.useListItems = false;
-    this.userHead = '';
+    this.userHeadComp = null;
     this.userHeadGlobal = '';
     this.userHeadParseArr = [];
-    this.userHeadRaw = '';
     this.userFootSplit = [];
     this.viewallPatterns = {};
 
@@ -195,9 +194,9 @@ module.exports = class {
     }
 
     userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.header);
-    this.userHeadGlobal = Feplet.render(userHead, this.data);
     this.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
-    this.userHeadRaw = userHead;
+    this.userHeadComp = Feplet.generate(this.userHeadParseArr, userHead, {});
+    this.userHeadGlobal = this.userHeadComp.render(this.data);
 
     let userFoot;
 
