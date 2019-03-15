@@ -369,15 +369,15 @@ module.exports = class {
     }
 
     // Render header.
-    const dataKeys = Object.keys(pattern.jsonFileData);
     let header;
     let useUserHeadLocal = false;
 
-    for (let i = 0, l = this.patternlab.userHeadComp.length; i < l; i++) {
-      const compItem = this.patternlab.userHeadComp[i];
+    for (let i = 0, l = this.patternlab.userHeadParseArr.length; i < l; i++) {
+      const compItem = this.patternlab.userHeadParseArr[i];
 
       if (compItem.tag === '_v') {
-        if (dataKeys.indexOf(compItem.n) > -1) {
+        // eslint-disable-next-line eqeqeq
+        if (pattern.jsonFileData[compItem.n] != null) {
           useUserHeadLocal = true;
 
           break;
@@ -386,7 +386,8 @@ module.exports = class {
     }
 
     if (useUserHeadLocal) {
-      header = Feplet.render(this.patternlab.userHeadRaw, pattern.allData);
+      const headerComp = Feplet.generate(this.patternlab.userHeadParseArr, this.patternlab.userHeadRaw, {});
+      header = headerComp.render(pattern.allData);
     }
     else {
       header = this.patternlab.userHeadGlobal;
