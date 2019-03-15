@@ -384,8 +384,7 @@ module.exports = class {
     }
 
     if (useUserHeadLocal) {
-      const headerComp = Feplet.generate(this.patternlab.userHeadParseArr, this.patternlab.userHeadRaw, {});
-      header = headerComp.render(pattern.allData);
+      header = this.patternlab.userHeadComp.render(pattern.allData);
     }
     else {
       header = this.patternlab.userHeadGlobal;
