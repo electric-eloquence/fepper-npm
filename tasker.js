@@ -187,7 +187,7 @@ gulp.task('default', (cb) => {
     cb();
     utils.log(`Listening on port ${conf.express_port}`);
   });
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('data', (cb) => {
@@ -205,7 +205,7 @@ gulp.task('data', (cb) => {
   }
 
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('frontend-copy', (cb) => {
@@ -215,7 +215,7 @@ gulp.task('frontend-copy', (cb) => {
   args.push(['fepper:copy-assets', 'fepper:copy-scripts', 'fepper:copy-styles']);
   extensionsPush('frontend-copy:postprocess', args);
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('install', (cb) => {
@@ -244,7 +244,7 @@ gulp.task('once', (cb) => {
 
   extensionsPush('once:postprocess', args);
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('restart', (cb) => {
@@ -276,7 +276,7 @@ gulp.task('restart', (cb) => {
     fs.removeSync(log);
   }
 
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('static', (cb) => {
@@ -288,7 +288,7 @@ gulp.task('static', (cb) => {
   extensionsPush('static:postprocess', args);
   args.push('ui:copy-static');
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('syncback', (cb) => {
@@ -299,7 +299,7 @@ gulp.task('syncback', (cb) => {
   args.push('template');
   extensionsPush('syncback:postprocess', args);
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 gulp.task('template', (cb) => {
@@ -309,7 +309,7 @@ gulp.task('template', (cb) => {
   args.push('fepper:template');
   extensionsPush('template:postprocess', args);
   args.push(cb);
-  gulp.runSequence.apply(null, args);
+  gulp.runSequence(...args);
 });
 
 // Export gulp instance for customization, testing, etc.
