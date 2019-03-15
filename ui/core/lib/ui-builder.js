@@ -248,18 +248,22 @@ module.exports = class {
   }
 
   writePatternlabData() {
-    // Clone this.config and delete .paths from it because we don't want absolute paths on the client.
-    const configClone = JSON.parse(JSON.stringify(this.config));
-    delete configClone.paths;
+
+    // Temporarily dereference .paths from the config object because we don't want absolute paths on the client.
+    const configPaths = this.config.paths;
+    delete this.config.paths;
 
     // Build the data into text output.
     let output = '';
-    output += 'window.config = ' + JSON.stringify(configClone) + ';\n';
-    output += 'window.ishControls = {"ishControlsHide":' + JSON.stringify(configClone.ishControlsHide) +
+    output += 'window.config = ' + JSON.stringify(this.config) + ';\n';
+    output += 'window.ishControls = {"ishControlsHide":' + JSON.stringify(this.config.ishControlsHide) +
       '};\n';
     output += 'window.navItems = {"patternTypes": ' + JSON.stringify(this.patternlab.patternTypes) + '};\n';
     output += 'window.patternPaths = ' + JSON.stringify(this.patternlab.patternPaths) + ';\n';
     output += 'window.viewallPaths = ' + JSON.stringify(this.patternlab.viewallPaths) + ';\n';
+
+    // Re-add .paths to the config object.
+    this.config.paths = configPaths;
 
     // Write the output.
     fs.outputFileSync(`${this.public.styleguide}/data/patternlab-data.js`, output);

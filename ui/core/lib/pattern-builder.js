@@ -344,10 +344,8 @@ module.exports = class {
     // The tilde suffix will sort pseudoPatterns after basePatterns.
     // So first, check if this is not a pseudoPattern (therefore a basePattern) and set up the .allData property.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
-
       if (pattern.jsonFileData) {
-        pattern.allData =
-          this.utils.extendButNotOverride(JSON.parse(JSON.stringify(pattern.jsonFileData)), this.patternlab.data);
+        pattern.allData = this.utils.extendButNotOverride({}, pattern.jsonFileData, this.patternlab.data);
       }
       else {
         pattern.jsonFileData = {};

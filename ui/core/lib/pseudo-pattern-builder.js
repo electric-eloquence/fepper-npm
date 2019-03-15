@@ -30,8 +30,7 @@ module.exports = class {
       }
 
       // Fill out the properties of this pseudoPattern.
-      pseudoPattern.allData =
-        this.utils.extendButNotOverride(JSON.parse(JSON.stringify(pseudoPattern.jsonFileData)), pattern.allData);
+      pseudoPattern.allData = this.utils.extendButNotOverride({}, pseudoPattern.jsonFileData, pattern.allData);
       pseudoPattern.fepletParse = pattern.fepletParse;
       pseudoPattern.fepletComp = pattern.fepletComp;
       pseudoPattern.isPseudoPattern = true;
