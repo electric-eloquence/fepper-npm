@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.32.1
+* Build performance improvements
+
 ### v0.32.0
 * `fp update` preserves file permissions
 * Deleting empty lines in extendedTemplate
