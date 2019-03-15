@@ -111,7 +111,7 @@ module.exports = class {
 
           tmpArr.unshift(data);
           tmpArr.unshift(el);
-          renderObj = React.createElement.apply(null, tmpArr);
+          renderObj = React.createElement(...tmpArr);
         }
       }
     }
