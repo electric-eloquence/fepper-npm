@@ -84,13 +84,13 @@ describe('UI Builder', function () {
   });
 
   it('should write patterns to the public directory', function () {
-    expect(patternHtmlExistsBefore).to.equal(false);
-    expect(patternMarkupExistsBefore).to.equal(false);
-    expect(patternMustacheExistsBefore).to.equal(false);
+    expect(patternHtmlExistsBefore).to.be.false;
+    expect(patternMarkupExistsBefore).to.be.false;
+    expect(patternMustacheExistsBefore).to.be.false;
 
-    expect(patternHtmlExistsAfter).to.equal(true);
-    expect(patternMarkupExistsAfter).to.equal(true);
-    expect(patternMustacheExistsAfter).to.equal(true);
+    expect(patternHtmlExistsAfter).to.be.true;
+    expect(patternMarkupExistsAfter).to.be.true;
+    expect(patternMustacheExistsAfter).to.be.true;
 
     expect(patternHtmlContent).to.include(expectedContent);
     expect(patternMarkupContent).to.equal(expectedContent);
@@ -98,14 +98,14 @@ describe('UI Builder', function () {
   });
 
   it('should export patterns to the pattern_exports directory', function () {
-    expect(patternExportExistsBefore).to.equal(false);
-    expect(patternExportExistsAfter).to.equal(true);
+    expect(patternExportExistsBefore).to.be.false;
+    expect(patternExportExistsAfter).to.be.true;
     expect(patternExportContent).to.equal(beautifiedContent);
   });
 
   it('should write patternlab-data.js for browser consumption', function () {
-    expect(patternlabDataExistsBefore).to.equal(false);
-    expect(patternlabDataExistsAfter).to.equal(true);
+    expect(patternlabDataExistsBefore).to.be.false;
+    expect(patternlabDataExistsAfter).to.be.true;
   });
 
   it('should write window.config to patternlab-data.js', function () {

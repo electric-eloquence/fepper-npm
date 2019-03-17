@@ -49,32 +49,32 @@ describe('Frontend Copier', function () {
     const styleCopied5 =
       fs.existsSync(`${stylesTargetDir}/fonts-alt/nested-alt/icons.nested-alt.svg`);
 
-    expect(assetCopied).to.equal(true);
-    expect(scriptCopied).to.equal(true);
-    expect(scriptCopied1).to.equal(true);
-    expect(scriptCopied2).to.equal(true);
-    expect(styleCopied).to.equal(true);
-    expect(styleCopied1).to.equal(true);
-    expect(styleCopied2).to.equal(true);
-    expect(styleCopied3).to.equal(true);
-    expect(styleCopied4).to.equal(true);
-    expect(styleCopied5).to.equal(true);
+    expect(assetCopied).to.be.true;
+    expect(scriptCopied).to.be.true;
+    expect(scriptCopied1).to.be.true;
+    expect(scriptCopied2).to.be.true;
+    expect(styleCopied).to.be.true;
+    expect(styleCopied1).to.be.true;
+    expect(styleCopied2).to.be.true;
+    expect(styleCopied3).to.be.true;
+    expect(styleCopied4).to.be.true;
+    expect(styleCopied5).to.be.true;
   });
 
   it('should ignore frontend files prefixed with two undercores', function () {
     const src = fs.existsSync(`${stylesBldDir}/__style.dev.css`);
     const ignored = fs.existsSync(`${stylesTargetDir}/__style.dev.css`);
 
-    expect(src).to.equal(true);
-    expect(ignored).to.equal(false);
+    expect(src).to.be.true;
+    expect(ignored).to.be.false;
   });
 
   it('should ignore frontend files in a _nosync directory', function () {
     const src = fs.existsSync(`${assetsDir}/_nosync/nosync.png`);
     const ignored = fs.existsSync(`${assetsTargetDir}/_nosync/nosync.png`);
 
-    expect(src).to.equal(true);
-    expect(ignored).to.equal(false);
+    expect(src).to.be.true;
+    expect(ignored).to.be.false;
   });
 
   it('should write to the default target directory', function () {
