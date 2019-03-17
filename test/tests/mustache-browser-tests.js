@@ -97,7 +97,7 @@ describe('Mustache Browser', function () {
   it('should return a null on submission of a no-result query partial', function () {
     const pattern = mustacheBrowser.getPattern('no-result');
 
-    expect(pattern).to.equal(null);
+    expect(pattern).to.be.null;
   });
 
   it('should replace angle brackets with HTML entities', function () {

@@ -28,8 +28,8 @@ describe('Annotations Builder', function () {
   it('should write annotations.js', function () {
     const annotationsJsExistsAfter = fs.existsSync(annotationsJs);
 
-    expect(annotationsJsExistsBefore).to.equal(false);
-    expect(annotationsJsExistsAfter).to.equal(true);
+    expect(annotationsJsExistsBefore).to.be.false;
+    expect(annotationsJsExistsAfter).to.be.true;
   });
 
   it('should parse the Front Matter files in the source/_annotations directory', function () {

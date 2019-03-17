@@ -40,22 +40,22 @@ describe('UI Builder', function () {
   it('should write index.html', function () {
     const uiIndexExistsAfter = fs.existsSync(uiIndex);
 
-    expect(uiIndexExistsBefore).to.equal(false);
-    expect(uiIndexExistsAfter).to.equal(true);
+    expect(uiIndexExistsBefore).to.be.false;
+    expect(uiIndexExistsAfter).to.be.true;
   });
 
   it('should write ui.css', function () {
     const uiCssExistsAfter = fs.existsSync(uiCss);
 
-    expect(uiCssExistsBefore).to.equal(false);
-    expect(uiCssExistsAfter).to.equal(true);
+    expect(uiCssExistsBefore).to.be.false;
+    expect(uiCssExistsAfter).to.be.true;
   });
 
   it('should write ui.js', function () {
     const uiJsExistsAfter = fs.existsSync(uiJs);
 
-    expect(uiJsExistsBefore).to.equal(false);
-    expect(uiJsExistsAfter).to.equal(true);
+    expect(uiJsExistsBefore).to.be.false;
+    expect(uiJsExistsAfter).to.be.true;
   });
 
   it('should recognize a similarly named and hierarchically structured custom component module and overrides its \

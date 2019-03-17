@@ -58,7 +58,7 @@ describe('Templater', function () {
       // Do nothing.
     }
 
-    expect(ignored).to.equal(null);
+    expect(ignored).to.be.null;
   });
 
   it('should ignore Mustache files in a _nosync directory', function () {
@@ -71,7 +71,7 @@ describe('Templater', function () {
       // Do nothing.
     }
 
-    expect(ignored).to.equal(null);
+    expect(ignored).to.be.null;
   });
 
   it('should write to the default templates directory', function () {
