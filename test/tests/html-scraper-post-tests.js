@@ -226,12 +226,12 @@ describe('HTML Scraper Post', function () {
       expect(jsons.jsonForData.scrape[0].section).to.equal('Fooz');
       expect(jsons.jsonForData.scrape[0].section_1).to.equal('Barz');
       expect(jsons.jsonForData.scrape[0].section_2).to.equal('Bazz');
-      expect(typeof jsons.jsonForData.scrape[0].body).to.equal('undefined');
-      expect(typeof jsons.jsonForData.scrape[0].script).to.equal('undefined');
-      expect(typeof jsons.jsonForData.scrape[0].br).to.equal('undefined');
-      expect(typeof jsons.jsonForData.scrape[0].div).to.equal('undefined');
-      expect(typeof jsons.jsonForData.scrape[0].p).to.equal('undefined');
-      expect(typeof jsons.jsonForData.scrape[0].textarea).to.equal('undefined');
+      expect(jsons.jsonForData.scrape[0].body).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].script).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].br).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].div).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].p).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].textarea).to.be.undefined;
     });
 
 
@@ -324,11 +324,11 @@ describe('HTML Scraper Post', function () {
       const invalidPeriodPrefix = '.0-test.1_2';
       const invalidUnderscorePrefix = '_0-test.1_2';
 
-      expect(htmlScraperPost.filenameValidate(validFilename)).to.equal(true);
-      expect(htmlScraperPost.filenameValidate(invalidChar)).to.equal(false);
-      expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.equal(false);
-      expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.equal(false);
-      expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.equal(false);
+      expect(htmlScraperPost.filenameValidate(validFilename)).to.be.true;
+      expect(htmlScraperPost.filenameValidate(invalidChar)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.be.false;
     });
 
     it('should correctly format newlines in file body', function () {

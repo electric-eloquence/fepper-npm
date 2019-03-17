@@ -21,8 +21,8 @@ patternlab.patternBuilder.processPattern(altPattern);
 
 describe('Pseudo-Pattern Hunter', function () {
   it('should identify pseudo-patterns', function () {
-    expect(basePattern.isPseudoPattern).to.equal(false);
-    expect(altPattern.isPseudoPattern).to.equal(true);
+    expect(basePattern.isPseudoPattern).to.be.false;
+    expect(altPattern.isPseudoPattern).to.be.true;
   });
 
   it('should copy base pattern templates to their pseudo-patterns', function () {

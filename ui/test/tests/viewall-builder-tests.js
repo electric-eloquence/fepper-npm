@@ -56,22 +56,22 @@ describe('Viewall Builder', function () {
   });
 
   it('should write viewall.html', function () {
-    expect(viewallViewallExistsBefore).to.equal(false);
-    expect(viewallViewallExistsAfter).to.equal(true);
+    expect(viewallViewallExistsBefore).to.be.false;
+    expect(viewallViewallExistsAfter).to.be.true;
     expect(viewallViewallContent).to.contain(typeItem);
     expect(viewallViewallContent).to.contain(subTypeItem);
   });
 
   it('should write patternType viewall', function () {
-    expect(patternTypeViewallExistsBefore).to.equal(false);
-    expect(patternTypeViewallExistsAfter).to.equal(true);
+    expect(patternTypeViewallExistsBefore).to.be.false;
+    expect(patternTypeViewallExistsAfter).to.be.true;
     expect(patternTypeViewallContent).to.contain(typeItem);
     expect(patternTypeViewallContent).to.not.contain(subTypeItem);
   });
 
   it('should write patternSubType viewall', function () {
-    expect(patternSubTypeViewallExistsBefore).to.equal(false);
-    expect(patternSubTypeViewallExistsAfter).to.equal(true);
+    expect(patternSubTypeViewallExistsBefore).to.be.false;
+    expect(patternSubTypeViewallExistsAfter).to.be.true;
     expect(patternSubTypeViewallContent).to.not.contain(typeItem);
     expect(patternSubTypeViewallContent).to.contain(subTypeItem);
   });

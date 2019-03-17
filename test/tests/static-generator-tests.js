@@ -99,7 +99,7 @@ describe('Static Generator', function () {
     const globStrDest = globDest.toString();
 
     // Test expectations.
-    expect(existsBefore).to.equal(false);
+    expect(existsBefore).to.be.false;
     expect(globStrSrc).to.equal(globStrDest);
   });
 
@@ -166,7 +166,7 @@ describe('Static Generator', function () {
     const globStrDest = globDest.toString();
 
     // Test expectations.
-    expect(existsBefore).to.equal(false);
+    expect(existsBefore).to.be.false;
     expect(globStrSrc).to.equal(globStrDest);
   });
 
@@ -180,8 +180,8 @@ describe('Static Generator', function () {
     }
 
     // Test expectations.
-    expect(fs.existsSync(`${scriptsSrc}/${testFile}`)).to.equal(true);
-    expect(fs.existsSync(`${scriptsDir}/${testFile}`)).to.equal(false);
+    expect(fs.existsSync(`${scriptsSrc}/${testFile}`)).to.be.true;
+    expect(fs.existsSync(`${scriptsDir}/${testFile}`)).to.be.false;
   });
 
   it('should copy styles to the static dir', function () {
@@ -215,7 +215,7 @@ describe('Static Generator', function () {
     const globStrDest = globDest.toString();
 
     // Test expectations.
-    expect(existsBefore).to.equal(false);
+    expect(existsBefore).to.be.false;
     expect(globStrSrc).to.equal(globStrDest);
   });
 
@@ -239,20 +239,20 @@ describe('Static Generator', function () {
     }
 
     // Test expectations.
-    expect(pass).to.equal(true);
+    expect(pass).to.be.true;
   });
 
   it('should write static/index.html', function () {
     // Test expectations.
-    expect(staticIndexExistsBefore).to.equal(false);
-    expect(staticIndexExistsAfter).to.equal(true);
+    expect(staticIndexExistsBefore).to.be.false;
+    expect(staticIndexExistsAfter).to.be.true;
     expect(staticIndexContent).to.not.equal('');
   });
 
   it('should write static/01-blog.html', function () {
     // Test expectations.
-    expect(staticSiblingExistsBefore).to.equal(false);
-    expect(staticSiblingExistsAfter).to.equal(true);
+    expect(staticSiblingExistsBefore).to.be.false;
+    expect(staticSiblingExistsAfter).to.be.true;
     expect(staticSiblingContent).to.not.equal('');
   });
 
