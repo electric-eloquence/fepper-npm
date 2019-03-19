@@ -2,6 +2,7 @@
 
 ### v0.32.1
 * Build performance improvements
+* Refactored json-compiler
 
 ### v0.32.0
 * `fp update` preserves file permissions
