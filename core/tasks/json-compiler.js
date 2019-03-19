@@ -10,8 +10,9 @@
 
 const path = require('path');
 
-const fs = require('fs-extra');
 const diveSync = require('diveSync');
+const fs = require('fs-extra');
+const JSON5 = require('json5');
 
 module.exports = class {
   constructor(options) {
@@ -22,53 +23,36 @@ module.exports = class {
 
   main() {
     const dataDir = this.conf.ui.paths.source.data;
-    const patternsDir = this.conf.ui.paths.source.patterns;
-    const appendix = dataDir + '/_appendix.json';
-    const dest = dataDir + '/data.json';
-    const globals = dataDir + '/_data.json';
+    const dataGlobal = `${dataDir}/_data.json`;
+    let dataGlobalJson = {};
     let jsonStr = '';
-    let tmp;
 
+    // Validate that the data in _data.json are JSON5. Error if they aren't.
     try {
-      if (!fs.existsSync(appendix) || !fs.existsSync(globals)) {
-        return;
-      }
+      const dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
+      dataGlobalJson = JSON5.parse(dataGlobalStr);
+
+      // Delete curly brace and any whitespace at end of file.
+      jsonStr += dataGlobalStr.replace(/\s*\}\s*$/, '');
     }
     catch (err) {
+      this.utils.error('ERROR: Missing or malformed ' + dataGlobal);
       this.utils.error(err);
+
       return;
     }
 
-    // Delete (optional) closing curly brace from _data.json.
-    tmp = fs.readFileSync(globals, this.conf.enc);
-    // Delete curly brace and any whitespace at end of file.
-    tmp = tmp.replace(/\}\s*$/, '');
-    tmp = tmp.replace(/\s*$/, '');
-    jsonStr += tmp;
-
-    // Only add comma if _data.json and _appendix.json have data.
-    const globalsTest = fs.readJsonSync(globals, {throws: false});
-    const appendixTest = fs.readJsonSync(appendix, {throws: false});
-
-    for (let i in globalsTest) {
-      if (globalsTest.hasOwnProperty(i)) {
-        for (let j in appendixTest) {
-          if (appendixTest.hasOwnProperty(j)) {
-            jsonStr += ',';
-            break;
-          }
-        }
-        break;
-      }
+    // Start with opening curly brace if no data from _data.json.
+    if (!Object.keys(dataGlobalJson).length) {
+      jsonStr += '{\n';
     }
 
-    jsonStr += '\n';
-
-    // Compile json partials from patterns directory.
     const extname = '.json';
+    let dataPartialRecursed = false;
 
+    // Compile JSON5 partials from patterns directory.
     diveSync(
-      patternsDir,
+      this.conf.ui.paths.source.patterns,
       (err, file) => {
         if (err) {
           this.utils.error(err);
@@ -80,32 +64,79 @@ module.exports = class {
           return;
         }
 
-        tmp = fs.readFileSync(file, this.conf.enc);
-        // Delete curly brace and any whitespace at beginning of file.
-        const openRegex = /^\s*\{/;
+        const dataPartialStr = fs.readFileSync(file, this.conf.enc);
 
-        if (openRegex.test(tmp)) {
-          tmp = tmp.replace(openRegex, '');
-          tmp = tmp.replace(/^\s*\n/, '');
-          // Delete curly brace and any whitespace at end of file.
-          tmp = tmp.replace(/\}\s*$/, '');
-          tmp = tmp.replace(/\n\s*$/, '');
+        // Validate that the data in the partial are JSON5. Error if they aren't.
+        try {
+          JSON5.parse(dataPartialStr);
+        }
+        catch (err1) {
+          this.utils.error('ERROR: Malformed ' + file);
+          this.utils.error(err1);
+
+          return;
         }
 
-        jsonStr += tmp + ',\n';
+        let tmp = '';
+
+        if (dataPartialRecursed) {
+          tmp += ',';
+        }
+        else {
+          if (Object.keys(dataGlobalJson).length) {
+            tmp += ',';
+          }
+
+          dataPartialRecursed = true;
+        }
+
+        // Delete curly brace and any whitespace at beginning of file.
+        tmp += dataPartialStr.replace(/^\s*\{/, '');
+        tmp = tmp.replace(/^\s*\n/, '');
+
+        // Delete curly brace and any whitespace at end of file.
+        tmp = tmp.replace(/\s*\}\s*$/, '');
+
+        jsonStr += tmp;
       }
     );
 
-    // Delete opening curly brace from _appendix.json.
-    tmp = fs.readFileSync(appendix, this.conf.enc);
-    // Delete curly brace and any whitespace at beginning of file.
-    tmp = tmp.replace(/^\s*\{/, '');
-    tmp = tmp.replace(/^\s*\n/, '');
-    jsonStr += tmp;
+    const dataAppendix = `${dataDir}/_appendix.json`;
+    let dataAppendixStr;
+    let dataAppendixJson;
+
+    // Validate that the data in _appendix.json are JSON5. Error if they aren't.
+    if (fs.existsSync(dataAppendix)) {
+      try {
+
+        // Save contents of _appendix.json to append to data.json.
+        dataAppendixStr = fs.readFileSync(dataAppendix, this.conf.enc);
+        dataAppendixJson = JSON5.parse(dataAppendixStr);
+      }
+      catch (err) {
+        this.utils.error('ERROR: Malformed ' + dataAppendix);
+        this.utils.error(err);
+      }
+    }
+
+    if (Object.keys(dataAppendixJson).length) {
+      let tmp = dataAppendixStr;
+
+      // Delete curly brace and any whitespace at beginning of _appendix.json.
+      tmp = tmp.replace(/^\s*\{/, '');
+      tmp = tmp.replace(/^\s*\n/, '');
+
+      if (Object.keys(dataGlobalJson).length || dataPartialRecursed) {
+        jsonStr += ',\n' + tmp;
+      }
+    }
+    else {
+      jsonStr += '\n}\n';
+    }
 
     try {
-      // Write out to data.json.
-      fs.outputFileSync(dest, jsonStr);
+      // Write to data.json.
+      fs.outputFileSync(`${dataDir}/data.json`, jsonStr);
     }
     catch (err) {
       this.utils.error(err);

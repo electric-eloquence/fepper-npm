@@ -24,7 +24,7 @@ describe('JSON Compiler', function () {
   const dataBefore = fs.readFileSync(dataFile, conf.enc);
 
   // Run json-compiler.js.
-  jsonCompiler.main(conf.ui.paths.source.root);
+  jsonCompiler.main();
 
   // Get json-compiler.js output.
   const dataAfter = fs.readFileSync(dataFile, conf.enc);

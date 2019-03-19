@@ -89,6 +89,10 @@ module.exports = class {
   }
 
   buildViewallFooter(patternPartial, name) {
+    if (!Object.keys(this.viewallPatterns).length) {
+      return;
+    }
+
     const viewallFooter = Feplet.render(
       this.patternlab.footer,
       {
