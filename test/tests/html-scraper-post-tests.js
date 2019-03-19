@@ -1,8 +1,8 @@
 'use strict';
 
-const expect = require('chai').expect;
+const {expect} = require('chai');
 const fs = require('fs-extra');
-const html2json = require('html2json').html2json;
+const {html2json} = require('html2json');
 
 require('../init');
 
