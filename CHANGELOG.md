@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.32.2
+* Fixed json-compiler bug on empty object \_data.json
+
 ### v0.32.1
 * Build performance improvements
 * Refactored json-compiler
