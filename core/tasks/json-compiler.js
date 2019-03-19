@@ -25,15 +25,13 @@ module.exports = class {
     const dataDir = this.conf.ui.paths.source.data;
     const dataGlobal = `${dataDir}/_data.json`;
     let dataGlobalJson = {};
+    let dataGlobalStr = '';
     let jsonStr = '';
 
     // Validate that the data in _data.json are JSON5. Error if they aren't.
     try {
-      const dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
+      dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
       dataGlobalJson = JSON5.parse(dataGlobalStr);
-
-      // Delete curly brace and any whitespace at end of file.
-      jsonStr += dataGlobalStr.replace(/\s*\}\s*$/, '');
     }
     catch (err) {
       this.utils.error('ERROR: Missing or malformed ' + dataGlobal);
@@ -42,9 +40,14 @@ module.exports = class {
       return;
     }
 
-    // Start with opening curly brace if no data from _data.json.
-    if (!Object.keys(dataGlobalJson).length) {
-      jsonStr += '{\n';
+    // If _data.json has valid data, delete the curly brace and any whitespace from the end of its string content.
+    if (Object.keys(dataGlobalJson).length) {
+      jsonStr += dataGlobalStr.replace(/\s*\}\s*$/, '');
+    }
+
+    // Else, start compiling the JSON5 with opening curly brace.
+    else {
+      jsonStr += '{';
     }
 
     const extname = '.json';
