@@ -117,14 +117,18 @@ module.exports = class {
       this.utils.error(err);
     }
 
-    try {
-      const jsonFileStr = fs.readFileSync(`${this.config.paths.source.data}/listitems.json`, this.enc);
+    const listItemsFile = `${this.config.paths.source.data}/listitems.json`;
 
-      this.listItems = JSON5.parse(jsonFileStr);
-    }
-    catch (err) {
-      this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/listitems.json`);
-      this.utils.error(err);
+    if (fs.existsSync(listItemsFile)) {
+      try {
+        const listItemsStr = fs.readFileSync(listItemsFile, this.enc);
+
+        this.listItems = JSON5.parse(listItemsStr);
+      }
+      catch (err) {
+        this.utils.error('ERROR: Malformed ' + listItemsFile);
+        this.utils.error(err);
+      }
     }
 
     const immutableDir = `${this.config.paths.core}/immutable`;
