@@ -73,7 +73,7 @@
     "chai": "4.x",
     "eslint": "5.x",
     "fepper-ui": "^0.5.5",
-    "fepper-utils": "^1.2.1",
+    "fepper-utils": "^1.2.2",
     "json-eval": "^1.0.7",
     "mocha": "6.x"
   }
