@@ -166,7 +166,7 @@ function extensionsPush(taskName, argsArr, tasksArr = []) {
 
 // Declare gulp tasks.
 
-gulp.task('default', (cb) => {
+gulp.task('default', function (cb) {
   const args = [];
 
   args.push('once');
@@ -190,7 +190,7 @@ gulp.task('default', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('data', (cb) => {
+gulp.task('data', function (cb) {
   const args = [];
 
   extensionsPush('data', args);
@@ -208,7 +208,7 @@ gulp.task('data', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('frontend-copy', (cb) => {
+gulp.task('frontend-copy', function (cb) {
   const args = [];
 
   extensionsPush('frontend-copy', args);
@@ -218,14 +218,14 @@ gulp.task('frontend-copy', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('install', (cb) => {
+gulp.task('install', function (cb) {
   gulp.runSequence(
     'install:copy',
     cb
   );
 });
 
-gulp.task('once', (cb) => {
+gulp.task('once', function (cb) {
   const args = [];
 
   extensionsPush('once', args);
@@ -247,7 +247,7 @@ gulp.task('once', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('restart', (cb) => {
+gulp.task('restart', function (cb) {
   const args = [];
 
   args.push('once');
@@ -279,7 +279,7 @@ gulp.task('restart', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('static', (cb) => {
+gulp.task('static', function (cb) {
   const args = [];
 
   extensionsPush('static', args);
@@ -291,7 +291,7 @@ gulp.task('static', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('syncback', (cb) => {
+gulp.task('syncback', function (cb) {
   const args = [];
 
   extensionsPush('syncback', args);
@@ -302,7 +302,7 @@ gulp.task('syncback', (cb) => {
   gulp.runSequence(...args);
 });
 
-gulp.task('template', (cb) => {
+gulp.task('template', function (cb) {
   const args = [];
 
   extensionsPush('template', args);
