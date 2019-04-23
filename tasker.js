@@ -6,7 +6,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const gulp = require('gulp');
+const gulp = global.gulp = require('gulp');
 const requireDir = require('require-dir');
 const slash = require('slash');
 const utils = require('fepper-utils');

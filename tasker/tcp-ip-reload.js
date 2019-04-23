@@ -1,10 +1,10 @@
 'use strict';
 
-const gulp = require('gulp');
 
 const reload = require('gulp-livereload');
 
 const conf = global.conf;
+const gulp = global.gulp;
 const pubDir = global.conf.ui.paths.public;
 const srcDir = global.conf.ui.paths.source;
 
