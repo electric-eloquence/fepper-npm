@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const gulp = require('gulp');
+const gulp = global.gulp;
 // Commonly used utility functions.
 // const utils = require('fepper-utils'); // https://www.npmjs.com/package/fepper-utils
 

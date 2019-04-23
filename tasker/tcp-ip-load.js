@@ -1,8 +1,7 @@
 'use strict';
 
-const gulp = require('gulp');
-
 const conf = global.conf;
+const gulp = global.gulp;
 const tcpIp = global.fepper.tcpIp;
 const tasks = global.fepper.tasks;
 
