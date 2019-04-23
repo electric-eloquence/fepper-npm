@@ -5,8 +5,7 @@
  */
 'use strict';
 
-const gulp = require('gulp');
-
+const gulp = global.gulp;
 const tasks = global.fepper.tasks;
 
 gulp.task('install:copy', function (cb) {

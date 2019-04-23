@@ -1,8 +1,8 @@
 'use strict';
 
-const gulp = require('gulp');
 const utils = require('fepper-utils');
 
+const gulp = global.gulp;
 const ui = global.fepper.ui;
 
 gulp.task('ui:build', function (cb) {
