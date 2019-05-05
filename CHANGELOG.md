@@ -1,5 +1,11 @@
 # Fepper NPM Changelog
 
+### v0.32.3
+* Improved Linux font support
+* Using global.gulp instead of require('gulp') beyond tasker.js
+* Updated minimum supported node version, updated tested node versions
+* CSS display:block for code blocks in webserved styles
+
 ### v0.32.2
 * Fixed json-compiler bug on empty object \_data.json
 
