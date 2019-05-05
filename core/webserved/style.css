@@ -156,6 +156,10 @@ code {
   font-size: 0.875em;
 }
 
+pre > code {
+  display: block;
+}
+
 blockquote {
   font-style: italic;
   border-left: 1px solid gray;
