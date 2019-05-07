@@ -32,7 +32,7 @@ on power-usage of Fepper.
 
 ### <a id="under-the-hood"></a>Under the Hood
 
-#### Minimum supported Node.js version 8.10.0
+#### Minimum supported Node.js version 8.16.0
 
 To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:
