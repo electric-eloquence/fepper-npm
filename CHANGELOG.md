@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.32.4
+* Updated dependencies
+
 ### v0.32.3
 * Improved Linux font support
 * Using global.gulp instead of require('gulp') beyond tasker.js
