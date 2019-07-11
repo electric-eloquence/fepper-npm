@@ -18,6 +18,10 @@ const slash = require('slash');
 const utils = require('fepper-utils');
 
 const AnnotationsBuilder = require('./annotations-builder');
+// CamelCasing "ListItems" (and "listItems") for the purpose of naming within code.
+// Using all-lowercase, non-delimited "listitems" for naming within filenames.
+// Documented (probably unintentionally) by Pattern Lab at
+// https://patternlab.io/docs/data-listitems.html
 const ListItemsBuilder = require('./listitems-builder');
 const LineageBuilder = require('./lineage-builder');
 const PatternBuilder = require('./pattern-builder');
