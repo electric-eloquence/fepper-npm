@@ -52,7 +52,7 @@ module.exports = class {
     const output = Feplet.render(
       template,
       {
-        html_class: "mustache-browser",
+        html_class: 'mustache-browser',
         title: 'Fepper Mustache Browser',
         patternlabHead,
         main_class: 'mustache-browser__no-result',
@@ -172,7 +172,7 @@ module.exports = class {
           const output = Feplet.render(
             template,
             {
-              html_class: "mustache-browser",
+              html_class: 'mustache-browser',
               title: 'Fepper Mustache Browser',
               patternlabHead,
               main_class: 'mustache-browser__result',
