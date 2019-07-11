@@ -5,7 +5,7 @@ const tasks = global.fepper.tasks;
 
 gulp.task('up', function (cb) {
   tasks.update();
-  gulp.runSequence(
+  gulp.runSeq(
     'ui:compile',
     cb
   );
@@ -13,7 +13,7 @@ gulp.task('up', function (cb) {
 
 gulp.task('update', function (cb) {
   tasks.update();
-  gulp.runSequence(
+  gulp.runSeq(
     'ui:compile',
     cb
   );
