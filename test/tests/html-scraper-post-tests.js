@@ -27,22 +27,21 @@ const req = {body: {target: '', url: ''}};
 const scrapeDir = conf.ui.paths.source.scrape;
 
 const htmlConst = `
-<body>
-<section id="one" class="test">Foo</section>
-<section id="two" class="test">Bar</section>
-<section class="test">Foot</section>
-<section class="test">Barf</section>
-<section class="test">Bazm</section>
-<section>Fooz</section>
-<section>Barz</section>
-<section>Bazz</section>
+<section>
+<div id="one" class="test">Foo</div>
+<div id="two" class="test">Bar</div>
+<div class="test">Foot</div>
+<div class="test">Barf</div>
+<div class="test">Bazm</div>
+<div>Fooz</div>
+<div>Barz</div>
+<div>Bazz</div>
 <script></script>
 <br>
-<div></div>
 <p></p>
 <textarea></textarea>
 <!-- comment -->
-</body>
+</section>
 `;
 const jsonFromHtmlConst = html2json(htmlConst);
 const jsons = htmlScraperPost.htmlToJsons(htmlConst);
@@ -103,25 +102,25 @@ describe('HTML Scraper Post', function () {
       const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
-      expect(targetHtmlObj.all).to.equal(`<section id="one" class="test">Foo</section>
+      expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
 <!-- BEGIN ARRAY ELEMENT 1 -->
-<section id="two" class="test">Bar</section>
+<div id="two" class="test">Bar</div>
 <!-- BEGIN ARRAY ELEMENT 2 -->
-<section class="test">Foot</section>
+<div class="test">Foot</div>
 <!-- BEGIN ARRAY ELEMENT 3 -->
-<section class="test">Barf</section>
+<div class="test">Barf</div>
 <!-- BEGIN ARRAY ELEMENT 4 -->
-<section class="test">Bazm</section>
+<div class="test">Bazm</div>
 `);
-      expect(targetHtmlObj.single).to.equal('<section id="one" class="test">Foo</section>\n');
+      expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
     it('should get one selector of a given class if given an index', function () {
       const html2jsonObj = htmlScraperPost.elementSelect('.test[1]', jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
-      expect(targetHtmlObj.all).to.equal('<section id="two" class="test">Bar</section>\n');
-      expect(targetHtmlObj.single).to.equal('<section id="two" class="test">Bar</section>\n');
+      expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
+      expect(targetHtmlObj.single).to.equal('<div id="two" class="test">Bar</div>\n');
     });
 
     it('should get one selector of a given id', function () {
@@ -129,41 +128,41 @@ describe('HTML Scraper Post', function () {
       const html2jsonObj = htmlScraperPost.elementSelect('#one', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
-      expect(targetHtmlObj.all).to.equal('<section id="one" class="test">Foo</section>\n');
-      expect(targetHtmlObj.single).to.equal('<section id="one" class="test">Foo</section>\n');
+      expect(targetHtmlObj.all).to.equal('<div id="one" class="test">Foo</div>\n');
+      expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
     it('should get all selectors of a given tagname if given no index', function () {
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('section', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect('div', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
-      expect(targetHtmlObj.all).to.equal(`<section id="one" class="test">Foo</section>
+      expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
 <!-- BEGIN ARRAY ELEMENT 1 -->
-<section id="two" class="test">Bar</section>
+<div id="two" class="test">Bar</div>
 <!-- BEGIN ARRAY ELEMENT 2 -->
-<section class="test">Foot</section>
+<div class="test">Foot</div>
 <!-- BEGIN ARRAY ELEMENT 3 -->
-<section class="test">Barf</section>
+<div class="test">Barf</div>
 <!-- BEGIN ARRAY ELEMENT 4 -->
-<section class="test">Bazm</section>
+<div class="test">Bazm</div>
 <!-- BEGIN ARRAY ELEMENT 5 -->
-<section>Fooz</section>
+<div>Fooz</div>
 <!-- BEGIN ARRAY ELEMENT 6 -->
-<section>Barz</section>
+<div>Barz</div>
 <!-- BEGIN ARRAY ELEMENT 7 -->
-<section>Bazz</section>
+<div>Bazz</div>
 `);
-      expect(targetHtmlObj.single).to.equal('<section id="one" class="test">Foo</section>\n');
+      expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
     it('should get one selector of a given tagname if given an index', function () {
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('section[1]', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect('div[1]', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
-      expect(targetHtmlObj.all).to.equal('<section id="two" class="test">Bar</section>\n');
-      expect(targetHtmlObj.single).to.equal('<section id="two" class="test">Bar</section>\n');
+      expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
+      expect(targetHtmlObj.single).to.equal('<div id="two" class="test">Bar</div>\n');
     });
   });
 
@@ -172,22 +171,21 @@ describe('HTML Scraper Post', function () {
 
     it('should replace script tags with code tags', function () {
       expect(htmlSan).to.equal(`
-<body>
-<section id="one" class="test">Foo</section>
-<section id="two" class="test">Bar</section>
-<section class="test">Foot</section>
-<section class="test">Barf</section>
-<section class="test">Bazm</section>
-<section>Fooz</section>
-<section>Barz</section>
-<section>Bazz</section>
+<section>
+<div id="one" class="test">Foo</div>
+<div id="two" class="test">Bar</div>
+<div class="test">Foot</div>
+<div class="test">Barf</div>
+<div class="test">Bazm</div>
+<div>Fooz</div>
+<div>Barz</div>
+<div>Bazz</div>
 <code></code>
 <br>
-<div></div>
 <p></p>
 <figure></figure>
 <!-- comment -->
-</body>
+</section>
 `);
       expect(htmlConst).to.contain('script');
       expect(htmlConst).to.not.contain('code');
@@ -223,13 +221,12 @@ describe('HTML Scraper Post', function () {
       expect(jsons.jsonForData.scrape[0].test).to.equal('Foot');
       expect(jsons.jsonForData.scrape[0].test_1).to.equal('Barf');
       expect(jsons.jsonForData.scrape[0].test_2).to.equal('Bazm');
-      expect(jsons.jsonForData.scrape[0].section).to.equal('Fooz');
-      expect(jsons.jsonForData.scrape[0].section_1).to.equal('Barz');
-      expect(jsons.jsonForData.scrape[0].section_2).to.equal('Bazz');
-      expect(jsons.jsonForData.scrape[0].body).to.be.undefined;
+      expect(jsons.jsonForData.scrape[0].div).to.equal('Fooz');
+      expect(jsons.jsonForData.scrape[0].div_1).to.equal('Barz');
+      expect(jsons.jsonForData.scrape[0].div_2).to.equal('Bazz');
+      expect(jsons.jsonForData.scrape[0].section).to.be.undefined;
       expect(jsons.jsonForData.scrape[0].script).to.be.undefined;
       expect(jsons.jsonForData.scrape[0].br).to.be.undefined;
-      expect(jsons.jsonForData.scrape[0].div).to.be.undefined;
       expect(jsons.jsonForData.scrape[0].p).to.be.undefined;
       expect(jsons.jsonForData.scrape[0].textarea).to.be.undefined;
     });
@@ -237,11 +234,11 @@ describe('HTML Scraper Post', function () {
 
     it('should create multiple array elements when the selector targets multiple DOM elements', function () {
       const htmlVar = `
-<section class="test">Foo</section>
-<section class="test">Bar</section>
-<section class="test">Foot</section>
-<section class="test">Barf</section>
-<section class="test">Bazm</section>
+<div class="test">Foo</div>
+<div class="test">Bar</div>
+<div class="test">Foot</div>
+<div class="test">Barf</div>
+<div class="test">Bazm</div>
 `;
       const jsonFromHtml = html2json(htmlVar);
       const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtml);
@@ -260,13 +257,13 @@ describe('HTML Scraper Post', function () {
 
     it('should recursively retrieve nested HTML data from within a selected element', function () {
       const htmlVar = `
-<section id="test1">Foot</section>
-<section id="test2">
+<div id="test1">Foot</div>
+<div id="test2">
   <div class="nested">
     <div class="nested-further">Barf</div>
   </div>
-</section>
-<section id="test3">Bazm</section>
+</div>
+<div id="test3">Bazm</div>
 `;
 
       const jsonFromHtml = html2json(htmlVar);
@@ -275,11 +272,11 @@ describe('HTML Scraper Post', function () {
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
 
-      expect(targetHtml).to.equal(`<section id="test2">
+      expect(targetHtml).to.equal(`<div id="test2">
   <div class="nested">
     <div class="nested-further">Barf</div>
   </div>
-</section>
+</div>
 `);
       expect(jsonForData).to.be.an('object');
       expect(jsonForData.scrape[0].nested_further).to.equal('Barf');
@@ -291,30 +288,39 @@ describe('HTML Scraper Post', function () {
       const mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
 
       expect(mustache).to.equal(`{{# scrape }}
-  <body>
-    <section id="one" class="test">{{ one }}</section>
-    <section id="two" class="test">{{ two }}</section>
-    <section class="test">{{ test }}</section>
-    <section class="test">{{ test_1 }}</section>
-    <section class="test">{{ test_2 }}</section>
-    <section>{{ section }}</section>
-    <section>{{ section_1 }}</section>
-    <section>{{ section_2 }}</section>
+  <section>
+    <div id="one" class="test">{{ one }}</div>
+    <div id="two" class="test">{{ two }}</div>
+    <div class="test">{{ test }}</div>
+    <div class="test">{{ test_1 }}</div>
+    <div class="test">{{ test_2 }}</div>
+    <div>{{ div }}</div>
+    <div>{{ div_1 }}</div>
+    <div>{{ div_2 }}</div>
     <script></script>
     <br />
-    <div></div>
     <p></p>
     <textarea></textarea>
     <!-- comment -->
-  </body>
+  </section>
 {{/ scrape }}
 `);
     });
   });
 
   describe('File Writer', function () {
+    const fileName = '0-test.1_2';
+    const fileFullPath = scrapeDir + '/' + fileName;
+    let mustache;
+    let jsonStr;
+
+    before(function () {
+      mustache = htmlScraperPost.htmlSanitize(htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData));
+      jsonStr = JSON.stringify(jsons.jsonForData, null, 2) + '\n';
+    });
+
     after(function () {
-      fs.unlinkSync(scrapeDir + '/0-test.1_2');
+      fs.unlinkSync(fileFullPath);
     });
 
     it('should validate user-submitted filename', function () {
@@ -332,41 +338,31 @@ describe('HTML Scraper Post', function () {
     });
 
     it('should correctly format newlines in file body', function () {
-      const mustache = '{{# scrape }}\r\n  <body>\r\n    <section id="one" class="test">{{ test_5 }}</section>\r\n    <section id="two" class="test">{{ test_6 }}</section>\r\n    <script/>\r\n    <textarea/>\r\n  </body>\r\n{{/ scrape }}';
+      const mustacheWithCR = mustache.replace(/\n/g, '\r\n');
 
-      expect(htmlScraperPost.newlineFormat(mustache)).to.equal(`{{# scrape }}
-  <body>
-    <section id="one" class="test">{{ test_5 }}</section>
-    <section id="two" class="test">{{ test_6 }}</section>
-    <script/>
-    <textarea/>
-  </body>
-{{/ scrape }}
-`);
+      expect(mustache).to.not.equal(mustacheWithCR);
+      expect(mustache).to.not.contain('\r');
+      expect(mustacheWithCR).to.contain('\r');
+      expect(htmlScraperPost.newlineFormat(mustacheWithCR)).to.equal(mustache);
+    });
+
+    it('should correctly format newlines in stringified json', function () {
+      const jsonStrWithCR = jsonStr.replace(/\n/g, '\r\n');
+
+      expect(jsonStr).to.not.equal(jsonStrWithCR);
+      expect(jsonStr).to.not.contain('\r');
+      expect(jsonStrWithCR).to.contain('\r');
+      expect(htmlScraperPost.newlineFormat(jsonStrWithCR)).to.equal(jsonStr);
     });
 
     it('should write file to destination', function () {
-      const fileMustache =
-`{{# scrape }}
-  <body>
-    <section id="one" class="test">{{ test_5 }}</section>
-    <section id="two" class="test">{{ test_6 }}</section>
-    <script/>
-    <textarea/>
-  </body>
-{{/ scrape }}
-`;
-      const fileJson = htmlScraperPost.newlineFormat(JSON.stringify(jsons.jsonForData, null, 2));
-      const fileName = '0-test.1_2';
-      const fileFullPath = scrapeDir + '/' + fileName;
-
       fs.ensureDirSync(scrapeDir);
       fs.writeFileSync(fileFullPath, '');
-      const fileBefore = fs.readFileSync(fileFullPath);
-      htmlScraperPost.filesWrite(scrapeDir, fileName, fileMustache, fileJson, null);
-      const fileAfter = fs.readFileSync(fileFullPath);
+      const fileBefore = fs.readFileSync(fileFullPath, conf.enc);
+      htmlScraperPost.filesWrite(scrapeDir, fileName, mustache, jsonStr);
+      const fileAfter = fs.readFileSync(fileFullPath + '.mustache', conf.enc);
 
-      expect(fileAfter).to.not.equal('');
+      expect(fileBefore).to.equal('');
       expect(fileAfter).to.not.equal(fileBefore);
     });
   });
