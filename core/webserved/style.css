@@ -350,6 +350,15 @@ td {
 }
 
 .mustache-browser {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mustache-browser body::-webkit-scrollbar {
+  display: none;
+}
+
+.mustache-browser main {
   font-family: Menlo, "Lucida Console", "DejaVu Sans Mono", "Roboto Mono", monospace;
   font-size: 13px;
 }

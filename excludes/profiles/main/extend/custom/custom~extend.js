@@ -7,7 +7,7 @@
 
 const gulp = global.gulp;
 // Commonly used utility functions.
-// const utils = require('fepper-utils'); // https://www.npmjs.com/package/fepper-utils
+const utils = require('fepper-utils'); // https://www.npmjs.com/package/fepper-utils
 
 const conf = global.conf;    // Read from conf.yml
 // const pref = global.pref; // Read from pref.yml
@@ -17,4 +17,20 @@ gulp.task('expose-stylus', function () {
   // Use conf.ui.pathsRelative if you need relative paths.
   return gulp.src(conf.ui.paths.source.cssSrc + '/stylus/**/*')
     .pipe(gulp.dest(conf.ui.paths.public.css));
+});
+
+gulp.task('example:help', function (cb) {
+  let out = `
+Fepper Example Extension
+
+Use:
+    <task> [<additional args>...]
+
+Tasks:
+    fp example:help     Appears if no other extension prints help text.
+                        Be sure not to name any real task "fp example:help".
+`;
+
+  utils.info(out);
+  cb();
 });

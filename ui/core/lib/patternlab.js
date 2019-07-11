@@ -339,7 +339,7 @@ module.exports = class {
 User Interface CLI
 
 Use:
-    fp <task> [<additional args>... [-d | --debug]]
+    <task> [<additional args>... [-d | --debug]]
 
 Tasks:
     fp ui:build         Build the patterns, outputting to the public directory.

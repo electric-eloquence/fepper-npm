@@ -12,7 +12,7 @@ module.exports = class {
   main() {
     let out = `
 Use:
-    fp <task> [<additional args>... [-d | --debug]]
+    <task> [<additional args>... [-d | --debug]]
 
 Tasks:
     fp                  Launch Fepper and open it in a browser.
@@ -24,9 +24,10 @@ Tasks:
     fp syncback         Combine frontend-copy and template tasks.
     fp template         Translate templates in 03-templates for the backend and copy them there.
     fp ui:compile       Compile the UI React components.
-    fp ui:help          Display UI tasks and descriptions.
+    fp ui:help          Print UI tasks and descriptions.
     fp update           Update Fepper distro, Fepper CLI, Fepper NPM, Fepper UI, and Fepper extensions.
     fp version          Print versions of Fepper CLI, Fepper NPM, and Fepper UI.
+    fp extend:help      Print extension tasks and descriptions.
 `;
 
     this.utils.info(out);

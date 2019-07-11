@@ -9,7 +9,7 @@ const fs = require('fs');
 
 exports.head = `
 <!DOCTYPE html>
-<html>
+<html class="{{ html_class }}">
   <head>
     <title id="title">{{ title }}</title>
     <meta charset="UTF-8">
@@ -26,7 +26,7 @@ exports.head = `
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
   </head>
 
-  <body class="text">
+  <body class="text {{ body_class }}">
     <main id="{{ main_id }}" class="{{ main_class }}">`;
 
 exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>';
