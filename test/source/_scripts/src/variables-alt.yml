@@ -1,2 +1,2 @@
 "scripts_dir": |
-  docroot/scripts-alt
+  docroot/scripts-atl # Misspelled to cover non-existent directory case.

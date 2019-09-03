@@ -1,6 +1,8 @@
 'use strict';
 
 const {expect} = require('chai');
+const Feplet = require('Feplet');
+const fs = require('fs-extra');
 
 const {
   patternlab,
@@ -25,7 +27,7 @@ patternBuilder.processPattern(orgPattern, patternlab);
 patternBuilder.processPattern(navPattern, patternlab);
 
 describe('Pattern Builder', function () {
-  it('should replace link.* tags with their expanded link data', function () {
+  it('replaces link.* tags with their expanded link data', function () {
     const navTemplate = `<a href="{{ link.facebook-brad }}">Brad</a>
 <a href="{{ link.facebook-dave }}">Dave</a>
 <a href="{{ link.facebook-brian }}">Brian</a>
@@ -39,46 +41,77 @@ describe('Pattern Builder', function () {
     expect(navPattern.extendedTemplate).to.equal(navExtendedTemplate);
   });
 
-  describe('preProcessPartials', function () {
-    it('should create a partials object for each unique partial keyed by its include tag', function () {
+  describe('.addPattern()', function () {
+    it('overwrites existing pattern if same relPath', function () {
+      const atomPatternOrig = JSON.parse(JSON.stringify(atomPattern));
+      delete atomPattern.jsonFileData;
+
+      patternBuilder.addPattern(atomPattern);
+
+      const atomPatternNewReference = patternlab.getPattern(atomPattern.relPath);
+
+      expect(atomPatternNewReference.jsonFileData).to.be.undefined;
+
+      atomPattern.jsonFileData = atomPatternOrig.jsonFileData;
+    });
+  });
+
+  describe('.preProcessPartials()', function () {
+    it('creates a partials object for each unique partial keyed by its include tag', function () {
       expect(atomPattern.patternPartial).to.equal('test-styled-atom');
       expect(patternlab.partials[atomPattern.patternPartial]).to
         .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     });
 
-    it('should create a partialsComp object for each unique compiled partial keyed by its include tag', function () {
+    it('creates a partialsComp object for each unique compiled partial keyed by its include tag', function () {
       expect(atomPattern.patternPartial).to.equal('test-styled-atom');
       expect(patternlab.partialsComp[atomPattern.patternPartial]).to.be.an.instanceof(Object);
       expect(patternlab.partialsComp[atomPattern.patternPartial]).to.equal(atomPattern.fepletComp);
     });
   });
 
-  describe('processPattern', function () {
-    it('should include partials directly within templates', function () {
+  describe('.processPattern()', function () {
+    it('includes partials directly within templates', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    \n</span>\n';
+      const atomExtendedTemplate = '<span class="test_base ">\n    \n    atomic\n</span>\n';
+      const molPartial = '<span class="test_base ">\n    \n    \n</span>\n';
 
       expect(atomPattern.template).to.equal(atomTemplate);
-      expect(molPattern.template).to.not.include(atomTemplate);
-      expect(molPattern.template).to.include('{{> test-styled-atom');
+      expect(molPattern.template).to.not.have.string(atomTemplate);
+      expect(molPattern.template).to.have.string('{{> test-styled-atom');
       expect(atomPattern.extendedTemplate).to.equal(atomExtendedTemplate);
-      expect(molPattern.extendedTemplate).to.include(atomExtendedTemplate);
+      expect(molPattern.extendedTemplate).to.have.string(molPartial);
     });
 
-    it('should recursively include nested partials', function () {
+    it('recursively includes nested partials', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    \n</span>\n';
+      const atomExtendedTemplate = '<span class="test_base ">\n    \n    atomic\n</span>\n';
+      const orgPartial = '<span class="test_base ">\n    \n    \n</span>\n';
 
       expect(atomPattern.template).to.equal(atomTemplate);
-      expect(molPattern.template).to.not.include(atomTemplate);
-      expect(orgPattern.template).to.not.include(atomTemplate);
-      expect(molPattern.template).to.include('{{> test-styled-atom');
-      expect(orgPattern.template).to.not.include('{{> test-styled-atom');
-      expect(orgPattern.template).to.include('{{> test-styled-molecule');
+      expect(molPattern.template).to.not.have.string(atomTemplate);
+      expect(orgPattern.template).to.not.have.string(atomTemplate);
+      expect(molPattern.template).to.have.string('{{> test-styled-atom');
+      expect(orgPattern.template).to.not.have.string('{{> test-styled-atom');
+      expect(orgPattern.template).to.have.string('{{> test-styled-molecule');
       expect(atomPattern.extendedTemplate).to.equal(atomExtendedTemplate);
-      expect(orgPattern.extendedTemplate).to.include(atomExtendedTemplate);
+      expect(orgPattern.extendedTemplate).to.have.string(orgPartial);
+    });
+
+    it('renders template tags in header', function () {
+      const atomPatternHeaderOrig = atomPattern.header;
+      let userHead = fs.readFileSync(`${patternlab.config.paths.source.meta}/_00-head.mustache`, patternlab.enc);
+      userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, patternlab.header);
+      userHead = userHead.slice(0, -3) + ' {{ description }}">\n';
+      patternlab.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
+      patternlab.userHeadComp = Feplet.generate(patternlab.userHeadParseArr, userHead, {});
+
+      patternBuilder.processPattern(atomPattern, patternlab);
+
+      expect(atomPatternHeaderOrig).to.not.have.string('atomic');
+      expect(atomPattern.header).to.have.string('<body class=" atomic">');
     });
   });
 });

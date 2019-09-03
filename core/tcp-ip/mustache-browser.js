@@ -32,6 +32,7 @@ module.exports = class {
     let template = this.html.head;
     template += backButton;
 
+    /* istanbul ignore if */
     if (typeof err === 'string') {
       template += err;
     }
@@ -121,6 +122,8 @@ module.exports = class {
     return (req, res) => {
       if (typeof req.query.partial !== 'string') {
         this.noResult(req, res);
+
+        return;
       }
 
       try {
@@ -146,6 +149,7 @@ module.exports = class {
         // Check if query string correlates to actual Mustache file.
         const stat = fs.statSync(fullPath);
 
+        /* istanbul ignore else */
         if (stat.isFile()) {
           const mustacheCode = fs.readFileSync(fullPath, this.conf.enc);
 
@@ -187,7 +191,7 @@ module.exports = class {
           this.noResult(req, res);
         }
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
         this.noResult(req, res);
       }

@@ -22,6 +22,7 @@ module.exports = class {
       this.config.paths.source.annotations,
       (err, file) => {
         // Log any errors.
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
           return;

@@ -1,6 +1,9 @@
 module.exports = {
   className: 'sg-view-container',
   id: 'sg-annotations-container',
+  style: {
+    bottom: 'auto'
+  },
   dangerouslySetInnerHTML: {
     __html: `
 <div id="sg-annotations-close" class="sg-view-close">

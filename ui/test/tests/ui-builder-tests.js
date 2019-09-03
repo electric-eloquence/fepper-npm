@@ -12,7 +12,7 @@ const patternHtml = `${patternDir}/00-test-04-styled-organism.html`;
 const patternMarkup = `${patternDir}/00-test-04-styled-organism.markup-only.html`;
 const patternMustache = `${patternDir}/00-test-04-styled-organism.mustache`;
 const patternExport = `${patternlab.config.patternExportDirectory}/test-styled-organism.html`;
-const patternlabData = `${patternlab.config.paths.public.styleguide}/data/patternlab-data.js`;
+const patternlabData = `${patternlab.config.paths.public.styleguide}/scripts/ui/data.js`;
 
 if (fs.existsSync(patternHtml)) {
   fs.removeSync(patternHtml);
@@ -83,7 +83,7 @@ describe('UI Builder', function () {
     patternlabDataContent = fs.readFileSync(patternlabData, patternlab.enc);
   });
 
-  it('should write patterns to the public directory', function () {
+  it('writes patterns to the public directory', function () {
     expect(patternHtmlExistsBefore).to.be.false;
     expect(patternMarkupExistsBefore).to.be.false;
     expect(patternMustacheExistsBefore).to.be.false;
@@ -91,40 +91,41 @@ describe('UI Builder', function () {
     expect(patternHtmlExistsAfter).to.be.true;
     expect(patternMarkupExistsAfter).to.be.true;
     expect(patternMustacheExistsAfter).to.be.true;
-
-    expect(patternHtmlContent).to.include(expectedContent);
+    expect(patternHtmlContent).to.have.string(expectedContent);
     expect(patternMarkupContent).to.equal(expectedContent);
     expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}\n');
   });
 
-  it('should export patterns to the pattern_exports directory', function () {
+  it('exports patterns to the pattern_exports directory', function () {
     expect(patternExportExistsBefore).to.be.false;
+
     expect(patternExportExistsAfter).to.be.true;
     expect(patternExportContent).to.equal(beautifiedContent);
   });
 
-  it('should write patternlab-data.js for browser consumption', function () {
+  it('writes patternlab-data.js for browser consumption', function () {
     expect(patternlabDataExistsBefore).to.be.false;
+
     expect(patternlabDataExistsAfter).to.be.true;
   });
 
-  it('should write window.config to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.include(JSON.stringify(configClone));
+  it('writes window.config to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(configClone));
   });
 
-  it('should write window.ishControls to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.include(JSON.stringify(configClone.ishControlsHide));
+  it('writes window.ishControls to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(configClone.ishControlsHide));
   });
 
-  it('should write window.navItems to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.patternTypes));
+  it('writes window.navItems to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternTypes));
   });
 
-  it('should write window.patternPaths to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.patternPaths));
+  it('writes window.patternPaths to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternPaths));
   });
 
-  it('should write window.viewallPaths to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.include(JSON.stringify(patternlab.viewallPaths));
+  it('writes window.viewallPaths to patternlab-data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.viewallPaths));
   });
 });

@@ -88,7 +88,8 @@ module.exports = class {
     return jsonData;
   }
 
-  emptyFilesNotDirs(publicDir) {
+  // DEPRECATED. Moved to fepper-utils.
+  emptyFilesNotDirs(publicDir) /* istanbul ignore next */ {
     if (!fs.existsSync(publicDir)) {
       return;
     }
@@ -97,6 +98,7 @@ module.exports = class {
       publicDir,
       (err, file) => {
         // Log any errors.
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
 
@@ -116,7 +118,7 @@ module.exports = class {
     try {
       this.data = this.buildPatternData(this.config.paths.source.data);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/data.json`);
       this.utils.error(err);
     }
@@ -129,7 +131,7 @@ module.exports = class {
 
         this.listItems = JSON5.parse(listItemsStr);
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error('ERROR: Malformed ' + listItemsFile);
         this.utils.error(err);
       }
@@ -141,7 +143,7 @@ module.exports = class {
       this.header = fs.readFileSync(`${immutableDir}/immutable-header.mustache`, this.enc);
       this.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.enc);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing an essential file from ' + immutableDir);
       this.utils.error(err);
     }
@@ -157,6 +159,7 @@ module.exports = class {
       patternsDir,
       (err, file) => {
         // Log any errors.
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
           return;
@@ -187,7 +190,7 @@ module.exports = class {
     try {
       userHead = fs.readFileSync(`${this.config.paths.source.meta}/_00-head.mustache`, this.enc);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       if (this.config.debug) {
         this.utils.warn(err);
 
@@ -211,7 +214,7 @@ module.exports = class {
     try {
       userFoot = fs.readFileSync(`${this.config.paths.source.meta}/_01-foot.mustache`, this.enc);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       if (this.config.debug) {
         this.utils.warn(err);
 
@@ -233,10 +236,20 @@ module.exports = class {
 
     // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
     if (this.config.cleanPublic) {
-      this.emptyFilesNotDirs(this.config.paths.public.annotations);
-      this.emptyFilesNotDirs(this.config.paths.public.images);
-      this.emptyFilesNotDirs(this.config.paths.public.js);
-      this.emptyFilesNotDirs(this.config.paths.public.css);
+      // this.emptyFilesNotDirs is DEPRECATED.
+      // After deprecation period, permanently change conditionalObj to this.utils.
+      let conditionalObj = this;
+
+      /* istanbul ignore if */
+      if (typeof this.utils.emptyFilesNotDirs === 'function') {
+        conditionalObj = this.utils;
+      }
+
+      conditionalObj.emptyFilesNotDirs(this.config.paths.public.annotations);
+      conditionalObj.emptyFilesNotDirs(this.config.paths.public.images);
+      conditionalObj.emptyFilesNotDirs(this.config.paths.public.js);
+      conditionalObj.emptyFilesNotDirs(this.config.paths.public.css);
+
       fs.emptyDirSync(this.config.paths.public.patterns);
     }
 
@@ -255,23 +268,25 @@ module.exports = class {
   // PUBLIC METHODS
 
   build(options) {
+    if (options && options.constructor === Object) {
+      this.resetConfig(options);
+    }
+
     const indexHtml = `${this.config.paths.public.root}/index.html`;
 
     // If UI hasn't been compiled, try to compile.
+    /* istanbul ignore if */
     if (!fs.existsSync(indexHtml)) {
       this.compile();
     }
 
     // Throw error if compilation fails.
+    /* istanbul ignore if */
     if (!fs.existsSync(indexHtml)) {
       utils.error('There is no public/index.html, which means the UI needs to be compiled.');
       utils.log('Please run `fp ui:compile`.');
 
       throw new Error('ENOENT');
-    }
-
-    if (options && options.constructor === Object) {
-      this.config = this.utils.extendButNotOverride(options, this.config);
     }
 
     const patternsDir = this.config.paths.source.patterns;
@@ -301,15 +316,10 @@ module.exports = class {
 
   compile(options) {
     if (options && options.constructor === Object) {
-      this.config = this.utils.extendButNotOverride(options, this.config);
+      this.resetConfig(options);
     }
 
     this.uiCompiler.main();
-  }
-
-  // DEPRECATED. Will be removed.
-  compileui(options) {
-    this.compile(options);
   }
 
   getPattern(query) {
@@ -356,8 +366,30 @@ Tasks:
   resetConfig(config) {
     if (config && config.constructor === Object) {
       this.config = this.utils.extendButNotOverride(config, this.config);
+
+      this.annotationsBuilder.config = this.config;
+      this.listItemsBuilder.config = this.config;
+      this.lineageBuilder.config = this.config;
+      this.patternBuilder.config = this.config;
+      this.pseudoPatternBuilder.config = this.config;
+
+      this.uiBuilder.config = this.config;
+      this.uiBuilder.public = this.config.paths.public;
+      this.uiBuilder.source = this.config.paths.source;
+
+      this.uiCompiler.config = this.config;
+      this.uiCompiler.componentsDirCoreRoot = `${this.config.paths.core}/styleguide`;
+      this.uiCompiler.pathsPublic = this.config.pathsPublic;
+      this.uiCompiler.componentsDirCustomRoot = this.utils.deepGet(this, 'config.paths.source.ui');
+      this.uiCompiler.styleguidePath = this.config.paths.public.styleguide;
+
+      this.viewallBuilder.config = this.config;
+      this.viewallBuilder.pathsPublic = this.config.pathsPublic;
+      this.viewallBuilder.public = this.config.paths.public;
+      this.viewallBuilder.source = this.config.paths.source;
     }
     else {
+      /* istanbul ignore next */
       this.utils.error('Invalid config object!');
     }
   }

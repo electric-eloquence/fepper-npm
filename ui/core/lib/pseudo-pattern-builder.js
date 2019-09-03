@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs-extra');
-
 module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;

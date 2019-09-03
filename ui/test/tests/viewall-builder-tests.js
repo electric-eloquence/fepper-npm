@@ -55,45 +55,48 @@ describe('Viewall Builder', function () {
     patternSubTypeViewallContent = fs.readFileSync(patternSubTypeViewall, patternlab.enc);
   });
 
-  it('should write viewall.html', function () {
+  it('writes viewall.html', function () {
     expect(viewallViewallExistsBefore).to.be.false;
+
     expect(viewallViewallExistsAfter).to.be.true;
-    expect(viewallViewallContent).to.contain(typeItem);
-    expect(viewallViewallContent).to.contain(subTypeItem);
+    expect(viewallViewallContent).to.have.string(typeItem);
+    expect(viewallViewallContent).to.have.not.string(subTypeItem);
   });
 
-  it('should write patternType viewall', function () {
+  it('writes patternType viewall', function () {
     expect(patternTypeViewallExistsBefore).to.be.false;
+
     expect(patternTypeViewallExistsAfter).to.be.true;
-    expect(patternTypeViewallContent).to.contain(typeItem);
-    expect(patternTypeViewallContent).to.not.contain(subTypeItem);
+    expect(patternTypeViewallContent).to.have.string(typeItem);
+    expect(patternTypeViewallContent).to.not.have.string(subTypeItem);
   });
 
-  it('should write patternSubType viewall', function () {
+  it('writes patternSubType viewall', function () {
     expect(patternSubTypeViewallExistsBefore).to.be.false;
+
     expect(patternSubTypeViewallExistsAfter).to.be.true;
-    expect(patternSubTypeViewallContent).to.not.contain(typeItem);
-    expect(patternSubTypeViewallContent).to.contain(subTypeItem);
+    expect(patternSubTypeViewallContent).to.not.have.string(typeItem);
+    expect(patternSubTypeViewallContent).to.not.have.string(subTypeItem);
   });
 
-  it('should override stylguide.html with custom code', function () {
-    expect(viewallViewallContent).to.include('<h1>foo</h1>');
-    expect(viewallViewallContent).to.include('<h2>bar</h2>');
-    expect(viewallViewallContent).to.include('<h3>baz</h3>');
-    expect(viewallViewallContent).to.include('<h4>bez</h4>');
+  it('overrides stylguide.html with custom code', function () {
+    expect(viewallViewallContent).to.have.string('<h1>foo</h1>');
+    expect(viewallViewallContent).to.have.string('<h2>bar</h2>');
+    expect(viewallViewallContent).to.have.string('<h3>baz</h3>');
+    expect(viewallViewallContent).to.have.string('<h4>bez</h4>');
   });
 
-  it('should override patternType viewall with custom code', function () {
-    expect(patternTypeViewallContent).to.include('<h1>foo</h1>');
-    expect(patternTypeViewallContent).to.include('<h2>bar</h2>');
-    expect(patternTypeViewallContent).to.not.include('<h3>baz</h3>');
-    expect(patternTypeViewallContent).to.include('<h4>bez</h4>');
+  it('overrides patternType viewall with custom code', function () {
+    expect(patternTypeViewallContent).to.have.string('<h1>foo</h1>');
+    expect(patternTypeViewallContent).to.have.string('<h2>bar</h2>');
+    expect(patternTypeViewallContent).to.not.have.string('<h3>baz</h3>');
+    expect(patternTypeViewallContent).to.have.string('<h4>bez</h4>');
   });
 
-  it('should override patternSubType viewall with custom code', function () {
-    expect(patternSubTypeViewallContent).to.include('<h1>foo</h1>');
-    expect(patternSubTypeViewallContent).to.not.include('<h2>bar</h2>');
-    expect(patternSubTypeViewallContent).to.include('<h3>baz</h3>');
-    expect(patternSubTypeViewallContent).to.include('<h4>bez</h4>');
+  it('overrides patternSubType viewall with custom code', function () {
+    expect(patternSubTypeViewallContent).to.have.string('<h1>foo</h1>');
+    expect(patternSubTypeViewallContent).to.not.have.string('<h2>bar</h2>');
+    expect(patternSubTypeViewallContent).to.have.string('<h3>baz</h3>');
+    expect(patternSubTypeViewallContent).to.not.have.string('<h4>bez</h4>');
   });
 });

@@ -11,11 +11,7 @@ module.exports = class {
     this.rootDir = options.rootDir;
 
     // Spawn npm.cmd if Windows.
-    if (
-      this.conf.is_windows ||
-      // eslint-disable-next-line max-len
-      process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe' // Deprecated condition.
-    ) {
+    if (this.conf.is_windows) {
       this.binNpm = 'npm.cmd';
     }
     else {

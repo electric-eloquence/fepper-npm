@@ -7,9 +7,4 @@ module.exports = class {
     this.options = options;
     this.fpExpress = new FpExpress(options, ui);
   }
-
-  // Deprecated method. Will be removed.
-  express() {
-    return this.fpExpress.main();
-  }
 };

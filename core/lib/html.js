@@ -100,9 +100,6 @@ exports.foot = `
 
     {{{ patternlabFoot }}}
 
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/node_modules/jquery.cookie/jquery.cookie.js"></script>
-    <script src="/node_modules/fepper-ui/scripts/timestamper.js"></script>
   </body>
 </html>`;
 

@@ -13,42 +13,87 @@ const {
   rootDir,
   utils
 } = fepper;
+const opener = global.fepper.tasks.opener;
+const {
+  gatekeeper,
+  html
+} = fepper.tcpIp.fpExpress;
+const HtmlScraperPost = require('../../core/tcp-ip/html-scraper-post');
 
-// Instantiating with null requests and responses, because we don't want actual response or redirect behavior.
-const htmlScraperPost = new (require('../../core/tcp-ip/html-scraper-post'))(
-  null,
-  null,
-  conf,
-  fepper.tcpIp.fpExpress.gatekeeper,
-  fepper.tcpIp.fpExpress.html,
-  {appDir, rootDir, utils}
-);
-const req = {body: {target: '', url: ''}};
-const scrapeDir = conf.ui.paths.source.scrape;
-
-const htmlConst = `
-<section>
-<div id="one" class="test">Foo</div>
-<div id="two" class="test">Bar</div>
-<div class="test">Foot</div>
-<div class="test">Barf</div>
-<div class="test">Bazm</div>
-<div>Fooz</div>
-<div>Barz</div>
-<div>Bazz</div>
-<script></script>
-<br>
-<p></p>
-<textarea></textarea>
-<!-- comment -->
-</section>
-`;
+const htmlConst = `<section>
+  <div id="one" class="test">Foo</div>
+  <div id="two" class="test">Bar</div>
+  <div class="test">Foot</div>
+  <div class="test">Barf</div>
+  <div class="test">Bazm</div>
+  <div>Fooz</div>
+  <div>Barz</div>
+  <div>Bazz</div>
+  <script></script>
+  <br>
+  <p></p>
+  <textarea></textarea>
+  <!-- comment -->
+</section>`;
+const jsonStrConst = `{
+  "one": "Foo",
+  "two": "Bar",
+  "test": "Foot",
+  "test_1": "Barf",
+  "test_2": "Bazm",
+  "div": "Fooz",
+  "div_1": "Barz",
+  "div_2": "Bazz"
+}`;
 const jsonFromHtmlConst = html2json(htmlConst);
-const jsons = htmlScraperPost.htmlToJsons(htmlConst);
+const mustacheConst = `&lt;section&gt;
+  &lt;div id="one" class="test"&gt;{{ one }}&lt;/div&gt;
+  &lt;div id="two" class="test"&gt;{{ two }}&lt;/div&gt;
+  &lt;div class="test"&gt;{{ test }}&lt;/div&gt;
+  &lt;div class="test"&gt;{{ test_1 }}&lt;/div&gt;
+  &lt;div class="test"&gt;{{ test_2 }}&lt;/div&gt;
+  &lt;div&gt;{{ div }}&lt;/div&gt;
+  &lt;div&gt;{{ div_1 }}&lt;/div&gt;
+  &lt;div&gt;{{ div_2 }}&lt;/div&gt;
+  &lt;code&gt;&lt;/code&gt;
+  &lt;br /&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;figure&gt;&lt;/figure&gt;
+  &lt;!-- comment --&gt;
+&lt;/section&gt;`;
+const scrapeDir = conf.ui.paths.source.scrape;
+const scrapeFile0 = '0-test.1_0';
+const scrapeFile1 = '0-test.1_1';
+const scrapeFile0Json = `${scrapeDir}/${scrapeFile0}.json`;
+const scrapeFile1Json = `${scrapeDir}/${scrapeFile1}.json`;
+const scrapeFile0Mustache = `${scrapeDir}/${scrapeFile0}.mustache`;
+const scrapeFile1Mustache = `${scrapeDir}/${scrapeFile1}.mustache`;
 
 describe('HTML Scraper Post', function () {
-  describe('CSS Selector Validator', function () {
-    it('should identify the CSS class with no index', function () {
+  let htmlScraperPost;
+  let jsons;
+
+  before(function () {
+    htmlScraperPost = new HtmlScraperPost(
+      null,
+      null,
+      conf,
+      gatekeeper,
+      html,
+      {appDir, rootDir, utils}
+    );
+    jsons = htmlScraperPost.htmlToJsons(htmlConst);
+
+    fs.removeSync(scrapeFile0Json);
+    fs.removeSync(scrapeFile0Mustache);
+    fs.removeSync(scrapeFile1Json);
+    fs.removeSync(scrapeFile1Mustache);
+  });
+
+  describe('.selectorValidate()', function () {
+    const req = {body: {target: '', url: ''}};
+
+    it('identifies the CSS class with no index', function () {
       const selector = '.class_test-0';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -56,7 +101,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.index).to.equal(-1);
     });
 
-    it('should identify the CSS class and index', function () {
+    it('identifies the CSS class and index', function () {
       const selector = '.class_test-0[0]';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -64,7 +109,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.index).to.equal(0);
     });
 
-    it('should identify the CSS id with no index', function () {
+    it('identifies the CSS id with no index', function () {
       const selector = '#id_test-0';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -72,7 +117,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.index).to.equal(-1);
     });
 
-    it('should identify the CSS id and index', function () {
+    it('identifies the CSS id and index', function () {
       const selector = '#id_test-0[1]';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -80,7 +125,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.index).to.equal(1);
     });
 
-    it('should identify the HTML tag with no index', function () {
+    it('identifies the HTML tag with no index', function () {
       const selector = 'h1';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -88,7 +133,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.index).to.equal(-1);
     });
 
-    it('should identify the CSS id and index', function () {
+    it('identifies the CSS id and index', function () {
       const selector = 'h1[2]';
       const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
 
@@ -97,8 +142,8 @@ describe('HTML Scraper Post', function () {
     });
   });
 
-  describe('Target HTML Getter', function () {
-    it('should get all selectors of a given class if given no index', function () {
+  describe('.targetHtmlGet()', function () {
+    it('gets all selectors of a given class if given no index', function () {
       const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
@@ -115,7 +160,7 @@ describe('HTML Scraper Post', function () {
       expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
-    it('should get one selector of a given class if given an index', function () {
+    it('gets one selector of a given class if given an index', function () {
       const html2jsonObj = htmlScraperPost.elementSelect('.test[1]', jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
@@ -123,7 +168,7 @@ describe('HTML Scraper Post', function () {
       expect(targetHtmlObj.single).to.equal('<div id="two" class="test">Bar</div>\n');
     });
 
-    it('should get one selector of a given id', function () {
+    it('gets one selector of a given id', function () {
       const jsonFromHtml = html2json(htmlConst);
       const html2jsonObj = htmlScraperPost.elementSelect('#one', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
@@ -132,7 +177,7 @@ describe('HTML Scraper Post', function () {
       expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
-    it('should get all selectors of a given tagname if given no index', function () {
+    it('gets all selectors of a given tagname if given no index', function () {
       const jsonFromHtml = html2json(htmlConst);
       const html2jsonObj = htmlScraperPost.elementSelect('div', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
@@ -156,7 +201,7 @@ describe('HTML Scraper Post', function () {
       expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
     });
 
-    it('should get one selector of a given tagname if given an index', function () {
+    it('gets one selector of a given tagname if given an index', function () {
       const jsonFromHtml = html2json(htmlConst);
       const html2jsonObj = htmlScraperPost.elementSelect('div[1]', jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
@@ -166,55 +211,55 @@ describe('HTML Scraper Post', function () {
     });
   });
 
-  describe('HTML Sanitizer', function () {
-    const htmlSan = htmlScraperPost.htmlSanitize(htmlConst);
+  describe('.htmlSanitize()', function () {
+    let htmlSan;
 
-    it('should replace script tags with code tags', function () {
-      expect(htmlSan).to.equal(`
-<section>
-<div id="one" class="test">Foo</div>
-<div id="two" class="test">Bar</div>
-<div class="test">Foot</div>
-<div class="test">Barf</div>
-<div class="test">Bazm</div>
-<div>Fooz</div>
-<div>Barz</div>
-<div>Bazz</div>
-<code></code>
-<br>
-<p></p>
-<figure></figure>
-<!-- comment -->
-</section>
-`);
-      expect(htmlConst).to.contain('script');
-      expect(htmlConst).to.not.contain('code');
-      expect(htmlSan).to.not.contain('script');
-      expect(htmlSan).to.contain('code');
+    before(function () {
+      htmlSan = htmlScraperPost.htmlSanitize(htmlConst);
     });
 
-    it('should replace textarea tags with figure tags', function () {
-      expect(htmlConst).to.contain('textarea');
-      expect(htmlConst).to.not.contain('figure');
-      expect(htmlSan).to.not.contain('textarea');
-      expect(htmlSan).to.contain('figure');
+    it('replaces script tags with code tags', function () {
+      expect(htmlSan).to.equal(`<section>
+  <div id="one" class="test">Foo</div>
+  <div id="two" class="test">Bar</div>
+  <div class="test">Foot</div>
+  <div class="test">Barf</div>
+  <div class="test">Bazm</div>
+  <div>Fooz</div>
+  <div>Barz</div>
+  <div>Bazz</div>
+  <code></code>
+  <br>
+  <p></p>
+  <figure></figure>
+  <!-- comment -->
+</section>`);
+      expect(htmlConst).to.have.string('script');
+      expect(htmlConst).to.not.have.string('code');
+      expect(htmlSan).to.not.have.string('script');
+      expect(htmlSan).to.have.string('code');
+    });
+
+    it('replaces textarea tags with figure tags', function () {
+      expect(htmlConst).to.have.string('textarea');
+      expect(htmlConst).to.not.have.string('figure');
+      expect(htmlSan).to.not.have.string('textarea');
+      expect(htmlSan).to.have.string('figure');
     });
   });
 
-  describe('HTML Converter', function () {
-    it('should return a JSON object', function () {
+  describe('.htmlToJsons()', function () {
+    it('returns a JSON object', function () {
       expect(jsons.jsonForMustache).to.be.an('object');
       expect(jsons.jsonForMustache).to.not.be.empty;
     });
 
-    it('should return an array', function () {
+    it('returns an array', function () {
       expect(jsons.jsonForData).to.be.an('object');
       expect(jsons.jsonForData).to.not.be.empty;
     });
-  });
 
-  describe('HTML to JSON Converter', function () {
-    it('should return a JSON object of data pulled from non-empty elements', function () {
+    it('returns a JSON object of data pulled from non-empty elements', function () {
       expect(jsons.jsonForData).to.be.an('object');
       expect(jsons.jsonForData.scrape[0].one).to.equal('Foo');
       expect(jsons.jsonForData.scrape[0].two).to.equal('Bar');
@@ -231,8 +276,7 @@ describe('HTML Scraper Post', function () {
       expect(jsons.jsonForData.scrape[0].textarea).to.be.undefined;
     });
 
-
-    it('should create multiple array elements when the selector targets multiple DOM elements', function () {
+    it('creates multiple array elements when the selector targets multiple DOM elements', function () {
       const htmlVar = `
 <div class="test">Foo</div>
 <div class="test">Bar</div>
@@ -254,8 +298,7 @@ describe('HTML Scraper Post', function () {
       expect(jsonForData.scrape[4].test).to.equal('Bazm');
     });
 
-
-    it('should recursively retrieve nested HTML data from within a selected element', function () {
+    it('recursively retrieves nested HTML data from within a selected element', function () {
       const htmlVar = `
 <div id="test1">Foot</div>
 <div id="test2">
@@ -283,8 +326,8 @@ describe('HTML Scraper Post', function () {
     });
   });
 
-  describe('JSON to Mustache Converter', function () {
-    it('should return HTML with Mustache tags', function () {
+  describe('.jsonToMustache()', function () {
+    it('returns HTML with Mustache tags', function () {
       const mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
 
       expect(mustache).to.equal(`{{# scrape }}
@@ -308,62 +351,334 @@ describe('HTML Scraper Post', function () {
     });
   });
 
-  describe('File Writer', function () {
-    const fileName = '0-test.1_2';
-    const fileFullPath = scrapeDir + '/' + fileName;
+  describe('.filesWrite()', function () {
     let mustache;
     let jsonStr;
+    let scrapeFile0JsonExistsBefore;
+    let scrapeFile0MustacheExistsBefore;
+    let scrapeFile1JsonExistsBefore;
+    let scrapeFile1MustacheExistsBefore;
 
     before(function () {
       mustache = htmlScraperPost.htmlSanitize(htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData));
       jsonStr = JSON.stringify(jsons.jsonForData, null, 2) + '\n';
+      scrapeFile0JsonExistsBefore = fs.existsSync(scrapeFile0Json);
+      scrapeFile0MustacheExistsBefore = fs.existsSync(scrapeFile0Mustache);
+      scrapeFile1JsonExistsBefore = fs.existsSync(scrapeFile1Json);
+      scrapeFile1MustacheExistsBefore = fs.existsSync(scrapeFile1Mustache);
     });
 
-    after(function () {
-      fs.unlinkSync(fileFullPath);
-    });
-
-    it('should validate user-submitted filename', function () {
-      const validFilename = '0-test.1_2';
-      const invalidChar = '0-test.1_2!';
-      const invalidHyphenPrefix = '-0-test.1_2';
-      const invalidPeriodPrefix = '.0-test.1_2';
-      const invalidUnderscorePrefix = '_0-test.1_2';
+    it('validates user-submitted filename', function () {
+      const validFilename = '0-test.1_0';
+      const invalidChar = '0-test.1_0!';
+      const invalidHyphenPrefix = '-0-test.1_0';
+      const invalidPeriodPrefix = '.0-test.1_0';
+      const invalidUnderscorePrefix = '_0-test.1_0';
+      const sameAsScraperFile = '00-html-scraper.mustache';
 
       expect(htmlScraperPost.filenameValidate(validFilename)).to.be.true;
       expect(htmlScraperPost.filenameValidate(invalidChar)).to.be.false;
       expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.be.false;
       expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.be.false;
       expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(sameAsScraperFile)).to.be.false;
     });
 
-    it('should correctly format newlines in file body', function () {
+    it('correctly formats newlines in file body', function () {
       const mustacheWithCR = mustache.replace(/\n/g, '\r\n');
 
       expect(mustache).to.not.equal(mustacheWithCR);
-      expect(mustache).to.not.contain('\r');
-      expect(mustacheWithCR).to.contain('\r');
+      expect(mustache).to.not.have.string('\r');
+      expect(mustacheWithCR).to.have.string('\r');
       expect(htmlScraperPost.newlineFormat(mustacheWithCR)).to.equal(mustache);
     });
 
-    it('should correctly format newlines in stringified json', function () {
+    it('correctly formats newlines in stringified json', function () {
       const jsonStrWithCR = jsonStr.replace(/\n/g, '\r\n');
 
       expect(jsonStr).to.not.equal(jsonStrWithCR);
-      expect(jsonStr).to.not.contain('\r');
-      expect(jsonStrWithCR).to.contain('\r');
+      expect(jsonStr).to.not.have.string('\r');
+      expect(jsonStrWithCR).to.have.string('\r');
       expect(htmlScraperPost.newlineFormat(jsonStrWithCR)).to.equal(jsonStr);
     });
 
-    it('should write file to destination', function () {
-      fs.ensureDirSync(scrapeDir);
-      fs.writeFileSync(fileFullPath, '');
-      const fileBefore = fs.readFileSync(fileFullPath, conf.enc);
-      htmlScraperPost.filesWrite(scrapeDir, fileName, mustache, jsonStr);
-      const fileAfter = fs.readFileSync(fileFullPath + '.mustache', conf.enc);
+    it('writes file to destination', function () {
+      htmlScraperPost.filesWrite(scrapeDir, scrapeFile0, mustache, jsonStr);
 
-      expect(fileBefore).to.equal('');
-      expect(fileAfter).to.not.equal(fileBefore);
+      const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
+      const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
+
+      expect(scrapeFile0JsonExistsBefore).to.be.false;
+      expect(scrapeFile0MustacheExistsBefore).to.be.false;
+
+      expect(scrapeFile0JsonExistsAfter).to.be.true;
+      expect(scrapeFile0MustacheExistsAfter).to.be.true;
+    });
+
+    it('does not write file to destination if limit is exceeded', function () {
+      htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
+
+      const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
+      const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
+
+      expect(scrapeFile1JsonExistsBefore).to.be.false;
+      expect(scrapeFile1MustacheExistsBefore).to.be.false;
+
+      expect(scrapeFile1JsonExistsAfter).to.be.false;
+      expect(scrapeFile1MustacheExistsAfter).to.be.false;
+    });
+  });
+
+  describe('.main()', function () {
+    const timestampFile = `${global.rootDir}/.timestamp`;
+    let scrapeLimitTimeOrig;
+    let timestampFromFile;
+
+    function responseFactory(resolve) {
+      const response = {
+        end: () => {
+          resolve(response);
+        },
+        send: (output) => {
+          resolve(output);
+        },
+        writeHead: (statusCode, statusMessage) => {
+          response.statusCode = statusCode;
+          response.statusMessage = statusMessage;
+        }
+      };
+
+      return response;
+    }
+
+    before(function () {
+      fs.removeSync(timestampFile);
+
+      scrapeLimitTimeOrig = conf.scrape.limit_time;
+      conf.scrape.limit_time = 1000;
+      timestampFromFile = opener.timestamp();
+    });
+
+    after(function () {
+      conf.scrape.limit_time = scrapeLimitTimeOrig;
+
+      fs.removeSync(timestampFile);
+    });
+
+    it('redirects with error message if invalid filename is submitted', function (done) {
+      const invalidChar = '0-test.1_0!';
+
+      new Promise((resolve) => {
+        const htmlScraperPost = new HtmlScraperPost(
+          {
+            body: {
+              filename: invalidChar,
+              json: jsonStrConst,
+              mustache: mustacheConst
+            },
+            cookies: {
+              fepper_ts: timestampFromFile
+            }
+          },
+          responseFactory(resolve),
+          conf,
+          gatekeeper,
+          html,
+          {appDir, rootDir, utils}
+        );
+
+        htmlScraperPost.main();
+      })
+      .then((response) => {
+        expect(response.statusCode).to.equal(303);
+        // eslint-disable-next-line max-len
+        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Please%20enter%20a%20valid%20filename.&url=&selector=');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+    });
+
+    it(
+      'redirects with error message if valid filename, json, and mustache are submitted, but limit is exceeded',
+      function (done) {
+        new Promise((resolve) => {
+          const htmlScraperPost = new HtmlScraperPost(
+            {
+              body: {
+                filename: scrapeFile1,
+                json: jsonStrConst,
+                mustache: mustacheConst
+              },
+              cookies: {
+                fepper_ts: timestampFromFile
+              }
+            },
+            responseFactory(resolve),
+            conf,
+            gatekeeper,
+            html,
+            {appDir, rootDir, utils}
+          );
+
+          htmlScraperPost.main();
+        })
+        .then((response) => {
+          expect(response.statusCode).to.equal(303);
+          // eslint-disable-next-line max-len
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Submitting%20too%20many%20requests%20per%20minute.&url=&selector=');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      }
+    );
+
+    it(
+      'redirects with success message if valid filename, json, and mustache are submitted, and within limit',
+      function (done) {
+        new Promise((resolve) => {
+          setTimeout(() => {
+            const htmlScraperPost = new HtmlScraperPost(
+              {
+                body: {
+                  filename: scrapeFile1,
+                  json: jsonStrConst,
+                  mustache: mustacheConst
+                },
+                cookies: {
+                  fepper_ts: timestampFromFile
+                }
+              },
+              responseFactory(resolve),
+              conf,
+              gatekeeper,
+              html,
+              {appDir, rootDir, utils}
+            );
+
+            htmlScraperPost.main();
+          }, 1100);
+        })
+        .then((response) => {
+          expect(response.statusCode).to.equal(303);
+          // eslint-disable-next-line max-len
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=Success!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%22Scrape%22%20menu.&url=&selector=');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      }
+    );
+
+    it('scrapes and renders if url, selector, and html2json are submitted', function (done) {
+      new Promise((resolve) => {
+        const htmlScraperPost = new HtmlScraperPost(
+          {
+            body: {
+              url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html',
+              selector: '#one',
+              html2json: JSON.stringify(jsonFromHtmlConst)
+            },
+            cookies: {
+              fepper_ts: timestampFromFile
+            }
+          },
+          responseFactory(resolve),
+          conf,
+          gatekeeper,
+          html,
+          {appDir, rootDir, utils}
+        );
+
+        htmlScraperPost.main();
+      })
+      .then((output) => {
+        expect(output).to.equal(`
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <title id="title">Fepper HTML Scraper</title>
+    <meta charset="UTF-8">
+
+    <!-- Disable cache -->
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+
+    
+
+    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
+  </head>
+
+  <body class="text ">
+    <main id="scraper" class="scraper">
+      <div id="message" class="message "></div>
+      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>
+      <div style="border: 1px solid black;margin: 10px 0 20px;overflow-x: scroll;padding: 20px;width: 100%;"><div>&#x3C;div id=&#x22;one&#x22; class=&#x22;test&#x22;&#x3E;Foo&#x3C;/div&#x3E;<br></div>
+      </div>
+      <h3>Does this HTML look right?</h3>
+      <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
+        <div>Yes, import into Fepper.</div>
+        <label for="import-form">Enter a filename to save this under (extension not necessary):</label>
+        <input name="filename" type="text" value="" style="width: 100%">
+        <input name="url" type="hidden" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html">
+        <input name="selector" type="hidden" value="#one">
+        <textarea name="html2json" style="display: none;"></textarea>
+        <textarea name="mustache" style="display: none;"><div id="one" class="test">{{ one }}</div>
+
+        </textarea>
+        <textarea name="json" style="display: none;">{
+  "one": "Foo"
+}
+        </textarea>
+        <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;">
+      </form>
+      <h3>Otherwise, correct the URL and Target Selector and submit again.</h3><script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+    </main>
+
+    
+
+  </body>
+</html>`);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+    });
+
+    it('redirects with error message if no url, selector, html2json, or filename submitted', function (done) {
+      new Promise((resolve) => {
+        const htmlScraperPost = new HtmlScraperPost(
+          {
+            cookies: {
+              fepper_ts: timestampFromFile
+            }
+          },
+          responseFactory(resolve),
+          conf,
+          gatekeeper,
+          html,
+          {appDir, rootDir, utils}
+        );
+
+        htmlScraperPost.main();
+      })
+      .then((response) => {
+        expect(response.statusCode).to.equal(303);
+        expect(response.statusMessage.Location)
+          .to.equal('/html-scraper?msg_class=error&message=Error!%20Incorrect%20submission.&url=&selector=');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
     });
   });
 });

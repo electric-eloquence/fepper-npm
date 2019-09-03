@@ -24,6 +24,7 @@ module.exports = class {
     let jsonStr = '{\n';
     let vars;
 
+    /* istanbul ignore if */
     if (!fs.existsSync(varFile)) {
       return;
     }
@@ -31,7 +32,7 @@ module.exports = class {
     try {
       vars = fs.readFileSync(varFile, this.conf.enc);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
       return;
     }
@@ -61,7 +62,7 @@ module.exports = class {
       // Write out to _appendix.json.
       fs.outputFileSync(appendix, jsonStr);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }

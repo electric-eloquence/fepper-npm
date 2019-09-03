@@ -1,0 +1,32 @@
+// Two Column Layout
+.l-two-col
+  @extend .cf
+  .l-main
+    @media all and (min-width: $bp-med)
+      float: left
+      width: $column-width-wide
+      padding-right: $space
+  .l-sidebar
+    @media all and (max-width: $bp-sm-max)
+      clear: both
+    @media all and (min-width: $bp-med)
+      float: left
+      width: $column-width-narrow
+      padding: 0 0 0 $space
+[role="main"]
+  @extend .lc
+  @extend .cf
+  padding: $space-half
+  overflow: hidden
+// Hero and Subs
+.hero-and-subs
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+// Hero, Subs, Hoagies, Sidebar
+.hero-and-subs,
+.hoagies,
+.l-sidebar
+  @media all and (max-width: $bp-xs-max)
+    h2
+      text-align: center

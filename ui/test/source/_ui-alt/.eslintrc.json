@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "$": true
+  },
+  "rules": {
+    "strict": 0
+  }
+}
