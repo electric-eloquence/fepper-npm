@@ -26,7 +26,7 @@ patternlab.patternBuilder.processPattern(listItemsPatternMixed, patternlab);
 patternlab.patternBuilder.processPattern(listItemsPatternNested, patternlab);
 
 describe('ListItems Builder', function () {
-  it('should find and output basic repeating blocks', function () {
+  it('finds and outputs basic repeating blocks', function () {
     let expectation = '  <span class="test_base ">\n      \n      Fizzle crazy tortor. Sed rizzle. Pimpin&#39; dolor ' +
       'dapibizzle turpis tempizzle fo shizzle my nizzle. Maurizzle pellentesque its fo rizzle izzle turpis. Get down ' +
       'get down we gonna chung nizzle. Shizzlin dizzle eleifend rhoncizzle break it down. In yo ghetto platea ' +
@@ -36,7 +36,7 @@ describe('ListItems Builder', function () {
     expect(listItemPattern.extendedTemplate).to.equal(expectation);
   });
 
-  it('should find partials and output repeated renders', function () {
+  it('finds partials and outputs repeated renders', function () {
     const expectation =
 `<h1 id="title">Nullizzle shizznit velizzle, hizzle, suscipit own yo&#39;, gravida vizzle, arcu.</h1>
 <p id="message"></p>
@@ -47,7 +47,7 @@ describe('ListItems Builder', function () {
     expect(listItemsPattern.extendedTemplate).to.equal(expectation);
   });
 
-  it('should overwrite global listItem property if that property is in local .listitem.json', function () {
+  it('overwrites global listItem property if that property is in local .listitem.json', function () {
     const expectation = `<h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
 <p id="message"></p>
 <h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
@@ -57,7 +57,7 @@ describe('ListItems Builder', function () {
     expect(listItemsPatternLocal.extendedTemplate).to.equal(expectation);
   });
 
-  it('should recursively processes nested listItems', function () {
+  it('recursively processes nested listItems', function () {
     const expectation = `<h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
 <p id="message">listitemMessage</p>
 <h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
@@ -67,7 +67,7 @@ describe('ListItems Builder', function () {
     expect(listItemsPatternMixed.extendedTemplate).to.equal(expectation);
   });
 
-  it('should use local listItem property if that property is not set globally', function () {
+  it('uses local listItem property if that property is not set globally', function () {
     const expectation =
 `<h1 id="title">Nullizzle shizznit velizzle, hizzle, suscipit own yo&#39;, gravida vizzle, arcu.</h1>
 <p id="message"></p>

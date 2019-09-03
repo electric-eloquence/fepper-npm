@@ -37,7 +37,7 @@ module.exports = class {
           htmlMd = htmlMd.replace(/\{/g, '&lcub;');
           htmlMd = htmlMd.replace(/\}/g, '&rcub;');
         }
-        catch (err1) {
+        catch (err1) /* istanbul ignore next */ {
           const internalServerError = 500;
 
           this.utils.error(err1);

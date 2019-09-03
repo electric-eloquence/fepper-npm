@@ -6,16 +6,16 @@
     "fepper": "index.js"
   },
   "scripts": {
-    "test:eslint:extend": "eslint excludes/profiles/base/extend/**/*.js excludes/profiles/main/extend/**/*.js",
-    "test:eslint:fepper": "eslint core/**/*.js",
-    "test:eslint:tasker": "eslint tasker/**/*.js",
+    "test:eslint:extend": "eslint excludes/profiles/base/extend excludes/profiles/main/extend",
+    "test:eslint:fepper": "eslint core",
+    "test:eslint:tasker": "eslint tasker",
     "test:eslint:root": "eslint *.js",
     "test:eslint:test": "eslint test && eslint ui/test",
-    "test:eslint:ui": "eslint ui/**/*.js",
+    "test:eslint:ui": "eslint ui",
     "test:eslint": "npm run test:eslint:extend && npm run test:eslint:fepper && npm run test:eslint:tasker && npm run test:eslint:root && npm run test:eslint:test && npm run test:eslint:ui",
-    "test:mocha:core": "mocha test/tests/*.js",
-    "test:mocha:ui": "mocha ui/test/tests/*.js",
-    "test:mocha": "npm run test:mocha:core && npm run test:mocha:ui",
+    "test:mocha:core": "mocha test/tests",
+    "test:mocha:ui": "mocha ui/test/tests",
+    "test:mocha": "nyc mocha test/tests ui/test/tests",
     "test": "npm run test:eslint && npm run test:mocha"
   },
   "husky": {
@@ -74,12 +74,15 @@
     "slash": "^2.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "chai": "4.x",
+    "coveralls": "^3.0.6",
     "eslint": "5.x",
     "fepper-ui": "*",
     "fepper-utils": "*",
     "husky": "1.x",
     "json-eval": "*",
-    "mocha": "6.x"
+    "mocha": "6.x",
+    "nyc": "^14.1.1"
   }
 }

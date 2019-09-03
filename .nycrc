@@ -1,0 +1,9 @@
+{
+  "exclude": [
+    "core/tasks/updater.js",
+    "core/tasks/versioner.js",
+    "test",
+    "ui/core/styleguide/index",
+    "ui/test"
+  ]
+}

@@ -3,19 +3,18 @@
   {{{ patternData }}}
 </script>
 
+{{# portReloader }}
 <script>
-  // Handle injection of items from Node.
-  {{# lineage }}window.lineage = {{{ lineage }}};{{/ lineage }}
-  {{# lineageR }}window.lineageR = {{{ lineageR }}};{{/ lineageR }}
-  window.patternPartial = '{{ patternPartial }}';
-  window.patternState = '{{ patternState }}';
-  window.portReloader = '{{ portReloader }}';
-  window.portServer = '{{ portServer }}';
-</script>
+  // LiveReload.
+  const reloader = document.createElement('script');
+  const {protocol, hostname} = window.location;
 
-<script src="../../node_modules/fepper-ui/scripts/ui-functions.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/annotations-pattern.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/code-pattern.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/patternlab-pattern.js"></script>
+  if (window.portReloader && protocol !== 'file:') {
+    reloader.setAttribute('src', protocol + '//' + hostname + ':{{ portReloader }}/livereload.js');
+    document.body.appendChild(reloader);
+  }
+</script>
+{{/ portReloader }}
+
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->

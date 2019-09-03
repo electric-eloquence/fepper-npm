@@ -3,56 +3,56 @@
     "source": {
       "root": "source",
       "annotations": "source/_annotations",
-      "data": "source/_data",
-      "meta": "source/_meta",
-      "images": "source/_assets",
-      "imagesBld": "source/_assets/bld",
-      "imagesSrc": "source/_assets/src",
-      "js": "source/_scripts",
-      "jsBld": "source/_scripts/bld",
-      "jsSrc": "source/_scripts/src",
       "css": "source/_styles",
-      "cssBld": "source/_styles/bld",
       "cssSrc": "source/_styles/src",
+      "cssBld": "source/_styles/bld",
       "fonts": "source/_styles/bld/fonts",
+      "data": "source/_data",
+      "images": "source/_assets",
+      "imagesSrc": "source/_assets/src",
+      "imagesBld": "source/_assets/bld",
+      "js": "source/_scripts",
+      "jsSrc": "source/_scripts/src",
+      "jsBld": "source/_scripts/bld",
+      "meta": "source/_meta",
       "patterns": "source/_patterns",
       "templates": "source/_patterns/03-templates",
       "pages": "source/_patterns/04-pages",
       "scrape": "source/_patterns/98-scrape",
       "static": "source/_static",
-      "styleguide": "styleguide",
       "ui": "source/_ui"
     },
     "public": {
       "root": "public",
       "annotations": "public/annotations",
-      "data": "../../node_modules/fepper-ui/data",
-      "images": "public/_assets",
-      "js": "public/_scripts",
       "css": "public/_styles",
       "cssBld": "public/_styles/bld",
       "fonts": "public/_styles/bld/fonts",
+      "images": "public/_assets",
+      "js": "public/_scripts",
       "patterns": "public/patterns",
       "static": "public/static",
+      // The "styleguide" config is necessary for testing.
       "styleguide": "../../node_modules/fepper-ui"
     }
   },
-  "cacheBust": true,
-  "cleanPublic": false,
-  "debug": false,
+  "cacheBust": false,
+  "cleanPublic": true,
+  "debug": true,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
   "frontMatterExtension": ".md",
   "ishControlsHide": {
-    "grow": false,
-    "random": true,
     "disco": true,
     "find": false,
+    "grow": false,
+    "random": true,
     "views-all": false,
     "views-annotations": false,
     "views-code": false,
     "views-new": false,
     "tools-all": false,
+    "tools-fpdocs": false,
     "tools-docs": false,
     "tools-shortcuts": false
   },
@@ -60,9 +60,11 @@
   "ishMaximum": "2600",
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [
-    "test-styled-organism"
+    "test-styled-organism",
+    "facebook-brad"
   ],
   "patternExtension": ".mustache",
   "styleGuideExcludes": [
+    "facebook"
   ]
 }

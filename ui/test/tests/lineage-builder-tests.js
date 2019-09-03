@@ -21,12 +21,12 @@ patternlab.patternBuilder.processPattern(molPattern, patternlab);
 patternlab.patternBuilder.processPattern(orgPattern, patternlab);
 
 describe('Lineage Builder', function () {
-  it('should find lineage', function () {
+  it('finds lineage', function () {
     expect(molPattern.lineageIndex).to.include('test-styled-atom');
     expect(orgPattern.lineageIndex).to.include('test-styled-molecule');
   });
 
-  it('should find reverse lineage', function () {
+  it('finds reverse lineage', function () {
     expect(atomPattern.lineageRIndex).to.include('test-styled-molecule');
     expect(atomPattern.lineageRIndex).to.include('test-styled-molecule');
     expect(atomPattern.lineageRIndex).to.include('test-multiple-classes');

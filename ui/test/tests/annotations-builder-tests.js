@@ -25,14 +25,20 @@ describe('Annotations Builder', function () {
     annotations = global.annotations;
   });
 
-  it('should write annotations.js', function () {
+  after(function () {
+    // Trigger annotations build to cover an if condition checking for existing annotationsJs. Completes code coverage.
+    patternlab.annotationsBuilder.main();
+  });
+
+  it('writes annotations.js', function () {
     const annotationsJsExistsAfter = fs.existsSync(annotationsJs);
 
     expect(annotationsJsExistsBefore).to.be.false;
+
     expect(annotationsJsExistsAfter).to.be.true;
   });
 
-  it('should parse the Front Matter files in the source/_annotations directory', function () {
+  it('parses the Front Matter files in the source/_annotations directory', function () {
     expect(annotations[0].el).to.equal('#nav');
     expect(annotations[0].title).to.equal('Navigation');
     expect(annotations[0].annotation).to.equal('<p>Navigation for responsive web experiences can be tricky.</p>\n');
@@ -50,7 +56,7 @@ describe('Annotations Builder', function () {
     expect(annotations[3].annotation).to.equal('<p>Tee double-you oh.</p>\n');
   });
 
-  it('should parse the Front Matter files in the source patterns directory', function () {
+  it('parses the Front Matter files in the source patterns directory', function () {
     expect(annotations[4].state).to.equal('complete');
 
     const expectation5 = `<h2 id="front-matter-with-annotations">Front Matter with annotations</h2>

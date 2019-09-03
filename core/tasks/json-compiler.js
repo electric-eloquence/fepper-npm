@@ -33,7 +33,7 @@ module.exports = class {
       dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
       dataGlobalJson = JSON5.parse(dataGlobalStr);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing or malformed ' + dataGlobal);
       this.utils.error(err);
 
@@ -57,6 +57,7 @@ module.exports = class {
     diveSync(
       this.conf.ui.paths.source.patterns,
       (err, file) => {
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
         }
@@ -73,7 +74,7 @@ module.exports = class {
         try {
           JSON5.parse(dataPartialStr);
         }
-        catch (err1) {
+        catch (err1) /* istanbul ignore next */ {
           this.utils.error('ERROR: Malformed ' + file);
           this.utils.error(err1);
 
@@ -116,13 +117,13 @@ module.exports = class {
         dataAppendixStr = fs.readFileSync(dataAppendix, this.conf.enc);
         dataAppendixJson = JSON5.parse(dataAppendixStr);
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error('ERROR: Malformed ' + dataAppendix);
         this.utils.error(err);
       }
     }
 
-    if (Object.keys(dataAppendixJson).length) {
+    if (dataAppendixJson instanceof Object && Object.keys(dataAppendixJson).length) {
       let tmp = dataAppendixStr;
 
       // Delete curly brace and any whitespace at beginning of _appendix.json.
@@ -141,8 +142,9 @@ module.exports = class {
       // Write to data.json.
       fs.outputFileSync(`${dataDir}/data.json`, jsonStr);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
+
       return;
     }
   }

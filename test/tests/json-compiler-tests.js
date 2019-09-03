@@ -1,8 +1,5 @@
 'use strict';
 
-const path = require('path');
-
-const diveSync = require('diveSync');
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
@@ -10,84 +7,131 @@ require('../init');
 
 const fepper = global.fepper;
 const conf = fepper.conf;
-const jsonCompiler = fepper.tasks.jsonCompiler;
-const utils = fepper.utils;
+const tasks = fepper.tasks;
 
 const appendixFile = `${conf.ui.paths.source.data}/_appendix.json`;
+const appendixStr = fs.readFileSync(appendixFile, conf.enc);
 const dataFile = `${conf.ui.paths.source.data}/data.json`;
+const _dataFile = `${conf.ui.paths.source.data}/_data.json`;
+const _dataStr = fs.readFileSync(`${conf.ui.paths.source.data}/_data.json`, conf.enc);
+
+function stripBraces(jsonStr_) {
+  let jsonStr = jsonStr_;
+  jsonStr = jsonStr.replace(/^\s*{\s*/, '');
+  jsonStr = jsonStr.replace(/\s*}\s*$/, '');
+
+  return jsonStr;
+}
 
 describe('JSON Compiler', function () {
-  // Clear out data.json.
-  fs.writeFileSync(dataFile, '');
-
-  // Get empty string for comparison.
-  const dataBefore = fs.readFileSync(dataFile, conf.enc);
-
-  // Run json-compiler.js.
-  jsonCompiler.main();
-
-  // Get json-compiler.js output.
-  const dataAfter = fs.readFileSync(dataFile, conf.enc);
-
-  // Test valid JSON.
+  let dataBefore;
+  let dataAfter;
   let dataJson;
 
-  try {
-    dataJson = JSON.parse(dataAfter);
-  }
-  catch (err) {
-    // Fail gracefully.
-  }
+  before(function () {
+    fs.writeFileSync(dataFile, '');
 
-  function stripBraces(jsonStr_) {
-    let jsonStr = jsonStr_;
-    jsonStr = jsonStr.replace(/^\s*{\s*/, '');
-    jsonStr = jsonStr.replace(/\s*}\s*$/, '');
+    dataBefore = fs.readFileSync(dataFile, conf.enc);
 
-    return jsonStr;
-  }
+    tasks.jsonCompile();
 
-  it('should overwrite data.json', function () {
+    dataAfter = fs.readFileSync(dataFile, conf.enc);
+
+    try {
+      dataJson = JSON.parse(dataAfter);
+    }
+    catch (err) {
+      // Fail gracefully.
+    }
+  });
+
+  after(function () {
+    if (!fs.existsSync(appendixFile)) {
+      fs.writeFileSync(appendixFile, appendixStr);
+    }
+
+    if (fs.readFileSync(_dataFile, conf.enc) !== _dataStr) {
+      fs.writeFileSync(_dataFile, _dataStr);
+    }
+
+    tasks.jsonCompile();
+  });
+
+  it('overwrites data.json', function () {
     expect(dataBefore).to.equal('');
     expect(dataAfter).to.not.equal(dataBefore);
   });
 
-  it('should compile valid JSON to data.json', function () {
+  it('compiles valid JSON to data.json', function () {
     expect(dataJson).to.be.an('object');
   });
 
-  it('should compile _data.json to data.json', function () {
-    const _data = stripBraces(fs.readFileSync(`${conf.ui.paths.source.data}/_data.json`, conf.enc));
+  it('compiles _data.json to data.json', function () {
+    const _data = stripBraces(_dataStr);
 
-    expect(dataAfter).to.contain(_data);
+    expect(dataAfter).to.have.string(_data);
   });
 
-  it('should compile _patterns partials to data.json', function () {
-    const extname = '.json';
+  it('compiles underscore-prefixed .json files to data.json', function () {
+    const file = `${conf.ui.paths.source.patterns}/01-compounds/01-blocks/_blocks.json`;
+    const partial = stripBraces(fs.readFileSync(file, conf.enc));
 
-    diveSync(
-      conf.ui.paths.source.patterns,
-      (err, file) => {
-        if (err) {
-          utils.error(err);
-        }
-
-        const basename = path.basename(file);
-
-        if (basename.charAt(0) !== '_' || basename.indexOf(extname) !== basename.length - extname.length) {
-          return;
-        }
-
-        const partial = stripBraces(fs.readFileSync(file, conf.enc));
-
-        expect(dataAfter).to.contain(partial);
-      }
-    );
+    expect(dataAfter).to.have.string(partial);
   });
 
-  it('should compile _appendix.json to data.json', function () {
-    const appendix = stripBraces(fs.readFileSync(appendixFile, conf.enc));
+  it('compiles _appendix.json to data.json', function () {
+    const appendix = stripBraces(appendixStr);
 
-    expect(dataAfter).to.contain(appendix);
+    expect(dataAfter).to.have.string(appendix);
+  });
+
+  it('compiles without an _appendix.json file', function () {
+    const dataJsonWithAppendix = dataJson;
+    let dataJsonWithoutAppendix;
+
+    fs.unlinkSync(appendixFile);
+    tasks.jsonCompile();
+
+    dataJsonWithoutAppendix = fs.readJsonSync(dataFile, {throws: false});
+
+    expect(dataJsonWithAppendix).to.have.property('bp_lg_max');
+    expect(dataJsonWithAppendix).to.have.property('bp_lg_min');
+    expect(dataJsonWithAppendix).to.have.property('bp_md_min');
+    expect(dataJsonWithAppendix).to.have.property('bp_sm_min');
+    expect(dataJsonWithAppendix).to.have.property('bp_xs_min');
+
+    expect(dataJsonWithoutAppendix).to.not.have.property('bp_lg_max');
+    expect(dataJsonWithoutAppendix).to.not.have.property('bp_lg_min');
+    expect(dataJsonWithoutAppendix).to.not.have.property('bp_md_min');
+    expect(dataJsonWithoutAppendix).to.not.have.property('bp_sm_min');
+    expect(dataJsonWithoutAppendix).to.not.have.property('bp_xs_min');
+
+    fs.writeFileSync(appendixFile, appendixStr);
+  });
+
+  it('compiles without _data.json data', function () {
+    const with_data = dataJson;
+    let without_data;
+
+    fs.writeFileSync(_dataFile, '{}');
+    tasks.jsonCompile();
+
+    without_data = fs.readJsonSync(dataFile, {throws: false});
+
+    expect(with_data).to.have.property('backend_serve_dir');
+    expect(with_data).to.have.property('homepage');
+    expect(with_data).to.have.property('title');
+    expect(with_data).to.have.property('excerpt');
+    expect(with_data).to.have.property('description');
+    expect(with_data).to.have.property('url');
+
+    expect(without_data).to.not.have.property('backend_serve_dir');
+    expect(without_data).to.not.have.property('homepage');
+    expect(without_data).to.not.have.property('title');
+    expect(without_data).to.not.have.property('excerpt');
+    expect(without_data).to.not.have.property('description');
+    expect(without_data).to.not.have.property('url');
+
+    fs.writeFileSync(_dataFile, _dataStr);
   });
 });

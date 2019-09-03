@@ -7,6 +7,7 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
 function findSupportedStyleExtensions(dir, styleExtsSupported) {
+  /* istanbul ignore if */
   if (!fs.existsSync(dir)) {
     return;
   }
@@ -36,13 +37,13 @@ module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
     this.config = patternlab.config;
-    this.componentsDirCoreRoot = `${this.config.paths.core}/styleguide`;
+    this.componentsDirCoreRoot = `${patternlab.config.paths.core}/styleguide`;
     this.componentsArr = [];
     this.pathsPublic = patternlab.config.pathsPublic;
     this.styleExtsSupported = ['.css'];
     this.utils = patternlab.utils;
-    this.componentsDirCustomRoot = this.utils.deepGet(this, 'config.paths.source.ui');
-    this.styleguidePath = this.config.paths.public.styleguide;
+    this.componentsDirCustomRoot = this.utils.deepGet(patternlab, 'config.paths.source.ui');
+    this.styleguidePath = patternlab.config.paths.public.styleguide;
   }
 
   readDirectoriesFirst(dir) {
@@ -81,6 +82,7 @@ module.exports = class {
   stripComments(str_) {
     // Allow comments in component code, HTML or Mustache syntax. However, they won't appear in the final markup.
     let str = str_;
+    // eslint-disable-next-line no-useless-escape
     str = str.replace(/<!\-\-[\S\s]*?\-\->/g, '');
     str = str.replace(/\{\{![\S\s]*?\}\}/g, '');
 
@@ -170,11 +172,7 @@ module.exports = class {
           fs.appendFileSync(`${this.styleguidePath}/styles/ui${ext}`, content);
         }
         else if (ext === '.js' && item.slice(-13) !== '.component.js') {
-          let contentScoped = content.replace(/\n$/, '');
-          contentScoped = contentScoped.replace(/^/gm, '      ');
-          contentScoped = '    (() => {\n' + contentScoped + '\n    })();\n';
-
-          fs.appendFileSync(`${this.styleguidePath}/scripts/ui${ext}`, contentScoped);
+          fs.appendFileSync(`${this.styleguidePath}/scripts/ui/compilation${ext}`, `\n${content}`);
         }
       }
     }
@@ -237,35 +235,25 @@ module.exports = class {
       }
     }
 
-    // Delete old compiled client-side scripts.
-    const fileScripts = `${this.styleguidePath}/scripts/ui.js`;
+    // Overwrite old compiled client-side scripts.
+    const fileScripts = `${this.styleguidePath}/scripts/ui/compilation.js`;
 
-    if (fs.existsSync(fileScripts)) {
-      fs.removeSync(fileScripts);
-    }
+    fs.outputFileSync(
+      fileScripts,
+      `/* eslint-disable valid-jsdoc */
+// Be sure to unit test exported functions.
+// Be sure to e2e test listeners.
+`
+    );
 
-    // Write ui.js so that its scripts fire after DOMContentLoaded.
-    const uiJsPrefix =
-`document.addEventListener(
-  'DOMContentLoaded',
-  function () {
-    'use strict';
-`;
-
-    fs.outputFileSync(`${this.styleguidePath}/scripts/ui.js`, uiJsPrefix);
     this.recurseComponentsDirs(`${this.componentsDirCoreRoot}/index/html`, this.componentsArr);
-
-    // Finish ui.js.
-    const uiJsSuffix = '  },\n  false\n);\n';
-
-    fs.appendFileSync(`${this.styleguidePath}/scripts/ui.js`, uiJsSuffix);
 
     let renderObj;
 
     try {
       renderObj = this.recurseComponentsArr(this.componentsArr);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
 
       return;

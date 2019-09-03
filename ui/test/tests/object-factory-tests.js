@@ -10,14 +10,13 @@ const {
 
 describe('Object Factory', function () {
   describe('Pattern constructor', function () {
-    it('should instantiate correctly', function () {
+    it('instantiates correctly', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('00-colors');
       expect(p.outfileExtension).to.equal('.html');
       expect(p.pathsPublic.annotations).to.equal('annotations');
-      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
       expect(p.pathsPublic.images).to.equal('_assets');
       expect(p.pathsPublic.js).to.equal('_scripts');
       expect(p.pathsPublic.css).to.equal('_styles');
@@ -61,14 +60,13 @@ describe('Object Factory', function () {
       expect(p.template).to.equal('');
     });
 
-    it('should instantiate one-directory patterns correctly', function () {
+    it('instantiates one-directory patterns correctly', function () {
       const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('00-colors');
       expect(p.outfileExtension).to.equal('.html');
       expect(p.pathsPublic.annotations).to.equal('annotations');
-      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
       expect(p.pathsPublic.images).to.equal('_assets');
       expect(p.pathsPublic.js).to.equal('_scripts');
       expect(p.pathsPublic.css).to.equal('_styles');
@@ -112,14 +110,13 @@ describe('Object Factory', function () {
       expect(p.template).to.equal('');
     });
 
-    it('should instantiate patterns with no numbers in patternType correctly', function () {
+    it('instantiates patterns with no numbers in patternType correctly', function () {
       const p = new of.Pattern('atoms/colors.mustache', patternlab);
 
       expect(p.fileExtension).to.equal('.mustache');
       expect(p.fileName).to.equal('colors');
       expect(p.outfileExtension).to.equal('.html');
       expect(p.pathsPublic.annotations).to.equal('annotations');
-      expect(p.pathsPublic.data).to.equal('../../node_modules/fepper-ui/data');
       expect(p.pathsPublic.images).to.equal('_assets');
       expect(p.pathsPublic.js).to.equal('_scripts');
       expect(p.pathsPublic.css).to.equal('_styles');
@@ -163,7 +160,7 @@ describe('Object Factory', function () {
       expect(p.template).to.equal('');
     });
 
-    it('should capitalize patternName correctly', function () {
+    it('capitalizes patternName correctly', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors-alt.mustache', patternlab);
 
       expect(p.patternBaseName).to.equal('colors-alt');
@@ -172,7 +169,7 @@ describe('Object Factory', function () {
   });
 
   describe('PatternItem constructor', function () {
-    it('should initialize correctly', function () {
+    it('initializes correctly', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
       const i = new of.PatternItem('test', p);
 
@@ -188,7 +185,7 @@ describe('Object Factory', function () {
       expect(i.patternState).to.equal(p.patternState);
     });
 
-    it('should initialize patternType viewall items correctly', function () {
+    it('initializes patternType viewall items correctly', function () {
       const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
       const i = new of.PatternItem('View All', p);
 
@@ -196,7 +193,7 @@ describe('Object Factory', function () {
       expect(i.patternPartial).to.equal('viewall-atoms');
     });
 
-    it('should initialize patternSubType viewall items correctly', function () {
+    it('initializes patternSubType viewall items correctly', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
       const i = new of.PatternItem('View All', p);
 
@@ -206,7 +203,7 @@ describe('Object Factory', function () {
   });
 
   describe('PatternSubType constructor', function () {
-    it('should initialize correctly', function () {
+    it('initializes correctly', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
       const st = new of.PatternSubType(p);
 
@@ -220,7 +217,7 @@ describe('Object Factory', function () {
   });
 
   describe('PatternType constructor', function () {
-    it('should initialize correctly', function () {
+    it('initializes correctly', function () {
       const p = new of.Pattern('00-atoms/00-colors.mustache', patternlab);
       const t = new of.PatternType(p);
 
@@ -234,7 +231,7 @@ describe('Object Factory', function () {
       expect(t.patternSubTypesIndex).to.be.an.instanceof(Array);
     });
 
-    it('should initialize correctly when given a subType', function () {
+    it('initializes correctly when given a subType', function () {
       const p = new of.Pattern('00-atoms/00-global/00-colors.mustache', patternlab);
       const t = new of.PatternType(p);
 
@@ -250,7 +247,7 @@ describe('Object Factory', function () {
   });
 
   describe('PatternViewall constructor', function () {
-    it('should initialize correctly', function () {
+    it('initializes correctly', function () {
       const v = new of.PatternViewall('00-atoms/index.html', 'viewall content');
 
       expect(v.path).to.equal('00-atoms/index.html');

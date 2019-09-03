@@ -18,11 +18,7 @@ module.exports = class {
     this.tmpDir = `${this.rootDir}/.tmp`;
 
     // Spawn npm.cmd if Windows.
-    if (
-      this.conf.is_windows ||
-      // eslint-disable-next-line max-len
-      process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe' // Deprecated condition.
-    ) {
+    if (this.conf.is_windows) {
       this.binNpm = 'npm.cmd';
       this.conf.is_windows = true;
     }
@@ -59,7 +55,8 @@ module.exports = class {
               }
             });
           });
-      }).on('error', (err) => {
+      })
+      .on('error', (err) => {
         this.utils.error(err);
       });
     };
@@ -134,9 +131,9 @@ module.exports = class {
 
     spawnSync(this.binNpm, ['update'], {stdio: 'inherit'});
 
-    const rootPackageJson = fs.readJsonSync('./package.json');
+    const rootPackageJson = fs.readJsonSync('./package.json', {throws: false});
 
-    if (rootPackageJson.repository && rootPackageJson.repository.url) {
+    if (rootPackageJson && rootPackageJson.repository && rootPackageJson.repository.url) {
       let repoDir = rootPackageJson.repository.url.replace('git+', '');
       repoDir = repoDir.replace('.git', '/release');
       repoDir = repoDir.replace('github', 'raw.githubusercontent');
@@ -165,10 +162,10 @@ module.exports = class {
       this.utils.log(`Running \`npm update\` in ${path.resolve(this.extendDir)}...`);
 
       // If the fp-stylus extension is installed, find the latest release and update if updatable.
-      const extendPackageJson = fs.readJsonSync('./package.json');
+      const extendPackageJson = fs.readJsonSync('./package.json', {throws: false});
 
       if (
-        extendPackageJson.devDependencies &&
+        extendPackageJson && extendPackageJson.devDependencies &&
         Object.keys(extendPackageJson.devDependencies).indexOf('fp-stylus') > -1
       ) {
         const fpStylusVersions = parseNpmOutdated('fp-stylus');

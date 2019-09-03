@@ -38,7 +38,7 @@ module.exports = class {
     this.jsonCompiler.main();
   }
 
-  open() {
+  open() /* istanbul ignore next */ {
     this.opener.main();
   }
 
@@ -50,11 +50,11 @@ module.exports = class {
     this.templater.main();
   }
 
-  update() {
+  update() /* istanbul ignore next */ {
     this.updater.main();
   }
 
-  version() {
+  version() /* istanbul ignore next */ {
     this.versioner.main();
   }
 };

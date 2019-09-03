@@ -21,7 +21,7 @@ patternlab.preProcessDataAndParams();
 const childPattern = patternlab.getPattern('test-styled-atom');
 
 describe('Style Modifier Hunter', function () {
-  it('should replace a style modifier tag with a class submitted from the immediate parent', function () {
+  it('replaces a style modifier tag with a class submitted from the immediate parent', function () {
     // Get test patterns.
     const parentPattern = patternlab.getPattern('test-styled-molecule');
 
@@ -36,7 +36,7 @@ describe('Style Modifier Hunter', function () {
       .equal('<span class="test_base ">\n    \n    \n</span>\n<span class="test_base test_1">\n    \n    \n</span>\n');
   });
 
-  it('should replace pipe-delimited multiple style modifiers with space-delimited classes', function () {
+  it('replaces pipe-delimited multiple style modifiers with space-delimited classes', function () {
     // Get test pattern.
     const parentPattern = patternlab.getPattern('test-multiple-classes');
 
@@ -51,7 +51,7 @@ describe('Style Modifier Hunter', function () {
       .equal('<span class="test_base foo1 foo2">\n    \n    \n</span>\n');
   });
 
-  it('should replace a style modifier tag with a single class when the parent also submits a parameter', function () {
+  it('replaces a style modifier tag with a single class when the parent also submits a parameter', function () {
     // Get test pattern.
     const parentPattern = patternlab.getPattern('test-mixed-params');
 
@@ -65,7 +65,7 @@ describe('Style Modifier Hunter', function () {
     expect(parentPattern.extendedTemplate).to.equal('<span class="test_base test_2">\n    1\n    \n</span>\n');
   });
 
-  it('should replace a style modifier tag with multiple classes when the parent also submits a parameter', function () {
+  it('replaces a style modifier tag with multiple classes when the parent also submits a parameter', function () {
     // Get test pattern.
     const parentPattern = patternlab.getPattern('test-multiple-classes-params');
 
@@ -79,7 +79,7 @@ describe('Style Modifier Hunter', function () {
     expect(parentPattern.extendedTemplate).to.equal('<span class="test_base foo1 foo2">\n    2\n    \n</span>\n\n');
   });
 
-  it('should recursively replace a style modifier tag in a child nested below the immediate child of the first parent\
+  it('recursively replaces a style modifier tag in a child nested below the immediate child of the first parent\
 ', function () {
     // Get test pattern.
     const parentPattern = patternlab.getPattern('test-styled-organism');

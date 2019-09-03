@@ -1,0 +1,123 @@
+#sg-nav-target {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 3;
+}
+#sg-nav-target > li {
+  cursor: pointer;
+}
+#sg-nav-target a {
+  display: flex;
+  align-items: center;
+}
+@media all and (max-width: 767px) {
+  #sg-nav-target {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.1s ease-out;
+  }
+  #sg-nav-target.active {
+    max-height: 80rem;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  #sg-nav-target.active {
+    overflow: visible;
+    max-height: 80rem;
+  }
+}
+@media all and (min-width: 768px) {
+  #sg-nav-target > li {
+    border-bottom: 0;
+    float: left;
+    position: relative;
+  }
+  #sg-nav-target > li > ul {
+    position: absolute;
+    top: 3.2rem;
+    left: 0;
+  }
+}
+
+/**
+ * Accordions are dropdowns used for the primary nav and tools dropdowns.
+ */
+.sg-acc-handle::after,
+#sg-f-toggle::after {
+  content: '▼';
+  color: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  font-size: 0.7rem;
+  position: relative;
+  top: 0;
+  right: -0.2rem;
+  transition: all 0.1s ease-out;
+}
+@media all and (min-width: 768px) {
+  .sg-acc-handle::after,
+  #sg-f-toggle::after {
+    float: none;
+  }
+}
+.sg-acc-handle:hover::after,
+.sg-acc-handle:focus::after,
+#sg-f-toggle:hover::after,
+#sg-f-toggle:focus::after {
+  color: #808080;
+}
+.sg-acc-handle.active,
+#sg-f-toggle.active {
+  color: #fff;
+  background: #222;
+}
+.sg-acc-handle.active::after,
+#sg-f-toggle.active::after {
+  top: -0.2rem;
+  color: #808080;
+  transform: rotate(180deg);
+}
+
+/**
+ * Accordion panel
+ */
+.sg-acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 16rem;
+  transition: max-height 0.1s ease-out;
+}
+.sg-acc-panel li {
+  background: #222;
+}
+.sg-acc-panel li:last-child {
+  border-bottom-left-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}
+.sg-acc-panel li:last-child a {
+  border-bottom-left-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}
+.sg-acc-panel a {
+  display: block;
+}
+.sg-acc-panel.active {
+  max-height: 190rem;
+}
+
+/**
+ * Third-level links are stylistically different than first and second nav links.
+ */
+.sg-item-nav a {
+  text-transform: none;
+  padding-left: 1.6rem;
+}
+
+/**
+ * Hide the scrape menu for file protocol.
+ */
+.protocol-file .sg-nav-scrape {
+  display: none;
+}

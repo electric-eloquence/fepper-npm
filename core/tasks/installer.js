@@ -16,11 +16,8 @@ module.exports = class {
     this.sourceDir = this.conf.ui.paths.source.root;
 
     // Spawn npm.cmd if Windows.
-    if (
-      this.conf.is_windows ||
-      // eslint-disable-next-line max-len
-      process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe' // Deprecated condition.
-    ) {
+    /* istanbul ignore if */
+    if (this.conf.is_windows) {
       this.binNpm = 'npm.cmd';
     }
     else {
@@ -40,6 +37,7 @@ module.exports = class {
     }
 
     // Run npm install in extend dir if no extend/node_modules dir.
+    /* istanbul ignore if */
     if (!fs.existsSync(`${this.extendDir}/node_modules`)) {
       process.chdir(this.extendDir);
       this.utils.log(`Working directory changed to ${path.resolve(this.extendDir)}.`);
@@ -47,6 +45,7 @@ module.exports = class {
     }
 
     // Run npm install in public dir if no public/node_modules dir.
+    /* istanbul ignore if */
     if (!fs.existsSync(`${this.publicDir}/node_modules`)) {
       process.chdir(this.publicDir);
       this.utils.log(`Working directory changed to ${path.resolve(this.publicDir)}.`);

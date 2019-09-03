@@ -2,7 +2,6 @@
  * This wrapper div occupies all remaining viewport space after the header.
  */
 #sg-vp-wrap {
-  text-align: center;
   width: 100%;
   position: fixed;
   top: 3.2rem;
@@ -28,16 +27,20 @@
  * This is the iframe container.
  */
 #sg-gen-container {
+  width: calc(100% + 14px); /* 14px also hard-coded below and in fepper-ui. Changes here must be made there. */
   height: 100%;
   position: relative;
-  text-align: center;
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
 }
+.mobile #sg-gen-container {
+  width: 100%;
+}
 
 /**
  * This is the actual iframe.
+ * It is IMPERATIVE to never give this padding, border, or margin.
  */
 #sg-viewport {
   position: absolute;
@@ -55,13 +58,17 @@
 
 /**
  * Container used for manual resizing.
+ * It is IMPERATIVE to never give this padding, border, or margin.
  */
 #sg-rightpull-container {
-  width: 1.4rem;
+  width: 14px; /* Also hard-coded in fepper-ui. Changes here must be made there. Not meant to be user-configured. */
   float: right;
   margin: 0;
   height: 100%;
   cursor: col-resize;
+}
+.mobile #sg-rightpull-container {
+  width: 0;
 }
 
 /**
