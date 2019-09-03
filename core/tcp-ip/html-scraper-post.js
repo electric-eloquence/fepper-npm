@@ -1,7 +1,5 @@
 'use strict';
 
-const path = require('path');
-
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const he = require('he');
