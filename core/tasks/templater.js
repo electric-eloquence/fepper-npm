@@ -38,39 +38,44 @@ module.exports = class {
       let codeSplit = code.split('{{');
 
       for (let i = 0; i < codeSplit.length; i++) {
+        const codeSplitChunk = codeSplit[i];
+        const codeSplitIdx = i;
+
         // Signal the OK to recurse by appending partial tags with the .mustache extension.
         // We do NOT want to recurse EVERY included partial because then the outputted file will not
         // contain any partials, which defeats the purpose of recursing templates in the first place.
         // eslint-disable-next-line no-useless-escape
-        if (/^>\s*[\w\-\.\/~]+\.mustache\s*\}\}/.test(codeSplit[i])) {
-          let partial = codeSplit[i].split('}}');
+        if (/^>\s*[\w\-\.\/~]+\.mustache\s*\}\}/.test(codeSplitChunk)) {
+          let partial = codeSplitChunk.split('}}');
           partial[0] = partial[0].replace(/^>\s*/, '').trim();
           let partialCode = this.mustacheRecurse(patternsDir + '/' + partial[0], patternsDir);
           code1 += partialCode;
 
           for (let j = 0; j < partial.length; j++) {
-            if (j > 0) {
-              code1 += partial[j];
+            const partialIdx = j;
 
-              if (j < partial.length - 1) {
+            if (partialIdx > 0) {
+              code1 += partial[partialIdx];
+
+              if (partialIdx < partial.length - 1) {
                 code1 += '}}';
               }
             }
           }
         }
         else {
-          if (i > 0) {
-            code1 += '{{' + codeSplit[i];
+          if (codeSplitIdx > 0) {
+            code1 += '{{' + codeSplitChunk;
           }
           else {
-            code1 += codeSplit[i];
+            code1 += codeSplitChunk;
           }
         }
       }
 
       return code1;
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -83,6 +88,7 @@ module.exports = class {
   }
 
   templateProcess(file, templatesDirDefault, templatesExtDefault) {
+    const patternExtension = this.conf.ui.patternExtension;
     let data = null;
     let mustacheFile;
     let srcDirParam = this.srcDir;
@@ -97,19 +103,16 @@ module.exports = class {
       return;
     }
 
-    if (path.extname(file) === '.yml') {
-      mustacheFile = file.replace(/\.yml$/, '.mustache');
-      ymlFile = file;
-    }
-    else if (path.extname(file) === '.mustache') {
+    if (path.extname(file) === patternExtension) {
+      const regex = new RegExp(patternExtension + '$');
       mustacheFile = file;
-      ymlFile = file.replace(/\.mustache$/, '.yml');
+      ymlFile = file.replace(regex, '.yml');
     }
 
     try {
       stat = fs.statSync(mustacheFile);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       // Only process templates that actually exist.
       return;
     }
@@ -122,6 +125,7 @@ module.exports = class {
     }
 
     // Return on stat fail. Exclude non-files.
+    /* istanbul ignore if */
     if (!stat || !stat.isFile()) {
       return;
     }
@@ -153,7 +157,7 @@ module.exports = class {
           delete data.templates_ext;
         }
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         // Fail gracefully.
         data = null;
       }
@@ -178,7 +182,7 @@ module.exports = class {
 
         this.utils.log('Template \x1b[36m%s\x1b[0m translated.', dest.replace(this.rootDir, '').replace(/^\//, ''));
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
       }
     }
@@ -210,6 +214,7 @@ module.exports = class {
         }
       },
       (err, file) => {
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
         }

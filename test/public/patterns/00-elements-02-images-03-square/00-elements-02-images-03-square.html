@@ -14,7 +14,7 @@
   <meta http-equiv="pragma" content="no-cache">
 
   <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/patternlab-pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
@@ -23,32 +23,30 @@
   <link rel="stylesheet" href="../../_styles/bld/style.css" media="all">
 </head>
 <body class="">
-<img src="" alt="">
+<img src="../../_assets/src/fpo_square.png" alt="Square Thumbnail">
 
 <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
-  {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"compounds-block-hoagie","lineagePath":"patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Square","patternPartial":"elements-square","patternState":""}
+  {"lineage":[],"lineageExists":false,"lineageR":[{"lineagePattern":"compounds-block-hoagie","lineagePath":"patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Square","patternPartial":"elements-square","patternState":"","portReloader":35729,"portServer":3000}
 </script>
 
 <script>
-  // Handle injection of items from Node.
-  window.lineage = [];
-  window.lineageR = [{"lineagePattern":"compounds-block-hoagie","lineagePath":"patterns/01-compounds-01-blocks-02-block-hoagie/01-compounds-01-blocks-02-block-hoagie.html","isHidden":false}];
-  window.patternPartial = 'elements-square';
-  window.patternState = '';
-  window.portReloader = '35729';
-  window.portServer = '3000';
+  // LiveReload.
+  const reloader = document.createElement('script');
+  const {protocol, hostname} = window.location;
+
+  if (window.portReloader && protocol !== 'file:') {
+    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    document.body.appendChild(reloader);
+  }
 </script>
 
-<script src="../../node_modules/fepper-ui/scripts/ui-functions.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/annotations-pattern.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/code-pattern.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/pattern-configurer.js"></script>
-<script src="../../node_modules/fepper-ui/scripts/patternlab-pattern.js"></script>
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
 
 
   <script src="../../_scripts/src/variables.styl" type="text/javascript"></script>
   <script src="../../_scripts/src/fepper-obj.js"></script>
+  <script src="../../node_modules/fepper-ui/scripts/ui/data.js"></script>
 </body>
 </html>

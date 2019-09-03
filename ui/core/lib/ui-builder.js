@@ -207,7 +207,7 @@ module.exports = class {
       this.viewallBuilder.buildViewallFooter('viewall', 'viewall');
     }
 
-    // Fully remove no longer needed data from patternTypes array so we don't write a huge patternlab-data.js file.
+    // Fully remove no longer needed data from patternTypes array so we don't write a huge ui/data.js file.
     for (let i = 0; i < this.patternlab.patternTypes.length; i++) {
       const patternType = this.patternlab.patternTypes[i];
 
@@ -255,17 +255,17 @@ module.exports = class {
 
     // Build the data into text output.
     let output = '';
-    output += 'window.config = ' + JSON.stringify(this.config) + ';\n';
-    output += 'window.ishControls = {"ishControlsHide":' + JSON.stringify(this.config.ishControlsHide) +
+    output += 'export const config = ' + JSON.stringify(this.config) + ';\n';
+    output += 'export const ishControls = {"ishControlsHide":' + JSON.stringify(this.config.ishControlsHide) +
       '};\n';
-    output += 'window.navItems = {"patternTypes": ' + JSON.stringify(this.patternlab.patternTypes) + '};\n';
-    output += 'window.patternPaths = ' + JSON.stringify(this.patternlab.patternPaths) + ';\n';
-    output += 'window.viewallPaths = ' + JSON.stringify(this.patternlab.viewallPaths) + ';\n';
+    output += 'export const navItems = {"patternTypes": ' + JSON.stringify(this.patternlab.patternTypes) + '};\n';
+    output += 'export const patternPaths = ' + JSON.stringify(this.patternlab.patternPaths) + ';\n';
+    output += 'export const viewallPaths = ' + JSON.stringify(this.patternlab.viewallPaths) + ';\n';
 
     // Re-add .paths to the config object.
     this.config.paths = configPaths;
 
     // Write the output.
-    fs.outputFileSync(`${this.public.styleguide}/data/patternlab-data.js`, output);
+    fs.outputFileSync(`${this.public.styleguide}/scripts/ui/data.js`, output);
   }
 };

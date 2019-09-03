@@ -106,16 +106,5 @@ module.exports = class {
     app.use(this.errorResponse.notFound());
 
     this.app = global.expressApp = app;
-
-    // Deprecated property. Will be removed.
-    this.expressApp = app;
-  }
-
-  /**
-   * @returns {object} The configured Express app.
-   * @deprecated will be removed.
-   */
-  main() {
-    return this.expressApp;
   }
 };

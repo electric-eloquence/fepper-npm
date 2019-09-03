@@ -32,9 +32,9 @@ module.exports = class {
 
   clean() {
     try {
-      fs.removeSync(this.pubDir.patterns);
+      fs.emptyDirSync(this.pubDir.patterns);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -47,7 +47,7 @@ module.exports = class {
     try {
       fs.copySync(this.srcDir.images, this.pubDir.images);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -56,7 +56,7 @@ module.exports = class {
     try {
       fs.copySync(this.srcDir.js, this.pubDir.js);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -66,7 +66,7 @@ module.exports = class {
       try {
         fs.copySync(this.srcDir.static, this.pubDir.static);
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
       }
     }
@@ -78,6 +78,7 @@ module.exports = class {
       this.srcDir.css,
       {recursive: false},
       (err, file) => {
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
         }
@@ -85,7 +86,7 @@ module.exports = class {
         try {
           fs.copySync(file, `${this.pubDir.css}/${path.basename(file)}`);
         }
-        catch (err1) {
+        catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);
         }
       }
@@ -109,6 +110,7 @@ module.exports = class {
         }
       },
       (err, file) => {
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
         }
@@ -116,13 +118,15 @@ module.exports = class {
         try {
           fs.copySync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
         }
-        catch (err1) {
+        catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);
         }
       }
     );
   }
 
+  // Making the distinction between copyStylesBld and copyStylesOther so LiveReload isn't triggered when a non-css file
+  // is modified.
   copyStylesOther() {
     fs.ensureDirSync(this.pubDir.cssBld);
     diveSync(
@@ -140,6 +144,7 @@ module.exports = class {
         }
       },
       (err, file) => {
+        /* istanbul ignore if */
         if (err) {
           this.utils.error(err);
         }
@@ -147,7 +152,7 @@ module.exports = class {
         try {
           fs.copySync(file, file.replace(this.srcDir.cssBld, this.pubDir.cssBld));
         }
-        catch (err1) {
+        catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);
         }
       }

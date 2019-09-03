@@ -58,6 +58,7 @@ module.exports = class {
           }
         },
         (err, file) => {
+          /* istanbul ignore if */
           if (err) {
             this.utils.error(err);
           }
@@ -93,7 +94,7 @@ module.exports = class {
               glob(fileAtLevel0);
             }
           }
-          catch (err) {
+          catch (err) /* istanbul ignore next */ {
             this.utils.error(err);
           }
         }
@@ -124,10 +125,11 @@ module.exports = class {
       const files = this.srcDirGlob(frontendType);
 
       for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         let stat;
 
         try {
-          stat = fs.statSync(files[i]);
+          stat = fs.statSync(file);
         }
         catch (err) {
           // Fail gracefully.
@@ -137,9 +139,9 @@ module.exports = class {
         if (
           !stat ||
           !stat.isFile() ||
-          path.basename(files[i]).slice(0, 2) === '__' ||
-          files[i].slice(-4) === '.yml' ||
-          path.basename(files[i]).replace(regexExt, '') === 'README'
+          path.basename(file).slice(0, 2) === '__' ||
+          file.slice(-4) === '.yml' ||
+          path.basename(file).replace(regexExt, '') === 'README'
         ) {
           continue;
         }
@@ -150,8 +152,8 @@ module.exports = class {
         let ymlFile;
 
         // Check for file-specific YAML file.
-        if (regexExt.test(files[i])) {
-          ymlFile = files[i].replace(regexExt, '.yml');
+        if (regexExt.test(file)) {
+          ymlFile = file.replace(regexExt, '.yml');
         }
 
         // Read and process YAML file if it exists.
@@ -173,7 +175,7 @@ module.exports = class {
               // Do not maintain nested directory structure in backend if
               // frontendDataKey is set in exceptional YAML file.
               if (targetDir) {
-                srcDir = path.dirname(files[i]);
+                srcDir = path.dirname(file);
               }
               else if (targetDirDefault) {
                 srcDir += `/${frontendDir}`;
@@ -202,25 +204,25 @@ module.exports = class {
           // Copy to targetDir.
           // If copying to default target, retain nested directory structure.
           if (targetDir === targetDirDefault) {
-            targetFilePath = targetDir + '/' + files[i].replace(`${srcDir}/`, '');
+            targetFilePath = targetDir + '/' + file.replace(`${srcDir}/`, '');
 
-            fs.copySync(files[i], targetFilePath);
+            fs.copySync(file, targetFilePath);
           }
           else {
-            targetFilePath = targetDir + '/' + path.basename(files[i]);
+            targetFilePath = targetDir + '/' + path.basename(file);
 
-            fs.copySync(files[i], targetFilePath);
+            fs.copySync(file, targetFilePath);
           }
 
           this.utils.log(
             'Copied \x1b[36m%s\x1b[0m to \x1b[36m%s\x1b[0m.',
-            files[i].replace(this.rootDir, '').replace(/^\//, ''),
+            file.replace(this.rootDir, '').replace(/^\//, ''),
             targetFilePath.replace(this.rootDir, '').replace(/^\//, '')
           );
         }
       }
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }

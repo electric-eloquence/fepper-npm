@@ -82,6 +82,7 @@ module.exports = class {
 
   preProcessPartials(fepletPartials) {
     for (let i in fepletPartials) {
+      /* istanbul ignore if */
       if (!fepletPartials.hasOwnProperty(i)) {
         continue;
       }
@@ -120,11 +121,6 @@ module.exports = class {
         }
       }
     }
-
-    // DEPRECATED.
-    if (this.patternlab.config.patternStates && this.patternlab.config.patternStates[pattern.patternPartial]) {
-      pattern.patternState = this.patternlab.config.patternStates[pattern.patternPartial];
-    }
   }
 
   // PUBLIC METHODS
@@ -161,7 +157,7 @@ module.exports = class {
             this.utils.log('Found pattern-specific JSON data for ' + pattern.patternPartial);
           }
         }
-        catch (err) {
+        catch (err) /* istanbul ignore next */ {
           this.utils.error('There was an error parsing pattern-specific JSON for ' + pattern.relPath);
           this.utils.error(err);
         }
@@ -197,6 +193,7 @@ module.exports = class {
 
     // Can ignore all non-supported files at this point.
     else {
+      /* istanbul ignore next */
       return pattern;
     }
 
@@ -219,7 +216,7 @@ module.exports = class {
         this.patternlab.listItemsBuilder.listItemsBuild(pattern);
         this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.patternlab.data.listItems);
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
           pattern.relPath);
         this.utils.error(err);
@@ -261,6 +258,7 @@ module.exports = class {
     } = this.patternlab;
 
     for (let partialName in partials) {
+      /* istanbul ignore if */
       if (!partials.hasOwnProperty(partialName)) {
         continue;
       }
@@ -278,6 +276,7 @@ module.exports = class {
         for (let i = 0, l = patterns.length; i < l; i++) {
           let nonParamPartialName;
 
+          /* istanbul ignore else */
           if (partialName.indexOf(patterns[i].patternPartialPhp) === 0) {
             nonParamPartialName = patterns[i].patternPartialPhp;
           }
@@ -337,6 +336,7 @@ module.exports = class {
   }
 
   processPattern(pattern) {
+    /* istanbul ignore if */
     if (pattern.isFrontMatter) {
       return;
     }
@@ -423,20 +423,17 @@ module.exports = class {
       patternExtension: pattern.fileExtension,
       patternName: pattern.patternName,
       patternPartial: pattern.patternPartial,
-      patternState: pattern.patternState
+      patternState: pattern.patternState,
+      portReloader: this.patternlab.portReloader,
+      portServer: this.patternlab.portServer
     });
 
     // Set the pattern-specific footer by compiling the general-footer with data, and then adding it to userFoot.
     const footerPartial = Feplet.render(this.patternlab.footer, {
       cacheBuster: this.patternlab.cacheBuster,
       isPattern: pattern.isPattern,
-      lineage: JSON.stringify(lineage),
-      lineageR: JSON.stringify(lineageR),
       patternData: pattern.allData.patternData,
-      patternPartial: pattern.patternPartial,
-      patternState: pattern.patternState,
-      portReloader: this.patternlab.portReloader,
-      portServer: this.patternlab.portServer
+      portReloader: this.patternlab.portReloader
     });
 
     // Build footer.
@@ -455,6 +452,7 @@ module.exports = class {
   }
 
   writePattern(pattern) {
+    /* istanbul ignore if */
     if (pattern.isFrontMatter) {
       return;
     }
@@ -481,6 +479,7 @@ module.exports = class {
   freePattern(pattern) {
     // Will free significant memory if processing many templates.
     for (let key in pattern) {
+      /* istanbul ignore if */
       if (!pattern.hasOwnProperty(key)) {
         continue;
       }

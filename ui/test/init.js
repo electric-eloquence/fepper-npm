@@ -2,13 +2,16 @@
 
 const fs = require('fs');
 
+const JSON5 = require('json5');
 const slash = require('slash');
 const yaml = require('js-yaml');
 
 module.exports = () => {
   try {
-    const yml = fs.readFileSync(`${slash(__dirname)}/conf.yml`, 'utf8');
-    global.conf = yaml.safeLoad(yml);
+    if (!global.conf) {
+      const yml = fs.readFileSync(`${slash(__dirname)}/conf.yml`, 'utf8');
+      global.conf = yaml.safeLoad(yml);
+    }
   }
   catch (err) {
     // eslint-disable-next-line no-console
@@ -17,7 +20,8 @@ module.exports = () => {
     return;
   }
 
-  const config = require('./patternlab-config.json');
+  const configStr = fs.readFileSync(`${__dirname}/patternlab-config.json`, global.conf.enc);
+  const config = JSON5.parse(configStr);
   const patternlab = new (require('../core/lib/patternlab'))(config, slash(__dirname));
 
   const dataDir = patternlab.config.paths.source.data;

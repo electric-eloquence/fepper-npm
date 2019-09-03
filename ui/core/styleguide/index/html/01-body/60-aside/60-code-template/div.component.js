@@ -1,6 +1,9 @@
 module.exports = {
   className: 'sg-view-container',
   id: 'sg-code-container',
+  style: {
+    bottom: 'auto'
+  },
   dangerouslySetInnerHTML: {
     __html: `
 <div id="sg-code-close" class="sg-view-close">
@@ -27,7 +30,7 @@ module.exports = {
     <li id="sg-code-title-mustache" class="sg-code-title sg-code-title-active">Mustache</li>
   </ul>
   <div class="sg-language-markup-container">
-    <pre><code id="sg-code-fill"></code></pre>
+    <pre><code id="sg-code-fill" class="language-markup"></code></pre>
   </div>
 </div>
 `

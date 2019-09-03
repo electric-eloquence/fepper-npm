@@ -3,8 +3,11 @@
 *~
 .*.swp
 .DS_Store
+.coveralls.yml
+.nyc_output/
 /ui/test/pattern_exports/
 /ui/test/public/
+/ui/test/public-alt/
 ignore/
 node_modules/
 !/test/public/node_modules/

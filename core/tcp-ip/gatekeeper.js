@@ -51,6 +51,7 @@ module.exports = class {
 
   respond() {
     return (req, res) => {
+      /* istanbul ignore else */
       if (this.gatekeep(req)) {
         res.send(req.cookies.fepper_ts);
       }

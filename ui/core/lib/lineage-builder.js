@@ -12,6 +12,7 @@ module.exports = class {
     // First, perform a check for partials with parameters.
     // We need to make sure partial !== matchCandidate so we only submit the non-param partial.
     for (let i in this.patternlab.partials) {
+      /* istanbul ignore if */
       if (!this.patternlab.partials.hasOwnProperty(i)) {
         continue;
       }
@@ -25,6 +26,7 @@ module.exports = class {
 
     // Then, look for exact matches.
     for (let i in this.patternlab.partials) {
+      /* istanbul ignore if */
       if (!this.patternlab.partials.hasOwnProperty(i)) {
         continue;
       }
@@ -36,6 +38,7 @@ module.exports = class {
       }
     }
 
+    // istanbul ignore next */
     return null;
   }
 
@@ -71,6 +74,7 @@ module.exports = class {
       const descendentPatternName = this.matchPattern(partialsArr[i]);
 
       // Skip if no descendentPatternName.
+      /* istanbul ignore if */
       if (!descendentPatternName) {
         continue;
       }
@@ -78,6 +82,7 @@ module.exports = class {
       const descendentPattern = this.patternlab.getPattern(descendentPatternName);
 
       // Skip if no descendentPattern.
+      /* istanbul ignore if */
       if (!descendentPattern) {
         this.utils.error('`' + pattern.relPath + '` is missing pattern `' + descendentPatternName + '`');
 
@@ -106,6 +111,7 @@ module.exports = class {
       pattern.lineage.push(l);
 
       // Only add to lineageRIndex if it hadn't been indexed before.
+      /* istanbul ignore if */
       if (descendentPattern.lineageRIndex.indexOf(pattern.patternPartial) > -1) {
         continue;
       }

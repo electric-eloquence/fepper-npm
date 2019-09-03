@@ -20,20 +20,31 @@ patternlab.patternBuilder.processPattern(basePattern);
 patternlab.patternBuilder.processPattern(altPattern);
 
 describe('Pseudo-Pattern Hunter', function () {
-  it('should identify pseudo-patterns', function () {
+  it('identifies pseudo-patterns', function () {
     expect(basePattern.isPseudoPattern).to.be.false;
     expect(altPattern.isPseudoPattern).to.be.true;
   });
 
-  it('should copy base pattern templates to their pseudo-patterns', function () {
+  it('copies base pattern templates to their pseudo-patterns', function () {
     expect(altPattern.template).to.equal(basePattern.template);
   });
 
-  it('should identify pseudo-pattern data', function () {
+  it('identifies pseudo-pattern data', function () {
     expect(altPattern.jsonFileData.message).to.equal('alternateMessage');
   });
 
-  it('should render the base pattern and pseudo-pattern each with their own data', function () {
+  it('renders the base pattern and pseudo-pattern each with their own data', function () {
+    expect(basePattern.extendedTemplate).to.equal('<span class="test_base ">\n    \n    atomic\n</span>\n');
+    expect(altPattern.extendedTemplate).to.equal('<span class="test_base ">\n    alternateMessage\n    atomic\n</span>\n');
+    expect(altPattern.extendedTemplate).to.not.equal(basePattern.extendedTemplate);
+  });
+
+  it('renders the base pattern without own data and pseudo-pattern with own data', function () {
+    delete basePattern.jsonFileData;
+
+    patternlab.patternBuilder.processPattern(basePattern);
+    patternlab.patternBuilder.processPattern(altPattern);
+
     expect(basePattern.extendedTemplate).to.equal('<span class="test_base ">\n    \n    \n</span>\n');
     expect(altPattern.extendedTemplate).to.equal('<span class="test_base ">\n    alternateMessage\n    \n</span>\n');
     expect(altPattern.extendedTemplate).to.not.equal(basePattern.extendedTemplate);

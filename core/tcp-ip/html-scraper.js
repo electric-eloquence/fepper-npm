@@ -13,7 +13,7 @@ module.exports = class {
     this.gatekeeper = gatekeeper;
   }
 
-  cors() {
+  cors() /* istanbul ignore next */ {
     return (req, res) => {
       if (!this.gatekeeper.gatekeep(req)) {
         this.gatekeeper.render(req, res);
@@ -39,6 +39,7 @@ module.exports = class {
 
   xhr() {
     return (req, res) => {
+      /* istanbul ignore if */
       if (!this.gatekeeper.gatekeep(req)) {
         this.gatekeeper.render()(req, res);
 
@@ -65,12 +66,12 @@ module.exports = class {
         }
       }
 
-      let outputFpt = '<!DOCTYPE html>\n';
+      let outputFpt = '\n<!DOCTYPE html>\n';
       outputFpt += '<html>\n';
       outputFpt += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
       outputFpt += this.html.scraperTitle;
       outputFpt += this.html.landingBody;
-      outputFpt += '</html>\n';
+      outputFpt += '</html>';
 
       const output = Feplet.render(
         outputFpt,
@@ -88,11 +89,11 @@ module.exports = class {
 
   main() {
     return (req, res) => {
-      // Gatekept by fepper-ui/scripts/html-scraper-ajax.js.
+      // Gatekept by fepper-ui/scripts/pattern/html-scraper-ajax.js.
 
       let outputFpt = this.html.headWithMsg;
       outputFpt += this.html.scraperTitle;
-      outputFpt += '<script src="node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>\n';
+      outputFpt += '<script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>\n';
       outputFpt += this.html.foot;
 
       const output = Feplet.render(

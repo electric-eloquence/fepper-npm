@@ -35,12 +35,12 @@ module.exports = class {
     this.utils = options.utils;
 
     // Set some defaults for possibly non-existent nested request properties.
-    this.filename = (this.req && this.req.body && this.req.body.filename) || '';
-    this.html2json = (this.req && this.req.body && this.req.body.html2json) || '';
-    this.json = (this.req && this.req.body && this.req.body.json) || '';
-    this.mustache = (this.req && this.req.body && this.req.body.mustache) || '';
-    this.selector = (this.req && this.req.body && this.req.body.selector) || '';
-    this.url = (this.req && this.req.body && this.req.body.url) || '';
+    this.filename = this.utils.deepGet(this, 'req.body.filename') || '';
+    this.html2json = this.utils.deepGet(this, 'req.body.html2json') || '';
+    this.json = this.utils.deepGet(this, 'req.body.json') || '';
+    this.mustache = this.utils.deepGet(this, 'req.body.mustache') || '';
+    this.selector = this.utils.deepGet(this, 'req.body.selector') || '';
+    this.url = this.utils.deepGet(this, 'req.body.url') || '';
   }
 
   /**
@@ -82,6 +82,7 @@ module.exports = class {
   elementSelect(selector_, html2jsonObj, persistentObj_ = null, level = 0) {
     // Validate 1st param.
     // Validate 2nd param.
+    /* istanbul ignore if */
     if (!html2jsonObj || html2jsonObj.constructor !== Object || !Array.isArray(html2jsonObj.child)) {
       return null;
     }
@@ -89,6 +90,7 @@ module.exports = class {
     const persistentObj = persistentObj_ || new HtmlObj();
     let selectorObj;
 
+    /* istanbul ignore else */
     if (typeof selector_ === 'string') {
       selectorObj = this.elementParse(selector_);
     }
@@ -106,6 +108,7 @@ module.exports = class {
     for (let i = 0; i < html2jsonObj.child.length; i++) {
       let child = html2jsonObj.child[i];
 
+      /* istanbul ignore if */
       if (!child || child.constructor !== Object) {
         continue;
       }
@@ -159,6 +162,38 @@ module.exports = class {
    * @param {string} fileJson - JSON file's content.
    */
   filesWrite(scrapeDir, filename, fileMustache, fileJson) {
+    const scrapeFiles = fs.readdirSync(scrapeDir);
+    const timeNow = Date.now();
+
+    // To limit possible attack, limit posts to 1 per 30 seconds.
+    // Check this by getting stat for last written file.
+    for (let i = 0, l = scrapeFiles.length; i < l; i++) {
+      const scrapeFile = `${scrapeDir}/${scrapeFiles[i]}`;
+
+      if (scrapeFiles[i] === this.conf.scrape.scraper_file) {
+        continue;
+      }
+
+      let scrapeFileStat;
+
+      try {
+        scrapeFileStat = fs.statSync(scrapeFile);
+      }
+      catch (err) /* istanbul ignore next */ {
+        continue;
+      }
+
+      const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
+      const scrapeFileAge = timeNow - scrapeFileBirthtime;
+
+      // this.conf.scrape.limit_time set in fepper-utils.
+      if (scrapeFileAge < this.conf.scrape.limit_time) {
+        this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
+
+        return;
+      }
+    }
+
     try {
       fs.outputFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
       fs.outputFileSync(scrapeDir + '/' + filename + '.json', fileJson);
@@ -167,7 +202,7 @@ module.exports = class {
 
       this.redirectWithMsg('success', msg, '', '');
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -188,6 +223,8 @@ module.exports = class {
 
     let msgPrefix = '';
 
+    // .htmlOutput() is only invoked in one place with the msgClass param. Test cannot seem to be easily trigger this
+    // condition. Do not have istanbul ignore this since this condition might still be testable.
     if (msgClass) {
       msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
     }
@@ -204,7 +241,7 @@ module.exports = class {
     // Escape double-quotes.
     outputFpt += dataStr.replace(/&quot;/g, '&bsol;&quot;');
     outputFpt += this.html.importerSuffix;
-    outputFpt += '<script src="/node_modules/fepper-ui/scripts/html-scraper-ajax.js"></script>';
+    outputFpt += '<script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>';
     outputFpt += this.html.foot;
 
     const output = Feplet.render(
@@ -253,7 +290,7 @@ module.exports = class {
     try {
       jsonForMustache = html2json('<body>' + targetHtml + '</body>');
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       // Can work with null jsonForMustache.
       this.utils.warn(err);
     }
@@ -291,10 +328,12 @@ module.exports = class {
 
     if (Array.isArray(jsonForMustache.child)) {
       for (let i = 0; i < jsonForMustache.child.length; i++) {
+        const jsonForMustacheChild = jsonForMustache.child[i];
+
         if (
-          jsonForMustache.child[i].node === 'text' &&
-          typeof jsonForMustache.child[i].text === 'string' &&
-          jsonForMustache.child[i].text.trim()
+          jsonForMustacheChild.node === 'text' &&
+          typeof jsonForMustacheChild.text === 'string' &&
+          jsonForMustacheChild.text.trim()
         ) {
           let underscored = '';
 
@@ -313,16 +352,22 @@ module.exports = class {
 
           if (underscored) {
             underscored = underscored.replace(/-/g, '_').replace(/ /g, '_').replace(/[^\w]/g, '');
+
             // Add incrementing suffix to dedupe items of the same class or tag.
             for (let j = dataKeys[inc].length - 1; j >= 0; j--) {
+              const dataKey = dataKeys[inc][j];
+
               // Check dataKeys for similarly named items.
-              if (dataKeys[inc][j].indexOf(underscored) === 0) {
-                let suffixInt = 0;
+              if (dataKey.indexOf(underscored) === 0) {
+
                 // Slice off the suffix of the last match.
-                let suffix = dataKeys[inc][j].slice(underscored.length);
+                let suffix = dataKey.slice(underscored.length);
+                let suffixInt = 0;
+
                 if (suffix) {
                   // Increment that suffix and append to the new key.
                   let suffixSlice = suffix.slice(1);
+
                   if (/^\d+$/.test(suffixSlice)) {
                     suffixInt = parseInt(suffixSlice, 10);
                     ++suffixInt;
@@ -340,23 +385,24 @@ module.exports = class {
                 }
               }
             }
+
             let tmpObj = {};
-            tmpObj[underscored] = jsonForMustache.child[i].text.trim();
+            tmpObj[underscored] = jsonForMustacheChild.text.trim();
             dataKeys[inc].push(underscored);
             jsonForData.scrape[inc][underscored] = tmpObj[underscored].replace(/"/g, '\\"');
-            jsonForMustache.child[i].text = '{{ ' + underscored + ' }}';
+            jsonForMustacheChild.text = '{{ ' + underscored + ' }}';
           }
         }
         else if (
-          jsonForMustache.child[i].node === 'comment' &&
-          jsonForMustache.child[i].text.indexOf(' BEGIN ARRAY ELEMENT ') === 0
+          jsonForMustacheChild.node === 'comment' &&
+          jsonForMustacheChild.text.indexOf(' BEGIN ARRAY ELEMENT ') === 0
         ) {
           inc++;
           jsonForData.scrape[inc] = {};
           dataKeys.push([]);
         }
         else {
-          this.jsonRecurse(jsonForMustache.child[i], jsonForData, dataKeys, inc);
+          this.jsonRecurse(jsonForMustacheChild, jsonForData, dataKeys, inc);
         }
       }
     }
@@ -373,7 +419,7 @@ module.exports = class {
     try {
       mustache = json2html(jsonForMustache);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
 
@@ -465,6 +511,7 @@ module.exports = class {
       jsonForMustache = this.htmlToJsons(targetSingle).jsonForMustache;
 
       // Finish conversion to Mustache.
+      /* istanbul ignore else */
       if (jsonForMustache) {
         mustache = this.jsonToMustache(jsonForMustache, jsonForData);
       }
@@ -479,7 +526,7 @@ module.exports = class {
 
       this.res.send(output);
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
     }
   }
@@ -501,39 +548,27 @@ module.exports = class {
 
     // Slice selectorRaw to extract name and indexStr if submitted.
     if (bracketOpenPos > -1) {
+      // This should already be validated by the .main() method and client-side, in fepper-ui.
+      // Here for due diligence.
+      /* istanbul ignore else */
       if (bracketClosePos === selectorRaw.length - 1) {
         indexStr = selectorRaw.slice(bracketOpenPos + 1, bracketClosePos);
         name = selectorRaw.slice(0, bracketOpenPos);
       }
       else {
-        if (this.req) {
-          this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
-        }
-
         name = '';
       }
     }
 
-    // Validate that name is a css selector.
-    // eslint-disable-next-line no-useless-escape
-    if (!/^(#|\.)?[a-z][\w#\-\.]*$/i.test(name)) {
-      if (this.req) {
-        this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
-      }
-
-      name = '';
-    }
-
     // If indexStr if submitted, validate it is an integer.
     if (indexStr) {
+      // This should already be validated by the .main() method and client-side, in fepper-ui.
+      // Here for due diligence.
+      /* istanbul ignore else */
       if (/^\d+$/.test(indexStr)) {
         index = parseInt(indexStr, 10);
       }
       else {
-        if (this.req) {
-          this.redirectWithMsg('error', 'Please enter correctly syntaxed selector.');
-        }
-
         name = '';
       }
     }
@@ -586,6 +621,7 @@ module.exports = class {
    * Main.
    */
   main() {
+    /* istanbul ignore if */
     if (!this.gatekeeper.gatekeep(this.req)) {
       this.gatekeeper.render(this.req, this.res);
 
@@ -593,8 +629,8 @@ module.exports = class {
     }
 
     // HTML importer action on submission of filename.
-    // Put this conditional block single to enable resetting of form.
-    if (this.filename !== '') {
+    // This condition needs to be first since it will be submitted with the other fields populated.
+    if (this.filename) {
 
       // Limit filename characters.
       let filename;
@@ -610,48 +646,9 @@ module.exports = class {
 
       const fileMustache = this.newlineFormat(this.mustache);
       const fileJson = this.newlineFormat(this.json);
+      const scrapeDir = this.conf.ui.paths.source.scrape;
 
-      try {
-        const scrapeDir = this.conf.ui.paths.source.scrape;
-        const scrapeFiles = fs.readdirSync(scrapeDir);
-        const timeNow = Date.now();
-
-        // To limit possible attack, limit posts to 2 per minute.
-        // Check this by getting stat for last written file.
-        for (let i = 0, l = scrapeFiles.length; i < l; i++) {
-          const scrapeFile = scrapeFiles[i];
-          const scrapeFileName = path.basename(scrapeFile);
-
-          if (scrapeFileName === this.conf.scrape.scraper_file) {
-            continue;
-          }
-
-          let scrapeFileStat;
-
-          try {
-            scrapeFileStat = fs.statSync(scrapeFile);
-          }
-          catch (err) {
-            continue;
-          }
-
-          const scrapeFileBirthtime = scrapeFileStat.birthtimeMs;
-          const scrapeFileAge = timeNow - scrapeFileBirthtime;
-
-          if (scrapeFileAge < this.conf.scrape.limit_time) {
-            this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
-
-            return;
-          }
-        }
-
-        this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
-      }
-      catch (err) {
-        this.redirectWithMsg('error', err.toString());
-
-        return;
-      }
+      this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
     }
 
     // HTML scraper action on submission of URL.
@@ -666,7 +663,7 @@ module.exports = class {
       try {
         html2jsonObj = JSON.parse(this.html2json);
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
 
         message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ' +
@@ -677,6 +674,7 @@ module.exports = class {
         return;
       }
 
+      /* istanbul ignore if */
       if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
         message = 'The HTML at that URL and selector could not be parsed. Make sure that they are reachable and ' +
           'syntactically correct.';
@@ -698,7 +696,7 @@ module.exports = class {
 
         return;
       }
-      catch (err) {
+      catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
       }
     }

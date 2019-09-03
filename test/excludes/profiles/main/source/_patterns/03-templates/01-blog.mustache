@@ -1,0 +1,17 @@
+<div class="page" id="blog">
+  {{> 02-components/01-sections/03-header }}
+  <div role="main">
+    <h1 class="section-title">Our Outdoor Blog</h1>
+    <div class="l-two-col">
+      <div class="l-main">
+        {{> 02-components/01-sections/02-latest-posts }}
+        {{> 02-components/03-navigation/01-pagination }}
+      </div><!--end l-main-->
+
+      <div class="l-sidebar">
+        {{> 02-components/01-sections/00-recent-comments }}
+      </div><!--end l-sidebar-->
+    </div><!--end two-col-->
+  </div><!--End role=main-->
+  {{> 01-compounds/00-text/01-footer }}
+</div>

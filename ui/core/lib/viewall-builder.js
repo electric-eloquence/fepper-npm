@@ -30,7 +30,7 @@ module.exports = class {
       `${this.pathsPublic.patterns}/${pattern.name}/${pattern.name}.html`;
   }
 
-  buildViewallTypeHead(patternType, patternSubType) {
+  buildViewallTypeHead(patternType) {
     const viewallTypeHead = Feplet.render(
       this.viewallTemplateBody,
       patternType,
@@ -41,10 +41,6 @@ module.exports = class {
 
     this.viewallPatterns.viewall.content += viewallTypeHead;
     this.viewallPatterns[patternType.flatPatternPath].content += viewallTypeHead;
-
-    if (patternSubType) {
-      this.viewallPatterns[patternSubType.flatPatternPath].content += viewallTypeHead;
-    }
   }
 
   buildViewallTypeBody(patternTypeItem, patternType) {
@@ -89,6 +85,7 @@ module.exports = class {
   }
 
   buildViewallFooter(patternPartial, name) {
+    /* istanbul ignore if */
     if (!Object.keys(this.viewallPatterns).length) {
       return;
     }
@@ -116,12 +113,15 @@ module.exports = class {
   }
 
   preParseViewallMarkup() {
+    // eslint-disable-next-line no-useless-escape
     const viewallSplit = this.viewallTemplateFull.split(/\{\{[#\/]\s*partials\s*\}\}/);
 
     if (viewallSplit.length < 3) {
+      /* istanbul ignore next */
       this.utils.error('The "partials" list in viewall.mustache must have valid opening and closing tags!');
     }
     else if (viewallSplit.length > 3) {
+      /* istanbul ignore next */
       this.utils.error('There can be only one "partials" list in viewall.mustache!');
     }
     else {
@@ -330,7 +330,7 @@ module.exports = class {
         );
       }
     }
-    catch (err) {
+    catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing an essential file from ' + viewallCoreDir);
       this.utils.error(err);
     }

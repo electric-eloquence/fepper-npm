@@ -6,10 +6,10 @@
  * @see {@link https://patternlab.io/docs/pattern-adding-annotations.html}
  *
  * JS annotation pain points:
- *   - Earlier versions of Pattern Lab for Node used true JavaScript code beginning with "var comments ="
- *   - Trying to parse such user-created non-strict JavaScript is asking for trouble
- *   - The documentation page shows pure JSON
- *   - The documentation page does not explain how to make multiple annotations
+ *   - Earlier versions of Pattern Lab for Node used true JavaScript code beginning with "var comments =".
+ *   - Trying to parse such user-created non-strict JavaScript is asking for trouble.
+ *   - The documentation page shows pure JSON.
+ *   - The documentation page does not explain how to make multiple annotations.
  */
 'use strict';
 
@@ -85,6 +85,9 @@ exports.main = (fileContent) => {
     }
 
     if (frontMatterObj.content) {
+      // Usually, an absence of Front Matter data will result in frontMatterObj.data being an empty object.
+      // Keeping the else clause just in case.
+      /* istanbul ignore else */
       if (frontMatterData) {
         frontMatterData.annotation = marked(frontMatterObj.content);
       }
