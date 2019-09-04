@@ -19,14 +19,6 @@ const scriptsTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.scripts_
 const stylesBldDir = conf.ui.paths.source.cssBld;
 const stylesTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.styles_dir);
 
-// fepper.ui.patternlab.emptyFilesNotDirs is DEPRECATED.
-// After deprecation period, permanently change conditionalObj to utils.
-let conditionalObj = fepper.ui.patternlab;
-
-if (typeof utils.emptyFilesNotDirs === 'function') {
-  conditionalObj = utils;
-}
-
 describe('Frontend Copier', function () {
   let assetExistsBefore;
   let scriptExistsBefore;
@@ -39,9 +31,9 @@ describe('Frontend Copier', function () {
 
   before(function () {
     // Clear out target dirs before main execution.
-    conditionalObj.emptyFilesNotDirs(assetsTargetDir);
-    conditionalObj.emptyFilesNotDirs(scriptsTargetDir);
-    conditionalObj.emptyFilesNotDirs(stylesTargetDir);
+    utils.rmRfFilesNotDirs(assetsTargetDir);
+    utils.rmRfFilesNotDirs(scriptsTargetDir);
+    utils.rmRfFilesNotDirs(stylesTargetDir);
 
     assetExistsBefore = fs.existsSync(`${assetsTargetDir}/logo.png`);
     scriptExistsBefore = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);

@@ -88,7 +88,7 @@ module.exports = class {
     return jsonData;
   }
 
-  // DEPRECATED. Moved to fepper-utils.
+  // DEPRECATED. Renamed and moved to fepper-utils.
   emptyFilesNotDirs(publicDir) /* istanbul ignore next */ {
     if (!fs.existsSync(publicDir)) {
       return;
@@ -112,6 +112,11 @@ module.exports = class {
         }
       }
     );
+  }
+
+  // DEPRECATED. Moved to fepper-utils.
+  rmRfFilesNotDirs(dirToEmpty) /* istanbul ignore next */ {
+    this.emptyFilesNotDirs(dirToEmpty);
   }
 
   preProcessAllPatterns(patternsDir) {
@@ -236,19 +241,19 @@ module.exports = class {
 
     // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
     if (this.config.cleanPublic) {
-      // this.emptyFilesNotDirs is DEPRECATED.
+      // this.rmRfFilesNotDirs is DEPRECATED.
       // After deprecation period, permanently change conditionalObj to this.utils.
       let conditionalObj = this;
 
       /* istanbul ignore if */
-      if (typeof this.utils.emptyFilesNotDirs === 'function') {
+      if (typeof this.utils.rmRfFilesNotDirs === 'function') {
         conditionalObj = this.utils;
       }
 
-      conditionalObj.emptyFilesNotDirs(this.config.paths.public.annotations);
-      conditionalObj.emptyFilesNotDirs(this.config.paths.public.images);
-      conditionalObj.emptyFilesNotDirs(this.config.paths.public.js);
-      conditionalObj.emptyFilesNotDirs(this.config.paths.public.css);
+      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.annotations);
+      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.images);
+      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.js);
+      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.css);
 
       fs.emptyDirSync(this.config.paths.public.patterns);
     }
