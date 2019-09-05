@@ -102,7 +102,7 @@ describe('UI', function () {
       expect(imagesPublicContentsBefore).to.be.empty;
 
       expect(imagesPublicContentsAfter).to.equal('_nosync,logo.png');
-      expect(imagesPublicContentsAfter1).to.include('nosync.png');
+      expect(imagesPublicContentsAfter1).to.equal('nosync.png');
     });
   });
 
