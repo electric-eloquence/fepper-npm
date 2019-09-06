@@ -1,0 +1,8 @@
+<section class="section recent-comments">
+  <h2 class="section-title">Recent Comments</h2>
+  <ul class="headline-list">
+    {{# recent_comments }}
+      <li><a href="#">{{ comment }}</a>{{> elements-time }}</li>
+    {{/ recent_comments }}
+  </ul>
+</section>
