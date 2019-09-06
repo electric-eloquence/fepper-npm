@@ -7,11 +7,12 @@
 
 <h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
 
-[![Known Vulnerabilities](https://snyk.io/test/github/electric-eloquence/fepper-npm/badge.svg)](https://snyk.io/test/github/electric-eloquence/fepper-npm)
-[![Mac/Linux Build Status](https://img.shields.io/travis/electric-eloquence/fepper-npm.svg?label=mac%20%26%20linux)](https://travis-ci.org/electric-eloquence/fepper-npm)
-[![Windows Build Status](https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm.svg?label=windows)](https://ci.appveyor.com/project/e2tha-e/fepper-npm)
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![Mac/Linux Build Status][travis-image]][travis-url]
+[![Windows Build Status][appveyor-image]][appveyor-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
 ![Node Version](https://img.shields.io/node/v/fepper.svg)
-[![License](https://img.shields.io/github/license/electric-eloquence/fepper-npm.svg)](https://raw.githubusercontent.com/electric-eloquence/fepper-npm/release/LICENSE)
+[![License][license-image]][license-url]
 
 ### This is the npm that powers these Fepper prototypers:
 
@@ -167,3 +168,18 @@ There is currently no public API for object-oriented Fepper. To express demand
 for one, 
 <a href="https://github.com/electric-eloquence/fepper/issues" target="_blank">
 please open an issue</a>.
+
+[snyk-image]: https://snyk.io//test/github/electric-eloquence/fepper-npm/master/badge.svg
+[snyk-url]: https://snyk.io//test/github/electric-eloquence/fepper-npm/master
+
+[travis-image]: https://img.shields.io/travis/electric-eloquence/fepper-npm.svg?label=mac%20%26%20linux
+[travis-url]: https://travis-ci.org/electric-eloquence/fepper-npm
+
+[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/e2tha-e/fepper-npm
+
+[coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fepper-npm/master.svg
+[coveralls-url]: https://coveralls.io/r/electric-eloquence/fepper-npm
+
+[license-image]: https://img.shields.io/github/license/electric-eloquence/fepper-npm.svg
+[license-url]: https://raw.githubusercontent.com/electric-eloquence/fepper-npm/master/LICENSE
