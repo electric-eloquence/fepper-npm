@@ -87,6 +87,13 @@ describe('HTML Scraper Post', function () {
     scrapeLimitTimeOrig = conf.scrape.limit_time;
   });
 
+  after(function () {
+    fs.removeSync(scrapeFile0Json);
+    fs.removeSync(scrapeFile0Mustache);
+    fs.removeSync(scrapeFile1Json);
+    fs.removeSync(scrapeFile1Mustache);
+  });
+
   describe('.selectorValidate()', function () {
     const req = {body: {target: '', url: ''}};
 
