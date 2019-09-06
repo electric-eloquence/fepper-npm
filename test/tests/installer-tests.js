@@ -13,7 +13,6 @@ describe('Installer', function () {
   let sourceDirExistsBefore;
 
   before(function () {
-    installer.appDir = global.rootDir;
     installer.sourceDir = installer.sourceDir + '-installer-test';
   });
 
@@ -26,6 +25,8 @@ describe('Installer', function () {
   });
 
   it('.copy() copies main profile source and extend dirs', function () {
+    installer.appDir = `${global.rootDir}/root-installer-test`;
+
     installer.copy();
 
     const extendDirContentsAfter = fs.readdirSync(installer.extendDir).toString();
@@ -43,6 +44,8 @@ describe('Installer', function () {
   });
 
   it('.copyBase() copies base profile source and extend dirs', function () {
+    installer.appDir = global.rootDir;
+
     installer.copyBase();
 
     const extendDirContentsAfter = fs.readdirSync(installer.extendDir).toString();
