@@ -1,7 +1,7 @@
 'use strict';
 
 const {expect} = require('chai');
-const Feplet = require('Feplet');
+const Feplet = require('feplet');
 const fs = require('fs-extra');
 
 const {
