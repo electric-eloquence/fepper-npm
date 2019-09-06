@@ -96,13 +96,15 @@ describe('UI', function () {
     });
 
     it('copies the _assets directory', function () {
-      const imagesPublicContentsAfter = fs.readdirSync(imagesPublic).toString();
-      const imagesPublicContentsAfter1 = fs.readdirSync(`${imagesPublic}/_nosync`).toString();
+      const imagesPublicContentsAfter = fs.readdirSync(imagesPublic);
+      const imagesPublicContentsAfter1 = fs.readdirSync(`${imagesPublic}/_nosync`);
 
       expect(imagesPublicContentsBefore).to.be.empty;
 
-      expect(imagesPublicContentsAfter).to.equal('_nosync,logo.png');
-      expect(imagesPublicContentsAfter1).to.equal('nosync.png');
+      expect(imagesPublicContentsAfter).to.include('_nosync');
+      expect(imagesPublicContentsAfter).to.include('logo.png');
+
+      expect(imagesPublicContentsAfter1).to.include('nosync.png');
     });
   });
 
@@ -118,15 +120,22 @@ describe('UI', function () {
     });
 
     it('copies the _scripts directory', function () {
-      const jsPublicContentsAfter = fs.readdirSync(jsPublic).toString();
-      const jsPublicContentsAfter1 = fs.readdirSync(`${jsPublic}/src`).toString();
-      const jsPublicContentsAfter2 = fs.readdirSync(`${jsPublic}/src/nested`).toString();
+      const jsPublicContentsAfter = fs.readdirSync(jsPublic);
+      const jsPublicContentsAfter1 = fs.readdirSync(`${jsPublic}/src`);
+      const jsPublicContentsAfter2 = fs.readdirSync(`${jsPublic}/src/nested`);
 
       expect(jsPublicContentsBefore).to.be.empty;
 
-      expect(jsPublicContentsAfter).to.equal('src,ui-only.js');
-      expect(jsPublicContentsAfter1).to.equal('fepper-obj.js,nested,variables-alt.styl,variables-alt.yml,variables.styl');
-      expect(jsPublicContentsAfter2).to.equal('nested.js');
+      expect(jsPublicContentsAfter).to.include('src');
+      expect(jsPublicContentsAfter).to.include('ui-only.js');
+
+      expect(jsPublicContentsAfter1).to.include('fepper-obj.js');
+      expect(jsPublicContentsAfter1).to.include('nested');
+      expect(jsPublicContentsAfter1).to.include('variables-alt.styl');
+      expect(jsPublicContentsAfter1).to.include('variables-alt.yml');
+      expect(jsPublicContentsAfter1).to.include('variables.styl');
+
+      expect(jsPublicContentsAfter2).to.include('nested.js');
     });
   });
 
@@ -219,33 +228,62 @@ describe('UI', function () {
     });
 
     it('copies the _static directory', function () {
-      const staticPublicContentsAfter = fs.readdirSync(staticPublic).toString();
-      const staticPublicContentsAfter1 = fs.readdirSync(`${staticPublic}/_assets`).toString();
-      const staticPublicContentsAfter2 = fs.readdirSync(`${staticPublic}/_scripts`).toString();
-      const staticPublicContentsAfter3 = fs.readdirSync(`${staticPublic}/_styles`).toString();
-      const staticPublicContentsAfter4 = fs.readdirSync(`${staticPublic}/img`).toString();
-      const staticPublicContentsAfter5 = fs.readdirSync(`${staticPublic}/_assets/_nosync`).toString();
-      const staticPublicContentsAfter6 = fs.readdirSync(`${staticPublic}/_scripts/src`).toString();
-      const staticPublicContentsAfter7 = fs.readdirSync(`${staticPublic}/_styles/bld`).toString();
-      const staticPublicContentsAfter8 = fs.readdirSync(`${staticPublic}/_scripts/src/nested`).toString();
-      const staticPublicContentsAfter9 = fs.readdirSync(`${staticPublic}/_styles/bld/fonts`).toString();
-      const staticPublicContentsAfter10 = fs.readdirSync(`${staticPublic}/_styles/bld/fonts/nested`).toString();
+      const staticPublicContentsAfter = fs.readdirSync(staticPublic);
+      const staticPublicContentsAfter1 = fs.readdirSync(`${staticPublic}/_assets`);
+      const staticPublicContentsAfter2 = fs.readdirSync(`${staticPublic}/_scripts`);
+      const staticPublicContentsAfter3 = fs.readdirSync(`${staticPublic}/_styles`);
+      const staticPublicContentsAfter4 = fs.readdirSync(`${staticPublic}/img`);
+      const staticPublicContentsAfter5 = fs.readdirSync(`${staticPublic}/_assets/_nosync`);
+      const staticPublicContentsAfter6 = fs.readdirSync(`${staticPublic}/_scripts/src`);
+      const staticPublicContentsAfter7 = fs.readdirSync(`${staticPublic}/_styles/bld`);
+      const staticPublicContentsAfter8 = fs.readdirSync(`${staticPublic}/_scripts/src/nested`);
+      const staticPublicContentsAfter9 = fs.readdirSync(`${staticPublic}/_styles/bld/fonts`);
+      const staticPublicContentsAfter10 = fs.readdirSync(`${staticPublic}/_styles/bld/fonts/nested`);
 
       expect(staticPublicContentsBefore).to.be.empty;
 
-      expect(staticPublicContentsAfter).to.equal('01-blog.html,_assets,_scripts,_styles,img,index.html,node_modules');
-      expect(staticPublicContentsAfter1).to.equal('_nosync,logo.png');
-      expect(staticPublicContentsAfter2).to.equal('src');
-      expect(staticPublicContentsAfter3).to.equal('bld,root.css,root.svg');
-      expect(staticPublicContentsAfter4).to.equal('logo.png');
-      expect(staticPublicContentsAfter5).to.equal('nosync.png');
-      expect(staticPublicContentsAfter6)
-        .to.equal('fepper-obj.js,nested,variables-alt.styl,variables-alt.yml,variables.styl');
-      expect(staticPublicContentsAfter7).to.equal('fonts,style-alt.yml');
-      expect(staticPublicContentsAfter8).to.equal('nested.js');
-      expect(staticPublicContentsAfter9).to.equal('__icons.dev.svg,icons-alt.svg,icons-alt.yml,icons.svg,nested');
-      expect(staticPublicContentsAfter10)
-        .to.equal('__icons.dev.svg,icons.nested-alt.svg,icons.nested-alt.yml,icons.nested.svg');
+      expect(staticPublicContentsAfter).to.include('01-blog.html');
+      expect(staticPublicContentsAfter).to.include('_assets');
+      expect(staticPublicContentsAfter).to.include('_scripts');
+      expect(staticPublicContentsAfter).to.include('_styles');
+      expect(staticPublicContentsAfter).to.include('img');
+      expect(staticPublicContentsAfter).to.include('index.html');
+      expect(staticPublicContentsAfter).to.include('node_modules');
+
+      expect(staticPublicContentsAfter1).to.include('_nosync');
+      expect(staticPublicContentsAfter1).to.include('logo.png');
+
+      expect(staticPublicContentsAfter2).to.include('src');
+
+      expect(staticPublicContentsAfter3).to.include('bld');
+      expect(staticPublicContentsAfter3).to.include('root.css');
+      expect(staticPublicContentsAfter3).to.include('root.svg');
+
+      expect(staticPublicContentsAfter4).to.include('logo.png');
+
+      expect(staticPublicContentsAfter5).to.include('nosync.png');
+
+      expect(staticPublicContentsAfter6).to.include('fepper-obj.js');
+      expect(staticPublicContentsAfter6).to.include('nested');
+      expect(staticPublicContentsAfter6).to.include('variables-alt.styl');
+      expect(staticPublicContentsAfter6).to.include('variables-alt.yml');
+      expect(staticPublicContentsAfter6).to.include('variables.styl');
+
+      expect(staticPublicContentsAfter7).to.include('fonts');
+      expect(staticPublicContentsAfter7).to.include('style-alt.yml');
+
+      expect(staticPublicContentsAfter8).to.include('nested.js');
+
+      expect(staticPublicContentsAfter9).to.include('__icons.dev.svg');
+      expect(staticPublicContentsAfter9).to.include('icons-alt.svg');
+      expect(staticPublicContentsAfter9).to.include('icons-alt.yml');
+      expect(staticPublicContentsAfter9).to.include('icons.svg')
+      expect(staticPublicContentsAfter9).to.include('nested');
+
+      expect(staticPublicContentsAfter10).to.include('__icons.dev.svg');
+      expect(staticPublicContentsAfter10).to.include('icons.nested-alt.svg');
+      expect(staticPublicContentsAfter10).to.include('icons.nested-alt.yml');
+      expect(staticPublicContentsAfter10).to.include('icons.nested.svg');
     });
   });
 });

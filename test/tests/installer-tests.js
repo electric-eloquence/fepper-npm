@@ -29,18 +29,36 @@ describe('Installer', function () {
 
     installer.copy();
 
-    const extendDirContentsAfter = fs.readdirSync(installer.extendDir).toString();
-    const sourceDirContentsAfter = fs.readdirSync(installer.sourceDir).toString();
-    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/04-pages`).toString();
+    const extendDirContentsAfter = fs.readdirSync(installer.extendDir);
+    const sourceDirContentsAfter = fs.readdirSync(installer.sourceDir);
+    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/04-pages`);
 
     expect(extendDirExistsBefore).to.be.false;
     expect(sourceDirExistsBefore).to.be.false;
 
-    expect(extendDirContentsAfter)
-      .to.have.string('README.md,auxiliary,contrib.js,custom,custom.js,node_modules,package');
-    expect(sourceDirContentsAfter).to.equal('_annotations,_assets,_data,_meta,_patterns,_scripts,_static,_styles,_ui');
-    expect(pagesDirContentsAfter)
-      .to.equal('00-homepage.json,00-homepage.mustache,01-blog.mustache,02-articles,_01-blog.json');
+    expect(extendDirContentsAfter).to.include('README.md');
+    expect(extendDirContentsAfter).to.include('auxiliary');
+    expect(extendDirContentsAfter).to.include('contrib.js');
+    expect(extendDirContentsAfter).to.include('custom');
+    expect(extendDirContentsAfter).to.include('custom.js');
+    expect(extendDirContentsAfter).to.include('node_modules');
+    expect(extendDirContentsAfter).to.include('package.json');
+
+    expect(sourceDirContentsAfter).to.include('_annotations');
+    expect(sourceDirContentsAfter).to.include('_assets');
+    expect(sourceDirContentsAfter).to.include('_data');
+    expect(sourceDirContentsAfter).to.include('_meta');
+    expect(sourceDirContentsAfter).to.include('_patterns');
+    expect(sourceDirContentsAfter).to.include('_scripts');
+    expect(sourceDirContentsAfter).to.include('_static');
+    expect(sourceDirContentsAfter).to.include('_styles');
+    expect(sourceDirContentsAfter).to.include('_ui');
+
+    expect(pagesDirContentsAfter).to.include('00-homepage.json');
+    expect(pagesDirContentsAfter).to.include('00-homepage.mustache');
+    expect(pagesDirContentsAfter).to.include('01-blog.mustache');
+    expect(pagesDirContentsAfter).to.include('02-articles');
+    expect(pagesDirContentsAfter).to.include('_01-blog.json');
   });
 
   it('.copyBase() copies base profile source and extend dirs', function () {
@@ -48,15 +66,30 @@ describe('Installer', function () {
 
     installer.copyBase();
 
-    const extendDirContentsAfter = fs.readdirSync(installer.extendDir).toString();
-    const sourceDirContentsAfter = fs.readdirSync(installer.sourceDir).toString();
-    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/04-pages`).toString();
+    const extendDirContentsAfter = fs.readdirSync(installer.extendDir);
+    const sourceDirContentsAfter = fs.readdirSync(installer.sourceDir);
+    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/04-pages`);
 
     expect(extendDirExistsBefore).to.be.false;
     expect(sourceDirExistsBefore).to.be.false;
 
-    expect(extendDirContentsAfter).to.equal('README.md,auxiliary,contrib.js,custom,custom.js,package.json');
-    expect(sourceDirContentsAfter).to.equal('_annotations,_assets,_data,_meta,_patterns,_scripts,_static,_styles,_ui');
-    expect(pagesDirContentsAfter).to.equal('00-homepage.mustache');
+    expect(extendDirContentsAfter).to.include('README.md');
+    expect(extendDirContentsAfter).to.include('auxiliary');
+    expect(extendDirContentsAfter).to.include('contrib.js');
+    expect(extendDirContentsAfter).to.include('custom');
+    expect(extendDirContentsAfter).to.include('custom.js');
+    expect(extendDirContentsAfter).to.include('package.json');
+
+    expect(sourceDirContentsAfter).to.include('_annotations');
+    expect(sourceDirContentsAfter).to.include('_assets');
+    expect(sourceDirContentsAfter).to.include('_data');
+    expect(sourceDirContentsAfter).to.include('_meta');
+    expect(sourceDirContentsAfter).to.include('_patterns');
+    expect(sourceDirContentsAfter).to.include('_scripts');
+    expect(sourceDirContentsAfter).to.include('_static');
+    expect(sourceDirContentsAfter).to.include('_styles');
+    expect(sourceDirContentsAfter).to.include('_ui');
+
+    expect(pagesDirContentsAfter).to.include('00-homepage.mustache');
   });
 });
