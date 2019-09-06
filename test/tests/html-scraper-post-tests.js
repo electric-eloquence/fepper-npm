@@ -402,30 +402,36 @@ describe('HTML Scraper Post', function () {
       expect(htmlScraperPost.newlineFormat(jsonStrWithCR)).to.equal(jsonStr);
     });
 
-    it('writes file to destination', function () {
+    it('writes file to destination', function (done) {
       htmlScraperPost.filesWrite(scrapeDir, scrapeFile0, mustache, jsonStr);
-
-      const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
-      const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
 
       expect(scrapeFile0JsonExistsBefore).to.be.false;
       expect(scrapeFile0MustacheExistsBefore).to.be.false;
 
-      expect(scrapeFile0JsonExistsAfter).to.be.true;
-      expect(scrapeFile0MustacheExistsAfter).to.be.true;
+      setTimeout(() => {
+        const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
+        const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
+
+        expect(scrapeFile0JsonExistsAfter).to.be.true;
+        expect(scrapeFile0MustacheExistsAfter).to.be.true;
+        done();
+      }, 100);
     });
 
-    it('does not write file to destination if limit is exceeded', function () {
+    it('does not write file to destination if limit is exceeded', function (done) {
       htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
-
-      const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
-      const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
 
       expect(scrapeFile1JsonExistsBefore).to.be.false;
       expect(scrapeFile1MustacheExistsBefore).to.be.false;
 
-      expect(scrapeFile1JsonExistsAfter).to.be.false;
-      expect(scrapeFile1MustacheExistsAfter).to.be.false;
+      setTimeout(() => {
+        const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
+        const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
+
+        expect(scrapeFile1JsonExistsAfter).to.be.false;
+        expect(scrapeFile1MustacheExistsAfter).to.be.false;
+        done();
+      }, 100);
     });
   });
 
