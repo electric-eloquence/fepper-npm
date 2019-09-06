@@ -72,6 +72,7 @@ const scrapeFile1Mustache = `${scrapeDir}/${scrapeFile1}.mustache`;
 describe('HTML Scraper Post', function () {
   let htmlScraperPost;
   let jsons;
+  let scrapeLimitTimeOrig;
 
   before(function () {
     htmlScraperPost = new HtmlScraperPost(
@@ -83,11 +84,7 @@ describe('HTML Scraper Post', function () {
       {appDir, rootDir, utils}
     );
     jsons = htmlScraperPost.htmlToJsons(htmlConst);
-
-    fs.removeSync(scrapeFile0Json);
-    fs.removeSync(scrapeFile0Mustache);
-    fs.removeSync(scrapeFile1Json);
-    fs.removeSync(scrapeFile1Mustache);
+    scrapeLimitTimeOrig = conf.scrape.limit_time;
   });
 
   describe('.selectorValidate()', function () {
@@ -351,93 +348,8 @@ describe('HTML Scraper Post', function () {
     });
   });
 
-  describe('.filesWrite()', function () {
-    let mustache;
-    let jsonStr;
-    let scrapeFile0JsonExistsBefore;
-    let scrapeFile0MustacheExistsBefore;
-    let scrapeFile1JsonExistsBefore;
-    let scrapeFile1MustacheExistsBefore;
-
-    before(function () {
-      mustache = htmlScraperPost.htmlSanitize(htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData));
-      jsonStr = JSON.stringify(jsons.jsonForData, null, 2) + '\n';
-      scrapeFile0JsonExistsBefore = fs.existsSync(scrapeFile0Json);
-      scrapeFile0MustacheExistsBefore = fs.existsSync(scrapeFile0Mustache);
-      scrapeFile1JsonExistsBefore = fs.existsSync(scrapeFile1Json);
-      scrapeFile1MustacheExistsBefore = fs.existsSync(scrapeFile1Mustache);
-    });
-
-    it('validates user-submitted filename', function () {
-      const validFilename = '0-test.1_0';
-      const invalidChar = '0-test.1_0!';
-      const invalidHyphenPrefix = '-0-test.1_0';
-      const invalidPeriodPrefix = '.0-test.1_0';
-      const invalidUnderscorePrefix = '_0-test.1_0';
-      const sameAsScraperFile = '00-html-scraper.mustache';
-
-      expect(htmlScraperPost.filenameValidate(validFilename)).to.be.true;
-      expect(htmlScraperPost.filenameValidate(invalidChar)).to.be.false;
-      expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.be.false;
-      expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.be.false;
-      expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.be.false;
-      expect(htmlScraperPost.filenameValidate(sameAsScraperFile)).to.be.false;
-    });
-
-    it('correctly formats newlines in file body', function () {
-      const mustacheWithCR = mustache.replace(/\n/g, '\r\n');
-
-      expect(mustache).to.not.equal(mustacheWithCR);
-      expect(mustache).to.not.have.string('\r');
-      expect(mustacheWithCR).to.have.string('\r');
-      expect(htmlScraperPost.newlineFormat(mustacheWithCR)).to.equal(mustache);
-    });
-
-    it('correctly formats newlines in stringified json', function () {
-      const jsonStrWithCR = jsonStr.replace(/\n/g, '\r\n');
-
-      expect(jsonStr).to.not.equal(jsonStrWithCR);
-      expect(jsonStr).to.not.have.string('\r');
-      expect(jsonStrWithCR).to.have.string('\r');
-      expect(htmlScraperPost.newlineFormat(jsonStrWithCR)).to.equal(jsonStr);
-    });
-
-    it('writes file to destination', function (done) {
-      htmlScraperPost.filesWrite(scrapeDir, scrapeFile0, mustache, jsonStr);
-
-      expect(scrapeFile0JsonExistsBefore).to.be.false;
-      expect(scrapeFile0MustacheExistsBefore).to.be.false;
-
-      setTimeout(() => {
-        const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
-        const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
-
-        expect(scrapeFile0JsonExistsAfter).to.be.true;
-        expect(scrapeFile0MustacheExistsAfter).to.be.true;
-        done();
-      }, 100);
-    });
-
-    it('does not write file to destination if limit is exceeded', function (done) {
-      htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
-
-      expect(scrapeFile1JsonExistsBefore).to.be.false;
-      expect(scrapeFile1MustacheExistsBefore).to.be.false;
-
-      setTimeout(() => {
-        const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
-        const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
-
-        expect(scrapeFile1JsonExistsAfter).to.be.false;
-        expect(scrapeFile1MustacheExistsAfter).to.be.false;
-        done();
-      }, 100);
-    });
-  });
-
   describe('.main()', function () {
     const timestampFile = `${global.rootDir}/.timestamp`;
-    let scrapeLimitTimeOrig;
     let timestampFromFile;
 
     function responseFactory(resolve) {
@@ -458,6 +370,10 @@ describe('HTML Scraper Post', function () {
     }
 
     before(function () {
+      fs.removeSync(scrapeFile0Json);
+      fs.removeSync(scrapeFile0Mustache);
+      fs.removeSync(scrapeFile1Json);
+      fs.removeSync(scrapeFile1Mustache);
       fs.removeSync(timestampFile);
 
       scrapeLimitTimeOrig = conf.scrape.limit_time;
@@ -466,8 +382,6 @@ describe('HTML Scraper Post', function () {
     });
 
     after(function () {
-      conf.scrape.limit_time = scrapeLimitTimeOrig;
-
       fs.removeSync(timestampFile);
     });
 
@@ -507,6 +421,42 @@ describe('HTML Scraper Post', function () {
     });
 
     it(
+      'redirects with success message if valid filename, json, and mustache are submitted, and within limit',
+      function (done) {
+        new Promise((resolve) => {
+          const htmlScraperPost = new HtmlScraperPost(
+            {
+              body: {
+                filename: scrapeFile0,
+                json: jsonStrConst,
+                mustache: mustacheConst
+              },
+              cookies: {
+                fepper_ts: timestampFromFile
+              }
+            },
+            responseFactory(resolve),
+            conf,
+            gatekeeper,
+            html,
+            {appDir, rootDir, utils}
+          );
+
+          htmlScraperPost.main();
+        })
+        .then((response) => {
+          expect(response.statusCode).to.equal(303);
+          // eslint-disable-next-line max-len
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=Success!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%22Scrape%22%20menu.&url=&selector=');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      }
+    );
+
+    it(
       'redirects with error message if valid filename, json, and mustache are submitted, but limit is exceeded',
       function (done) {
         new Promise((resolve) => {
@@ -534,44 +484,6 @@ describe('HTML Scraper Post', function () {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
           expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Submitting%20too%20many%20requests%20per%20minute.&url=&selector=');
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-      }
-    );
-
-    it(
-      'redirects with success message if valid filename, json, and mustache are submitted, and within limit',
-      function (done) {
-        new Promise((resolve) => {
-          setTimeout(() => {
-            const htmlScraperPost = new HtmlScraperPost(
-              {
-                body: {
-                  filename: scrapeFile1,
-                  json: jsonStrConst,
-                  mustache: mustacheConst
-                },
-                cookies: {
-                  fepper_ts: timestampFromFile
-                }
-              },
-              responseFactory(resolve),
-              conf,
-              gatekeeper,
-              html,
-              {appDir, rootDir, utils}
-            );
-
-            htmlScraperPost.main();
-          }, 1100);
-        })
-        .then((response) => {
-          expect(response.statusCode).to.equal(303);
-          // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=Success!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%22Scrape%22%20menu.&url=&selector=');
           done();
         })
         .catch((err) => {
@@ -685,6 +597,98 @@ describe('HTML Scraper Post', function () {
       .catch((err) => {
         done(err);
       });
+    });
+  });
+
+  // Testing .filesWrite at the end to work after the setting and resetting of conf.scrape.limit_time.
+  // It is important to test the security at the unit level in .filesWrite(), as well as integrated into .main().
+  describe('.filesWrite())', function () {
+    let mustache;
+    let jsonStr;
+    let scrapeFile0JsonExistsBefore;
+    let scrapeFile0MustacheExistsBefore;
+    let scrapeFile1JsonExistsBefore;
+    let scrapeFile1MustacheExistsBefore;
+
+    before(function () {
+      fs.removeSync(scrapeFile0Json);
+      fs.removeSync(scrapeFile0Mustache);
+      fs.removeSync(scrapeFile1Json);
+      fs.removeSync(scrapeFile1Mustache);
+
+      mustache = htmlScraperPost.htmlSanitize(htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData));
+      jsonStr = JSON.stringify(jsons.jsonForData, null, 2) + '\n';
+      scrapeFile0JsonExistsBefore = fs.existsSync(scrapeFile0Json);
+      scrapeFile0MustacheExistsBefore = fs.existsSync(scrapeFile0Mustache);
+      scrapeFile1JsonExistsBefore = fs.existsSync(scrapeFile1Json);
+      scrapeFile1MustacheExistsBefore = fs.existsSync(scrapeFile1Mustache);
+    });
+
+    after(function () {
+      conf.scrape.limit_time = scrapeLimitTimeOrig;
+    });
+
+    it('validates user-submitted filename', function () {
+      const validFilename = '0-test.1_0';
+      const invalidChar = '0-test.1_0!';
+      const invalidHyphenPrefix = '-0-test.1_0';
+      const invalidPeriodPrefix = '.0-test.1_0';
+      const invalidUnderscorePrefix = '_0-test.1_0';
+      const sameAsScraperFile = '00-html-scraper.mustache';
+
+      expect(htmlScraperPost.filenameValidate(validFilename)).to.be.true;
+      expect(htmlScraperPost.filenameValidate(invalidChar)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidHyphenPrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidPeriodPrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(invalidUnderscorePrefix)).to.be.false;
+      expect(htmlScraperPost.filenameValidate(sameAsScraperFile)).to.be.false;
+    });
+
+    it('correctly formats newlines in file body', function () {
+      const mustacheWithCR = mustache.replace(/\n/g, '\r\n');
+
+      expect(mustache).to.not.equal(mustacheWithCR);
+      expect(mustache).to.not.have.string('\r');
+      expect(mustacheWithCR).to.have.string('\r');
+      expect(htmlScraperPost.newlineFormat(mustacheWithCR)).to.equal(mustache);
+    });
+
+    it('correctly formats newlines in stringified json', function () {
+      const jsonStrWithCR = jsonStr.replace(/\n/g, '\r\n');
+
+      expect(jsonStr).to.not.equal(jsonStrWithCR);
+      expect(jsonStr).to.not.have.string('\r');
+      expect(jsonStrWithCR).to.have.string('\r');
+      expect(htmlScraperPost.newlineFormat(jsonStrWithCR)).to.equal(jsonStr);
+    });
+
+    it('writes file to destination', function (done) {
+      setTimeout(() => {
+        htmlScraperPost.filesWrite(scrapeDir, scrapeFile0, mustache, jsonStr);
+
+        const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
+        const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
+
+        expect(scrapeFile0JsonExistsBefore).to.be.false;
+        expect(scrapeFile0MustacheExistsBefore).to.be.false;
+
+        expect(scrapeFile0JsonExistsAfter).to.be.true;
+        expect(scrapeFile0MustacheExistsAfter).to.be.true;
+        done();
+      }, 1100);
+    });
+
+    it('does not write file to destination if limit is exceeded', function () {
+      htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
+
+      const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
+      const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
+
+      expect(scrapeFile1JsonExistsBefore).to.be.false;
+      expect(scrapeFile1MustacheExistsBefore).to.be.false;
+
+      expect(scrapeFile1JsonExistsAfter).to.be.false;
+      expect(scrapeFile1MustacheExistsAfter).to.be.false;
     });
   });
 });
