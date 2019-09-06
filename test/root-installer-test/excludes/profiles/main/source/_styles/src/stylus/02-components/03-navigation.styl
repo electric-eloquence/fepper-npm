@@ -1,0 +1,48 @@
+.nav
+  background: $white-translucent
+  clear: both
+  overflow: hidden
+  a
+    display: block
+  @media all and (max-width: $bp-sm-max)
+    max-height: 0
+    position: absolute
+    top: $nav-toggle-height
+    left: 0
+    width: 100%
+    z-index: 1
+    a
+      border-top: 1px solid $gray-light-2
+      padding: $space-half $space
+    &.active
+      border-bottom: 1px solid $gray-light-2
+      max-height: 100%
+  @media all and (min-width: $bp-med)
+    border-top: 1px solid $gray-light-2
+    clear: none
+    float: left
+    margin-top: -0.1rem
+    padding-top: $space-quarter * 3
+    li
+      float: left
+    a
+      padding: $space-quarter $space
+.pagination
+  margin: -($space) 0 $space
+  overflow: hidden
+  .section.comments &
+    margin: 0
+  li
+    float: left
+    border-right: 1px solid $gray-light-1
+    &:last-child
+      border: 0
+  a
+    display: block
+    padding: 0 $space
+  @media all and (max-width: $bp-xs-max)
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    a
+      padding: 0 1.4rem
