@@ -277,7 +277,7 @@ describe('UI', function () {
       expect(staticPublicContentsAfter9).to.include('__icons.dev.svg');
       expect(staticPublicContentsAfter9).to.include('icons-alt.svg');
       expect(staticPublicContentsAfter9).to.include('icons-alt.yml');
-      expect(staticPublicContentsAfter9).to.include('icons.svg')
+      expect(staticPublicContentsAfter9).to.include('icons.svg');
       expect(staticPublicContentsAfter9).to.include('nested');
 
       expect(staticPublicContentsAfter10).to.include('__icons.dev.svg');
