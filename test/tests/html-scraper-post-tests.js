@@ -622,8 +622,6 @@ describe('HTML Scraper Post', function () {
     let scrapeFile2JsonExistsBefore;
     let scrapeFile2MustacheExistsBefore;
 
-    this.timeout(2500);
-
     before(function () {
       fs.removeSync(scrapeFile1Json);
       fs.removeSync(scrapeFile1Mustache);
