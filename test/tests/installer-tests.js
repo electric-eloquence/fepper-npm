@@ -36,7 +36,7 @@ describe('Installer', function () {
     expect(sourceDirExistsBefore).to.be.false;
 
     expect(extendDirContentsAfter)
-      .to.have.string('README.md,auxiliary,contrib.js,custom,custom.js,node_modules,package');
+      .to.equal('README.md,auxiliary,contrib.js,custom,custom.js,node_modules,package.json');
     expect(sourceDirContentsAfter).to.equal('_annotations,_assets,_data,_meta,_patterns,_scripts,_static,_styles,_ui');
     expect(pagesDirContentsAfter)
       .to.equal('00-homepage.json,00-homepage.mustache,01-blog.mustache,02-articles,_01-blog.json');
