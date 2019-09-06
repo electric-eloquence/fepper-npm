@@ -31,7 +31,7 @@ describe('Installer', function () {
 
     const extendDirContentsAfter = fs.readdirSync(installer.extendDir).toString();
     const sourceDirContentsAfter = fs.readdirSync(installer.sourceDir).toString();
-    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/04-pages`).toString();
+    const pagesDirContentsAfter = fs.readdirSync(`${installer.sourceDir}/_patterns/98-scrape`).toString();
 
     expect(extendDirExistsBefore).to.be.false;
     expect(sourceDirExistsBefore).to.be.false;
