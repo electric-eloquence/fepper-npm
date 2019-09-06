@@ -64,10 +64,13 @@ const mustacheConst = `&lt;section&gt;
 const scrapeDir = conf.ui.paths.source.scrape;
 const scrapeFile0 = '0-test.1_0';
 const scrapeFile1 = '0-test.1_1';
+const scrapeFile2 = '0-test.1_2';
 const scrapeFile0Json = `${scrapeDir}/${scrapeFile0}.json`;
 const scrapeFile1Json = `${scrapeDir}/${scrapeFile1}.json`;
+const scrapeFile2Json = `${scrapeDir}/${scrapeFile2}.json`;
 const scrapeFile0Mustache = `${scrapeDir}/${scrapeFile0}.mustache`;
 const scrapeFile1Mustache = `${scrapeDir}/${scrapeFile1}.mustache`;
+const scrapeFile2Mustache = `${scrapeDir}/${scrapeFile2}.mustache`;
 
 describe('HTML Scraper Post', function () {
   let htmlScraperPost;
@@ -92,6 +95,8 @@ describe('HTML Scraper Post', function () {
     fs.removeSync(scrapeFile0Mustache);
     fs.removeSync(scrapeFile1Json);
     fs.removeSync(scrapeFile1Mustache);
+    fs.removeSync(scrapeFile2Json);
+    fs.removeSync(scrapeFile2Mustache);
   });
 
   describe('.selectorValidate()', function () {
@@ -612,23 +617,25 @@ describe('HTML Scraper Post', function () {
   describe('.filesWrite())', function () {
     let mustache;
     let jsonStr;
-    let scrapeFile0JsonExistsBefore;
-    let scrapeFile0MustacheExistsBefore;
     let scrapeFile1JsonExistsBefore;
     let scrapeFile1MustacheExistsBefore;
+    let scrapeFile2JsonExistsBefore;
+    let scrapeFile2MustacheExistsBefore;
+
+    this.timeout(2500);
 
     before(function () {
-      fs.removeSync(scrapeFile0Json);
-      fs.removeSync(scrapeFile0Mustache);
       fs.removeSync(scrapeFile1Json);
       fs.removeSync(scrapeFile1Mustache);
+      fs.removeSync(scrapeFile2Json);
+      fs.removeSync(scrapeFile2Mustache);
 
       mustache = htmlScraperPost.htmlSanitize(htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData));
       jsonStr = JSON.stringify(jsons.jsonForData, null, 2) + '\n';
-      scrapeFile0JsonExistsBefore = fs.existsSync(scrapeFile0Json);
-      scrapeFile0MustacheExistsBefore = fs.existsSync(scrapeFile0Mustache);
       scrapeFile1JsonExistsBefore = fs.existsSync(scrapeFile1Json);
       scrapeFile1MustacheExistsBefore = fs.existsSync(scrapeFile1Mustache);
+      scrapeFile2JsonExistsBefore = fs.existsSync(scrapeFile2Json);
+      scrapeFile2MustacheExistsBefore = fs.existsSync(scrapeFile2Mustache);
     });
 
     after(function () {
@@ -671,31 +678,31 @@ describe('HTML Scraper Post', function () {
 
     it('writes file to destination', function (done) {
       setTimeout(() => {
-        htmlScraperPost.filesWrite(scrapeDir, scrapeFile0, mustache, jsonStr);
+        htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
 
-        const scrapeFile0JsonExistsAfter = fs.existsSync(scrapeFile0Json);
-        const scrapeFile0MustacheExistsAfter = fs.existsSync(scrapeFile0Mustache);
+        const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
+        const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
 
-        expect(scrapeFile0JsonExistsBefore).to.be.false;
-        expect(scrapeFile0MustacheExistsBefore).to.be.false;
+        expect(scrapeFile1JsonExistsBefore).to.be.false;
+        expect(scrapeFile1MustacheExistsBefore).to.be.false;
 
-        expect(scrapeFile0JsonExistsAfter).to.be.true;
-        expect(scrapeFile0MustacheExistsAfter).to.be.true;
+        expect(scrapeFile1JsonExistsAfter).to.be.true;
+        expect(scrapeFile1MustacheExistsAfter).to.be.true;
         done();
       }, 1100);
     });
 
     it('does not write file to destination if limit is exceeded', function () {
-      htmlScraperPost.filesWrite(scrapeDir, scrapeFile1, mustache, jsonStr);
+      htmlScraperPost.filesWrite(scrapeDir, scrapeFile2, mustache, jsonStr);
 
-      const scrapeFile1JsonExistsAfter = fs.existsSync(scrapeFile1Json);
-      const scrapeFile1MustacheExistsAfter = fs.existsSync(scrapeFile1Mustache);
+      const scrapeFile2JsonExistsAfter = fs.existsSync(scrapeFile2Json);
+      const scrapeFile2MustacheExistsAfter = fs.existsSync(scrapeFile2Mustache);
 
-      expect(scrapeFile1JsonExistsBefore).to.be.false;
-      expect(scrapeFile1MustacheExistsBefore).to.be.false;
+      expect(scrapeFile2JsonExistsBefore).to.be.false;
+      expect(scrapeFile2MustacheExistsBefore).to.be.false;
 
-      expect(scrapeFile1JsonExistsAfter).to.be.false;
-      expect(scrapeFile1MustacheExistsAfter).to.be.false;
+      expect(scrapeFile2JsonExistsAfter).to.be.false;
+      expect(scrapeFile2MustacheExistsAfter).to.be.false;
     });
   });
 });
