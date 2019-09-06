@@ -7,6 +7,7 @@
     "fepper": "index.js"
   },
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test:eslint:extend": "eslint excludes/profiles/base/extend excludes/profiles/main/extend",
     "test:eslint:fepper": "eslint core",
     "test:eslint:tasker": "eslint tasker",

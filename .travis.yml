@@ -8,3 +8,5 @@ branches:
   only:
   - master
   - release
+after_script:
+  - npm run coverage
