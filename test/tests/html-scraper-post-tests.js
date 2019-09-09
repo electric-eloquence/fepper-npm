@@ -527,6 +527,7 @@ describe('HTML Scraper Post', function () {
         htmlScraperPost.main();
       })
       .then((output) => {
+        /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="">
@@ -576,6 +577,7 @@ describe('HTML Scraper Post', function () {
 
   </body>
 </html>`);
+        /* eslint-enable max-len */
         done();
       })
       .catch((err) => {
