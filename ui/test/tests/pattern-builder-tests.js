@@ -32,6 +32,7 @@ describe('Pattern Builder', function () {
 <a href="{{ link.facebook-dave }}">Dave</a>
 <a href="{{ link.facebook-brian }}">Brian</a>
 `;
+    // eslint-disable-next-line max-len
     const navExtendedTemplate = `<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a>
 <a href="../facebook-cambridge-analytica-dave/facebook-cambridge-analytica-dave.html">Dave</a>
 <a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a>
