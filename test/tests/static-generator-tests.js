@@ -272,6 +272,7 @@ describe('Static Generator', function () {
     // Test expectations.
     expect(publicIndexContent).to.have.string('<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->');
     expect(publicIndexContent).to.have.string('<!-- End Pattern Lab -->');
+    // eslint-disable-next-line max-len
     expect(staticIndexContent).to.not.have.string('<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->');
     expect(staticIndexContent).to.not.have.string('<!-- End Pattern Lab -->');
   });
@@ -316,6 +317,7 @@ describe('Static Generator', function () {
   <script src='_scripts/src/fepper-obj.js?1513596429153'></script>`);
 
     // Ignore cacheBuster conversion in this test.
+    // eslint-disable-next-line max-len
     expect(publicIndexContent).to.have.string('<script src="../../_scripts/src/variables.styl" type="text/javascript"></script>');
     expect(publicIndexContent).to.have.string('<script src="../../_scripts/src/fepper-obj.js"></script>');
 

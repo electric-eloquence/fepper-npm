@@ -80,13 +80,16 @@ describe('Templater', function () {
   it('writes to the default templates directory', function () {
     const output = fs.readFileSync(templatesDir + '/00-homepage.tpl.php', conf.enc).trim();
 
-    expect(output).to.equal('<div class="page" id="page"><a href=""><img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a>}}<?php print $page[\'footer\']; ?></div>');
+    expect(output).to.equal('<div class="page" id="page"><a href="">' +
+      '<img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a>}}<?php print $page[\'footer\']; ?>' +
+      '</div>');
   });
 
   it('writes to nested directories within the default templates directory', function () {
     const output = fs.readFileSync(templatesDir + '/nested/00-nested.tpl.php', conf.enc).trim();
 
-    expect(output).to.equal('<div class="page" id="page"><a href=""><img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a><?php print $page[\'footer\']; ?></div>');
+    expect(output).to.equal('<div class="page" id="page"><a href="">' +
+      '<img src="../../_assets/logo.png" class="logo" alt="Logo Alt Text"></a><?php print $page[\'footer\']; ?></div>');
   });
 
   it('writes to the alternate templates directory', function () {

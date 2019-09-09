@@ -405,6 +405,7 @@ describe('Mustache Browser', function () {
       );
     })
     .then((output) => {
+      /* eslint-disable max-len */
       expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
@@ -457,6 +458,7 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
+      /* eslint-enable max-len */
       done();
     })
     .catch((err) => {
@@ -475,6 +477,7 @@ describe('Mustache Browser', function () {
       );
     })
     .then((output) => {
+      /* eslint-disable max-len */
       expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
@@ -525,6 +528,7 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
+      /* eslint-enable max-len */
       done();
     })
     .catch((err) => {
@@ -544,6 +548,7 @@ describe('Mustache Browser', function () {
       );
     })
     .then((output) => {
+      /* eslint-disable max-len */
       expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
@@ -594,6 +599,7 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
+      /* eslint-enable max-len */
       done();
     })
     .catch((err) => {

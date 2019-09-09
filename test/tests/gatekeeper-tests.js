@@ -76,6 +76,7 @@ describe('Gatekeeper', function () {
         );
       })
       .then((output) => {
+        /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html>
 <html>
@@ -88,6 +89,7 @@ describe('Gatekeeper', function () {
     </section>
   </body>
 </html>`);
+        /* eslint-enable max-len */
         done();
       })
       .catch((err) => {
