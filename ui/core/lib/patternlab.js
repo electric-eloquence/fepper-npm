@@ -37,6 +37,7 @@ module.exports = class {
     // The current working directory can be submitted as a param to resolve relative paths.
     this.cwd = slash(cwd || global.rootDir || path.resolve(__dirname, '..', '..', '..', '..', '..'));
     this.appDir = slash(global.appDir || path.resolve(__dirname, '..', '..', '..'));
+    this.rootDir = global.rootDir;
     this.utils = utils;
 
     // Normalize configs if necessary.
