@@ -20,6 +20,11 @@
     "test:mocha": "nyc mocha test/tests ui/test/tests",
     "test": "npm run test:eslint && npm run test:mocha"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fepper-npm.git"
