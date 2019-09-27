@@ -7,34 +7,65 @@ const {
   patternlab
 } = require('../init')();
 
-const uiIndex = `${patternlab.config.paths.public.root}/index.html`;
-const uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
-const uiJs = `${patternlab.config.paths.public.styleguide}/scripts/ui/compilation.js`;
-
-if (fs.existsSync(uiIndex)) {
-  fs.removeSync(uiIndex);
-}
-if (fs.existsSync(uiCss)) {
-  fs.removeSync(uiCss);
-}
-if (fs.existsSync(uiJs)) {
-  fs.removeSync(uiJs);
-}
-const uiIndexExistsBefore = fs.existsSync(uiIndex);
-const uiCssExistsBefore = fs.existsSync(uiCss);
-const uiJsExistsBefore = fs.existsSync(uiJs);
-
 describe('UI Compiler', function () {
+  const fepletFile = `${patternlab.config.paths.public.styleguide}/node_modules/feplet/dist/feplet.browser.es6.min.js`;
+  const requerioFile = `${patternlab.config.paths.public.styleguide}/node_modules/requerio/src/requerio.js`;
+  const uiIndex = `${patternlab.config.paths.public.root}/index.html`;
+  const uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
+  const uiJs = `${patternlab.config.paths.public.styleguide}/scripts/ui/compilation.js`;
+
+  let fepletFileExistsBefore;
+  let requerioFileExistsBefore;
+  let uiIndexExistsBefore;
+  let uiCssExistsBefore;
+  let uiJsExistsBefore;
+
   let uiIndexContent;
   let uiCssContent;
   let uiJsContent;
 
   before(function () {
+    if (fs.existsSync(fepletFile)) {
+      fs.removeSync(fepletFile);
+    }
+    if (fs.existsSync(requerioFile)) {
+      fs.removeSync(requerioFile);
+    }
+    if (fs.existsSync(uiIndex)) {
+      fs.removeSync(uiIndex);
+    }
+    if (fs.existsSync(uiCss)) {
+      fs.removeSync(uiCss);
+    }
+    if (fs.existsSync(uiJs)) {
+      fs.removeSync(uiJs);
+    }
+
+    fepletFileExistsBefore = fs.existsSync(fepletFile);
+    requerioFileExistsBefore = fs.existsSync(requerioFile);
+    uiIndexExistsBefore = fs.existsSync(uiIndex);
+    uiCssExistsBefore = fs.existsSync(uiCss);
+    uiJsExistsBefore = fs.existsSync(uiJs);
+
     patternlab.compile();
 
     uiIndexContent = fs.readFileSync(uiIndex, patternlab.enc);
     uiCssContent = fs.readFileSync(uiCss, patternlab.enc);
     uiJsContent = fs.readFileSync(uiJs, patternlab.enc);
+  });
+
+  it('copies feplet.browser.es6.min.js', function () {
+    const fepletFileExistsAfter = fs.existsSync(fepletFile);
+
+    expect(fepletFileExistsBefore).to.be.false;
+    expect(fepletFileExistsAfter).to.be.true;
+  });
+
+  it('copies requerio.js', function () {
+    const requerioFileExistsAfter = fs.existsSync(requerioFile);
+
+    expect(requerioFileExistsBefore).to.be.false;
+    expect(requerioFileExistsAfter).to.be.true;
   });
 
   it('writes index.html', function () {
