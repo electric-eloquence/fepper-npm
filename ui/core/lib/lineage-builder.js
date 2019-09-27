@@ -11,28 +11,14 @@ module.exports = class {
   matchPattern(partial) {
     // First, perform a check for partials with parameters.
     // We need to make sure partial !== matchCandidate so we only submit the non-param partial.
-    for (let i in this.patternlab.partials) {
-      /* istanbul ignore if */
-      if (!this.patternlab.partials.hasOwnProperty(i)) {
-        continue;
-      }
-
-      const matchCandidate = i;
-
+    for (let matchCandidate of Object.keys(this.patternlab.partials)) {
       if (partial !== matchCandidate && partial.indexOf(matchCandidate) === 0) {
         return matchCandidate;
       }
     }
 
     // Then, look for exact matches.
-    for (let i in this.patternlab.partials) {
-      /* istanbul ignore if */
-      if (!this.patternlab.partials.hasOwnProperty(i)) {
-        continue;
-      }
-
-      const matchCandidate = i;
-
+    for (let matchCandidate of Object.keys(this.patternlab.partials)) {
       if (partial === matchCandidate) {
         return matchCandidate;
       }

@@ -25,12 +25,7 @@ module.exports = class {
     ];
     const listItemsArr = [];
 
-    for (let i in container.listItems) {
-      /* istanbul ignore if */
-      if (!container.listItems.hasOwnProperty(i)) {
-        continue;
-      }
-
+    for (let i of Object.keys(container.listItems)) {
       listItemsArr.push(container.listItems[i]);
     }
 
