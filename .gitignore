@@ -12,5 +12,4 @@ ignore/
 node_modules/
 !/test/root-installer-test/excludes/profiles/main/extend/node_modules/
 !/test/public/node_modules/
-/test/public/node_modules/fepper-ui/data/*
 package-lock.json
