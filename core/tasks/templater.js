@@ -249,14 +249,12 @@ module.exports = class {
     let token;
     let unescaped;
 
-    for (let i in tokens) {
-      if (tokens.hasOwnProperty(i)) {
-        unescaped = this.mustacheUnescape(i);
-        regex = new RegExp('\\{\\{\\{?\\s*' + unescaped + '\\s*\\}?\\}\\}', 'g');
-        token = tokens[i].replace(/^\n/, '');
-        token = token.replace(/\n$/, '');
-        code = code.replace(regex, token);
-      }
+    for (let i of Object.keys(tokens)) {
+      unescaped = this.mustacheUnescape(i);
+      regex = new RegExp('\\{\\{\\{?\\s*' + unescaped + '\\s*\\}?\\}\\}', 'g');
+      token = tokens[i].replace(/^\n/, '');
+      token = token.replace(/\n$/, '');
+      code = code.replace(regex, token);
     }
 
     // Delete remaining Mustache tags if configured to do so.

@@ -81,12 +81,7 @@ module.exports = class {
   }
 
   preProcessPartials(fepletPartials) {
-    for (let i in fepletPartials) {
-      /* istanbul ignore if */
-      if (!fepletPartials.hasOwnProperty(i)) {
-        continue;
-      }
-
+    for (let i of Object.keys(fepletPartials)) {
       const partial = fepletPartials[i];
 
       // If undefined, create a placeholder in the partials object to get populated later.
@@ -257,12 +252,7 @@ module.exports = class {
       patterns
     } = this.patternlab;
 
-    for (let partialName in partials) {
-      /* istanbul ignore if */
-      if (!partials.hasOwnProperty(partialName)) {
-        continue;
-      }
-
+    for (let partialName of Object.keys(partials)) {
       const pattern = this.patternlab.getPattern(partialName);
 
       if (pattern) {
@@ -478,12 +468,7 @@ module.exports = class {
 
   freePattern(pattern) {
     // Will free significant memory if processing many templates.
-    for (let key in pattern) {
-      /* istanbul ignore if */
-      if (!pattern.hasOwnProperty(key)) {
-        continue;
-      }
-
+    for (let key of Object.keys(pattern)) {
       // Retain these keys so patterns can continue to be looked up.
       switch (key) {
         case 'patternLink':
