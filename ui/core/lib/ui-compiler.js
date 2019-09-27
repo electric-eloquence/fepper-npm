@@ -36,6 +36,7 @@ function findSupportedStyleExtensions(dir, styleExtsSupported) {
 module.exports = class {
   constructor(patternlab) {
     this.patternlab = patternlab;
+    this.appDir = patternlab.appDir;
     this.config = patternlab.config;
     this.componentsDirCoreRoot = `${patternlab.config.paths.core}/styleguide`;
     this.componentsArr = [];
@@ -224,6 +225,39 @@ module.exports = class {
 
   main() {
     findSupportedStyleExtensions(this.config.paths.source.css, this.styleExtsSupported);
+
+    // Copy required ES6 modules if necessary.
+    const fepletDir = 'node_modules/feplet/dist';
+    const fepletFile = 'feplet.browser.es6.min.js';
+
+    if (!fs.existsSync(`${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`)) {
+      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
+      fs.copySync(
+        `${this.appDir}/${fepletDir}/${fepletFile}`,
+        `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
+      );
+    }
+
+    const requerioDir = 'node_modules/requerio/src';
+    const requerioFile = 'requerio.js';
+
+    if (!fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
+      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
+
+      /* istanbul ignore if */
+      if (fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
+        fs.copySync(
+          `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
+          `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
+        );
+      }
+      else {
+        fs.copySync(
+          `${this.appDir}/${requerioDir}/${requerioFile}`,
+          `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
+        );
+      }
+    }
 
     // Delete old compiled styles.
     for (let i = 0, l = this.styleExtsSupported.length; i < l; i++) {
