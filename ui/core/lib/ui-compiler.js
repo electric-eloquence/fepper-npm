@@ -41,7 +41,6 @@ module.exports = class {
     this.componentsDirCoreRoot = `${patternlab.config.paths.core}/styleguide`;
     this.componentsArr = [];
     this.pathsPublic = patternlab.config.pathsPublic;
-    this.rootDir = patternlab.rootDir;
     this.styleExtsSupported = ['.css'];
     this.utils = patternlab.utils;
     this.componentsDirCustomRoot = this.utils.deepGet(patternlab, 'config.paths.source.ui');
@@ -230,12 +229,11 @@ module.exports = class {
     // Copy required ES6 modules if necessary.
     const fepletDir = 'node_modules/feplet/dist';
     const fepletFile = 'feplet.browser.es6.min.js';
-    const rootDir = this.rootDir || this.appDir;
 
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`)) {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
       fs.copySync(
-        `${rootDir}/${fepletDir}/${fepletFile}`,
+        `${this.appDir}/${fepletDir}/${fepletFile}`,
         `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
       );
     }
@@ -247,7 +245,7 @@ module.exports = class {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
 
       /* istanbul ignore if */
-      if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
+      if (fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
         fs.copySync(
           `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
           `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
@@ -255,7 +253,7 @@ module.exports = class {
       }
       else {
         fs.copySync(
-          `${rootDir}/${requerioDir}/${requerioFile}`,
+          `${this.appDir}/${requerioDir}/${requerioFile}`,
           `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
         );
       }
