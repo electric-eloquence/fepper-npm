@@ -97,6 +97,9 @@ describe('Patternlab', function () {
     });
 
     it('compiles the UI with modified configuration', function () {
+      const rootDir = global.rootDir;
+      delete global.rootDir;
+
       // Configuration permutations are tested in .resetConfig() tests.
       patternlab.compile({
         paths: {
@@ -116,6 +119,8 @@ describe('Patternlab', function () {
           }
         }
       });
+
+      global.rootDir = rootDir;
 
       // uiIndexOrig should have been written by previous test.
       const uiIndexOrig = `${configOrigClone.paths.public.root}/index.html`;

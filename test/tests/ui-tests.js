@@ -72,7 +72,12 @@ describe('UI', function () {
 
       indexHtmlPublicExistsBefore = fs.existsSync(indexHtmlPublic);
 
+      const rootDir = global.rootDir;
+      delete global.rootDir;
+
       ui.compile();
+
+      global.rootDir = rootDir;
     });
 
     it('compiles the UI index file', function () {

@@ -229,11 +229,13 @@ module.exports = class {
     // Copy required ES6 modules if necessary.
     const fepletDir = 'node_modules/feplet/dist';
     const fepletFile = 'feplet.browser.es6.min.js';
+    // Using global.rootDir because tests must temporarily unset global.rootDir in order to work.
+    const rootDir = global.rootDir || this.appDir;
 
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`)) {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
       fs.copySync(
-        `${this.appDir}/${fepletDir}/${fepletFile}`,
+        `${rootDir}/${fepletDir}/${fepletFile}`,
         `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
       );
     }
@@ -245,7 +247,7 @@ module.exports = class {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
 
       /* istanbul ignore if */
-      if (fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
+      if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
         fs.copySync(
           `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
           `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
@@ -253,7 +255,7 @@ module.exports = class {
       }
       else {
         fs.copySync(
-          `${this.appDir}/${requerioDir}/${requerioFile}`,
+          `${rootDir}/${requerioDir}/${requerioFile}`,
           `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
         );
       }
