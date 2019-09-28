@@ -54,20 +54,6 @@ describe('UI Compiler', function () {
     uiJsContent = fs.readFileSync(uiJs, patternlab.enc);
   });
 
-  it('copies feplet.browser.es6.min.js', function () {
-    const fepletFileExistsAfter = fs.existsSync(fepletFile);
-
-    expect(fepletFileExistsBefore).to.be.false;
-    expect(fepletFileExistsAfter).to.be.true;
-  });
-
-  it('copies requerio.js', function () {
-    const requerioFileExistsAfter = fs.existsSync(requerioFile);
-
-    expect(requerioFileExistsBefore).to.be.false;
-    expect(requerioFileExistsAfter).to.be.true;
-  });
-
   it('writes index.html', function () {
     const uiIndexExistsAfter = fs.existsSync(uiIndex);
 
