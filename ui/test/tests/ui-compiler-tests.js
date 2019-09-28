@@ -3,14 +3,22 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-describe('UI Compiler', function () {
-  let patternlab;
+// Need to unset and reset global.rootDir for this test to work alongside other tests.
+const rootDir = global.rootDir;
+delete global.rootDir;
 
-  let fepletFile;
-  let requerioFile;
-  let uiIndex;
-  let uiCss;
-  let uiJs;
+const {
+  patternlab
+} = require('../init')();
+
+global.rootDir = rootDir;
+
+describe('UI Compiler', function () {
+  const fepletFile = `${patternlab.config.paths.public.styleguide}/node_modules/feplet/dist/feplet.browser.es6.min.js`;
+  const requerioFile = `${patternlab.config.paths.public.styleguide}/node_modules/requerio/src/requerio.js`;
+  const uiIndex = `${patternlab.config.paths.public.root}/index.html`;
+  const uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
+  const uiJs = `${patternlab.config.paths.public.styleguide}/scripts/ui/compilation.js`;
 
   let fepletFileExistsBefore;
   let requerioFileExistsBefore;
@@ -23,20 +31,6 @@ describe('UI Compiler', function () {
   let uiJsContent;
 
   before(function () {
-    // Need to unset and reset global.rootDir for this test to work alongside other tests.
-    const rootDir = global.rootDir;
-    delete global.rootDir;
-
-    patternlab = require('../init')().patternlab;
-
-    global.rootDir = rootDir;
-
-    fepletFile = `${patternlab.config.paths.public.styleguide}/node_modules/feplet/dist/feplet.browser.es6.min.js`;
-    requerioFile = `${patternlab.config.paths.public.styleguide}/node_modules/requerio/src/requerio.js`;
-    uiIndex = `${patternlab.config.paths.public.root}/index.html`;
-    uiCss = `${patternlab.config.paths.public.styleguide}/styles/ui.css`;
-    uiJs = `${patternlab.config.paths.public.styleguide}/scripts/ui/compilation.js`;
-
     if (fs.existsSync(fepletFile)) {
       fs.removeSync(fepletFile);
     }
