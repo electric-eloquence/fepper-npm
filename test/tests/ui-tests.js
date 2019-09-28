@@ -28,12 +28,7 @@ describe('UI', function () {
 
       patternsPublicContentsBefore = fs.readdirSync(patternsPublic);
 
-      const rootDir = global.rootDir;
-      delete global.rootDir;
-
       ui.build();
-
-      global.rootDir = rootDir;
     });
 
     it('writes to the public patterns directory when passed no argument', function () {
@@ -60,13 +55,8 @@ describe('UI', function () {
 
       patternsPublicContentsBefore = fs.readdirSync(patternsPublic);
 
-      const rootDir = global.rootDir;
-      delete global.rootDir;
-
       // Repopulate patterns for future tests.
       ui.build();
-
-      global.rootDir = rootDir;
     });
 
     it('empties the public patterns directory', function () {
@@ -82,12 +72,7 @@ describe('UI', function () {
 
       indexHtmlPublicExistsBefore = fs.existsSync(indexHtmlPublic);
 
-      const rootDir = global.rootDir;
-      delete global.rootDir;
-
       ui.compile();
-
-      global.rootDir = rootDir;
     });
 
     it('compiles the UI index file', function () {

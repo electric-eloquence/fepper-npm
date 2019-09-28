@@ -229,35 +229,27 @@ module.exports = class {
     // Copy required ES6 modules if necessary.
     const fepletDir = 'node_modules/feplet/dist';
     const fepletFile = 'feplet.browser.es6.min.js';
-    // Using global.rootDir because tests must temporarily unset global.rootDir in order to work.
-    const rootDir = global.rootDir || this.appDir;
 
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`)) {
-      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
-      fs.copySync(
-        `${rootDir}/${fepletDir}/${fepletFile}`,
-        `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
-      );
+      /* istanbul ignore if */
+      if (fs.existsSync(`${this.config.paths.public.root}/${fepletDir}/${fepletFile}`)) {
+        fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
+        fs.copySync(
+          `${this.config.paths.public.root}/${fepletDir}/${fepletFile}`,
+          `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
+        );
+      }
     }
 
     const requerioDir = 'node_modules/requerio/src';
     const requerioFile = 'requerio.js';
 
-    console.log(fs.existsSync(`${rootDir}/node_modules/requerio`));
-    console.log(fs.readdirSync(`${rootDir}/node_modules/fepper-ui/node_modules`));
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
-      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
-
       /* istanbul ignore if */
       if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
+        fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
         fs.copySync(
           `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
-          `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
-        );
-      }
-      else {
-        fs.copySync(
-          `${rootDir}/${requerioDir}/${requerioFile}`,
           `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
         );
       }

@@ -19,13 +19,7 @@ describe('Annotations Builder', function () {
   let annotations;
 
   before(function () {
-    const rootDir = global.rootDir;
-    delete global.rootDir;
-
     patternlab.build();
-
-    global.rootDir = rootDir;
-
     require(annotationsJs);
 
     annotations = global.annotations;

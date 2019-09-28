@@ -55,9 +55,6 @@ describe('Patternlab', function () {
     });
 
     it('builds patterns with modified configuration', function () {
-      const rootDir = global.rootDir;
-      delete global.rootDir;
-
       // Configuration permutations are tested in .resetConfig() tests.
       patternlab.build({
         paths: {
@@ -72,8 +69,6 @@ describe('Patternlab', function () {
         },
         cacheBust: true
       });
-
-      global.rootDir = rootDir;
 
       // viewallOrig should have been written by previous test.
       const viewallOrig = `${configOrigClone.paths.public.patterns}/viewall/viewall.html`;
@@ -102,9 +97,6 @@ describe('Patternlab', function () {
     });
 
     it('compiles the UI with modified configuration', function () {
-      const rootDir = global.rootDir;
-      delete global.rootDir;
-
       // Configuration permutations are tested in .resetConfig() tests.
       patternlab.compile({
         paths: {
@@ -124,8 +116,6 @@ describe('Patternlab', function () {
           }
         }
       });
-
-      global.rootDir = rootDir;
 
       // uiIndexOrig should have been written by previous test.
       const uiIndexOrig = `${configOrigClone.paths.public.root}/index.html`;
