@@ -243,6 +243,8 @@ module.exports = class {
     const requerioDir = 'node_modules/requerio/src';
     const requerioFile = 'requerio.js';
 
+    console.log(fs.existsSync(`${rootDir}/node_modules/requerio`));
+    console.log(fs.readdirSync(`${rootDir}/node_modules/fepper-ui/node_modules`));
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
 
