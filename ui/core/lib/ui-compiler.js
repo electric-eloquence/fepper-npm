@@ -241,8 +241,8 @@ module.exports = class {
       }
     }
 
-    const requerioDir = 'node_modules/requerio/src';
-    const requerioFile = 'requerio.js';
+    const requerioDir = 'node_modules/requerio/dist';
+    const requerioFile = 'requerio.npm.mjs';
 
     if (!fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
       /* istanbul ignore if */
