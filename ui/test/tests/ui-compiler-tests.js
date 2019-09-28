@@ -3,15 +3,9 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-// Need to unset and reset global.rootDir for this test to work alongside other tests.
-const rootDir = global.rootDir;
-delete global.rootDir;
-
 const {
   patternlab
 } = require('../init')();
-
-global.rootDir = rootDir;
 
 describe('UI Compiler', function () {
   const fepletFile = `${patternlab.config.paths.public.styleguide}/node_modules/feplet/dist/feplet.browser.es6.min.js`;
