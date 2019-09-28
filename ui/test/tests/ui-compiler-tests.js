@@ -47,7 +47,12 @@ describe('UI Compiler', function () {
     uiCssExistsBefore = fs.existsSync(uiCss);
     uiJsExistsBefore = fs.existsSync(uiJs);
 
+    const rootDir = global.rootDir;
+    delete global.rootDir;
+
     patternlab.compile();
+
+    global.rootDir = rootDir;
 
     uiIndexContent = fs.readFileSync(uiIndex, patternlab.enc);
     uiCssContent = fs.readFileSync(uiCss, patternlab.enc);
