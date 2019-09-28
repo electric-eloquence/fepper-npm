@@ -67,8 +67,13 @@ describe('Front Matter Parser', function () {
       }
 
       annotationsJsExistsBefore = fs.existsSync(annotationsJs);
+      const rootDir = global.rootDir;
+      delete global.rootDir;
 
       patternlab.build();
+
+      global.rootDir = rootDir;
+
       require(annotationsJs);
 
       annotations = global.annotations;
