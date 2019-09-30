@@ -230,29 +230,25 @@ module.exports = class {
     const fepletDir = 'node_modules/feplet/dist';
     const fepletFile = 'feplet.browser.es6.min.js';
 
-    if (!fs.existsSync(`${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`)) {
-      /* istanbul ignore if */
-      if (fs.existsSync(`${this.config.paths.public.root}/${fepletDir}/${fepletFile}`)) {
-        fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
-        fs.copySync(
-          `${this.config.paths.public.root}/${fepletDir}/${fepletFile}`,
-          `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
-        );
-      }
+    /* istanbul ignore if */
+    if (fs.existsSync(`${this.config.paths.public.root}/${fepletDir}/${fepletFile}`)) {
+      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${fepletDir}`);
+      fs.copySync(
+        `${this.config.paths.public.root}/${fepletDir}/${fepletFile}`,
+        `${this.config.paths.public.styleguide}/${fepletDir}/${fepletFile}`
+      );
     }
 
     const requerioDir = 'node_modules/requerio/dist';
     const requerioFile = 'requerio.npm.mjs';
 
-    if (!fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`)) {
-      /* istanbul ignore if */
-      if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
-        fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
-        fs.copySync(
-          `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
-          `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
-        );
-      }
+    /* istanbul ignore if */
+    if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
+      fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
+      fs.copySync(
+        `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
+        `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
+      );
     }
 
     // Delete old compiled styles.
