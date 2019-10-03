@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.33.1
+* Fixed LiveReload
+
 ### v0.33.0
 * Complete test coverage
 * Node infrastructure set up for Fepper UI with ES6 modules, state management, and more modernization
