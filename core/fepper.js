@@ -17,8 +17,8 @@ module.exports = class {
     global.appDir = global.appDir || slash(path.resolve(__dirname, '..'));
     global.rootDir = global.rootDir || utils.findupRootDir(cwd, __dirname);
     // utils.conf() and utils.pref() depend on global.appDir and global.rootDir.
-    global.conf = utils.conf(); // This runs utils.uiConfigNormalize().
-    global.pref = utils.pref();
+    global.conf = global.conf || utils.conf(); // This runs utils.uiConfigNormalize().
+    global.pref = global.pref || utils.pref();
 
     /* istanbul ignore if */
     if (!global.conf) {
