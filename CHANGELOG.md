@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.33.3
+* Ensuring utils.conf() and utils.pref() only get run once
+
 ### v0.33.2
 * Using pref.backend.backend\_dir, deprecating conf.backend\_dir
 
