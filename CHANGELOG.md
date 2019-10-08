@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.33.2
+* Using pref.backend.backend\_dir, deprecating conf.backend\_dir
+
 ### v0.33.1
 * Fixed LiveReload
 
