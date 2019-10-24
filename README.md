@@ -169,17 +169,17 @@ for one,
 <a href="https://github.com/electric-eloquence/fepper/issues" target="_blank">
 please open an issue</a>.
 
-[snyk-image]: https://snyk.io//test/github/electric-eloquence/fepper-npm/master/badge.svg
-[snyk-url]: https://snyk.io//test/github/electric-eloquence/fepper-npm/master
+[snyk-image]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release/badge.svg
+[snyk-url]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release
 
-[travis-image]: https://img.shields.io/travis/electric-eloquence/fepper-npm.svg?label=mac%20%26%20linux
+[travis-image]: https://img.shields.io/travis/electric-eloquence/fepper-npm/release.svg?label=mac%20%26%20linux
 [travis-url]: https://travis-ci.org/electric-eloquence/fepper-npm
 
-[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm.svg?label=windows
+[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm/release.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/e2tha-e/fepper-npm
 
-[coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fepper-npm/master.svg
+[coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fepper-npm/release.svg
 [coveralls-url]: https://coveralls.io/r/electric-eloquence/fepper-npm
 
 [license-image]: https://img.shields.io/github/license/electric-eloquence/fepper-npm.svg
-[license-url]: https://raw.githubusercontent.com/electric-eloquence/fepper-npm/master/LICENSE
+[license-url]: https://raw.githubusercontent.com/electric-eloquence/fepper-npm/release/LICENSE
