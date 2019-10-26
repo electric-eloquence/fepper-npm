@@ -4,7 +4,7 @@ const Pattern = require('./object-factory').Pattern;
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    this.config = patternlab.config;
     this.utils = patternlab.utils;
   }
 
@@ -23,11 +23,8 @@ module.exports = class {
       'eleven',
       'twelve'
     ];
-    const listItemsArr = [];
 
-    for (let i of Object.keys(container.listItems)) {
-      listItemsArr.push(container.listItems[i]);
-    }
+    const  listItemsArr = Object.values(container.listItems);
 
     this.utils.shuffle(listItemsArr);
 
@@ -64,7 +61,7 @@ module.exports = class {
   }
 
   listItemsScan(parseArr) {
-    let useListItems = this.patternlab.useListItems;
+    let useListItems = this.config.useListItems;
 
     if (useListItems) {
       return true;

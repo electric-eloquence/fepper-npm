@@ -33,7 +33,7 @@
       "patterns": "public/patterns",
       "static": "public/static",
       // The "styleguide" config is necessary for testing.
-      "styleguide": "../../node_modules/fepper-ui"
+      "styleguide": "public/node_modules/fepper-ui"
     }
   },
   "cacheBust": false,

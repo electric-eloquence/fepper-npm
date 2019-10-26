@@ -5,17 +5,31 @@ const fs = require('fs-extra');
 
 const objectFactory = require('./object-factory');
 
+let patternlabInst;
+
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    patternlabInst = patternlab;
+
     this.config = patternlab.config;
+    this.ingredients = patternlab.ingredients;
+    this.isViewallValid = false;
     this.public = patternlab.config.paths.public;
     this.source = patternlab.config.paths.source;
     this.utils = patternlab.utils;
-    this.viewallBuilder = null;
-    this.viewallPatterns = patternlab.viewallPatterns;
-    this.isViewallValid = false;
   }
+
+  // Getters for patternlab instance props in case they are undefined at instantiation.
+
+  get patternBuilder() {
+    return patternlabInst.patternBuilder;
+  }
+
+  get viewallBuilder() {
+    return patternlabInst.viewallBuilder;
+  }
+
+  // METHODS
 
   processAllPatterns() {
     let patternsToExport;
@@ -24,41 +38,40 @@ module.exports = class {
       patternsToExport = this.config.patternExportPatternPartials;
     }
 
-    this.viewallBuilder = this.patternlab.viewallBuilder;
     this.viewallBuilder.preParseViewallMarkup();
     this.viewallBuilder.processViewallData();
 
     this.isViewallValid = this.viewallBuilder.isViewallValid;
 
-    // Need to process the first pattern in this.patternlab.patternTypes array in order to build viewall output.
+    // Need to process the first pattern in this.ingredients.patternTypes array in order to build viewall output.
     // Need to do this before the nested for loop.
     let isFirstPatternSubType;
     let firstPattern;
 
-    if (this.patternlab.patternTypes.length && this.isViewallValid) {
+    if (this.ingredients.patternTypes.length && this.isViewallValid) {
       if (
-        this.patternlab.patternTypes[0].patternTypeItems.length &&
-        this.patternlab.patternTypes[0].patternTypeItems[0].patternName !== 'View All'
+        this.ingredients.patternTypes[0].patternTypeItems.length &&
+        this.ingredients.patternTypes[0].patternTypeItems[0].patternName !== 'View All'
       ) {
         isFirstPatternSubType = false;
-        firstPattern = this.patternlab.patternTypes[0].patternTypeItems[0].pattern;
+        firstPattern = this.ingredients.patternTypes[0].patternTypeItems[0].pattern;
 
-        this.patternlab.patternBuilder.processPattern(firstPattern);
+        this.patternBuilder.processPattern(firstPattern);
       }
       else if (
-        this.patternlab.patternTypes[0].patternSubTypes.length &&
-        this.patternlab.patternTypes[0].patternSubTypes[0].patternSubTypeItems.length
+        this.ingredients.patternTypes[0].patternSubTypes.length &&
+        this.ingredients.patternTypes[0].patternSubTypes[0].patternSubTypeItems.length
       ) {
         isFirstPatternSubType = true;
-        firstPattern = this.patternlab.patternTypes[0].patternSubTypes[0].patternSubTypeItems[0].pattern;
+        firstPattern = this.ingredients.patternTypes[0].patternSubTypes[0].patternSubTypeItems[0].pattern;
 
-        this.patternlab.patternBuilder.processPattern(firstPattern);
+        this.patternBuilder.processPattern(firstPattern);
       }
 
       this.viewallBuilder.viewallPageHead = firstPattern.header +
-        Feplet.render(this.viewallBuilder.viewallTemplateHead, this.patternlab.data);
+        Feplet.render(this.viewallBuilder.viewallTemplateHead, this.ingredients.data);
 
-      this.viewallPatterns.viewall = new objectFactory.PatternViewall(
+      this.ingredients.viewallPatterns.viewall = new objectFactory.PatternViewall(
         // Naming the HTML file viewall.html instead of index.html to allow naming a Type "viewall" however unlikely.
         `${this.public.patterns}/viewall/viewall.html`,
         this.viewallBuilder.viewallPageHead
@@ -70,12 +83,12 @@ module.exports = class {
 
     // Process patterns and viewall in the same nested loop.
     // This way, memory can be freed for both at the end of each loop.
-    for (let i = 0; i < this.patternlab.patternTypes.length; i++) {
+    for (let i = 0; i < this.ingredients.patternTypes.length; i++) {
       let j;
-      const patternType = this.patternlab.patternTypes[i];
+      const patternType = this.ingredients.patternTypes[i];
 
       if (this.isViewallValid && patternType.patternTypeLC !== scrapeTypeName) {
-        this.viewallPatterns[patternType.flatPatternPath] = new objectFactory.PatternViewall(
+        this.ingredients.viewallPatterns[patternType.flatPatternPath] = new objectFactory.PatternViewall(
           `${this.public.patterns}/${patternType.flatPatternPath}/index.html`,
           this.viewallBuilder.viewallPageHead
         );
@@ -96,12 +109,12 @@ module.exports = class {
         // Always process Type if 1st pattern is subType.
         // Otherwise, skip if both i === 0 and j === 0.
         if (isFirstPatternSubType || i > 0 || j > 0) {
-          this.patternlab.patternBuilder.processPattern(pattern);
+          this.patternBuilder.processPattern(pattern);
         }
 
         // Write pattern.
         if (!pattern.isHidden) {
-          this.patternlab.patternBuilder.writePattern(pattern);
+          this.patternBuilder.writePattern(pattern);
         }
 
         // Export pattern.
@@ -125,7 +138,7 @@ module.exports = class {
           }
         }
 
-        this.patternlab.patternBuilder.freePattern(pattern);
+        this.patternBuilder.freePattern(pattern);
       }
 
       for (j = 0; j < patternType.patternSubTypes.length; j++) {
@@ -134,7 +147,7 @@ module.exports = class {
 
         // Build viewall head for this subType.
         if (this.isViewallValid) {
-          this.viewallPatterns[patternSubType.flatPatternPath] = new objectFactory.PatternViewall(
+          this.ingredients.viewallPatterns[patternSubType.flatPatternPath] = new objectFactory.PatternViewall(
             `${this.public.patterns}/${patternSubType.flatPatternPath}/index.html`,
             this.viewallBuilder.viewallPageHead
           );
@@ -155,12 +168,12 @@ module.exports = class {
           // Always process subType if 1st pattern is not subType.
           // Otherwise, skip if i === 0, j === 0, and k === 0.
           if (!isFirstPatternSubType || i > 0 || j > 0 || k > 0) {
-            this.patternlab.patternBuilder.processPattern(pattern);
+            this.patternBuilder.processPattern(pattern);
           }
 
           // Write pattern.
           if (!pattern.isHidden) {
-            this.patternlab.patternBuilder.writePattern(pattern);
+            this.patternBuilder.writePattern(pattern);
           }
 
           // Export pattern.
@@ -184,7 +197,7 @@ module.exports = class {
             }
           }
 
-          this.patternlab.patternBuilder.freePattern(pattern);
+          this.patternBuilder.freePattern(pattern);
         }
 
         // Finish building subType viewall.
@@ -208,8 +221,8 @@ module.exports = class {
     }
 
     // Fully remove no longer needed data from patternTypes array so we don't write a huge ui/data.js file.
-    for (let i = 0; i < this.patternlab.patternTypes.length; i++) {
-      const patternType = this.patternlab.patternTypes[i];
+    for (let i = 0; i < this.ingredients.patternTypes.length; i++) {
+      const patternType = this.ingredients.patternTypes[i];
 
       delete patternType.pathsPublic;
 
@@ -258,9 +271,9 @@ module.exports = class {
     output += 'export const config = ' + JSON.stringify(this.config) + ';\n';
     output += 'export const ishControls = {"ishControlsHide":' + JSON.stringify(this.config.ishControlsHide) +
       '};\n';
-    output += 'export const navItems = {"patternTypes": ' + JSON.stringify(this.patternlab.patternTypes) + '};\n';
-    output += 'export const patternPaths = ' + JSON.stringify(this.patternlab.patternPaths) + ';\n';
-    output += 'export const viewallPaths = ' + JSON.stringify(this.patternlab.viewallPaths) + ';\n';
+    output += 'export const navItems = {"patternTypes": ' + JSON.stringify(this.ingredients.patternTypes) + '};\n';
+    output += 'export const patternPaths = ' + JSON.stringify(this.ingredients.patternPaths) + ';\n';
+    output += 'export const viewallPaths = ' + JSON.stringify(this.ingredients.viewallPaths) + ';\n';
 
     // Re-add .paths to the config object.
     this.config.paths = configPaths;

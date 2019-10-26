@@ -20,7 +20,7 @@ const frontMatterPattern = patternlab.getPattern('test1-simple');
 describe('Front Matter Parser', function () {
   it('converts standard Front Matter into an array of objects', function () {
     const annotationFile = `${patternlab.config.paths.source.annotations}/annotation.md`;
-    const annotationStr = fs.readFileSync(annotationFile, patternlab.enc);
+    const annotationStr = fs.readFileSync(annotationFile, patternlab.config.enc);
     const annotationsArr = frontMatterParser.main(annotationStr);
 
     expect(annotationsArr[0].el).to.equal('#nav');
@@ -30,7 +30,7 @@ describe('Front Matter Parser', function () {
 
   it('parses .md files with Pattern Lab standard annotation delimiters', function () {
     const annotationFile = `${patternlab.config.paths.source.annotations}/multiple.md`;
-    const annotationsStr = fs.readFileSync(annotationFile, patternlab.enc);
+    const annotationsStr = fs.readFileSync(annotationFile, patternlab.config.enc);
     const annotationsArr = frontMatterParser.main(annotationsStr);
 
     expect(annotationsArr[0].el).to.equal('.zero');
