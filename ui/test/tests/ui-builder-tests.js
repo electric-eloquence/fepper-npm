@@ -51,10 +51,9 @@ const expectedContent = `<span class="test_base ">
 </span>
 `;
 
-const configClone = JSON.parse(JSON.stringify(patternlab.config));
-delete configClone.paths;
-
 describe('UI Builder', function () {
+  let configClone;
+
   let patternHtmlExistsAfter;
   let patternMarkupExistsAfter;
   let patternMustacheExistsAfter;
@@ -70,17 +69,20 @@ describe('UI Builder', function () {
   before(function () {
     patternlab.build();
 
+    configClone = JSON.parse(JSON.stringify(patternlab.config));
+    delete configClone.paths;
+
     patternHtmlExistsAfter = fs.existsSync(patternHtml);
     patternMarkupExistsAfter = fs.existsSync(patternMarkup);
     patternMustacheExistsAfter = fs.existsSync(patternMustache);
     patternExportExistsAfter = fs.existsSync(patternExport);
     patternlabDataExistsAfter = fs.existsSync(patternlabData);
 
-    patternHtmlContent = fs.readFileSync(patternHtml, patternlab.enc);
-    patternMarkupContent = fs.readFileSync(patternMarkup, patternlab.enc);
-    patternMustacheContent = fs.readFileSync(patternMustache, patternlab.enc);
-    patternExportContent = fs.readFileSync(patternExport, patternlab.enc);
-    patternlabDataContent = fs.readFileSync(patternlabData, patternlab.enc);
+    patternHtmlContent = fs.readFileSync(patternHtml, patternlab.config.enc);
+    patternMarkupContent = fs.readFileSync(patternMarkup, patternlab.config.enc);
+    patternMustacheContent = fs.readFileSync(patternMustache, patternlab.config.enc);
+    patternExportContent = fs.readFileSync(patternExport, patternlab.config.enc);
+    patternlabDataContent = fs.readFileSync(patternlabData, patternlab.config.enc);
   });
 
   it('writes patterns to the public directory', function () {

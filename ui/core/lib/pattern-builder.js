@@ -9,25 +9,45 @@ const JSON5 = require('json5');
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
 
+let patternlabInst;
+
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    patternlabInst = patternlab;
+
+    this.config = patternlab.config;
+    this.getPattern = patternlab.getPattern;
+    this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
+  }
+
+  // Getters for patternlab instance props in case they are undefined at instantiation.
+
+  get lineageBuilder() {
+    return patternlabInst.lineageBuilder;
+  }
+
+  get listItemsBuilder() {
+    return patternlabInst.listItemsBuilder;
+  }
+
+  get pseudoPatternBuilder() {
+    return patternlabInst.pseudoPatternBuilder;
   }
 
   // PRIVATE METHODS
 
   addPattern(pattern) {
-    this.patternlab.data.link[pattern.patternPartial] = '../' + pattern.patternLink;
+    this.ingredients.data.link[pattern.patternPartial] = '../' + pattern.patternLink;
 
     // Only push to array if the array doesn't contain this pattern.
     let isNew = true;
 
-    for (let i = 0, l = this.patternlab.patterns.length; i < l; i++) {
+    for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
       // So we need the identifier to be unique, which patterns[i].relPath is.
-      if (pattern.relPath === this.patternlab.patterns[i].relPath) {
+      if (pattern.relPath === this.ingredients.patterns[i].relPath) {
         // If relPath already exists, overwrite that element.
-        this.patternlab.patterns[i] = pattern;
+        this.ingredients.patterns[i] = pattern;
         isNew = false;
 
         break;
@@ -36,11 +56,11 @@ module.exports = class {
 
     // If the pattern is new, we must register it with various data structures!
     if (isNew) {
-      if (this.patternlab.config.debug) {
+      if (this.config.debug) {
         this.utils.log('Found new pattern ' + pattern.patternPartial);
       }
 
-      this.patternlab.patterns.push(pattern);
+      this.ingredients.patterns.push(pattern);
     }
   }
 
@@ -60,8 +80,8 @@ module.exports = class {
 
     // Return boolean condition for everything else.
     return (
-      extension === this.patternlab.config.patternExtension ||
-      extension === this.patternlab.config.frontMatterExtension ||
+      extension === this.config.patternExtension ||
+      extension === this.config.frontMatterExtension ||
       this.isPseudoPatternJson(fileName)
     );
   }
@@ -85,13 +105,13 @@ module.exports = class {
       const partial = fepletPartials[i];
 
       // If undefined, create a placeholder in the partials object to get populated later.
-      if (typeof this.patternlab.partials[partial.name] === 'undefined') {
-        this.patternlab.partials[partial.name] = ''; // Needs to be string.
+      if (typeof this.ingredients.partials[partial.name] === 'undefined') {
+        this.ingredients.partials[partial.name] = ''; // Needs to be string.
       }
 
       // Same thing for partialsComp object.
-      if (typeof this.patternlab.partialsComp[partial.name] === 'undefined') {
-        this.patternlab.partialsComp[partial.name] = null;
+      if (typeof this.ingredients.partialsComp[partial.name] === 'undefined') {
+        this.ingredients.partialsComp[partial.name] = null;
       }
     }
   }
@@ -99,8 +119,8 @@ module.exports = class {
   setState(pattern) {
 
     // Check for a corresponding Front Matter file to the pattern and get the patternState from its data.
-    for (let i = 0, l = this.patternlab.patterns.length; i < l; i++) {
-      const fmCandidate = this.patternlab.patterns[i];
+    for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
+      const fmCandidate = this.ingredients.patterns[i];
 
       if (
         fmCandidate.isFrontMatter &&
@@ -126,7 +146,7 @@ module.exports = class {
     // Extract some information.
     const fileName = fileObject.base;
     const ext = fileObject.ext;
-    const patternsPath = this.patternlab.config.paths.source.patterns;
+    const patternsPath = this.config.paths.source.patterns;
 
     // Skip non-pattern files.
     if (!this.isPatternFile(fileName)) {
@@ -134,21 +154,21 @@ module.exports = class {
     }
 
     // Make a new Pattern instance.
-    const pattern = new Pattern(relPath, this.patternlab);
+    const pattern = new Pattern(relPath, patternlabInst);
 
     // Look for a json file for this template.
     let jsonFileName;
 
-    if (ext === this.patternlab.config.patternExtension || ext === '.json') {
+    if (ext === this.config.patternExtension || ext === '.json') {
       jsonFileName = `${patternsPath}/${pattern.subdir}/${pattern.fileName}.json`;
 
       if (fs.existsSync(jsonFileName)) {
         try {
-          const jsonFileStr = fs.readFileSync(jsonFileName, this.patternlab.enc);
+          const jsonFileStr = fs.readFileSync(jsonFileName, this.config.enc);
 
           pattern.jsonFileData = JSON5.parse(jsonFileStr);
 
-          if (this.patternlab.config.debug) {
+          if (this.config.debug) {
             this.utils.log('Found pattern-specific JSON data for ' + pattern.patternPartial);
           }
         }
@@ -160,7 +180,7 @@ module.exports = class {
 
       // If file is named in the syntax for variants, add data keys to dataKeysSchemaObj, add and return pattern.
       if (this.isPseudoPatternJson(fileName)) {
-        this.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
+        this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, pattern.jsonFileData);
         this.addPattern(pattern);
 
         return pattern;
@@ -168,16 +188,16 @@ module.exports = class {
     }
 
     // Preprocess Front Matter files.
-    else if (ext === this.patternlab.config.frontMatterExtension || ext === '.md') {
+    else if (ext === this.config.frontMatterExtension || ext === '.md') {
       const mustacheFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + this.patternlab.config.patternExtension;
+        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
       const jsonFileName =
         `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.json';
 
       // Check for a corresponding Pattern or JSON file.
       // If it exists, preprocess Front Matter and add it to the patterns array.
       if (fs.existsSync(mustacheFileName) || fs.exists(jsonFileName)) {
-        pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.patternlab.enc);
+        pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
         this.addPattern(pattern);
         this.preProcessFrontMatter(pattern);
@@ -200,16 +220,16 @@ module.exports = class {
 
     if (fs.existsSync(listJsonFileName)) {
       try {
-        const jsonFileStr = fs.readFileSync(listJsonFileName, this.patternlab.enc);
+        const jsonFileStr = fs.readFileSync(listJsonFileName, this.config.enc);
 
         pattern.listItems = JSON5.parse(jsonFileStr);
 
-        if (this.patternlab.config.debug) {
+        if (this.config.debug) {
           this.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
         }
 
-        this.patternlab.listItemsBuilder.listItemsBuild(pattern);
-        this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.patternlab.data.listItems);
+        this.listItemsBuilder.listItemsBuild(pattern);
+        this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
@@ -218,28 +238,28 @@ module.exports = class {
       }
     }
 
-    this.utils.extendButNotOverride(this.patternlab.dataKeysSchemaObj, pattern.jsonFileData);
-    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.patternlab.enc);
+    this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, pattern.jsonFileData);
+    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
     const scan = Feplet.scan(pattern.template);
     const parseArr = Feplet.parse(scan);
 
     // Check if the template uses listItems.
-    this.patternlab.useListItems = this.patternlab.listItemsBuilder.listItemsScan(parseArr);
+    this.config.useListItems = this.listItemsBuilder.listItemsScan(parseArr);
 
     pattern.fepletParse = parseArr;
     pattern.fepletComp = Feplet.generate(parseArr, pattern.template, {});
 
     // Prepopulate possible non-param matches for partials with params.
     // These are references, so they shouldn't use significant memory, thus justifying not having to regenerate.
-    this.patternlab.partialsComp[pattern.patternPartialPhp] = pattern.fepletComp;
-    this.patternlab.partialsComp[pattern.patternPartial] = pattern.fepletComp;
-    this.patternlab.partialsComp[pattern.relPathTrunc] = pattern.fepletComp;
-    this.patternlab.partialsComp[pattern.relPath] = pattern.fepletComp;
+    this.ingredients.partialsComp[pattern.patternPartialPhp] = pattern.fepletComp;
+    this.ingredients.partialsComp[pattern.patternPartial] = pattern.fepletComp;
+    this.ingredients.partialsComp[pattern.relPathTrunc] = pattern.fepletComp;
+    this.ingredients.partialsComp[pattern.relPath] = pattern.fepletComp;
 
     this.preProcessPartials(pattern.fepletComp.partials);
 
-    // Add pattern to this.patternlab.patterns array.
+    // Add pattern to this.ingredients.patterns array.
     this.addPattern(pattern);
 
     return pattern;
@@ -250,10 +270,10 @@ module.exports = class {
       partials,
       partialsComp,
       patterns
-    } = this.patternlab;
+    } = patternlabInst.ingredients;
 
     for (let partialName of Object.keys(partials)) {
-      const pattern = this.patternlab.getPattern(partialName);
+      const pattern = this.getPattern(partialName);
 
       if (pattern) {
         partials[partialName] = pattern.template;
@@ -299,9 +319,9 @@ module.exports = class {
       const partialKey = partialKeysArr[i];
       const partialText = partials[partialKey];
       const partialComp = partialsComp[partialKey];
-      const pattern = this.patternlab.getPattern(partialKey);
+      const pattern = this.getPattern(partialKey);
 
-      Feplet.preProcessPartialParams(partialText, partialComp, partials, partialsComp, this.patternlab.dataKeys);
+      Feplet.preProcessPartialParams(partialText, partialComp, partials, partialsComp, this.ingredients.dataKeys);
 
       if (pattern) {
         pattern.isPreProcessed = true;
@@ -315,11 +335,11 @@ module.exports = class {
       // Preprocess partials with params that exist in higher level patterns.
       if (!pattern.isPreProcessed) {
         Feplet.preProcessPartialParams(pattern.template, pattern.fepletComp, partials, partialsComp,
-          this.patternlab.dataKeys);
+          this.ingredients.dataKeys);
       }
 
       // Find and set lineages.
-      this.patternlab.lineageBuilder.main(pattern);
+      this.lineageBuilder.main(pattern);
       pattern.lineageExists = pattern.lineage.length > 0;
       pattern.lineageRExists = pattern.lineageR.length > 0;
     }
@@ -335,12 +355,11 @@ module.exports = class {
     // So first, check if this is not a pseudoPattern (therefore a basePattern) and set up the .allData property.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
       if (pattern.jsonFileData) {
-        pattern.allData = this.utils.extendButNotOverride({}, pattern.jsonFileData, this.patternlab.data);
+        pattern.allData = this.utils.extendButNotOverride({}, pattern.jsonFileData, this.ingredients.data);
       }
       else {
         pattern.jsonFileData = {};
-        // If no local data, create reference to this.patternlab.allData.
-        pattern.allData = this.patternlab.data;
+        pattern.allData = this.ingredients.data;
       }
 
       // Set cacheBuster property on allData.
@@ -349,19 +368,19 @@ module.exports = class {
 
     // Render extendedTemplate whether pseudoPattern or not. Write it to pattern object.
     pattern.extendedTemplate =
-      pattern.fepletComp.render(pattern.allData, this.patternlab.partials, null, this.patternlab.partialsComp);
+      pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
 
     // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
-      this.patternlab.pseudoPatternBuilder.main(pattern);
+      this.pseudoPatternBuilder.main(pattern);
     }
 
     // Render header.
     let header;
     let useUserHeadLocal = false;
 
-    for (let i = 0, l = this.patternlab.userHeadParseArr.length; i < l; i++) {
-      const compItem = this.patternlab.userHeadParseArr[i];
+    for (let i = 0, l = this.ingredients.userHeadParseArr.length; i < l; i++) {
+      const compItem = this.ingredients.userHeadParseArr[i];
 
       if (compItem.tag === '_v') {
         // eslint-disable-next-line eqeqeq
@@ -374,10 +393,10 @@ module.exports = class {
     }
 
     if (useUserHeadLocal) {
-      header = this.patternlab.userHeadComp.render(pattern.allData);
+      header = this.ingredients.userHeadComp.render(pattern.allData);
     }
     else {
-      header = this.patternlab.userHeadGlobal;
+      header = this.ingredients.userHeadGlobal;
     }
 
     // Prepare footer.
@@ -414,27 +433,27 @@ module.exports = class {
       patternName: pattern.patternName,
       patternPartial: pattern.patternPartial,
       patternState: pattern.patternState,
-      portReloader: this.patternlab.portReloader,
-      portServer: this.patternlab.portServer
+      portReloader: this.ingredients.portReloader,
+      portServer: this.ingredients.portServer
     });
 
     // Set the pattern-specific footer by compiling the general-footer with data, and then adding it to userFoot.
-    const footerPartial = Feplet.render(this.patternlab.footer, {
-      cacheBuster: this.patternlab.cacheBuster,
+    const footerPartial = Feplet.render(this.ingredients.footer, {
+      cacheBuster: this.ingredients.data.cacheBuster,
       isPattern: pattern.isPattern,
       patternData: pattern.allData.patternData,
-      portReloader: this.patternlab.portReloader
+      portReloader: this.ingredients.portReloader
     });
 
     // Build footer.
     let footer = '';
 
-    for (let i = 0, l = this.patternlab.userFootSplit.length; i < l; i++) {
+    for (let i = 0, l = this.ingredients.userFootSplit.length; i < l; i++) {
       if (i > 0) {
         footer += footerPartial;
       }
 
-      footer += this.patternlab.userFootSplit[i];
+      footer += this.ingredients.userFootSplit[i];
     }
 
     pattern.header = header;
@@ -448,14 +467,14 @@ module.exports = class {
     }
 
     // Write the built template to the public patterns directory.
-    const paths = this.patternlab.config.paths;
+    const paths = this.config.paths;
     const patternPage = pattern.header + pattern.extendedTemplate + pattern.footer;
 
     fs.outputFileSync(`${paths.public.patterns}/${pattern.patternLink}`, patternPage);
 
     // Write the mustache file.
     const outfileMustache = paths.public.patterns + '/' +
-      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.patternlab.config.patternExtension;
+      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.config.patternExtension;
 
     fs.outputFileSync(outfileMustache, pattern.template);
 

@@ -72,9 +72,9 @@ describe('Patternlab', function () {
 
       // viewallOrig should have been written by previous test.
       const viewallOrig = `${configOrigClone.paths.public.patterns}/viewall/viewall.html`;
-      const viewallOrigContent = fs.readFileSync(viewallOrig, patternlab.enc);
+      const viewallOrigContent = fs.readFileSync(viewallOrig, patternlab.config.enc);
       const viewallAlt = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
-      const viewallAltContent = fs.readFileSync(viewallAlt, patternlab.enc);
+      const viewallAltContent = fs.readFileSync(viewallAlt, patternlab.config.enc);
       const scriptTagStr = '<script src="../../annotations/annotations.js"></script>';
       const scriptTagRegex = /<script src="\.\.\/\.\.\/annotations\/annotations\.js\?\d+"><\/script>/;
 
@@ -119,9 +119,9 @@ describe('Patternlab', function () {
 
       // uiIndexOrig should have been written by previous test.
       const uiIndexOrig = `${configOrigClone.paths.public.root}/index.html`;
-      const uiIndexOrigContent = fs.readFileSync(uiIndexOrig, patternlab.enc);
+      const uiIndexOrigContent = fs.readFileSync(uiIndexOrig, patternlab.config.enc);
       const uiIndexAlt = `${patternlab.config.paths.public.root}/index.html`;
-      const uiIndexAltContent = fs.readFileSync(uiIndexAlt, patternlab.enc);
+      const uiIndexAltContent = fs.readFileSync(uiIndexAlt, patternlab.config.enc);
       const testString = `<head id="patternlab-head">
 <title id="title">Fepper</title>
 <meta charset="UTF-8">

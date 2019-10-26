@@ -7,7 +7,8 @@ const objectFactory = require('./object-factory');
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    this.config = patternlab.config;
+    this.ingredients = patternlab.ingredients;
     this.isViewallValid = false;
     this.pathsPublic = patternlab.config.pathsPublic;
     this.patternSection = '';
@@ -18,7 +19,6 @@ module.exports = class {
     this.utils = patternlab.utils;
     this.viewallPageHead = '';
     this.viewallPaths = {};
-    this.viewallPatterns = patternlab.viewallPatterns;
     this.viewallTemplateFull = '';
     this.viewallTemplateHead = '';
     this.viewallTemplateBody = '';
@@ -26,7 +26,7 @@ module.exports = class {
   }
 
   addToPatternPaths(pattern) {
-    this.patternlab.patternPaths[pattern.patternPartial] =
+    this.ingredients.patternPaths[pattern.patternPartial] =
       `${this.pathsPublic.patterns}/${pattern.name}/${pattern.name}.html`;
   }
 
@@ -39,8 +39,8 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.viewall.content += viewallTypeHead;
-    this.viewallPatterns[patternType.flatPatternPath].content += viewallTypeHead;
+    this.ingredients.viewallPatterns.viewall.content += viewallTypeHead;
+    this.ingredients.viewallPatterns[patternType.flatPatternPath].content += viewallTypeHead;
   }
 
   buildViewallTypeBody(patternTypeItem, patternType) {
@@ -52,8 +52,8 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.viewall.content += viewallTypeBody;
-    this.viewallPatterns[patternType.flatPatternPath].content += viewallTypeBody;
+    this.ingredients.viewallPatterns.viewall.content += viewallTypeBody;
+    this.ingredients.viewallPatterns[patternType.flatPatternPath].content += viewallTypeBody;
   }
 
   buildViewallSubTypeHead(patternSubType, patternType) {
@@ -65,9 +65,9 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.viewall.content += viewallSubTypeHead;
-    this.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeHead;
-    this.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeHead;
+    this.ingredients.viewallPatterns.viewall.content += viewallSubTypeHead;
+    this.ingredients.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeHead;
+    this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeHead;
   }
 
   buildViewallSubTypeBody(patternSubTypeItem, patternSubType, patternType) {
@@ -79,37 +79,37 @@ module.exports = class {
       }
     );
 
-    this.viewallPatterns.viewall.content += viewallSubTypeBody;
-    this.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeBody;
-    this.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeBody;
+    this.ingredients.viewallPatterns.viewall.content += viewallSubTypeBody;
+    this.ingredients.viewallPatterns[patternType.flatPatternPath].content += viewallSubTypeBody;
+    this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content += viewallSubTypeBody;
   }
 
   buildViewallFooter(patternPartial, name) {
     /* istanbul ignore if */
-    if (!Object.keys(this.viewallPatterns).length) {
+    if (!Object.keys(this.ingredients.viewallPatterns).length) {
       return;
     }
 
     const viewallFooter = Feplet.render(
-      this.patternlab.footer,
+      this.ingredients.footer,
       {
         patternData: JSON.stringify({patternPartial}),
-        portReloader: this.patternlab.portReloader,
-        portServer: this.patternlab.portServer
+        portReloader: this.ingredients.portReloader,
+        portServer: this.ingredients.portServer
       }
     );
 
     let userFoot = '';
 
-    for (let i = 0, l = this.patternlab.userFootSplit.length; i < l; i++) {
+    for (let i = 0, l = this.ingredients.userFootSplit.length; i < l; i++) {
       if (i > 0) {
         userFoot += viewallFooter;
       }
 
-      userFoot += this.patternlab.userFootSplit[i];
+      userFoot += this.ingredients.userFootSplit[i];
     }
 
-    this.viewallPatterns[name].content += this.viewallTemplateFoot + userFoot;
+    this.ingredients.viewallPatterns[name].content += this.viewallTemplateFoot + userFoot;
   }
 
   preParseViewallMarkup() {
@@ -134,12 +134,12 @@ module.exports = class {
   }
 
   processViewallData() {
-    this.patternlab.patternTypes = [];
-    this.patternlab.patternTypesIndex = [];
+    this.ingredients.patternTypes = [];
+    this.ingredients.patternTypesIndex = [];
 
-    for (let i = 0; i < this.patternlab.patterns.length; i++) {
+    for (let i = 0; i < this.ingredients.patterns.length; i++) {
       let j;
-      const pattern = this.patternlab.patterns[i];
+      const pattern = this.ingredients.patterns[i];
 
       // Non-pattern files (like .md) files are not assigned a patternPartial. We can safely skip those.
       if (!pattern.patternPartial) {
@@ -154,20 +154,20 @@ module.exports = class {
       let patternType;
 
       // Check if the patternType is already indexed.
-      const patternTypesIndex = this.patternlab.patternTypesIndex.indexOf(pattern.patternType);
+      const patternTypesIndex = this.ingredients.patternTypesIndex.indexOf(pattern.patternType);
 
       // Create and add patternType if not already indexed.
       if (patternTypesIndex === -1) {
         patternType = new objectFactory.PatternType(pattern);
 
-        this.patternlab.patternTypes.push(patternType);
-        this.patternlab.patternTypesIndex.push(pattern.patternType);
+        this.ingredients.patternTypes.push(patternType);
+        this.ingredients.patternTypesIndex.push(pattern.patternType);
 
         // Create a property for this type in this.viewallPaths. The viewall property needs to be first.
         this.viewallPaths[pattern.patternType] = {viewall: ''};
       }
       else {
-        patternType = this.patternlab.patternTypes[patternTypesIndex];
+        patternType = this.ingredients.patternTypes[patternTypesIndex];
       }
 
       if (pattern.patternSubType) {
@@ -199,12 +199,12 @@ module.exports = class {
       }
 
       // Check if we are moving to a new subType in the next loop.
-      for (j = i; j < this.patternlab.patterns.length; j++) {
+      for (j = i; j < this.ingredients.patterns.length; j++) {
         if (pattern.isHidden) {
           break;
         }
 
-        const patternNext = this.patternlab.patterns[j + 1];
+        const patternNext = this.ingredients.patterns[j + 1];
 
         if (patternNext) {
           if (patternNext.isHidden) {
@@ -230,8 +230,8 @@ module.exports = class {
 
             // Create a property for this subType in this.viewallPaths.
             this.viewallPaths[pattern.patternType][pattern.patternSubType] = pattern.flatPatternPath;
-            // Create a property for this subType in this.patternlab.patternPaths.
-            this.patternlab.patternPaths[viewallPatternSubTypeItem.patternPartial] =
+            // Create a property for this subType in this.ingredients.patternPaths.
+            this.ingredients.patternPaths[viewallPatternSubTypeItem.patternPartial] =
               `${this.pathsPublic.patterns}/${viewallPatternSubTypeItem.flatPatternPath}/index.html`;
           }
         }
@@ -266,8 +266,8 @@ module.exports = class {
           // Set viewall property for this type's viewallPath.
           this.viewallPaths[pattern.patternType].viewall =
             pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternType) + pattern.patternType.length);
-          // Create a property for this subType in this.patternlab.patternPaths.
-          this.patternlab.patternPaths[viewallPatternTypeItem.patternPartial] =
+          // Create a property for this subType in this.ingredients.patternPaths.
+          this.ingredients.patternPaths[viewallPatternTypeItem.patternPartial] =
             `${this.pathsPublic.patterns}/${viewallPatternTypeItem.flatPatternPath}/index.html`;
         }
 
@@ -276,7 +276,7 @@ module.exports = class {
     }
 
     // Add viewall to patternPaths.
-    this.patternlab.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/viewall.html`;
+    this.ingredients.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/viewall.html`;
   }
 
   readViewallTemplates() {
@@ -286,47 +286,47 @@ module.exports = class {
 
       if (fs.existsSync(viewallCustomDir + '/partials/pattern-section.mustache')) {
         this.patternSection = fs.readFileSync(
-          viewallCustomDir + '/partials/pattern-section.mustache', this.patternlab.enc
+          viewallCustomDir + '/partials/pattern-section.mustache', this.config.enc
         );
       }
       if (fs.existsSync(viewallCustomDir + '/partials/pattern-section-sub-type.mustache')) {
         this.patternSectionSubType = fs.readFileSync(
-          viewallCustomDir + '/partials/pattern-section-sub-type.mustache', this.patternlab.enc
+          viewallCustomDir + '/partials/pattern-section-sub-type.mustache', this.config.enc
         );
       }
       if (fs.existsSync(viewallCustomDir + '/partials/pattern-section-type.mustache')) {
         this.patternSectionType = fs.readFileSync(
-          viewallCustomDir + '/partials/pattern-section-type.mustache', this.patternlab.enc
+          viewallCustomDir + '/partials/pattern-section-type.mustache', this.config.enc
         );
       }
       if (fs.existsSync(viewallCustomDir + '/viewall.mustache')) {
         this.viewallTemplateFull = fs.readFileSync(
-          viewallCustomDir + '/viewall.mustache', this.patternlab.enc
+          viewallCustomDir + '/viewall.mustache', this.config.enc
         );
       }
     }
 
-    const viewallCoreDir = `${this.patternlab.config.paths.core}/styleguide/viewall`;
+    const viewallCoreDir = `${this.config.paths.core}/styleguide/viewall`;
 
     try {
       if (!this.patternSection) {
         this.patternSection = fs.readFileSync(
-          viewallCoreDir + '/partials/pattern-section.mustache', this.patternlab.enc
+          viewallCoreDir + '/partials/pattern-section.mustache', this.config.enc
         );
       }
       if (!this.patternSectionSubType) {
         this.patternSectionSubType = fs.readFileSync(
-          viewallCoreDir + '/partials/pattern-section-sub-type.mustache', this.patternlab.enc
+          viewallCoreDir + '/partials/pattern-section-sub-type.mustache', this.config.enc
         );
       }
       if (!this.patternSectionType) {
         this.patternSectionType = fs.readFileSync(
-          viewallCoreDir + '/partials/pattern-section-type.mustache', this.patternlab.enc
+          viewallCoreDir + '/partials/pattern-section-type.mustache', this.config.enc
         );
       }
       if (!this.viewallTemplateFull) {
         this.viewallTemplateFull = fs.readFileSync(
-          viewallCoreDir + '/viewall.mustache', this.patternlab.enc
+          viewallCoreDir + '/viewall.mustache', this.config.enc
         );
       }
     }
@@ -337,13 +337,13 @@ module.exports = class {
   }
 
   writeViewalls() {
-    const keys = Object.keys(this.viewallPatterns);
+    const keys = Object.keys(this.ingredients.viewallPatterns);
 
     // Iterate backwards to free up more memory early.
     let i = keys.length;
 
     while (i--) {
-      const viewall = this.viewallPatterns[keys[i]];
+      const viewall = this.ingredients.viewallPatterns[keys[i]];
 
       if (viewall.path && viewall.content) {
         fs.outputFileSync(viewall.path, viewall.content);

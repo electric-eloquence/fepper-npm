@@ -79,7 +79,6 @@
     "chai": "4.x",
     "coveralls": "3.x",
     "eslint": "6.x",
-    "fepper-ui": "*",
     "fepper-utils": "*",
     "husky": "1.x",
     "json-eval": "*",

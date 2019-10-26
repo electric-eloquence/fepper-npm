@@ -35,16 +35,15 @@ function findSupportedStyleExtensions(dir, styleExtsSupported) {
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
-    this.appDir = patternlab.appDir;
     this.config = patternlab.config;
     this.componentsDirCoreRoot = `${patternlab.config.paths.core}/styleguide`;
-    this.componentsArr = [];
+    this.componentsDirCustomRoot = patternlab.utils.deepGet(patternlab, 'config.paths.source.ui');
     this.pathsPublic = patternlab.config.pathsPublic;
-    this.styleExtsSupported = ['.css'];
-    this.utils = patternlab.utils;
-    this.componentsDirCustomRoot = this.utils.deepGet(patternlab, 'config.paths.source.ui');
     this.styleguidePath = patternlab.config.paths.public.styleguide;
+    this.utils = patternlab.utils;
+
+    this.componentsArr = [];
+    this.styleExtsSupported = ['.css'];
   }
 
   readDirectoriesFirst(dir) {
@@ -167,7 +166,7 @@ module.exports = class {
           pathFull = `${dirCore}/${item}`;
         }
 
-        const content = fs.readFileSync(pathFull, this.patternlab.enc);
+        const content = fs.readFileSync(pathFull, this.config.enc);
 
         if (this.styleExtsSupported.indexOf(ext) > -1) {
           fs.appendFileSync(`${this.styleguidePath}/styles/ui${ext}`, content);

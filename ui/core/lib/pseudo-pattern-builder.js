@@ -2,7 +2,8 @@
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    this.config = patternlab.config;
+    this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
   }
 
@@ -10,8 +11,8 @@ module.exports = class {
 
     // Look for a pseudoPattern by checking if there is a file containing same name, with ~ in it, ending in .json.
     // If found, fill out that pattern.
-    for (let i = 0, l = this.patternlab.patterns.length; i < l; i++) {
-      const pseudoPattern = this.patternlab.patterns[i];
+    for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
+      const pseudoPattern = this.ingredients.patterns[i];
       const fileName = pattern.fileName[0] === '_' ? pattern.fileName.slice(1) : pattern.fileName;
 
       if (
@@ -22,7 +23,7 @@ module.exports = class {
         continue;
       }
 
-      if (this.patternlab.config.debug) {
+      if (this.config.debug) {
         this.utils.log('Found pseudo-pattern ' + pseudoPattern.patternPartial + ' - variant of ' +
           pattern.patternPartial);
       }
