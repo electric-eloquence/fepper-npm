@@ -24,7 +24,7 @@ module.exports = class {
       'twelve'
     ];
 
-    const  listItemsArr = Object.values(container.listItems);
+    const listItemsArr = Object.values(container.listItems);
 
     this.utils.shuffle(listItemsArr);
 
