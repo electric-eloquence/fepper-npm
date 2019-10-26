@@ -43,11 +43,9 @@ exports.Pattern = class {
     // Parse out the path parts and save the useful ones.
     const pathObj = path.parse(relPath);
 
-    this.cacheBuster = patternlab.cacheBuster;
     this.fileExtension = pathObj.ext; // '.mustache'
     this.fileName = pathObj.name; // '00-colors'
     this.outfileExtension = '.html';
-    this.pathsPublic = patternlab.config.pathsPublic;
     this.relPath = relPath; // '00-elements/00-global/00-colors.mustache'
     this.subdir = pathObj.dir; // '00-elements/00-global'
     this.flatPatternPath = this.subdir.replace(/\//g, '-'); // '00-elements-00-global'
@@ -84,6 +82,7 @@ exports.Pattern = class {
     this.patternSubType = this.subdir.indexOf('/') > -1 ? path.basename(this.subdir).replace(/^\d*-/, '') : '';
 
     this.allData = null;
+    this.cacheBuster = patternlab.ingredients.data.cacheBuster;
     this.extendedTemplate = '';
     this.fepletComp = null;
     this.fepletParse = null;
@@ -92,6 +91,7 @@ exports.Pattern = class {
     this.header = '';
     this.footer = '';
     this.isFrontMatter = false;
+    this.isHidden = isPatternHidden(this, patternlab.config);
     this.isPattern = true;
     this.isPreProcessed = false;
     this.isPseudoPattern = false;
@@ -101,12 +101,10 @@ exports.Pattern = class {
     this.lineageR = [];
     this.lineageRIndex = [];
     this.listItems = null;
+    this.pathsPublic = patternlab.config.pathsPublic;
     this.patternState = '';
     this.pseudoPatternPartial = ''; // For pseudo-patterns only. Will be the same as the main pattern's patternPartial.
     this.template = '';
-
-    // Dependent on other properties being set.
-    this.isHidden = isPatternHidden(this, patternlab.config);
   }
 };
 

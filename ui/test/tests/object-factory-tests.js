@@ -24,7 +24,7 @@ describe('Object Factory', function () {
       expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
       expect(p.pathsPublic.patterns).to.equal('patterns');
       expect(p.pathsPublic.static).to.equal('static');
-      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.pathsPublic.styleguide).to.equal('node_modules/fepper-ui');
       expect(p.relPath).to.equal('00-atoms/00-global/00-colors.mustache');
       expect(p.subdir).to.equal('00-atoms/00-global');
       expect(p.flatPatternPath).to.equal('00-atoms-00-global');
@@ -74,7 +74,7 @@ describe('Object Factory', function () {
       expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
       expect(p.pathsPublic.patterns).to.equal('patterns');
       expect(p.pathsPublic.static).to.equal('static');
-      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.pathsPublic.styleguide).to.equal('node_modules/fepper-ui');
       expect(p.relPath).to.equal('00-atoms/00-colors.mustache');
       expect(p.subdir).to.equal('00-atoms');
       expect(p.flatPatternPath).to.equal('00-atoms');
@@ -124,7 +124,7 @@ describe('Object Factory', function () {
       expect(p.pathsPublic.fonts).to.equal('_styles/bld/fonts');
       expect(p.pathsPublic.patterns).to.equal('patterns');
       expect(p.pathsPublic.static).to.equal('static');
-      expect(p.pathsPublic.styleguide).to.equal('../../node_modules/fepper-ui');
+      expect(p.pathsPublic.styleguide).to.equal('node_modules/fepper-ui');
       expect(p.relPath).to.equal('atoms/colors.mustache');
       expect(p.subdir).to.equal('atoms');
       expect(p.flatPatternPath).to.equal('atoms');

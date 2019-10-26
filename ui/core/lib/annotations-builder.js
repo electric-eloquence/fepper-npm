@@ -9,8 +9,8 @@ const frontMatterParser = require('./front-matter-parser');
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
     this.config = patternlab.config;
+    this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
   }
 
@@ -31,15 +31,15 @@ module.exports = class {
         const ext = path.extname(file);
 
         if (ext === this.config.frontMatterExtension || ext === '.md') {
-          const fileContent = fs.readFileSync(file, this.patternlab.enc);
+          const fileContent = fs.readFileSync(file, this.config.enc);
           annotationsArr = annotationsArr.concat(frontMatterParser.main(fileContent));
         }
       }
     );
 
     // Gather what's been parsed in the patterns directory.
-    for (let i = 0, l = this.patternlab.patterns.length; i < l; i++) {
-      const pattern = this.patternlab.patterns[i];
+    for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
+      const pattern = this.ingredients.patterns[i];
 
       if (pattern.isFrontMatter && Array.isArray(pattern.frontMatterData)) {
         annotationsArr = annotationsArr.concat(pattern.frontMatterData);
@@ -54,7 +54,7 @@ module.exports = class {
     let annotationsOld = '';
 
     if (fs.existsSync(annotationsFile)) {
-      annotationsOld = fs.readFileSync(annotationsFile, this.patternlab.enc);
+      annotationsOld = fs.readFileSync(annotationsFile, this.config.enc);
     }
 
     if (annotationsNew !== annotationsOld) {

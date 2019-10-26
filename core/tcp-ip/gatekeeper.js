@@ -12,7 +12,7 @@ module.exports = class {
 
   /**
    * Ensure that browser-driven operations on the file system are performed from a browser on the same machine as that
-   * file system. This does not need to be submitted as a callback, and therefore, does not need to be a closure.
+   * file system. This does not get submitted as an Express callback argument.
    *
    * @param {object} req - Express request.
    * @returns {string} The timestamp cookie value or empty string.

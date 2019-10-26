@@ -2,7 +2,9 @@
 
 module.exports = class {
   constructor(patternlab) {
-    this.patternlab = patternlab;
+    this.config = patternlab.config;
+    this.getPattern = patternlab.getPattern;
+    this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
   }
 
@@ -11,14 +13,14 @@ module.exports = class {
   matchPattern(partial) {
     // First, perform a check for partials with parameters.
     // We need to make sure partial !== matchCandidate so we only submit the non-param partial.
-    for (let matchCandidate of Object.keys(this.patternlab.partials)) {
+    for (let matchCandidate of Object.keys(this.ingredients.partials)) {
       if (partial !== matchCandidate && partial.indexOf(matchCandidate) === 0) {
         return matchCandidate;
       }
     }
 
     // Then, look for exact matches.
-    for (let matchCandidate of Object.keys(this.patternlab.partials)) {
+    for (let matchCandidate of Object.keys(this.ingredients.partials)) {
       if (partial === matchCandidate) {
         return matchCandidate;
       }
@@ -65,7 +67,7 @@ module.exports = class {
         continue;
       }
 
-      const descendentPattern = this.patternlab.getPattern(descendentPatternName);
+      const descendentPattern = this.getPattern(descendentPatternName);
 
       // Skip if no descendentPattern.
       /* istanbul ignore if */
@@ -86,7 +88,7 @@ module.exports = class {
       // Create the more complex lineage object.
       const l = {
         lineagePattern: descendentPattern.patternPartial,
-        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + descendentPattern.patternLink,
+        lineagePath: this.config.pathsPublic.patterns + '/' + descendentPattern.patternLink,
         isHidden: descendentPattern.isHidden
       };
 
@@ -107,7 +109,7 @@ module.exports = class {
       // Create the more complex lineage object in reverse.
       const lr = {
         lineagePattern: pattern.patternPartial,
-        lineagePath: this.patternlab.config.pathsPublic.patterns + '/' + pattern.patternLink,
+        lineagePath: this.config.pathsPublic.patterns + '/' + pattern.patternLink,
         isHidden: pattern.isHidden
       };
 

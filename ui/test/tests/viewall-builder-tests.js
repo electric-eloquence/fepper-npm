@@ -50,9 +50,9 @@ describe('Viewall Builder', function () {
     patternTypeViewallExistsAfter = fs.existsSync(patternTypeViewall);
     patternSubTypeViewallExistsAfter = fs.existsSync(patternSubTypeViewall);
 
-    viewallViewallContent = fs.readFileSync(viewallViewall, patternlab.enc);
-    patternTypeViewallContent = fs.readFileSync(patternTypeViewall, patternlab.enc);
-    patternSubTypeViewallContent = fs.readFileSync(patternSubTypeViewall, patternlab.enc);
+    viewallViewallContent = fs.readFileSync(viewallViewall, patternlab.config.enc);
+    patternTypeViewallContent = fs.readFileSync(patternTypeViewall, patternlab.config.enc);
+    patternSubTypeViewallContent = fs.readFileSync(patternSubTypeViewall, patternlab.config.enc);
   });
 
   it('writes viewall.html', function () {

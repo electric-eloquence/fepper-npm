@@ -19,7 +19,7 @@ const utils = require('fepper-utils');
 
 const AnnotationsBuilder = require('./annotations-builder');
 // CamelCasing "ListItems" (and "listItems") for the purpose of naming within code.
-// Using all-lowercase, non-delimited "listitems" for naming within filenames.
+// Using all-lowercase, non-delimited "listitems" for naming filenames.
 // Documented (probably unintentionally) by Pattern Lab at
 // https://patternlab.io/docs/data-listitems.html
 const ListItemsBuilder = require('./listitems-builder');
@@ -31,43 +31,48 @@ const UiCompiler = require('./ui-compiler');
 const ViewallBuilder = require('./viewall-builder');
 
 module.exports = class {
-  constructor(config, cwd) {
-    this.config = config;
-
+  constructor(config, cwd_) {
     // The current working directory can be submitted as a param to resolve relative paths.
-    this.cwd = slash(cwd || global.rootDir || path.resolve(__dirname, '..', '..', '..', '..', '..'));
-    this.appDir = slash(global.appDir || path.resolve(__dirname, '..', '..', '..'));
-    this.utils = utils;
+    const cwd = slash(cwd_ || global.rootDir || path.resolve(__dirname, '..', '..', '..', '..', '..'));
+    const appDir = slash(global.appDir || path.resolve(__dirname, '..', '..', '..'));
 
     // Normalize configs if necessary.
-    if (!this.config.paths.core) {
-      this.utils.uiConfigNormalize(
-        this.config,
-        this.cwd,
-        this.appDir
+    if (!config.paths.core) {
+      utils.uiConfigNormalize(
+        config,
+        cwd,
+        appDir
       );
     }
 
-    this.data = {};
-    this.dataKeysSchemaObj = {};
-    this.dataKeys = {};
-    this.enc = this.utils.deepGet(global, 'conf.enc') || 'utf8';
-    this.footer = '';
-    this.listItems = {};
-    this.partials = {};
-    this.partialsComp = {};
-    this.patternPaths = {};
-    this.patterns = [];
-    this.patternTypes = [];
-    this.patternTypesIndex = [];
-    this.portReloader = this.utils.deepGet(global, 'conf.livereload_port') || '';
-    this.portServer = this.utils.deepGet(global, 'conf.express_port') || '';
-    this.useListItems = false;
-    this.userHeadComp = null;
-    this.userHeadGlobal = '';
-    this.userHeadParseArr = [];
-    this.userFootSplit = [];
-    this.viewallPatterns = {};
+    this.config = config;
+    this.config.cwd = cwd;
+    this.config.appDir = appDir;
+    this.config.enc = utils.deepGet(global, 'conf.enc') || 'utf8';
+    this.config.useListItems = false;
+
+    this.ingredients = {
+      data: {},
+      dataKeysSchemaObj: {},
+      dataKeys: {},
+      footer: '',
+      listItems: {},
+      partials: {},
+      partialsComp: {},
+      patternPaths: {},
+      patterns: [],
+      patternTypes: [],
+      patternTypesIndex: [],
+      portReloader: utils.deepGet(global, 'conf.livereload_port') || '',
+      portServer: utils.deepGet(global, 'conf.express_port') || '',
+      userHeadComp: null,
+      userHeadGlobal: '',
+      userHeadParseArr: [],
+      userFootSplit: [],
+      viewallPatterns: {}
+    };
+
+    this.utils = utils;
 
     this.annotationsBuilder = new AnnotationsBuilder(this);
     this.listItemsBuilder = new ListItemsBuilder(this);
@@ -82,7 +87,7 @@ module.exports = class {
   // PRIVATE METHODS
 
   buildPatternData(dataFilesPath) {
-    const jsonFileStr = fs.readFileSync(`${dataFilesPath}/data.json`, this.enc);
+    const jsonFileStr = fs.readFileSync(`${dataFilesPath}/data.json`, this.config.enc);
     const jsonData = JSON5.parse(jsonFileStr);
 
     return jsonData;
@@ -121,7 +126,7 @@ module.exports = class {
 
   preProcessAllPatterns(patternsDir) {
     try {
-      this.data = this.buildPatternData(this.config.paths.source.data);
+      this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/data.json`);
@@ -132,9 +137,9 @@ module.exports = class {
 
     if (fs.existsSync(listItemsFile)) {
       try {
-        const listItemsStr = fs.readFileSync(listItemsFile, this.enc);
+        const listItemsStr = fs.readFileSync(listItemsFile, this.config.enc);
 
-        this.listItems = JSON5.parse(listItemsStr);
+        this.ingredients.listItems = JSON5.parse(listItemsStr);
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error('ERROR: Malformed ' + listItemsFile);
@@ -145,17 +150,17 @@ module.exports = class {
     const immutableDir = `${this.config.paths.core}/immutable`;
 
     try {
-      this.header = fs.readFileSync(`${immutableDir}/immutable-header.mustache`, this.enc);
-      this.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.enc);
+      this.ingredients.header = fs.readFileSync(`${immutableDir}/immutable-header.mustache`, this.config.enc);
+      this.ingredients.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error('ERROR: Missing an essential file from ' + immutableDir);
       this.utils.error(err);
     }
 
-    this.data.link = {};
-    this.data.pathsPublic = this.config.pathsPublic;
-    this.patterns = [];
+    this.ingredients.data.link = {};
+    this.ingredients.data.pathsPublic = this.config.pathsPublic;
+    this.ingredients.patterns = [];
 
     this.viewallBuilder.readViewallTemplates();
     this.setCacheBuster();
@@ -176,13 +181,13 @@ module.exports = class {
   }
 
   preProcessDataAndParams() {
-    if (this.useListItems) {
-      this.listItemsBuilder.listItemsBuild(this);
+    if (this.config.useListItems) {
+      this.listItemsBuilder.listItemsBuild(this.ingredients);
     }
 
     // Create an array of data keys to not render when preprocessing partials.
-    this.utils.extendButNotOverride(this.dataKeysSchemaObj, this.data);
-    this.dataKeys = Feplet.preProcessContextKeys(this.dataKeysSchemaObj);
+    this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, this.ingredients.data);
+    this.ingredients.dataKeys = Feplet.preProcessContextKeys(this.ingredients.dataKeysSchemaObj);
 
     // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
     this.patternBuilder.preProcessPartialParams(this);
@@ -193,7 +198,7 @@ module.exports = class {
 
     // Set user defined head and foot if they exist.
     try {
-      userHead = fs.readFileSync(`${this.config.paths.source.meta}/_00-head.mustache`, this.enc);
+      userHead = fs.readFileSync(`${this.config.paths.source.meta}/_00-head.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
       if (this.config.debug) {
@@ -206,18 +211,19 @@ module.exports = class {
       }
 
       // Default HTML head.
-      userHead = fs.readFileSync(`${this.appDir}/excludes/profiles/base/source/_meta/_00-head.mustache`, this.enc);
+      userHead =
+        fs.readFileSync(`${this.config.appDir}/excludes/profiles/base/source/_meta/_00-head.mustache`, this.config.enc);
     }
 
-    userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.header);
-    this.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
-    this.userHeadComp = Feplet.generate(this.userHeadParseArr, userHead, {});
-    this.userHeadGlobal = this.userHeadComp.render(this.data);
+    userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.ingredients.header);
+    this.ingredients.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
+    this.ingredients.userHeadComp = Feplet.generate(this.ingredients.userHeadParseArr, userHead, {});
+    this.ingredients.userHeadGlobal = this.ingredients.userHeadComp.render(this.ingredients.data);
 
     let userFoot;
 
     try {
-      userFoot = fs.readFileSync(`${this.config.paths.source.meta}/_01-foot.mustache`, this.enc);
+      userFoot = fs.readFileSync(`${this.config.paths.source.meta}/_01-foot.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
       if (this.config.debug) {
@@ -230,13 +236,14 @@ module.exports = class {
       }
 
       // Default HTML foot.
-      userFoot = fs.readFileSync(`${this.appDir}/excludes/profiles/base/source/_meta/_01-foot.mustache`, this.enc);
+      userFoot =
+        fs.readFileSync(`${this.config.appDir}/excludes/profiles/base/source/_meta/_01-foot.mustache`, this.config.enc);
     }
 
     const userFootSplit = userFoot.split(/\{\{\{?\s*patternlabFoot\s*\}?\}\}/i);
 
     for (let i = 0, l = userFootSplit.length; i < l; i++) {
-      this.userFootSplit[i] = Feplet.render(userFootSplit[i], this.data);
+      this.ingredients.userFootSplit[i] = Feplet.render(userFootSplit[i], this.ingredients.data);
     }
 
     // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
@@ -263,10 +270,10 @@ module.exports = class {
 
   setCacheBuster() {
     if (this.config.cacheBust) {
-      this.cacheBuster = this.data.cacheBuster = '?' + Date.now();
+      this.ingredients.data.cacheBuster = '?' + Date.now();
     }
     else {
-      this.cacheBuster = this.data.cacheBuster = '';
+      this.ingredients.data.cacheBuster = '';
     }
   }
 
@@ -328,7 +335,7 @@ module.exports = class {
   }
 
   getPattern(query) {
-    let i = this.patterns.length;
+    let i = this.ingredients.patterns.length;
 
     // Going from highest index to lowest index because multiple patterns can have the same .patternPartial name and we
     // want the one at the highest index to be the match.
@@ -336,7 +343,7 @@ module.exports = class {
     // 00-atoms/00-global/00-colors.mustache -> atoms-colors
     // 00-atoms/01-local/00-colors.mustache -> atoms-colors
     while (i--) {
-      const pattern = this.patterns[i];
+      const pattern = this.ingredients.patterns[i];
       switch (query) {
         case pattern.patternPartialPhp:
         case pattern.patternPartial:

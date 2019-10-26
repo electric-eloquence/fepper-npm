@@ -37,9 +37,9 @@ describe('UI Compiler', function () {
 
     patternlab.compile();
 
-    uiIndexContent = fs.readFileSync(uiIndex, patternlab.enc);
-    uiCssContent = fs.readFileSync(uiCss, patternlab.enc);
-    uiJsContent = fs.readFileSync(uiJs, patternlab.enc);
+    uiIndexContent = fs.readFileSync(uiIndex, patternlab.config.enc);
+    uiCssContent = fs.readFileSync(uiCss, patternlab.config.enc);
+    uiJsContent = fs.readFileSync(uiJs, patternlab.config.enc);
   });
 
   it('writes index.html', function () {
