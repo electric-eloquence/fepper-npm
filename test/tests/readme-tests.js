@@ -3,9 +3,11 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-require('../init');
-
-const readme = global.fepper.tcpIp.fpExpress.readme;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
+const readme = fepper.tcpIp.fpExpress.readme;
 
 describe('Readme', function () {
   after(function () {
@@ -16,7 +18,7 @@ describe('Readme', function () {
     new Promise((resolve) => {
       readme.main()(
         {},
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
@@ -37,7 +39,7 @@ describe('Readme', function () {
 
       readme.main()(
         {},
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {

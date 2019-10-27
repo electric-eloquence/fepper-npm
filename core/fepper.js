@@ -43,6 +43,6 @@ module.exports = class {
     this.ui = new Ui(options);
     this.tcpIp = new TcpIp(options, this.ui);
 
-    global.fepper = this;
+    global.fepper = global.fepper || this;
   }
 };

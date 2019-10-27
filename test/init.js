@@ -2,17 +2,18 @@
 
 const Fepper = require('../core/fepper');
 
-// Instantiate a Fepper object and attach it to the global object.
-global.fepper = new Fepper(__dirname);
+module.exports = () => {
+  return {
+    fepper: new Fepper(__dirname),
+    responseFactory: (resolve) => {
+      const response = {
+        send: (output) => {
+          resolve(output);
+        },
+        status: () => response
+      };
 
-// Global helpers.
-global.responseFactory = (resolve) => {
-  const response = {
-    send: (output) => {
-      resolve(output);
-    },
-    status: () => response
+      return response;
+    }
   };
-
-  return response;
 };

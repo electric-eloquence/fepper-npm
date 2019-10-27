@@ -3,9 +3,9 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-require('../init');
-
-const fepper = global.fepper;
+const {
+  fepper
+} = require('../init')();
 const {
   conf,
   tasks

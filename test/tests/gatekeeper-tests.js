@@ -3,10 +3,12 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-require('../init');
-
-const gatekeeper = global.fepper.tcpIp.fpExpress.gatekeeper;
-const opener = global.fepper.tasks.opener;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
+const gatekeeper = fepper.tcpIp.fpExpress.gatekeeper;
+const opener = fepper.tasks.opener;
 
 const timestampFile = `${global.rootDir}/.timestamp`;
 
@@ -72,7 +74,7 @@ describe('Gatekeeper', function () {
       new Promise((resolve) => {
         gatekeeper.render()(
           {},
-          global.responseFactory(resolve)
+          responseFactory(resolve)
         );
       })
       .then((output) => {
@@ -107,7 +109,7 @@ describe('Gatekeeper', function () {
               fepper_ts: timestampFromFile
             }
           },
-          global.responseFactory(resolve)
+          responseFactory(resolve)
         );
       })
       .then((output) => {

@@ -3,9 +3,11 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-require('../init');
-
-const success = global.fepper.tcpIp.fpExpress.success;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
+const success = fepper.tcpIp.fpExpress.success;
 
 describe('Success', function () {
   after(function () {
@@ -20,7 +22,7 @@ describe('Success', function () {
             host: 'localhost:3000'
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
@@ -46,7 +48,7 @@ describe('Success', function () {
             host: 'localhost:3000'
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {

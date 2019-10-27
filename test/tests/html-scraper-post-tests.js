@@ -4,20 +4,21 @@ const {expect} = require('chai');
 const fs = require('fs-extra');
 const {html2json} = require('html2json');
 
-require('../init');
-
-const fepper = global.fepper;
+const {
+  fepper
+} = require('../init')();
 const {
   appDir,
   conf,
   rootDir,
   utils
 } = fepper;
-const opener = global.fepper.tasks.opener;
+const opener = fepper.tasks.opener;
 const {
   gatekeeper,
   html
 } = fepper.tcpIp.fpExpress;
+
 const HtmlScraperPost = require('../../core/tcp-ip/html-scraper-post');
 
 const htmlConst = `<section>
