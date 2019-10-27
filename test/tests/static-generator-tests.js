@@ -5,9 +5,9 @@ const {expect} = require('chai');
 const fs = require('fs-extra');
 const slash = require('slash');
 
-require('../init');
-
-const fepper = global.fepper;
+const {
+  fepper
+} = require('../init')();
 const {
   conf,
   pref,

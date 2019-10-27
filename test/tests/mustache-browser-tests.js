@@ -2,10 +2,12 @@
 
 const {expect} = require('chai');
 
-require('../init');
-
-const fepper = global.fepper;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
 const mustacheBrowser = fepper.tcpIp.fpExpress.mustacheBrowser;
+
 const ObjectFactory = require('../../ui/core/lib/object-factory');
 
 describe('Mustache Browser', function () {
@@ -401,7 +403,7 @@ describe('Mustache Browser', function () {
             partial: 'components-header-localhost'
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
@@ -474,7 +476,7 @@ describe('Mustache Browser', function () {
           query: {
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
@@ -546,7 +548,7 @@ describe('Mustache Browser', function () {
             partial: 'components-header-localhots'
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {

@@ -6,6 +6,8 @@ const fs = require('fs-extra');
 const objectFactory = require('./object-factory');
 
 module.exports = class {
+  #patternlab;
+
   constructor(patternlab) {
     this.#patternlab = patternlab;
 
