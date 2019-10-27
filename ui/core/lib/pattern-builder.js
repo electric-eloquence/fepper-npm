@@ -9,11 +9,9 @@ const JSON5 = require('json5');
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
 
-let patternlabInst;
-
 module.exports = class {
   constructor(patternlab) {
-    patternlabInst = patternlab;
+    this.#patternlab = patternlab;
 
     this.config = patternlab.config;
     this.getPattern = patternlab.getPattern;
@@ -24,15 +22,15 @@ module.exports = class {
   // Getters for patternlab instance props in case they are undefined at instantiation.
 
   get lineageBuilder() {
-    return patternlabInst.lineageBuilder;
+    return this.#patternlab.lineageBuilder;
   }
 
   get listItemsBuilder() {
-    return patternlabInst.listItemsBuilder;
+    return this.#patternlab.listItemsBuilder;
   }
 
   get pseudoPatternBuilder() {
-    return patternlabInst.pseudoPatternBuilder;
+    return this.#patternlab.pseudoPatternBuilder;
   }
 
   // PRIVATE METHODS
@@ -154,7 +152,7 @@ module.exports = class {
     }
 
     // Make a new Pattern instance.
-    const pattern = new Pattern(relPath, patternlabInst);
+    const pattern = new Pattern(relPath, this.#patternlab);
 
     // Look for a json file for this template.
     let jsonFileName;
@@ -270,7 +268,7 @@ module.exports = class {
       partials,
       partialsComp,
       patterns
-    } = patternlabInst.ingredients;
+    } = this.#patternlab.ingredients;
 
     for (let partialName of Object.keys(partials)) {
       const pattern = this.getPattern(partialName);

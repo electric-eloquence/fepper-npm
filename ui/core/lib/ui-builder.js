@@ -5,11 +5,9 @@ const fs = require('fs-extra');
 
 const objectFactory = require('./object-factory');
 
-let patternlabInst;
-
 module.exports = class {
   constructor(patternlab) {
-    patternlabInst = patternlab;
+    this.#patternlab = patternlab;
 
     this.config = patternlab.config;
     this.ingredients = patternlab.ingredients;
@@ -22,11 +20,11 @@ module.exports = class {
   // Getters for patternlab instance props in case they are undefined at instantiation.
 
   get patternBuilder() {
-    return patternlabInst.patternBuilder;
+    return this.#patternlab.patternBuilder;
   }
 
   get viewallBuilder() {
-    return patternlabInst.viewallBuilder;
+    return this.#patternlab.viewallBuilder;
   }
 
   // METHODS
