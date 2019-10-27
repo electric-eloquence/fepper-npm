@@ -3,12 +3,14 @@
 const {expect} = require('chai');
 const fs = require('fs-extra');
 
-require('../init');
-
-const htmlScraper = global.fepper.tcpIp.fpExpress.htmlScraper;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
+const htmlScraper = fepper.tcpIp.fpExpress.htmlScraper;
+const opener = fepper.tasks.opener;
 
 const timestampFile = `${global.rootDir}/.timestamp`;
-const opener = global.fepper.tasks.opener;
 
 describe('HTML Scraper', function () {
   let timestampFromFile;
@@ -37,7 +39,7 @@ describe('HTML Scraper', function () {
             url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html'
           }
         },
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
@@ -80,7 +82,7 @@ describe('HTML Scraper', function () {
     new Promise((resolve) => {
       htmlScraper.main()(
         {},
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {

@@ -10,6 +10,8 @@ const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
 
 module.exports = class {
+  #patternlab;
+
   constructor(patternlab) {
     this.#patternlab = patternlab;
 

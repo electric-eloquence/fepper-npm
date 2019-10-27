@@ -2,16 +2,18 @@
 
 const {expect} = require('chai');
 
-require('../init');
-
-const errorResponse = global.fepper.tcpIp.fpExpress.errorResponse;
+const {
+  fepper,
+  responseFactory
+} = require('../init')();
+const errorResponse = fepper.tcpIp.fpExpress.errorResponse;
 
 describe('Error Response', function () {
   it('responds with a 404 if no README.md present', function (done) {
     new Promise((resolve) => {
       errorResponse.notFound()(
         {},
-        global.responseFactory(resolve)
+        responseFactory(resolve)
       );
     })
     .then((output) => {
