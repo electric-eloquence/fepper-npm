@@ -13,7 +13,7 @@ module.exports = () => {
       global.conf = yaml.safeLoad(yml);
     }
   }
-  catch (err) {
+  catch {
     // eslint-disable-next-line no-console
     console.error('Missing or malformed conf.yml! Exiting!');
 

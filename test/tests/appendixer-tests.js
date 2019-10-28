@@ -30,9 +30,7 @@ describe('Appendixer', function () {
     try {
       appendixJson = JSON.parse(appendixAfter);
     }
-    catch (er) {
-      // Fail gracefully.
-    }
+    catch {}
   });
 
   it('overwrites _appendix.json', function () {

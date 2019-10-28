@@ -177,7 +177,7 @@ module.exports = class {
       try {
         scrapeFileStat = fs.statSync(scrapeFile);
       }
-      catch (err) /* istanbul ignore next */ {
+      catch /* istanbul ignore next */ {
         continue;
       }
 
