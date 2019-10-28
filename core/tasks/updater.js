@@ -39,9 +39,7 @@ module.exports = class {
         try {
           stat = fs.statSync(fileDest);
         }
-        catch (err) {
-          // Fail gracefully.
-        }
+        catch {}
       }
 
       https.get(`${repoDir}/${file}`, (res) => {

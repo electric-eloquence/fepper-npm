@@ -112,7 +112,7 @@ module.exports = class {
     try {
       stat = fs.statSync(mustacheFile);
     }
-    catch (err) /* istanbul ignore next */ {
+    catch /* istanbul ignore next */ {
       // Only process templates that actually exist.
       return;
     }
@@ -120,9 +120,7 @@ module.exports = class {
     try {
       stat1 = fs.statSync(ymlFile);
     }
-    catch (err) {
-      // Fail gracefully.
-    }
+    catch {}
 
     // Return on stat fail. Exclude non-files.
     /* istanbul ignore if */
@@ -157,8 +155,7 @@ module.exports = class {
           delete data.templates_ext;
         }
       }
-      catch (err) /* istanbul ignore next */ {
-        // Fail gracefully.
+      catch /* istanbul ignore next */ {
         data = null;
       }
     }

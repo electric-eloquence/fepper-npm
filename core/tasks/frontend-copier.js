@@ -131,9 +131,7 @@ module.exports = class {
         try {
           stat = fs.statSync(file);
         }
-        catch (err) {
-          // Fail gracefully.
-        }
+        catch {}
 
         // Exclude directories, files prefixed by __ or suffixed by .yml, and readme files.
         if (
@@ -160,9 +158,7 @@ module.exports = class {
         try {
           stat1 = fs.statSync(ymlFile);
         }
-        catch (err) {
-          // Fail gracefully.
-        }
+        catch {}
 
         if (ymlFile && stat1 && stat1.isFile()) {
           try {
@@ -186,9 +182,7 @@ module.exports = class {
               delete data[frontendDataKey];
             }
           }
-          catch (err) {
-            // Fail gracefully.
-          }
+          catch {}
         }
         else {
           srcDir += `/${frontendDir}`;

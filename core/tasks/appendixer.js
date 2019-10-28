@@ -34,6 +34,7 @@ module.exports = class {
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
+
       return;
     }
 

@@ -40,9 +40,7 @@ describe('JSON Compiler', function () {
     try {
       dataJson = JSON.parse(dataAfter);
     }
-    catch (err) {
-      // Fail gracefully.
-    }
+    catch {}
   });
 
   after(function () {
