@@ -54,9 +54,7 @@ try {
     }
   }
 }
-catch (err) {
-  // Fail gracefully.
-}
+catch {}
 
 if (!process.env.ROOT_DIR) {
   process.env.ROOT_DIR = process.cwd();
