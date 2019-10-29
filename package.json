@@ -80,6 +80,7 @@
     "coveralls": "3.x",
     "eslint": "6.x",
     "fepper-utils": "*",
+    "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
     "husky": "1.x",
     "json-eval": "*",
     "mocha": "6.x",
