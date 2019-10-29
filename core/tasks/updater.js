@@ -39,7 +39,7 @@ module.exports = class {
         try {
           stat = fs.statSync(fileDest);
         }
-        catch {}
+        catch {} // eslint-disable-line no-empty
       }
 
       https.get(`${repoDir}/${file}`, (res) => {

@@ -40,7 +40,7 @@ describe('JSON Compiler', function () {
     try {
       dataJson = JSON.parse(dataAfter);
     }
-    catch {}
+    catch {} // eslint-disable-line no-empty
   });
 
   after(function () {

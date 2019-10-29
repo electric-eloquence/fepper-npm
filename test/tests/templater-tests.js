@@ -57,7 +57,7 @@ describe('Templater', function () {
     try {
       ignored = fs.statSync(templatesDir + '/__01-blog.tpl.php');
     }
-    catch {}
+    catch {} // eslint-disable-line no-empty
 
     expect(ignored).to.be.null;
   });
@@ -68,7 +68,7 @@ describe('Templater', function () {
     try {
       ignored = fs.statSync(templatesDir + '/_nosync/00-nosync.tpl.php');
     }
-    catch {}
+    catch {} // eslint-disable-line no-empty
 
     expect(ignored).to.be.null;
   });

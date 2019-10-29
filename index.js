@@ -54,7 +54,7 @@ try {
     }
   }
 }
-catch {}
+catch {} // eslint-disable-line no-empty
 
 if (!process.env.ROOT_DIR) {
   process.env.ROOT_DIR = process.cwd();
