@@ -120,7 +120,7 @@ module.exports = class {
     try {
       stat1 = fs.statSync(ymlFile);
     }
-    catch {}
+    catch {} // eslint-disable-line no-empty
 
     // Return on stat fail. Exclude non-files.
     /* istanbul ignore if */

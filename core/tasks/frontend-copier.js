@@ -131,7 +131,7 @@ module.exports = class {
         try {
           stat = fs.statSync(file);
         }
-        catch {}
+        catch {} // eslint-disable-line no-empty
 
         // Exclude directories, files prefixed by __ or suffixed by .yml, and readme files.
         if (
@@ -158,7 +158,7 @@ module.exports = class {
         try {
           stat1 = fs.statSync(ymlFile);
         }
-        catch {}
+        catch {} // eslint-disable-line no-empty
 
         if (ymlFile && stat1 && stat1.isFile()) {
           try {
@@ -182,7 +182,7 @@ module.exports = class {
               delete data[frontendDataKey];
             }
           }
-          catch {}
+          catch {} // eslint-disable-line no-empty
         }
         else {
           srcDir += `/${frontendDir}`;

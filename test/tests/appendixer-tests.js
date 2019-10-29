@@ -30,7 +30,7 @@ describe('Appendixer', function () {
     try {
       appendixJson = JSON.parse(appendixAfter);
     }
-    catch {}
+    catch {} // eslint-disable-line no-empty
   });
 
   it('overwrites _appendix.json', function () {
