@@ -6,7 +6,7 @@ export function sgNavToggleClick(event) {
   event.preventDefault();
 
   const $orgs = FEPPER_UI.requerio.$orgs;
-  const isActive = $orgs['#sg-nav-target'].getState().classList.includes('active');
+  const isActive = $orgs['#sg-nav-target'].getState().classArray.includes('active');
 
   FEPPER_UI.uiFns.closeAllPanels();
 
