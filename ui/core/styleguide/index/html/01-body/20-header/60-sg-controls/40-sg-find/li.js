@@ -23,7 +23,7 @@ if (typeof window === 'object') {
     });
 
     $orgs['#typeahead'].on('blur', function () {
-      const mouseentered = $orgs['#sg-f-toggle'].getState().classList.includes('mouseentered');
+      const mouseentered = $orgs['#sg-f-toggle'].getState().classArray.includes('mouseentered');
 
       if (!mouseentered) {
         // Do not invoke an infinite loop by calling patternFinder.closeFinder() which will invoke a blur.
