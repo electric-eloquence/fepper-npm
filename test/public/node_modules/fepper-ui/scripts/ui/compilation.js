@@ -31,7 +31,7 @@ export function sgNavToggleClick(event) {
   event.preventDefault();
 
   const $orgs = FEPPER_UI.requerio.$orgs;
-  const isActive = $orgs['#sg-nav-target'].getState().classList.includes('active');
+  const isActive = $orgs['#sg-nav-target'].getState().classArray.includes('active');
 
   FEPPER_UI.uiFns.closeAllPanels();
 
@@ -219,7 +219,7 @@ if (typeof window === 'object') {
     });
 
     $orgs['#typeahead'].on('blur', function () {
-      const mouseentered = $orgs['#sg-f-toggle'].getState().classList.includes('mouseentered');
+      const mouseentered = $orgs['#sg-f-toggle'].getState().classArray.includes('mouseentered');
 
       if (!mouseentered) {
         // Do not invoke an infinite loop by calling patternFinder.closeFinder() which will invoke a blur.
