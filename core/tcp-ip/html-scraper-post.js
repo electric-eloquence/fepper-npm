@@ -367,7 +367,7 @@ module.exports = class {
                   let suffixSlice = suffix.slice(1);
 
                   if (/^\d+$/.test(suffixSlice)) {
-                    suffixInt = parseInt(suffixSlice, 10);
+                    suffixInt = parseInt(suffixSlice);
                     ++suffixInt;
                   }
                 }
@@ -564,7 +564,7 @@ module.exports = class {
       // Here for due diligence.
       /* istanbul ignore else */
       if (/^\d+$/.test(indexStr)) {
-        index = parseInt(indexStr, 10);
+        index = parseInt(indexStr);
       }
       else {
         name = '';
