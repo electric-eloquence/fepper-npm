@@ -1,5 +1,10 @@
 # Fepper NPM Changelog
 
+### v0.33.4
+* Using getters to retrieve properties of parent object undefined at instantiation
+* Using private class fields
+* Tests updated to not use globals as extensively
+
 ### v0.33.3
 * Ensuring utils.conf() and utils.pref() only get run once
 
