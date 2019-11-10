@@ -80,7 +80,7 @@
     "chai": "4.x",
     "coveralls": "3.x",
     "eslint": "6.x",
-    "fepper-utils": "*",
+    "fepper-utils": "^1.3.3",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
     "husky": "1.x",
     "json-eval": "^1.0.8",
