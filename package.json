@@ -59,7 +59,7 @@
     "diveSync": "^0.3.0",
     "express": "^4.16.3",
     "feplet": "*",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.1.0",
     "gray-matter": "^3.1.1",
     "gulp-livereload": "^4.0.1",
     "he": "1.1.0",
