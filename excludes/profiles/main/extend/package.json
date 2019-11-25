@@ -3,6 +3,6 @@
   "repository": {},
   "license": "MIT",
   "devDependencies": {
-    "fp-stylus": "^1.2.8"
+    "fp-stylus": "^1.2.9"
   }
 }
