@@ -6,6 +6,7 @@ node_js:
   - "12"
 branches:
   only:
+  - dev
   - master
   - release
 after_script:
