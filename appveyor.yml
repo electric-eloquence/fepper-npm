@@ -26,6 +26,7 @@ version: "{build}"
 
 branches:
   only:
+    - dev
     - master
     - release
 
