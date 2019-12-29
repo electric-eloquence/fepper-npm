@@ -221,34 +221,10 @@ module.exports = class {
     const scan = Feplet.scan(pattern.template);
     const parseArr = Feplet.parse(scan);
 
-    // Check if the template uses listItems.
+    // Check if the template uses listItems and set boolean for whether the project uses listItems.
     this.config.useListItems = this.listItemsBuilder.listItemsScan(parseArr);
 
-    if (this.config.useListItems) {
-      // Look for a listitems.json file for this template.
-      const listJsonFileName = `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.listitems.json';
-
-      if (fs.existsSync(listJsonFileName)) {
-        try {
-          const jsonFileStr = fs.readFileSync(listJsonFileName, this.config.enc);
-
-          pattern.listItems = JSON5.parse(jsonFileStr);
-
-          if (this.config.debug) {
-            this.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
-          }
-
-          this.listItemsBuilder.listItemsBuild(pattern);
-          this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
-        }
-        catch (err) /* istanbul ignore next */ {
-          this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
-            pattern.relPath);
-          this.utils.error(err);
-        }
-      }
-    }
-
+    // Continue generating Feplet.
     pattern.fepletParse = parseArr;
     pattern.fepletComp = Feplet.generate(parseArr, pattern.template, {});
 

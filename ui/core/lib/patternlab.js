@@ -179,6 +179,35 @@ module.exports = class {
           this.utils.error(err);
         }
       }
+
+      const patternsPath = this.config.paths.source.patterns;
+
+      for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
+        const pattern = this.ingredients.patterns[i];
+
+        // Look for a listitems.json file for this template.
+        const listJsonFileName = `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.listitems.json';
+
+        if (fs.existsSync(listJsonFileName)) {
+          try {
+            const jsonFileStr = fs.readFileSync(listJsonFileName, this.config.enc);
+
+            pattern.listItems = JSON5.parse(jsonFileStr);
+
+            if (this.config.debug) {
+              this.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
+            }
+
+            this.listItemsBuilder.listItemsBuild(pattern);
+            this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
+          }
+          catch (err) /* istanbul ignore next */ {
+            this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
+              pattern.relPath);
+            this.utils.error(err);
+          }
+        }
+      }
     }
   }
 
