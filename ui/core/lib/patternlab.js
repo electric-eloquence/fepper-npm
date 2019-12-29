@@ -133,20 +133,6 @@ module.exports = class {
       this.utils.error(err);
     }
 
-    const listItemsFile = `${this.config.paths.source.data}/listitems.json`;
-
-    if (fs.existsSync(listItemsFile)) {
-      try {
-        const listItemsStr = fs.readFileSync(listItemsFile, this.config.enc);
-
-        this.ingredients.listItems = JSON5.parse(listItemsStr);
-      }
-      catch (err) /* istanbul ignore next */ {
-        this.utils.error('ERROR: Malformed ' + listItemsFile);
-        this.utils.error(err);
-      }
-    }
-
     const immutableDir = `${this.config.paths.core}/immutable`;
 
     try {
@@ -178,6 +164,22 @@ module.exports = class {
         this.patternBuilder.preProcessPattern(slash(path.relative(patternsDir, file)));
       }
     );
+
+    if (this.config.useListItems) {
+      const listItemsFile = `${this.config.paths.source.data}/listitems.json`;
+
+      if (fs.existsSync(listItemsFile)) {
+        try {
+          const listItemsStr = fs.readFileSync(listItemsFile, this.config.enc);
+
+          this.ingredients.listItems = JSON5.parse(listItemsStr);
+        }
+        catch (err) /* istanbul ignore next */ {
+          this.utils.error('ERROR: Malformed ' + listItemsFile);
+          this.utils.error(err);
+        }
+      }
+    }
   }
 
   preProcessDataAndParams() {
