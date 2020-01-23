@@ -8,7 +8,6 @@ module.exports = class {
   }
 
   main(pattern) {
-
     // Look for a pseudoPattern by checking if there is a file containing same name, with ~ in it, ending in .json.
     // If found, fill out that pattern.
     for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {

@@ -32,6 +32,8 @@ module.exports = class {
   // METHODS
 
   processAllPatterns() {
+    const dateNow = Date.now();
+
     let patternsToExport;
 
     if (Array.isArray(this.config.patternExportPatternPartials) && this.config.patternExportPatternPartials.length) {
@@ -83,9 +85,9 @@ module.exports = class {
 
     // Process patterns and viewall in the same nested loop.
     // This way, memory can be freed for both at the end of each loop.
-    for (let i = 0; i < this.ingredients.patternTypes.length; i++) {
-      let j;
-      const patternType = this.ingredients.patternTypes[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = this.ingredients.patternTypes.length; in0 < le0; in0++) {
+      const patternType = this.ingredients.patternTypes[in0];
 
       if (this.isViewallValid && patternType.patternTypeLC !== scrapeTypeName) {
         this.ingredients.viewallPatterns[patternType.flatPatternPath] = new objectFactory.PatternViewall(
@@ -96,8 +98,9 @@ module.exports = class {
       }
 
       // Iterate through this type's items.
-      for (j = 0; j < patternType.patternTypeItems.length; j++) {
-        const patternTypeItem = patternType.patternTypeItems[j];
+      // 1 FOR-LOOP LEVELS IN.
+      for (let in1 = 0, le1 = patternType.patternTypeItems.length; in1 < le1; in1++) {
+        const patternTypeItem = patternType.patternTypeItems[in1];
 
         if (patternTypeItem.patternName === 'View All') {
           continue;
@@ -107,14 +110,14 @@ module.exports = class {
 
         // Process pattern.
         // Always process Type if 1st pattern is subType.
-        // Otherwise, skip if both i === 0 and j === 0.
-        if (isFirstPatternSubType || i > 0 || j > 0) {
+        // Otherwise, skip if both in0 === 0 and in1 === 0.
+        if (isFirstPatternSubType || in0 > 0 || in1 > 0) {
           this.patternBuilder.processPattern(pattern);
         }
 
         // Write pattern.
         if (!pattern.isHidden) {
-          this.patternBuilder.writePattern(pattern);
+          this.patternBuilder.writePattern(pattern, dateNow);
         }
 
         // Export pattern.
@@ -127,11 +130,11 @@ module.exports = class {
           );
         }
 
-        // Write viewall body.
+        // Build viewall body.
         if (this.isViewallValid) {
           if (pattern.isHidden) {
             // If this pattern is hidden, mark for deletion from nav.
-            patternType.patternTypeItems[j] = null;
+            patternType.patternTypeItems[in1] = null;
           }
           else if (patternType.patternTypeLC !== scrapeTypeName) {
             this.viewallBuilder.buildViewallTypeBody(patternTypeItem, patternType);
@@ -141,9 +144,9 @@ module.exports = class {
         this.patternBuilder.freePattern(pattern);
       }
 
-      for (j = 0; j < patternType.patternSubTypes.length; j++) {
-        let k;
-        const patternSubType = patternType.patternSubTypes[j];
+      // 1 FOR-LOOP LEVELS IN.
+      for (let in1 = 0, le1 = patternType.patternSubTypes.length; in1 < le1; in1++) {
+        const patternSubType = patternType.patternSubTypes[in1];
 
         // Build viewall head for this subType.
         if (this.isViewallValid) {
@@ -155,8 +158,9 @@ module.exports = class {
         }
 
         // Iterate through this subType's items.
-        for (k = 0; k < patternSubType.patternSubTypeItems.length; k++) {
-          const patternSubTypeItem = patternSubType.patternSubTypeItems[k];
+        // 2 FOR-LOOP LEVELS IN.
+        for (let in2 = 0, le2 = patternSubType.patternSubTypeItems.length; in2 < le2; in2++) {
+          const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];
 
           if (patternSubTypeItem.patternName === 'View All') {
             continue;
@@ -166,14 +170,14 @@ module.exports = class {
 
           // Process pattern.
           // Always process subType if 1st pattern is not subType.
-          // Otherwise, skip if i === 0, j === 0, and k === 0.
-          if (!isFirstPatternSubType || i > 0 || j > 0 || k > 0) {
+          // Otherwise, skip if in0 === 0, in1 === 0, and in2 === 0.
+          if (!isFirstPatternSubType || in0 > 0 || in1 > 0 || in2 > 0) {
             this.patternBuilder.processPattern(pattern);
           }
 
           // Write pattern.
           if (!pattern.isHidden) {
-            this.patternBuilder.writePattern(pattern);
+            this.patternBuilder.writePattern(pattern, dateNow);
           }
 
           // Export pattern.
@@ -186,11 +190,11 @@ module.exports = class {
             );
           }
 
-          // Write viewall body.
+          // Build viewall body.
           if (this.isViewallValid) {
             if (pattern.isHidden) {
               // If this pattern is hidden, mark for deletion from nav.
-              patternSubType.patternSubTypeItems[k] = null;
+              patternSubType.patternSubTypeItems[in2] = null;
             }
             else {
               this.viewallBuilder.buildViewallSubTypeBody(patternSubTypeItem, patternSubType, patternType);
@@ -221,17 +225,20 @@ module.exports = class {
     }
 
     // Fully remove no longer needed data from patternTypes array so we don't write a huge ui/data.js file.
-    for (let i = 0; i < this.ingredients.patternTypes.length; i++) {
-      const patternType = this.ingredients.patternTypes[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = this.ingredients.patternTypes.length; in0 < le0; in0++) {
+      const patternType = this.ingredients.patternTypes[in0];
 
       delete patternType.pathsPublic;
 
-      for (let j = 0; j < patternType.patternTypeItems.length; j++) {
-        const patternTypeItem = patternType.patternTypeItems[j];
+      // 1 FOR-LOOP LEVELS IN.
+      // Must reevaluate length each iteration so we cannot cache le1.
+      for (let in1 = 0; in1 < patternType.patternTypeItems.length; in1++) {
+        const patternTypeItem = patternType.patternTypeItems[in1];
 
         if (!patternTypeItem) {
-          patternType.patternTypeItems.splice(j, 1);
-          j--;
+          patternType.patternTypeItems.splice(in1, 1);
+          in1--;
         }
         else {
           delete patternTypeItem.pathsPublic;
@@ -239,17 +246,20 @@ module.exports = class {
         }
       }
 
-      for (let j = 0; j < patternType.patternSubTypes.length; j++) {
-        const patternSubType = patternType.patternSubTypes[j];
+      // 1 FOR-LOOP LEVELS IN.
+      for (let in1 = 0, le1 = patternType.patternSubTypes.length; in1 < le1; in1++) {
+        const patternSubType = patternType.patternSubTypes[in1];
 
         delete patternSubType.pathsPublic;
 
-        for (let k = 0; k < patternSubType.patternSubTypeItems.length; k++) {
-          const patternSubTypeItem = patternSubType.patternSubTypeItems[k];
+        // 2 FOR-LOOP LEVELS IN.
+        // Must reevaluate length each iteration so we cannot cache le2.
+        for (let in2 = 0; in2 < patternSubType.patternSubTypeItems.length; in2++) {
+          const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];
 
           if (!patternSubTypeItem) {
-            patternSubType.patternSubTypeItems.splice(k, 1);
-            k--;
+            patternSubType.patternSubTypeItems.splice(in2, 1);
+            in2--;
           }
           else {
             delete patternSubTypeItem.pathsPublic;
@@ -258,10 +268,12 @@ module.exports = class {
         }
       }
     }
+
+    // Write hashes file.
+    fs.writeJsonSync(`${this.config.paths.public.patterns}/hashes.json`, this.ingredients.hashesNew);
   }
 
   writePatternlabData() {
-
     // Temporarily dereference .paths from the config object because we don't want absolute paths on the client.
     const configPaths = this.config.paths;
     delete this.config.paths;

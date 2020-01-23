@@ -53,9 +53,11 @@ module.exports = class {
 
     this.ingredients = {
       data: {},
-      dataKeysSchemaObj: {},
-      dataKeys: {},
+      dataKeysSchema: {},
+      dataKeys: [],
       footer: '',
+      hashesNew: {},
+      hashesOld: {},
       listItems: {},
       partials: {},
       partialsComp: {},
@@ -67,7 +69,7 @@ module.exports = class {
       portServer: utils.deepGet(global, 'conf.express_port') || '',
       userHeadComp: null,
       userHeadGlobal: '',
-      userHeadParseArr: [],
+      userHeadParse: [],
       userFootSplit: [],
       viewallPatterns: {}
     };
@@ -119,11 +121,6 @@ module.exports = class {
     );
   }
 
-  // DEPRECATED. Moved to fepper-utils.
-  rmRfFilesNotDirs(dirToEmpty) /* istanbul ignore next */ {
-    this.emptyFilesNotDirs(dirToEmpty);
-  }
-
   preProcessAllPatterns(patternsDir) {
     try {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
@@ -144,12 +141,12 @@ module.exports = class {
       this.utils.error(err);
     }
 
+    this.ingredients.data.cacheBuster = '{{ cacheBuster }}';
     this.ingredients.data.link = {};
     this.ingredients.data.pathsPublic = this.config.pathsPublic;
     this.ingredients.patterns = [];
 
     this.viewallBuilder.readViewallTemplates();
-    this.setCacheBuster();
 
     diveSync(
       patternsDir,
@@ -211,17 +208,27 @@ module.exports = class {
     }
   }
 
+  preProcessDataKeys(schemaObj, dataObj) {
+    for (let key of Object.keys(dataObj)) {
+      if (dataObj[key].constructor === Object) {
+        schemaObj[key] = this.preProcessDataKeys(schemaObj, dataObj[key]);
+      }
+
+      schemaObj[key] = true;
+    }
+  }
+
   preProcessDataAndParams() {
     if (this.config.useListItems) {
       this.listItemsBuilder.listItemsBuild(this.ingredients);
     }
 
+    this.preProcessDataKeys(this.ingredients.dataKeysSchema, this.ingredients.data);
     // Create an array of data keys to not render when preprocessing partials.
-    this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, this.ingredients.data);
-    this.ingredients.dataKeys = Feplet.preProcessContextKeys(this.ingredients.dataKeysSchemaObj);
+    this.ingredients.dataKeys = Feplet.preProcessContextKeys(this.ingredients.dataKeysSchema);
 
     // Iterate through patternlab.partials and patternlab.patterns to preprocess partials with params.
-    this.patternBuilder.preProcessPartialParams(this);
+    this.patternBuilder.preProcessPartialParams();
   }
 
   prepWrite() {
@@ -247,8 +254,8 @@ module.exports = class {
     }
 
     userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, this.ingredients.header);
-    this.ingredients.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
-    this.ingredients.userHeadComp = Feplet.generate(this.ingredients.userHeadParseArr, userHead, {});
+    this.ingredients.userHeadParse = Feplet.parse(Feplet.scan(userHead));
+    this.ingredients.userHeadComp = Feplet.generate(this.ingredients.userHeadParse, userHead, {});
     this.ingredients.userHeadGlobal = this.ingredients.userHeadComp.render(this.ingredients.data);
 
     let userFoot;
@@ -299,13 +306,9 @@ module.exports = class {
     this.annotationsBuilder.main();
   }
 
-  setCacheBuster() {
-    if (this.config.cacheBust) {
-      this.ingredients.data.cacheBuster = '?' + Date.now();
-    }
-    else {
-      this.ingredients.data.cacheBuster = '';
-    }
+  // DEPRECATED. Moved to fepper-utils.
+  rmRfFilesNotDirs(dirToEmpty) /* istanbul ignore next */ {
+    this.emptyFilesNotDirs(dirToEmpty);
   }
 
   // PUBLIC METHODS
@@ -330,6 +333,12 @@ module.exports = class {
       utils.log('Please run `fp ui:compile`.');
 
       throw new Error('ENOENT');
+    }
+
+    const hashesFile = `${this.config.paths.public.patterns}/hashes.json`;
+
+    if (fs.existsSync(hashesFile)) {
+      this.ingredients.hashesOld = fs.readJsonSync(hashesFile);
     }
 
     const patternsDir = this.config.paths.source.patterns;

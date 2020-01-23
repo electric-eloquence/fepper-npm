@@ -51,9 +51,7 @@ module.exports = class {
           let partialCode = this.mustacheRecurse(patternsDir + '/' + partial[0], patternsDir);
           code1 += partialCode;
 
-          for (let j = 0; j < partial.length; j++) {
-            const partialIdx = j;
-
+          for (let partialIdx = 0; partialIdx < partial.length; partialIdx++) {
             if (partialIdx > 0) {
               code1 += partial[partialIdx];
 
@@ -241,15 +239,17 @@ module.exports = class {
   }
 
   tokensReplace(tokens, codeParam) {
+    const tokenKeys = Object.keys(tokens);
+
     let code = codeParam;
     let regex;
     let token;
     let unescaped;
 
-    for (let i of Object.keys(tokens)) {
-      unescaped = this.mustacheUnescape(i);
+    for (let tokenKey of tokenKeys) {
+      unescaped = this.mustacheUnescape(tokenKey);
       regex = new RegExp('\\{\\{\\{?\\s*' + unescaped + '\\s*\\}?\\}\\}', 'g');
-      token = tokens[i].replace(/^\n/, '');
+      token = tokens[tokenKey].replace(/^\n/, '');
       token = token.replace(/\n$/, '');
       code = code.replace(regex, token);
     }

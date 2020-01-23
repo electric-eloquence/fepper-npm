@@ -10,6 +10,9 @@
   right: 0;
   z-index: 0;
 }
+#sg-vp-wrap.anim-ready {
+  transition: padding-bottom 0.3s linear 0.1s;
+}
 
 /**
  * This is an invisible div that sits above the iframe and is used in JS for manual viewport resizing purposes.

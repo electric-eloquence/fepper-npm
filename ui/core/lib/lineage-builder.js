@@ -13,14 +13,16 @@ module.exports = class {
   matchPattern(partial) {
     // First, perform a check for partials with parameters.
     // We need to make sure partial !== matchCandidate so we only submit the non-param partial.
-    for (let matchCandidate of Object.keys(this.ingredients.partials)) {
+    // Disabling guard-for-in because we have complete control over construction of this.ingredients.partials.
+    for (let matchCandidate in this.ingredients.partials) { // eslint-disable-line guard-for-in
       if (partial !== matchCandidate && partial.indexOf(matchCandidate) === 0) {
         return matchCandidate;
       }
     }
 
     // Then, look for exact matches.
-    for (let matchCandidate of Object.keys(this.ingredients.partials)) {
+    // Disabling guard-for-in because we have complete control over construction of this.ingredients.partials.
+    for (let matchCandidate in this.ingredients.partials) { // eslint-disable-line guard-for-in
       if (partial === matchCandidate) {
         return matchCandidate;
       }
@@ -36,7 +38,7 @@ module.exports = class {
     for (let i = 0, l = parseArr.length; i < l; i++) {
       const parseObj = parseArr[i];
 
-      if (parseObj.tag && parseObj.tag === '>') {
+      if (parseObj.tag === '>') {
         partialsArr.push(parseObj.n);
       }
 
