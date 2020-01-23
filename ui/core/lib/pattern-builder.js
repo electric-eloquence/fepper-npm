@@ -5,6 +5,7 @@ const path = require('path');
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
+const XXHash = require('xxhash');
 
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
@@ -16,7 +17,6 @@ module.exports = class {
     this.#patternlab = patternlab;
 
     this.config = patternlab.config;
-    this.getPattern = patternlab.getPattern;
     this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
   }
@@ -101,35 +101,41 @@ module.exports = class {
   }
 
   preProcessPartials(fepletPartials) {
-    for (let i of Object.keys(fepletPartials)) {
-      const partial = fepletPartials[i];
+    const fepletPartialsValues = Object.values(fepletPartials);
+
+    // Not using for..in because fepletPartials is constructed within the hogan.js library.
+    // It might be trivial to verify with absolute certainty that its constructor is plain Object, but there is no
+    // erring (cautionary or otherwise) while using Object.values and a plain for loop, and being on the safe side.
+    for (let i = 0, l = fepletPartialsValues.length; i < l; i++) {
+      const partial = fepletPartialsValues[i];
 
       // If undefined, create a placeholder in the partials object to get populated later.
       if (typeof this.ingredients.partials[partial.name] === 'undefined') {
-        this.ingredients.partials[partial.name] = ''; // Needs to be string.
+        this.ingredients.partials[partial.name] = '';
       }
 
       // Same thing for partialsComp object.
       if (typeof this.ingredients.partialsComp[partial.name] === 'undefined') {
-        this.ingredients.partialsComp[partial.name] = null;
+        this.ingredients.partialsComp[partial.name] = {};
       }
     }
   }
 
   setState(pattern) {
-
     // Check for a corresponding Front Matter file to the pattern and get the patternState from its data.
-    for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
-      const fmCandidate = this.ingredients.patterns[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = this.ingredients.patterns.length; in0 < le0; in0++) {
+      const fmCandidate = this.ingredients.patterns[in0];
 
       if (
         fmCandidate.isFrontMatter &&
         fmCandidate.frontMatterRelPathTrunc === pattern.relPathTrunc &&
         fmCandidate.frontMatterData
       ) {
-        for (let j = 0, le = fmCandidate.frontMatterData.length; j < le; j++) {
-          if (fmCandidate.frontMatterData[j].state) {
-            pattern.patternState = fmCandidate.frontMatterData[j].state;
+        // 1 FOR-LOOP LEVELS IN.
+        for (let in1 = 0, le1 = fmCandidate.frontMatterData.length; in1 < le1; in1++) {
+          if (fmCandidate.frontMatterData[in1].state) {
+            pattern.patternState = fmCandidate.frontMatterData[in1].state;
 
             return;
           }
@@ -139,6 +145,111 @@ module.exports = class {
   }
 
   // PUBLIC METHODS
+
+  freePattern(pattern) {
+    // Will free significant memory if processing many templates.
+    // Disabling guard-for-in because we have complete control over construction of pattern.
+    for (let key in pattern) { // eslint-disable-line guard-for-in
+      // Retain these keys so patterns can continue to be looked up.
+      switch (key) {
+        case 'hash':
+        case 'patternLink':
+        case 'patternPartialPhp':
+        case 'patternPartial':
+        case 'pseudoPatternPartial':
+        case 'relPathTrunc':
+        case 'relPath':
+          continue;
+      }
+
+      delete pattern[key];
+    }
+  }
+
+  preProcessPartialParams() {
+    const {
+      partials,
+      partialsComp,
+      patterns
+    } = this.#patternlab.ingredients;
+
+    // Populate non-param partials with templates, fepletParses, and fepletComps.
+    // Disabling guard-for-in because we have complete control over construction of partials.
+    // eslint-disable-next-line guard-for-in
+    for (let partialKey in partials) {
+      // The partialKey may or may not have a param.
+      // Whether it does or not, make sure there is an entry for the non-param partial.
+      for (let i = 0, l = patterns.length; i < l; i++) {
+        const pattern = patterns[i];
+
+        let nonParamPartialKey;
+
+        /* istanbul ignore else */
+        if (partialKey.indexOf(pattern.patternPartialPhp) === 0) {
+          nonParamPartialKey = pattern.patternPartialPhp;
+        }
+        else if (partialKey.indexOf(pattern.patternPartial) === 0) {
+          nonParamPartialKey = pattern.patternPartial;
+        }
+        else if (partialKey.indexOf(pattern.relPathTrunc) === 0) {
+          nonParamPartialKey = pattern.relPathTrunc;
+        }
+        else if (partialKey.indexOf(pattern.relPath) === 0) {
+          nonParamPartialKey = pattern.relPath;
+        }
+
+        if (nonParamPartialKey && !partials[nonParamPartialKey]) {
+          partials[nonParamPartialKey] = pattern.template;
+          partialsComp[nonParamPartialKey] = {
+            parseArr: pattern.fepletParse,
+            compilation: pattern.fepletComp
+          };
+
+          break;
+        }
+      }
+    }
+
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = patterns.length; in0 < le0; in0++) {
+      const pattern = patterns[in0];
+      const partialsKeys = pattern.fepletComp ? Object.keys(pattern.fepletComp.partials) : [];
+      const partialsKeysLength = partialsKeys.length;
+
+      // Preprocess partials with params if included within this pattern.
+      if (partialsKeysLength) {
+        let hasParam = false;
+        let hasStyleModifier = false;
+
+        // 1 FOR-LOOP LEVELS IN.
+        for (let in1 = 0; in1 < partialsKeysLength; in1++) {
+          if (/\([\S\s]*\)/.test(partialsKeys[in1])) {
+            hasParam = true;
+
+            break;
+          }
+
+          // eslint-disable-next-line no-useless-escape
+          if (/\:([\w\-\|]+)/.test(partialsKeys[in1])) {
+            hasStyleModifier = true;
+
+            break;
+          }
+        }
+
+        if (hasParam || hasStyleModifier) {
+          Feplet.preProcessPartialParams(
+            pattern.template, pattern.fepletComp, partials, partialsComp, this.ingredients.dataKeys
+          );
+        }
+      }
+
+      // Find and set lineages.
+      this.lineageBuilder.main(pattern);
+      pattern.lineageExists = pattern.lineage.length > 0;
+      pattern.lineageRExists = pattern.lineageR.length > 0;
+    }
+  }
 
   preProcessPattern(relPath) {
     const fileObject = path.parse(relPath);
@@ -178,9 +289,9 @@ module.exports = class {
         }
       }
 
-      // If file is named in the syntax for variants, add data keys to dataKeysSchemaObj, add and return pattern.
+      // If file is named in the syntax for variants, add data keys to dataKeysSchema, add and return pattern.
       if (this.isPseudoPatternJson(fileName)) {
-        this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, pattern.jsonFileData);
+        this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
         this.addPattern(pattern);
 
         return pattern;
@@ -215,11 +326,10 @@ module.exports = class {
     // See if this file has a state.
     this.setState(pattern);
 
-    this.utils.extendButNotOverride(this.ingredients.dataKeysSchemaObj, pattern.jsonFileData);
-    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
+    this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
+    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc).replace(/\s*\n\s*/g, '');
 
-    const scan = Feplet.scan(pattern.template);
-    const parseArr = Feplet.parse(scan);
+    const parseArr = Feplet.parse(Feplet.scan(pattern.template));
 
     // Check if the template uses listItems and set boolean for whether the project uses listItems.
     this.config.useListItems = this.listItemsBuilder.listItemsScan(parseArr);
@@ -228,101 +338,12 @@ module.exports = class {
     pattern.fepletParse = parseArr;
     pattern.fepletComp = Feplet.generate(parseArr, pattern.template, {});
 
-    // Prepopulate possible non-param matches for partials with params.
-    // These are references, so they shouldn't use significant memory, thus justifying not having to regenerate.
-    this.ingredients.partialsComp[pattern.patternPartialPhp] = pattern.fepletComp;
-    this.ingredients.partialsComp[pattern.patternPartial] = pattern.fepletComp;
-    this.ingredients.partialsComp[pattern.relPathTrunc] = pattern.fepletComp;
-    this.ingredients.partialsComp[pattern.relPath] = pattern.fepletComp;
-
     this.preProcessPartials(pattern.fepletComp.partials);
 
     // Add pattern to this.ingredients.patterns array.
     this.addPattern(pattern);
 
     return pattern;
-  }
-
-  preProcessPartialParams() {
-    const {
-      partials,
-      partialsComp,
-      patterns
-    } = this.#patternlab.ingredients;
-
-    for (let partialName of Object.keys(partials)) {
-      const pattern = this.getPattern(partialName);
-
-      if (pattern) {
-        partials[partialName] = pattern.template;
-        partialsComp[partialName] = pattern.fepletComp;
-      }
-
-      // If no exact match, must have param.
-      else {
-        // Make sure there is an entry for the non-param partial.
-        for (let i = 0, l = patterns.length; i < l; i++) {
-          let nonParamPartialName;
-
-          /* istanbul ignore else */
-          if (partialName.indexOf(patterns[i].patternPartialPhp) === 0) {
-            nonParamPartialName = patterns[i].patternPartialPhp;
-          }
-          else if (partialName.indexOf(patterns[i].patternPartial) === 0) {
-            nonParamPartialName = patterns[i].patternPartial;
-          }
-          else if (partialName.indexOf(patterns[i].relPathTrunc) === 0) {
-            nonParamPartialName = patterns[i].relPathTrunc;
-          }
-          else if (partialName.indexOf(patterns[i].relPath) === 0) {
-            nonParamPartialName = patterns[i].relPath;
-          }
-
-          if (nonParamPartialName) {
-            partials[nonParamPartialName] = patterns[i].template;
-            partialsComp[nonParamPartialName] = patterns[i].fepletComp;
-
-            break;
-          }
-        }
-      }
-    }
-
-    // Remove any reference between partialKeysArr and partials object because we need to add to the partials object.
-    // We therefore do not want to iterate on the partials object itself.
-    const partialKeysArr = Object.keys(partials);
-
-    // Since we have all non-param partials saved, preprocess partials with params.
-    for (let i = 0, l = partialKeysArr.length; i < l; i++) {
-      const partialKey = partialKeysArr[i];
-      const partialText = partials[partialKey];
-      const partialComp = partialsComp[partialKey];
-      const pattern = this.getPattern(partialKey);
-
-      Feplet.preProcessPartialParams(partialText, partialComp, partials, partialsComp, this.ingredients.dataKeys);
-
-      if (pattern) {
-        pattern.isPreProcessed = true;
-      }
-    }
-
-    // Iterate through patterns this time.
-    for (let i = 0, l = patterns.length; i < l; i++) {
-      const pattern = patterns[i];
-
-      // Preprocess partials with params that exist in higher level patterns.
-      if (!pattern.isPreProcessed) {
-        Feplet.preProcessPartialParams(pattern.template, pattern.fepletComp, partials, partialsComp,
-          this.ingredients.dataKeys);
-
-        pattern.isPreProcessed = true;
-      }
-
-      // Find and set lineages.
-      this.lineageBuilder.main(pattern);
-      pattern.lineageExists = pattern.lineage.length > 0;
-      pattern.lineageRExists = pattern.lineageR.length > 0;
-    }
   }
 
   processPattern(pattern) {
@@ -334,19 +355,16 @@ module.exports = class {
     // The tilde suffix will sort pseudoPatterns after basePatterns.
     // So first, check if this is not a pseudoPattern (therefore a basePattern) and set up the .allData property.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
-      if (pattern.jsonFileData) {
+      if (pattern.jsonFileData instanceof Object && Object.keys(pattern.jsonFileData).length) {
         pattern.allData = this.utils.extendButNotOverride({}, pattern.jsonFileData, this.ingredients.data);
       }
       else {
         pattern.jsonFileData = {};
         pattern.allData = this.ingredients.data;
       }
-
-      // Set cacheBuster property on allData.
-      pattern.allData.cacheBuster = pattern.cacheBuster;
     }
 
-    // Render extendedTemplate whether pseudoPattern or not. Write it to pattern object.
+    // Render extendedTemplate whether pseudoPattern or not.
     pattern.extendedTemplate =
       pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
 
@@ -359,10 +377,10 @@ module.exports = class {
     let header;
     let useUserHeadLocal = false;
 
-    for (let i = 0, l = this.ingredients.userHeadParseArr.length; i < l; i++) {
-      const compItem = this.ingredients.userHeadParseArr[i];
+    for (let i = 0, l = this.ingredients.userHeadParse.length; i < l; i++) {
+      const compItem = this.ingredients.userHeadParse[i];
 
-      if (compItem.tag === '_v') {
+      if (compItem.tag === '_v' && compItem.n) {
         // eslint-disable-next-line eqeqeq
         if (pattern.jsonFileData[compItem.n] != null) {
           useUserHeadLocal = true;
@@ -383,7 +401,9 @@ module.exports = class {
     // Exclude hidden lineage items from array destined for output.
     const lineage = [];
 
-    for (let lineageItem of pattern.lineage) {
+    for (let i = 0, l = pattern.lineage.length; i < l; i++) {
+      const lineageItem = pattern.lineage[i];
+
       if (!lineageItem.isHidden) {
         lineage.push(lineageItem);
       }
@@ -394,7 +414,9 @@ module.exports = class {
     // Exclude hidden lineageR items from array destined for output.
     const lineageR = [];
 
-    for (let lineageRItem of pattern.lineageR) {
+    for (let i = 0, l = pattern.lineageR.length; i < l; i++) {
+      const lineageRItem = pattern.lineageR[i];
+
       if (!lineageRItem.isHidden) {
         lineageR.push(lineageRItem);
       }
@@ -403,7 +425,7 @@ module.exports = class {
     const lineageRExists = Boolean(lineageR.length);
 
     // Stringify these data for individual pattern rendering and use on the styleguide.
-    pattern.allData.patternData = JSON.stringify({
+    pattern.patternData = JSON.stringify({
       lineage,
       lineageExists,
       lineageR,
@@ -419,9 +441,8 @@ module.exports = class {
 
     // Set the pattern-specific footer by compiling the general-footer with data, and then adding it to userFoot.
     const footerPartial = Feplet.render(this.ingredients.footer, {
-      cacheBuster: this.ingredients.data.cacheBuster,
       isPattern: pattern.isPattern,
-      patternData: pattern.allData.patternData,
+      patternData: pattern.patternData,
       portReloader: this.ingredients.portReloader
     });
 
@@ -438,48 +459,50 @@ module.exports = class {
 
     pattern.header = header;
     pattern.footer = footer;
+    pattern.hash = XXHash.hash64(
+      Buffer.from(pattern.header + pattern.extendedTemplate + pattern.footer, this.config.enc), 64, 'base64'
+    );
+
+    this.ingredients.hashesNew[pattern.patternPartial] = pattern.hash;
   }
 
-  writePattern(pattern) {
+  writePattern(pattern, dateNow) {
     /* istanbul ignore if */
     if (pattern.isFrontMatter) {
       return;
     }
 
-    // Write the built template to the public patterns directory.
-    const paths = this.config.paths;
-    const patternPage = pattern.header + pattern.extendedTemplate + pattern.footer;
+    // Check to see whether the last pattern build has been modified. If modified, write pattern files.
+    if (this.ingredients.hashesOld[pattern.patternPartial] !== pattern.hash) {
 
-    fs.outputFileSync(`${paths.public.patterns}/${pattern.patternLink}`, patternPage);
+      // Write the built template to the public patterns directory.
+      const paths = this.config.paths;
+      const outfileFull = `${paths.public.patterns}/${pattern.patternLink}`;
+      const patternFull = pattern.header + pattern.extendedTemplate + pattern.footer;
 
-    // Write the mustache file.
-    const outfileMustache = paths.public.patterns + '/' +
-      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.config.patternExtension;
+      let cacheBuster;
 
-    fs.outputFileSync(outfileMustache, pattern.template);
-
-    // Write the markup-only version.
-    const outfileMarkupOnly = paths.public.patterns + '/' +
-      pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
-
-    fs.outputFileSync(outfileMarkupOnly, pattern.extendedTemplate);
-  }
-
-  freePattern(pattern) {
-    // Will free significant memory if processing many templates.
-    for (let key of Object.keys(pattern)) {
-      // Retain these keys so patterns can continue to be looked up.
-      switch (key) {
-        case 'patternLink':
-        case 'patternPartialPhp':
-        case 'patternPartial':
-        case 'pseudoPatternPartial':
-        case 'relPathTrunc':
-        case 'relPath':
-          continue;
+      if (this.config.cacheBust) {
+        cacheBuster = `?${dateNow}`;
+      }
+      else {
+        cacheBuster = '';
       }
 
-      delete pattern[key];
+      // Write the full pattern page.
+      fs.outputFileSync(outfileFull, patternFull.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
+
+      // Write the markup-only version.
+      const outfileMarkupOnly = paths.public.patterns + '/' +
+        pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
+
+      fs.outputFileSync(outfileMarkupOnly, pattern.extendedTemplate.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
+
+      // Write the mustache file.
+      const outfileMustache = paths.public.patterns + '/' +
+        pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.config.patternExtension;
+
+      fs.outputFileSync(outfileMustache, pattern.template);
     }
   }
 };

@@ -22,6 +22,7 @@ const scriptsPublic = conf.ui.paths.public.js;
 const staticSource = conf.ui.paths.source.static;
 const stylesPublic = conf.ui.paths.public.css;
 
+const hashesFile = `${patternsPublic}/hashes.json`;
 const publicIndex = `${patternsPublic}/04-pages-00-homepage/04-pages-00-homepage.html`;
 const staticIndex = `${staticSource}/index.html`;
 const staticSibling = `${staticSource}/01-blog.html`;
@@ -50,6 +51,9 @@ describe('Static Generator', function () {
   before(function () {
     dataJson = utils.data();
 
+    if (fs.existsSync(hashesFile)) {
+      fs.removeSync(hashesFile);
+    }
     if (fs.existsSync(staticIndex)) {
       fs.removeSync(staticIndex);
     }
@@ -285,6 +289,10 @@ describe('Static Generator', function () {
     const testRegex1 = /<script src="\.\.\/\.\.\/_scripts\/src\/fepper-obj.js\?\d+"><\/script>/;
     const testStringConverted = staticGenerator.convertCacheBusters(testStringOrig);
     const uiConfOrig = JSON.parse(JSON.stringify(fepper.ui.patternlab.config));
+
+    if (fs.existsSync(hashesFile)) {
+      fs.removeSync(hashesFile);
+    }
 
     fepper.ui.patternlab.build({cacheBust: true});
     fepper.ui.patternlab.resetConfig(uiConfOrig);

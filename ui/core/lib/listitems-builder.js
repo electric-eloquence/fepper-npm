@@ -41,15 +41,17 @@ module.exports = class {
 
     let counter = 0;
 
-    for (let i = 0, l = counts.length; i < l; i++) {
-      const count = counts[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = counts.length; in0 < le0; in0++) {
+      const count = counts[in0];
       const tempItems = [];
 
       counter++;
 
-      for (let j = 0; j < counter; j++) {
-        if (listItemsArr[j]) {
-          tempItems.push(listItemsArr[j]);
+      // 1 FOR-LOOP LEVELS IN.
+      for (let in1 = 0; in1 < counter; in1++) {
+        if (listItemsArr[in1]) {
+          tempItems.push(listItemsArr[in1]);
         }
         else {
           return;
@@ -67,8 +69,9 @@ module.exports = class {
       return true;
     }
 
-    for (let i = 0, l = parseArr.length; i < l; i++) {
-      const parseObj = parseArr[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = parseArr.length; in0 < le0; in0++) {
+      const parseObj = parseArr[in0];
 
       if (
         parseObj.tag &&

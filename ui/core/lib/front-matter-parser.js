@@ -29,8 +29,9 @@ exports.main = (fileContent) => {
   // Take raw file content text and split it with Pattern Lab's custom delimiter.
   const fileContentSplit = fileContent.split('~*~');
 
-  for (let i = 0, l = fileContentSplit.length; i < l; i++) {
-    const frontMatterPrecursor = fileContentSplit[i];
+  // 0 FOR-LOOP LEVELS IN.
+  for (let in0 = 0, le0 = fileContentSplit.length; in0 < le0; in0++) {
+    const frontMatterPrecursor = fileContentSplit[in0];
     const frontMatterLines = frontMatterPrecursor.split('\n');
     const frontMatterLinesLength = frontMatterLines.length;
 
@@ -39,8 +40,9 @@ exports.main = (fileContent) => {
     const frontMatterLinesClone = frontMatterLines.slice(0, frontMatterLinesLength);
 
     // Remove comments and/or whitespace before "---" delimiter.
-    for (let j = 0, le = frontMatterLinesClone.length; j < le; j++) {
-      const line = frontMatterLinesClone[j];
+    // 1 FOR-LOOP LEVELS IN.
+    for (let in1 = 0, le1 = frontMatterLinesClone.length; in1 < le1; in1++) {
+      const line = frontMatterLinesClone[in1];
 
       if (!reachedDelimiter) {
         if (line.trim() === '---') {
@@ -56,8 +58,9 @@ exports.main = (fileContent) => {
     }
 
     // Escape "#" in the data for el.
-    for (let j = 0; j < frontMatterLinesLength; j++) {
-      const line = frontMatterLines[j];
+    // 1 FOR-LOOP LEVELS IN.
+    for (let in1 = 0, le1 = frontMatterLinesLength; in1 < le1; in1++) {
+      const line = frontMatterLines[in1];
 
       // Might be undefined if there was no ending "---" delimiter.
       if (typeof line !== 'string') {
@@ -65,7 +68,7 @@ exports.main = (fileContent) => {
       }
 
       if (line.slice(0, 3) === 'el:') {
-        frontMatterLines[j] = line.replace('#', '\\#');
+        frontMatterLines[in1] = line.replace('#', '\\#');
 
         break;
       }

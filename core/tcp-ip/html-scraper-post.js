@@ -325,9 +325,7 @@ module.exports = class {
     let inc = inc_;
 
     if (Array.isArray(jsonForMustache.child)) {
-      for (let i = 0; i < jsonForMustache.child.length; i++) {
-        const jsonForMustacheChild = jsonForMustache.child[i];
-
+      for (let jsonForMustacheChild of jsonForMustache.child) {
         if (
           jsonForMustacheChild.node === 'text' &&
           typeof jsonForMustacheChild.text === 'string' &&
@@ -352,8 +350,10 @@ module.exports = class {
             underscored = underscored.replace(/-/g, '_').replace(/ /g, '_').replace(/[^\w]/g, '');
 
             // Add incrementing suffix to dedupe items of the same class or tag.
-            for (let j = dataKeys[inc].length - 1; j >= 0; j--) {
-              const dataKey = dataKeys[inc][j];
+            let i = dataKeys[inc].length;
+
+            while (i--) {
+              const dataKey = dataKeys[inc][i];
 
               // Check dataKeys for similarly named items.
               if (dataKey.indexOf(underscored) === 0) {
@@ -372,7 +372,7 @@ module.exports = class {
                   }
                 }
                 else {
-                  // underscored exactly matches dataKeys[inc][j]
+                  // underscored exactly matches dataKeys[inc][i]
                   ++suffixInt;
                 }
 

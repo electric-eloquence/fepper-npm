@@ -37,16 +37,16 @@ patternlab.patternBuilder.processPattern(antiInfinityPattern, patternlab);
 
 describe('Parameter Hunter', function () {
   it('finds and extends templates with a parameter', function () {
-    expect(nestedPattern.extendedTemplate).to.equal('<span class="test_base ">\n    paramMessage\n    \n</span>\n');
+    expect(nestedPattern.extendedTemplate).to.equal('<span class="test_base ">paramMessage</span>');
   });
 
   it('finds and extends templates with multiple parameters', function () {
     expect(multiPattern.extendedTemplate).to
-      .equal('<span class="test_base ">\n    paramMessage\n    description\n</span>\n');
+      .equal('<span class="test_base ">paramMessagedescription</span>');
   });
 
   it('finds and extends templates with mixed parameter and global data', function () {
-    expect(nesterPattern.extendedTemplate).to.equal('\n<span class="test_base ">\n    paramMessage\n    \n</span>\n');
+    expect(nesterPattern.extendedTemplate).to.equal('<span class="test_base ">paramMessage</span>');
   });
 
   // Test quoting options.
@@ -162,18 +162,13 @@ describe('Parameter Hunter', function () {
   });
 
   it('correctly parses partial parameters for recursion beyond a single level', function () {
-    expect(recursivePattern.extendedTemplate).to.equal('<h1 id="title">foo</h1>\n<p id="message"></p>\n');
+    expect(recursivePattern.extendedTemplate).to.equal('<h1 id="title">foo</h1><p id="message"></p>');
   });
 
   it('correctly limits recursion on partials that call themselves but within restricted conditions\
 ', function () {
-    const expectation = `<h1 id="title">foo</h1>
-<p id="message"></p>
-  <h1 id="title">foo</h1>
-<p id="message"></p>
-  <h1 id="title">bar</h1>
-  <p id="message"></p>
-`;
+    const expectation = '<h1 id="title">foo</h1><p id="message"></p><h1 id="title">foo</h1><p id="message"></p>\
+<h1 id="title">bar</h1><p id="message"></p>';
 
     expect(antiInfinityPattern.extendedTemplate).to.equal(expectation);
   });
