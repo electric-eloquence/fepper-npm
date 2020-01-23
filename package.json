@@ -58,7 +58,7 @@
     "cookie-parser": "^1.4.3",
     "diveSync": "^0.3.0",
     "express": "^4.16.3",
-    "feplet": "*",
+    "feplet": "1.2.0-rc.0",
     "fepper-utils": "*",
     "fs-extra": "^8.1.0",
     "gray-matter": "^3.1.1",
