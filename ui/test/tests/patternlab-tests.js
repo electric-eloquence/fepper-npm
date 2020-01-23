@@ -44,14 +44,25 @@ describe('Patternlab', function () {
   });
 
   describe('.build()', function () {
+    const publicAltPatterns = patternlab.config.paths.public.patterns.replace('public/patterns', 'public-alt/patterns');
+
     let configOrigClone;
 
     before(function () {
       configOrigClone = JSON.parse(JSON.stringify(patternlab.config));
+
+      const hashesFileOrig = `${configOrigClone.paths.public.patterns}/hashes.json`;
+
+      if (fs.existsSync(hashesFileOrig)) {
+        fs.removeSync(hashesFileOrig);
+      }
+
+      patternlab.build();
     });
 
     after(function () {
       patternlab.resetConfig(configOrigClone);
+      fs.removeSync(publicAltPatterns);
     });
 
     it('builds patterns with modified configuration', function () {
@@ -59,7 +70,7 @@ describe('Patternlab', function () {
       patternlab.build({
         paths: {
           public: {
-            patterns: patternlab.config.paths.public.patterns.replace('public/patterns', 'public-alt/patterns')
+            patterns: publicAltPatterns
           }
         },
         pathsRelative: {
@@ -67,9 +78,24 @@ describe('Patternlab', function () {
             patterns: 'public-alt/patterns'
           }
         },
-        cacheBust: true
+        cacheBust: true,
+        cleanPublic: false
       });
 
+      const fooOrig = `${configOrigClone.paths.public.patterns}/00-test-00-foo/00-test-00-foo.html`;
+      const fooOrigContent = fs.readFileSync(fooOrig, patternlab.config.enc);
+      const fooAlt = `${patternlab.config.paths.public.patterns}/00-test-00-foo/00-test-00-foo.html`;
+      const fooAltContent = fs.readFileSync(fooAlt, patternlab.config.enc);
+      const scriptTagStr = '<script src="../../annotations/annotations.js"></script>';
+      const scriptTagRegex = /<script src="\.\.\/\.\.\/annotations\/annotations\.js\?\d+"><\/script>/;
+
+      expect(fooOrigContent).to.have.string(scriptTagStr);
+      expect(fooOrigContent).to.not.match(scriptTagRegex);
+      expect(fooAltContent).to.not.have.string(scriptTagStr);
+      expect(fooAltContent).to.match(scriptTagRegex);
+    });
+
+    it('replaces cacheBuster tags with empty string in viewalls', function () {
       // viewallOrig should have been written by previous test.
       const viewallOrig = `${configOrigClone.paths.public.patterns}/viewall/viewall.html`;
       const viewallOrigContent = fs.readFileSync(viewallOrig, patternlab.config.enc);
@@ -80,8 +106,8 @@ describe('Patternlab', function () {
 
       expect(viewallOrigContent).to.have.string(scriptTagStr);
       expect(viewallOrigContent).to.not.match(scriptTagRegex);
-      expect(viewallAltContent).to.not.have.string(scriptTagStr);
-      expect(viewallAltContent).to.match(scriptTagRegex);
+      expect(viewallAltContent).to.have.string(scriptTagStr);
+      expect(viewallAltContent).to.not.match(scriptTagRegex);
     });
   });
 

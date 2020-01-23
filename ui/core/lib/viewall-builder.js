@@ -12,6 +12,7 @@ module.exports = class {
     this.isViewallValid = false;
     this.pathsPublic = patternlab.config.pathsPublic;
     this.patternSection = '';
+    this.patternSectionParse = [];
     this.patternSectionSubType = '';
     this.patternSectionType = '';
     this.public = patternlab.config.paths.public;
@@ -101,12 +102,12 @@ module.exports = class {
 
     let userFoot = '';
 
-    for (let i = 0, l = this.ingredients.userFootSplit.length; i < l; i++) {
-      if (i > 0) {
+    for (let in0 = 0, le0 = this.ingredients.userFootSplit.length; in0 < le0; in0++) {
+      if (in0 > 0) {
         userFoot += viewallFooter;
       }
 
-      userFoot += this.ingredients.userFootSplit[i];
+      userFoot += this.ingredients.userFootSplit[in0];
     }
 
     this.ingredients.viewallPatterns[name].content += this.viewallTemplateFoot + userFoot;
@@ -137,9 +138,9 @@ module.exports = class {
     this.ingredients.patternTypes = [];
     this.ingredients.patternTypesIndex = [];
 
-    for (let i = 0; i < this.ingredients.patterns.length; i++) {
-      let j;
-      const pattern = this.ingredients.patterns[i];
+    // 0 FOR-LOOP LEVELS IN.
+    for (let in0 = 0, le0 = this.ingredients.patterns.length; in0 < le0; in0++) {
+      const pattern = this.ingredients.patterns[in0];
 
       // Non-pattern files (like .md) files are not assigned a patternPartial. We can safely skip those.
       if (!pattern.patternPartial) {
@@ -199,12 +200,13 @@ module.exports = class {
       }
 
       // Check if we are moving to a new subType in the next loop.
-      for (j = i; j < this.ingredients.patterns.length; j++) {
+      // 1 FOR-LOOP LEVELS IN.
+      for (let in1 = in0, le1 = this.ingredients.patterns.length; in1 < le1; in1++) {
         if (pattern.isHidden) {
           break;
         }
 
-        const patternNext = this.ingredients.patterns[j + 1];
+        const patternNext = this.ingredients.patterns[in1 + 1];
 
         if (patternNext) {
           if (patternNext.isHidden) {
@@ -288,6 +290,7 @@ module.exports = class {
         this.patternSection = fs.readFileSync(
           viewallCustomDir + '/partials/pattern-section.mustache', this.config.enc
         );
+        this.patternSectionParse = Feplet.parse(Feplet.scan(this.patternSection));
       }
       if (fs.existsSync(viewallCustomDir + '/partials/pattern-section-sub-type.mustache')) {
         this.patternSectionSubType = fs.readFileSync(
@@ -313,6 +316,7 @@ module.exports = class {
         this.patternSection = fs.readFileSync(
           viewallCoreDir + '/partials/pattern-section.mustache', this.config.enc
         );
+        this.patternSectionParse = Feplet.parse(Feplet.scan(this.patternSection));
       }
       if (!this.patternSectionSubType) {
         this.patternSectionSubType = fs.readFileSync(
@@ -340,13 +344,13 @@ module.exports = class {
     const keys = Object.keys(this.ingredients.viewallPatterns);
 
     // Iterate backwards to free up more memory early.
-    let i = keys.length;
+    let in0 = keys.length;
 
-    while (i--) {
-      const viewall = this.ingredients.viewallPatterns[keys[i]];
+    while (in0--) {
+      const viewall = this.ingredients.viewallPatterns[keys[in0]];
 
       if (viewall.path && viewall.content) {
-        fs.outputFileSync(viewall.path, viewall.content);
+        fs.outputFileSync(viewall.path, viewall.content.replace(/\{\{ cacheBuster \}\}/g, ''));
 
         delete viewall.content;
         delete viewall.path;

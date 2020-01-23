@@ -27,7 +27,6 @@ const patternSubTypeViewallExistsBefore = fs.existsSync(patternSubTypeViewall);
 
 const typeItem = `<div class="sg-pattern-example cf">
           <div id="bar">Bar</div>
-
         </div>`;
 const subTypeItem = `<div class="sg-pattern-example cf">
           bar

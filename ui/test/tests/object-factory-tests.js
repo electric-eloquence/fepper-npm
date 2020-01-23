@@ -48,7 +48,6 @@ describe('Object Factory', function () {
       expect(p.footer).to.equal('');
       expect(p.isFrontMatter).to.be.false;
       expect(p.isPattern).to.be.true;
-      expect(p.isPreProcessed).to.be.false;
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.an.instanceof(Array);
@@ -98,7 +97,6 @@ describe('Object Factory', function () {
       expect(p.footer).to.equal('');
       expect(p.isFrontMatter).to.be.false;
       expect(p.isPattern).to.be.true;
-      expect(p.isPreProcessed).to.be.false;
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.an.instanceof(Array);
@@ -148,7 +146,6 @@ describe('Object Factory', function () {
       expect(p.footer).to.equal('');
       expect(p.isFrontMatter).to.be.false;
       expect(p.isPattern).to.be.true;
-      expect(p.isPreProcessed).to.be.false;
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.an.instanceof(Array);

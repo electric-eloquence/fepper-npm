@@ -36,20 +36,7 @@ const patternMustacheExistsBefore = fs.existsSync(patternMustache);
 const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-const beautifiedContent = `<span class="test_base ">
-</span>
-<span class="test_base test_1">
-</span>
-`;
-const expectedContent = `<span class="test_base ">
-    
-    
-</span>
-<span class="test_base test_1">
-    
-    
-</span>
-`;
+const expectedContent = '<span class="test_base "></span><span class="test_base test_1"></span>';
 
 describe('UI Builder', function () {
   let configClone;
@@ -67,6 +54,12 @@ describe('UI Builder', function () {
   let patternlabDataContent;
 
   before(function () {
+    const hashesFile = `${patternlab.config.paths.public.patterns}/hashes.json`;
+
+    if (fs.existsSync(hashesFile)) {
+      fs.removeSync(hashesFile);
+    }
+
     patternlab.build();
 
     configClone = JSON.parse(JSON.stringify(patternlab.config));
@@ -95,14 +88,14 @@ describe('UI Builder', function () {
     expect(patternMustacheExistsAfter).to.be.true;
     expect(patternHtmlContent).to.have.string(expectedContent);
     expect(patternMarkupContent).to.equal(expectedContent);
-    expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}\n');
+    expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}');
   });
 
   it('exports patterns to the pattern_exports directory', function () {
     expect(patternExportExistsBefore).to.be.false;
 
     expect(patternExportExistsAfter).to.be.true;
-    expect(patternExportContent).to.equal(beautifiedContent);
+    expect(patternExportContent).to.equal(expectedContent + '\n');
   });
 
   it('writes patternlab-data.js for browser consumption', function () {

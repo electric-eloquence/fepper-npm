@@ -28,15 +28,15 @@ patternBuilder.processPattern(navPattern, patternlab);
 
 describe('Pattern Builder', function () {
   it('replaces link.* tags with their expanded link data', function () {
-    const navTemplate = `<a href="{{ link.facebook-brad }}">Brad</a>
-<a href="{{ link.facebook-dave }}">Dave</a>
-<a href="{{ link.facebook-brian }}">Brian</a>
-`;
+    const navTemplate =
+'<a href="{{ link.facebook-brad }}">Brad</a>\
+<a href="{{ link.facebook-dave }}">Dave</a>\
+<a href="{{ link.facebook-brian }}">Brian</a>';
     // eslint-disable-next-line max-len
-    const navExtendedTemplate = `<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a>
-<a href="../facebook-cambridge-analytica-dave/facebook-cambridge-analytica-dave.html">Dave</a>
-<a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a>
-`;
+    const navExtendedTemplate =
+'<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a>\
+<a href="../facebook-cambridge-analytica-dave/facebook-cambridge-analytica-dave.html">Dave</a>\
+<a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a>';
 
     expect(navPattern.template).to.equal(navTemplate);
     expect(navPattern.extendedTemplate).to.equal(navExtendedTemplate);
@@ -61,22 +61,23 @@ describe('Pattern Builder', function () {
     it('creates a partials object for each unique partial keyed by its include tag', function () {
       expect(atomPattern.patternPartial).to.equal('test-styled-atom');
       expect(patternlab.ingredients.partials[atomPattern.patternPartial]).to
-        .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
+        .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
     });
 
     it('creates a partialsComp object for each unique compiled partial keyed by its include tag', function () {
       expect(atomPattern.patternPartial).to.equal('test-styled-atom');
-      expect(patternlab.ingredients.partialsComp[atomPattern.patternPartial]).to.be.an.instanceof(Object);
-      expect(patternlab.ingredients.partialsComp[atomPattern.patternPartial]).to.equal(atomPattern.fepletComp);
+      expect(patternlab.ingredients.partialsComp[atomPattern.patternPartial].compilation).to.be.an.instanceof(Object);
+      expect(patternlab.ingredients.partialsComp[atomPattern.patternPartial].compilation)
+        .to.equal(atomPattern.fepletComp);
     });
   });
 
   describe('.processPattern()', function () {
     it('includes partials directly within templates', function () {
       const atomTemplate =
-        '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    atomic\n</span>\n';
-      const molPartial = '<span class="test_base ">\n    \n    \n</span>\n';
+        '<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>';
+      const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
+      const molPartial = '<span class="test_base "></span>';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.have.string(atomTemplate);
@@ -87,9 +88,9 @@ describe('Pattern Builder', function () {
 
     it('recursively includes nested partials', function () {
       const atomTemplate =
-        '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">\n    \n    atomic\n</span>\n';
-      const orgPartial = '<span class="test_base ">\n    \n    \n</span>\n';
+        '<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>';
+      const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
+      const orgPartial = '<span class="test_base "></span>';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.have.string(atomTemplate);
@@ -105,9 +106,9 @@ describe('Pattern Builder', function () {
       const atomPatternHeaderOrig = atomPattern.header;
       let userHead = fs.readFileSync(`${patternlab.config.paths.source.meta}/_00-head.mustache`, patternlab.config.enc);
       userHead = userHead.replace(/\{\{\{?\s*patternlabHead\s*\}?\}\}/i, patternlab.ingredients.header);
-      userHead = userHead.slice(0, -3) + ' {{ description }}">\n';
-      patternlab.ingredients.userHeadParseArr = Feplet.parse(Feplet.scan(userHead));
-      patternlab.ingredients.userHeadComp = Feplet.generate(patternlab.ingredients.userHeadParseArr, userHead, {});
+      userHead = userHead.slice(0, -3) + ' {{ description }}">';
+      patternlab.ingredients.userHeadParse = Feplet.parse(Feplet.scan(userHead));
+      patternlab.ingredients.userHeadComp = Feplet.generate(patternlab.ingredients.userHeadParse, userHead, {});
 
       patternBuilder.processPattern(atomPattern, patternlab);
 
