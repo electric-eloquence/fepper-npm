@@ -1,5 +1,7 @@
 # Fepper NPM Changelog
 
+### v0.34.0
+
 ### v0.33.4
 * Using getters to retrieve properties of parent object undefined at instantiation
 * Using private class fields
