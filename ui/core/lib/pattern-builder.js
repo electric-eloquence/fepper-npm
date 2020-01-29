@@ -502,7 +502,7 @@ module.exports = class {
       const outfileMustache = paths.public.patterns + '/' +
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.config.patternExtension;
 
-      fs.outputFileSync(outfileMustache, pattern.template);
+      fs.outputFileSync(outfileMustache, this.utils.beautifyTemplate(pattern.template));
     }
   }
 };
