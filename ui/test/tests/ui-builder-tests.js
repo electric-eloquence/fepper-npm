@@ -88,7 +88,7 @@ describe('UI Builder', function () {
     expect(patternMustacheExistsAfter).to.be.true;
     expect(patternHtmlContent).to.have.string(expectedContent);
     expect(patternMarkupContent).to.equal(expectedContent);
-    expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}');
+    expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}\n');
   });
 
   it('exports patterns to the pattern_exports directory', function () {
