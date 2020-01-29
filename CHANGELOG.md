@@ -4,7 +4,7 @@
 * Major performance improvements
 * Switched viewall rendering from server to client
 * Hashing pattern bodies so they don't need to get rewritten if unchanged
-* Removed whitespace from pattern bodies before templating to improve performance
+* Removed whitespace from pattern bodies before templating which improves performance
 
 ### v0.33.4
 * Using getters to retrieve properties of parent object undefined at instantiation
