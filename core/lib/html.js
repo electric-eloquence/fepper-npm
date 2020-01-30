@@ -91,7 +91,7 @@ exports.importerSuffix = `
       <h3>Otherwise, correct the URL and Target Selector and submit again.</h3>`;
 
 exports.success = `
-      <p>To open the UI, click here: <a href="http://{{ host }}" target="_blank">http://{{ host }}</a></p>
+      <p>To open the UI, click here: <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
       <p>The following documentation is also available in Fepper's README.md:</p>`;
 
