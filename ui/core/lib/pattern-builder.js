@@ -185,17 +185,17 @@ module.exports = class {
         let nonParamPartialKey;
 
         /* istanbul ignore else */
-        if (partialKey.indexOf(pattern.patternPartialPhp) === 0) {
-          nonParamPartialKey = pattern.patternPartialPhp;
-        }
-        else if (partialKey.indexOf(pattern.patternPartial) === 0) {
+        if (partialKey.indexOf(pattern.patternPartial) === 0) {
           nonParamPartialKey = pattern.patternPartial;
         }
-        else if (partialKey.indexOf(pattern.relPathTrunc) === 0) {
-          nonParamPartialKey = pattern.relPathTrunc;
+        else if (partialKey.indexOf(pattern.patternPartialPhp) === 0) {
+          nonParamPartialKey = pattern.patternPartialPhp;
         }
         else if (partialKey.indexOf(pattern.relPath) === 0) {
           nonParamPartialKey = pattern.relPath;
+        }
+        else if (partialKey.indexOf(pattern.relPathTrunc) === 0) { // Must come after relPath.
+          nonParamPartialKey = pattern.relPathTrunc;
         }
 
         if (nonParamPartialKey && !partials[nonParamPartialKey]) {
