@@ -59,7 +59,8 @@ module.exports = class {
             main_class: 'success-page',
             msg_class: 'success',
             message: `<h1>${successMsg}</h1>`,
-            host: req.headers.host
+            origin: req.headers.host,
+            search: req.query.ts ? `?ts=${req.query.ts}` : ''
           }
         );
 
