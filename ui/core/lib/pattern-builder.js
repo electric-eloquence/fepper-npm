@@ -323,11 +323,21 @@ module.exports = class {
       return pattern;
     }
 
-    // See if this file has a state.
     this.setState(pattern);
-
     this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
-    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc).replace(/\s*\n\s*/g, '');
+
+    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc)
+      .split('\n')
+      .map((line_) => {
+        let line = line_.trim();
+
+        if (line.includes('//')) {
+          line += '\n';
+        }
+
+        return line;
+      })
+      .join('');
 
     const parseArr = Feplet.parse(Feplet.scan(pattern.template));
 
