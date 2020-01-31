@@ -33,7 +33,7 @@ describe('ListItems Builder', function () {
       'dictumst. Bling bling dapibizzle. Curabitur break yo neck, yall fo, pretizzle eu, go to hizzle dope, own ' +
       'yo&#39; vitae, nunc. Bizzle suscipizzle. Semper velit sizzle fo.</span>';
 
-    expect(listItemPattern.extendedTemplate).to.equal(expectation);
+    expect(listItemPattern.templateExtended).to.equal(expectation);
   });
 
   it('finds partials and outputs repeated renders', function () {
@@ -43,7 +43,7 @@ describe('ListItems Builder', function () {
 <h1 id="title">Nullizzle shizznit velizzle, hizzle, suscipit own yo&#39;, gravida vizzle, arcu.</h1>\
 <p id="message"></p>';
 
-    expect(listItemsPattern.extendedTemplate).to.equal(expectation);
+    expect(listItemsPattern.templateExtended).to.equal(expectation);
   });
 
   it('overwrites global listItem property if that property is in local .listitem.json', function () {
@@ -52,7 +52,7 @@ describe('ListItems Builder', function () {
 <h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>\
 <p id="message"></p>';
 
-    expect(listItemsPatternLocal.extendedTemplate).to.equal(expectation);
+    expect(listItemsPatternLocal.templateExtended).to.equal(expectation);
   });
 
   it('recursively processes nested listItems', function () {
@@ -61,7 +61,7 @@ describe('ListItems Builder', function () {
 <h1 id="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>\
 <p id="message">listitemMessage</p>';
 
-    expect(listItemsPatternMixed.extendedTemplate).to.equal(expectation);
+    expect(listItemsPatternMixed.templateExtended).to.equal(expectation);
   });
 
   it('uses local listItem property if that property is not set globally', function () {
@@ -71,6 +71,6 @@ describe('ListItems Builder', function () {
 <h1 id="title">Nullizzle shizznit velizzle, hizzle, suscipit own yo&#39;, gravida vizzle, arcu.</h1>\
 <p id="message"></p>';
 
-    expect(listItemsPatternNested.extendedTemplate).to.equal(expectation);
+    expect(listItemsPatternNested.templateExtended).to.equal(expectation);
   });
 });

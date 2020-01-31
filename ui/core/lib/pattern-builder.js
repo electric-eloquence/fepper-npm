@@ -375,8 +375,8 @@ module.exports = class {
       }
     }
 
-    // Render extendedTemplate whether pseudoPattern or not.
-    pattern.extendedTemplate =
+    // Render templateExtended whether pseudoPattern or not.
+    pattern.templateExtended =
       pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
 
     // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
@@ -471,7 +471,7 @@ module.exports = class {
     pattern.header = header;
     pattern.footer = footer;
     pattern.hash = XXHash.hash64(
-      Buffer.from(pattern.header + pattern.extendedTemplate + pattern.footer, this.config.enc), 64, 'base64'
+      Buffer.from(pattern.header + pattern.templateExtended + pattern.footer, this.config.enc), 64, 'base64'
     );
 
     this.ingredients.hashesNew[pattern.patternPartial] = pattern.hash;
@@ -489,7 +489,7 @@ module.exports = class {
       // Write the built template to the public patterns directory.
       const paths = this.config.paths;
       const outfileFull = `${paths.public.patterns}/${pattern.patternLink}`;
-      const patternFull = pattern.header + pattern.extendedTemplate + pattern.footer;
+      const patternFull = pattern.header + pattern.templateExtended + pattern.footer;
 
       let cacheBuster;
 
@@ -507,7 +507,7 @@ module.exports = class {
       const outfileMarkupOnly = paths.public.patterns + '/' +
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
 
-      fs.outputFileSync(outfileMarkupOnly, pattern.extendedTemplate.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
+      fs.outputFileSync(outfileMarkupOnly, pattern.templateExtended.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
 
       // Write the mustache file.
       const outfileMustache = paths.public.patterns + '/' +
