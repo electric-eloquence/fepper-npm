@@ -122,7 +122,7 @@ module.exports = class {
 
         // Export pattern.
         if (patternsToExport && patternsToExport.indexOf(pattern.patternPartial) > -1) {
-          const patternPartialCode = this.utils.beautifyTemplate(pattern.extendedTemplate);
+          const patternPartialCode = this.utils.beautifyTemplate(pattern.templateExtended);
 
           fs.outputFileSync(
             `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
@@ -182,7 +182,7 @@ module.exports = class {
 
           // Export pattern.
           if (patternsToExport && patternsToExport.indexOf(pattern.patternPartial) > -1) {
-            const patternPartialCode = this.utils.beautifyTemplate(pattern.extendedTemplate);
+            const patternPartialCode = this.utils.beautifyTemplate(pattern.templateExtended);
 
             fs.outputFileSync(
               `${this.config.patternExportDirectory}/${pattern.patternPartial}.html`,
