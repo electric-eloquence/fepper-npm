@@ -39,7 +39,7 @@ describe('Object Factory', function () {
       expect(p.patternPartialPhp).to.equal('atoms-colors');
       expect(p.patternSubType).to.equal('global');
       expect(p.allData).to.be.null;
-      expect(p.extendedTemplate).to.equal('');
+      expect(p.templateExtended).to.equal('');
       expect(p.fepletComp).to.be.null;
       expect(p.fepletParse).to.be.null;
       expect(p.frontMatterData).to.be.an.instanceof(Array);
@@ -88,7 +88,7 @@ describe('Object Factory', function () {
       expect(p.patternPartialPhp).to.equal('atoms-colors');
       expect(p.patternSubType).to.equal('');
       expect(p.allData).to.be.null;
-      expect(p.extendedTemplate).to.equal('');
+      expect(p.templateExtended).to.equal('');
       expect(p.fepletComp).to.be.null;
       expect(p.fepletParse).to.be.null;
       expect(p.frontMatterData).to.be.an.instanceof(Array);
@@ -137,7 +137,6 @@ describe('Object Factory', function () {
       expect(p.patternPartialPhp).to.equal('atoms-colors');
       expect(p.patternSubType).to.equal('');
       expect(p.allData).to.be.null;
-      expect(p.extendedTemplate).to.equal('');
       expect(p.fepletComp).to.be.null;
       expect(p.fepletParse).to.be.null;
       expect(p.frontMatterData).to.be.an.instanceof(Array);
@@ -155,6 +154,8 @@ describe('Object Factory', function () {
       expect(p.listItems).to.be.null;
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
+      expect(p.templateExtended).to.equal('');
+      expect(p.templateTrimmed).to.equal('');
     });
 
     it('capitalizes patternName correctly', function () {

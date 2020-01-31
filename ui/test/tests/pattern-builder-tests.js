@@ -40,7 +40,7 @@ describe('Pattern Builder', function () {
 <a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a>';
 
     expect(navPattern.template).to.equal(navTemplate);
-    expect(navPattern.extendedTemplate).to.equal(navExtendedTemplate);
+    expect(navPattern.templateExtended).to.equal(navExtendedTemplate);
   });
 
   describe('.addPattern()', function () {
@@ -83,8 +83,8 @@ describe('Pattern Builder', function () {
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.have.string(atomTemplate);
       expect(molPattern.template).to.have.string('{{> test-styled-atom');
-      expect(atomPattern.extendedTemplate).to.equal(atomExtendedTemplate);
-      expect(molPattern.extendedTemplate).to.have.string(molPartial);
+      expect(atomPattern.templateExtended).to.equal(atomExtendedTemplate);
+      expect(molPattern.templateExtended).to.have.string(molPartial);
     });
 
     it('recursively includes nested partials', function () {
@@ -99,8 +99,8 @@ describe('Pattern Builder', function () {
       expect(molPattern.template).to.have.string('{{> test-styled-atom');
       expect(orgPattern.template).to.not.have.string('{{> test-styled-atom');
       expect(orgPattern.template).to.have.string('{{> test-styled-molecule');
-      expect(atomPattern.extendedTemplate).to.equal(atomExtendedTemplate);
-      expect(orgPattern.extendedTemplate).to.have.string(orgPartial);
+      expect(atomPattern.templateExtended).to.equal(atomExtendedTemplate);
+      expect(orgPattern.templateExtended).to.have.string(orgPartial);
     });
 
     it('renders template tags in header', function () {

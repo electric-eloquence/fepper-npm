@@ -82,7 +82,6 @@ exports.Pattern = class {
     this.patternSubType = this.subdir.indexOf('/') > -1 ? path.basename(this.subdir).replace(/^\d*-/, '') : '';
 
     this.allData = null;
-    this.extendedTemplate = '';
     this.fepletComp = null;
     this.fepletParse = null;
     this.frontMatterData = [];
@@ -105,6 +104,8 @@ exports.Pattern = class {
     this.patternState = '';
     this.pseudoPatternPartial = ''; // For pseudo-patterns only. Will be the same as the main pattern's patternPartial.
     this.template = '';
+    this.templateExtended = '';
+    this.templateTrimmed = '';
   }
 };
 
