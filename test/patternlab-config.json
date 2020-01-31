@@ -35,7 +35,7 @@
     }
   },
   "cacheBust": false,
-  "cleanPublic": true,
+  "cleanPublic": false,
   "debug": false,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
