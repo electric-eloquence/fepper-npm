@@ -1,6 +1,7 @@
-<!-- View All Patterns in a Pattern Sub-Type -->
+<!-- View All -->
+<link rel="stylesheet" href="../../{{ pathsPublic.css }}/pattern-scaffolding.css" media="all">
 <div class="sg-main" role="main">
-  
+
   <!-- Patterns -->
   <h1>foo</h1>
   <div id="sg-patterns">
@@ -12,3 +13,32 @@
   </div> <!--end #sg-patterns-->
 
 </div><!--end .sg-main-->
+
+<script>
+  // Hydrate viewalls.
+  const patternEls = document.getElementsByClassName('sg-pattern');
+
+  for (let patternEl of patternEls) {
+    const exampleEl = patternEl.querySelector('.sg-pattern-example');
+    const linkEl = patternEl.querySelector('.sg-pattern-link');
+    const xhr = new XMLHttpRequest();
+
+    if (linkEl && linkEl.href) {
+      const regex = /\.\w+$/;
+      const matches = linkEl.href.match(regex);
+      const ext = matches && matches[0] ? matches[0] : matches;
+
+      if (ext) {
+        const link = linkEl.href.replace(regex, '.markup-only' + ext);
+
+        xhr.open('GET', link, true);
+        xhr.onload = () => {
+          if (xhr.responseText) {
+            exampleEl.innerHTML = xhr.responseText;
+          }
+        };
+        xhr.send();
+      }
+    }
+  }
+</script>
