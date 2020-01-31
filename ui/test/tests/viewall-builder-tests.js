@@ -9,7 +9,7 @@ const {
 
 const viewallViewall = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
 const patternTypeViewall = `${patternlab.config.paths.public.patterns}/00-test/index.html`;
-const patternSubTypeViewall = `${patternlab.config.paths.public.patterns}/facebook-cambridge-analytica/index.html`;
+const patternSubTypeViewall = `${patternlab.config.paths.public.patterns}/00-test-sub/index.html`;
 
 if (fs.existsSync(viewallViewall)) {
   fs.removeSync(viewallViewall);
@@ -25,13 +25,7 @@ const viewallViewallExistsBefore = fs.existsSync(viewallViewall);
 const patternTypeViewallExistsBefore = fs.existsSync(patternTypeViewall);
 const patternSubTypeViewallExistsBefore = fs.existsSync(patternSubTypeViewall);
 
-const typeItem = `<div class="sg-pattern-example cf">
-          <div id="bar">Bar</div>
-        </div>`;
-const subTypeItem = `<div class="sg-pattern-example cf">
-          bar
-
-        </div>`;
+const identifyingTag = '<div id="test-sub" class="sg-pattern">';
 
 describe('Viewall Builder', function () {
   let viewallViewallExistsAfter;
@@ -58,27 +52,24 @@ describe('Viewall Builder', function () {
     expect(viewallViewallExistsBefore).to.be.false;
 
     expect(viewallViewallExistsAfter).to.be.true;
-    expect(viewallViewallContent).to.have.string(typeItem);
-    expect(viewallViewallContent).to.have.not.string(subTypeItem);
+    expect(viewallViewallContent).to.have.string(identifyingTag);
   });
 
   it('writes patternType viewall', function () {
     expect(patternTypeViewallExistsBefore).to.be.false;
 
     expect(patternTypeViewallExistsAfter).to.be.true;
-    expect(patternTypeViewallContent).to.have.string(typeItem);
-    expect(patternTypeViewallContent).to.not.have.string(subTypeItem);
+    expect(patternTypeViewallContent).to.have.string(identifyingTag);
   });
 
   it('writes patternSubType viewall', function () {
     expect(patternSubTypeViewallExistsBefore).to.be.false;
 
     expect(patternSubTypeViewallExistsAfter).to.be.true;
-    expect(patternSubTypeViewallContent).to.not.have.string(typeItem);
-    expect(patternSubTypeViewallContent).to.not.have.string(subTypeItem);
+    expect(patternSubTypeViewallContent).to.have.string(identifyingTag);
   });
 
-  it('overrides stylguide.html with custom code', function () {
+  it('overrides viewall.html with custom code', function () {
     expect(viewallViewallContent).to.have.string('<h1>foo</h1>');
     expect(viewallViewallContent).to.have.string('<h2>bar</h2>');
     expect(viewallViewallContent).to.have.string('<h3>baz</h3>');
@@ -88,7 +79,7 @@ describe('Viewall Builder', function () {
   it('overrides patternType viewall with custom code', function () {
     expect(patternTypeViewallContent).to.have.string('<h1>foo</h1>');
     expect(patternTypeViewallContent).to.have.string('<h2>bar</h2>');
-    expect(patternTypeViewallContent).to.not.have.string('<h3>baz</h3>');
+    expect(patternTypeViewallContent).to.have.string('<h3>baz</h3>');
     expect(patternTypeViewallContent).to.have.string('<h4>bez</h4>');
   });
 
@@ -96,6 +87,6 @@ describe('Viewall Builder', function () {
     expect(patternSubTypeViewallContent).to.have.string('<h1>foo</h1>');
     expect(patternSubTypeViewallContent).to.not.have.string('<h2>bar</h2>');
     expect(patternSubTypeViewallContent).to.have.string('<h3>baz</h3>');
-    expect(patternSubTypeViewallContent).to.not.have.string('<h4>bez</h4>');
+    expect(patternSubTypeViewallContent).to.have.string('<h4>bez</h4>');
   });
 });
