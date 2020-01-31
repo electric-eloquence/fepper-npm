@@ -29,9 +29,10 @@ patternBuilder.processPattern(navPattern, patternlab);
 describe('Pattern Builder', function () {
   it('replaces link.* tags with their expanded link data', function () {
     const navTemplate =
-'<a href="{{ link.facebook-brad }}">Brad</a>\
-<a href="{{ link.facebook-dave }}">Dave</a>\
-<a href="{{ link.facebook-brian }}">Brian</a>';
+`<a href="{{ link.facebook-brad }}">Brad</a>
+<a href="{{ link.facebook-dave }}">Dave</a>
+<a href="{{ link.facebook-brian }}">Brian</a>
+`;
     // eslint-disable-next-line max-len
     const navExtendedTemplate =
 '<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a>\
@@ -75,7 +76,7 @@ describe('Pattern Builder', function () {
   describe('.processPattern()', function () {
     it('includes partials directly within templates', function () {
       const atomTemplate =
-        '<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>';
+        '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
       const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
       const molPartial = '<span class="test_base "></span>';
 
@@ -88,7 +89,7 @@ describe('Pattern Builder', function () {
 
     it('recursively includes nested partials', function () {
       const atomTemplate =
-        '<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>';
+        '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
       const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
       const orgPartial = '<span class="test_base "></span>';
 
