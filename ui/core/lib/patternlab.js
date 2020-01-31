@@ -303,6 +303,12 @@ module.exports = class {
       fs.emptyDirSync(this.config.paths.public.patterns);
     }
 
+    const hashesFile = `${this.config.paths.public.patterns}/hashes.json`;
+
+    if (fs.existsSync(hashesFile)) {
+      this.ingredients.hashesOld = fs.readJsonSync(hashesFile);
+    }
+
     this.annotationsBuilder.main();
   }
 
@@ -333,12 +339,6 @@ module.exports = class {
       utils.log('Please run `fp ui:compile`.');
 
       throw new Error('ENOENT');
-    }
-
-    const hashesFile = `${this.config.paths.public.patterns}/hashes.json`;
-
-    if (fs.existsSync(hashesFile)) {
-      this.ingredients.hashesOld = fs.readJsonSync(hashesFile);
     }
 
     const patternsDir = this.config.paths.source.patterns;
