@@ -199,7 +199,7 @@ module.exports = class {
         }
 
         if (nonParamPartialKey && !partials[nonParamPartialKey]) {
-          partials[nonParamPartialKey] = pattern.template;
+          partials[nonParamPartialKey] = pattern.templateTrimmed;
           partialsComp[nonParamPartialKey] = {
             parseArr: pattern.fepletParse,
             compilation: pattern.fepletComp
@@ -326,7 +326,8 @@ module.exports = class {
     this.setState(pattern);
     this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
 
-    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc)
+    pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
+    pattern.templateTrimmed = pattern.template
       .split('\n')
       .map((line_) => {
         let line = line_.trim();
@@ -339,7 +340,7 @@ module.exports = class {
       })
       .join('');
 
-    const parseArr = Feplet.parse(Feplet.scan(pattern.template));
+    const parseArr = Feplet.parse(Feplet.scan(pattern.templateTrimmed));
 
     // Check if the template uses listItems and set boolean for whether the project uses listItems.
     this.config.useListItems = this.listItemsBuilder.listItemsScan(parseArr);
@@ -512,7 +513,7 @@ module.exports = class {
       const outfileMustache = paths.public.patterns + '/' +
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + this.config.patternExtension;
 
-      fs.outputFileSync(outfileMustache, this.utils.beautifyTemplate(pattern.template));
+      fs.outputFileSync(outfileMustache, pattern.template);
     }
   }
 };
