@@ -29,9 +29,9 @@ describe('Style Modifier Hunter', function () {
     patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
-    expect(parentPattern.template).to.equal('{{> test-styled-atom }}{{> test-styled-atom:test_1 }}');
+    expect(parentPattern.template).to.equal('{{> test-styled-atom }}\n{{> test-styled-atom:test_1 }}\n');
     expect(childPattern.template).to
-      .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
+      .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to
       .equal('<span class="test_base "></span><span class="test_base test_1"></span>');
   });
@@ -44,9 +44,9 @@ describe('Style Modifier Hunter', function () {
     patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
-    expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2 }}');
+    expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2 }}\n');
     expect(childPattern.template).to
-      .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
+      .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to
       .equal('<span class="test_base foo1 foo2"></span>');
   });
@@ -59,9 +59,9 @@ describe('Style Modifier Hunter', function () {
     patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
-    expect(parentPattern.template).to.equal('{{> test-styled-atom:test_2(message: \'1\') }}');
+    expect(parentPattern.template).to.equal('{{> test-styled-atom:test_2(message: \'1\') }}\n');
     expect(childPattern.template).to
-      .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
+      .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to.equal('<span class="test_base test_2">1</span>');
   });
 
@@ -73,9 +73,9 @@ describe('Style Modifier Hunter', function () {
     patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
-    expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2(message: \'2\') }}');
+    expect(parentPattern.template).to.equal('{{> test-styled-atom:foo1|foo2(message: \'2\') }}\n\n');
     expect(childPattern.template).to
-      .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
+      .equal('<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n');
     expect(parentPattern.extendedTemplate).to.equal('<span class="test_base foo1 foo2">2</span>');
   });
 
@@ -89,10 +89,10 @@ describe('Style Modifier Hunter', function () {
     patternlab.patternBuilder.processPattern(parentPattern, patternlab);
 
     // Assert.
-    expect(parentPattern.template).to.equal('{{> test-styled-molecule }}');
-    expect(middlePattern.template).to.equal('{{> test-styled-atom }}{{> test-styled-atom:test_1 }}');
+    expect(parentPattern.template).to.equal('{{> test-styled-molecule }}\n');
+    expect(middlePattern.template).to.equal('{{> test-styled-atom }}\n{{> test-styled-atom:test_1 }}\n');
     expect(childPattern.template).to.equal(
-      '<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>'
+      '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n'
     );
     expect(parentPattern.extendedTemplate).to.equal(
       '<span class="test_base "></span><span class="test_base test_1"></span>'
