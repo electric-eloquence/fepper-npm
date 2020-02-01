@@ -19,7 +19,7 @@ module.exports = class {
     this.utils = patternlab.utils;
   }
 
-  // Getters for patternlab instance props in case they are undefined at instantiation.
+  // GETTERS for patternlab instance props in case they are undefined at instantiation.
 
   get patternBuilder() {
     return this.#patternlab.patternBuilder;
