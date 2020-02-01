@@ -4,6 +4,8 @@
 * Keeping original template whitespacing for output to .mustache file
 * Better z-indexing of UI
 * Fixed writing of patterns if cleanPublic true
+* Fixed livereloading of .mustache updates
+* Moved xxhash from dependencies to devDependencies, making it optional
 
 ### v0.34.0
 * Major performance improvements
