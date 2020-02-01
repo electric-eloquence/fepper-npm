@@ -236,7 +236,10 @@ gulp.task('once', function (cb) {
   args.push('fepper:data');
   extensionsPush('data:postprocess', args);
 
-  args.push('ui:clean');
+  if (conf.ui.cleanPublic) {
+    args.push('ui:clean');
+  }
+
   args.push('ui:build');
   args.push('ui:copy-assets');
   args.push('ui:copy-scripts');

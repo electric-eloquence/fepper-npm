@@ -31,12 +31,7 @@ module.exports = class {
   }
 
   clean() {
-    try {
-      fs.emptyDirSync(this.pubDir.patterns);
-    }
-    catch (err) /* istanbul ignore next */ {
-      this.utils.error(err);
-    }
+    this.patternlab.clean();
   }
 
   compile() {

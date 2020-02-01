@@ -270,7 +270,9 @@ module.exports = class {
     }
 
     // Write hashes file.
-    fs.writeJsonSync(`${this.config.paths.public.patterns}/hashes.json`, this.ingredients.hashesNew);
+    if (Object.keys(this.ingredients.hashesNew).length) {
+      fs.writeJsonSync(`${this.config.paths.public.patterns}/hashes.json`, this.ingredients.hashesNew);
+    }
 
     // Unset partials and partialsComp;
     for (let i in this.ingredients.partials) { // eslint-disable-line guard-for-in
