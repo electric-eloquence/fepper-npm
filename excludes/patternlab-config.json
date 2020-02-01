@@ -40,6 +40,7 @@
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
   "frontMatterExtension": ".md",
+  "hashPatterns": true,
   "ishControlsHide": {
     "disco": true,
     "find": false,
