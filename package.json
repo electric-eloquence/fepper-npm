@@ -75,8 +75,7 @@
     "react-dom": "^16.5.2",
     "request": "^2.40.0",
     "require-dir": "^0.3.2",
-    "slash": "^3.0.0",
-    "xxhash": "^0.3.0"
+    "slash": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -86,6 +85,7 @@
     "husky": "4.x",
     "json-eval": "*",
     "mocha": "7.x",
-    "nyc": "15.x"
+    "nyc": "15.x",
+    "xxhash": "^0.3.0"
   }
 }

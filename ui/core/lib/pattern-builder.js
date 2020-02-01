@@ -5,10 +5,16 @@ const path = require('path');
 const Feplet = require('feplet');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
-const XXHash = require('xxhash');
 
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
+
+let XXHash;
+
+try {
+  XXHash = require('xxhash');
+}
+catch {}
 
 module.exports = class {
   #patternlab;
@@ -470,9 +476,12 @@ module.exports = class {
 
     pattern.header = header;
     pattern.footer = footer;
-    pattern.hash = XXHash.hash64(
-      Buffer.from(pattern.header + pattern.templateExtended + pattern.footer, this.config.enc), 64, 'base64'
-    );
+
+    if (XXHash && this.config.hashPatterns) {
+      pattern.hash = XXHash.hash64(
+        Buffer.from(pattern.header + pattern.templateExtended + pattern.footer, this.config.enc), 64, 'base64'
+      );
+    }
 
     this.ingredients.hashesNew[pattern.patternPartial] = pattern.hash;
   }
