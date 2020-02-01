@@ -286,21 +286,7 @@ module.exports = class {
 
     // Prepare for writing to file system. Delete the contents of config.patterns.public before writing.
     if (this.config.cleanPublic) {
-      // this.rmRfFilesNotDirs is DEPRECATED.
-      // After deprecation period, permanently change conditionalObj to this.utils.
-      let conditionalObj = this;
-
-      /* istanbul ignore if */
-      if (typeof this.utils.rmRfFilesNotDirs === 'function') {
-        conditionalObj = this.utils;
-      }
-
-      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.annotations);
-      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.images);
-      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.js);
-      conditionalObj.rmRfFilesNotDirs(this.config.paths.public.css);
-
-      fs.emptyDirSync(this.config.paths.public.patterns);
+      this.clean();
     }
 
     const hashesFile = `${this.config.paths.public.patterns}/hashes.json`;
@@ -364,6 +350,24 @@ module.exports = class {
 
       this.utils.log(`The build used approximately ${Math.round(used * 100) / 100} MB`);
     }
+  }
+
+  clean() {
+    // this.rmRfFilesNotDirs is DEPRECATED.
+    // After deprecation period, permanently change conditionalObj to this.utils.
+    let conditionalObj = this;
+
+    /* istanbul ignore if */
+    if (typeof this.utils.rmRfFilesNotDirs === 'function') {
+      conditionalObj = this.utils;
+    }
+
+    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.annotations);
+    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.images);
+    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.js);
+    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.css);
+
+    fs.emptyDirSync(this.config.paths.public.patterns);
   }
 
   compile(options) {

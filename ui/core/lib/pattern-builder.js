@@ -483,7 +483,9 @@ module.exports = class {
       );
     }
 
-    this.ingredients.hashesNew[pattern.patternPartial] = pattern.hash;
+    if (pattern.hash) {
+      this.ingredients.hashesNew[pattern.patternPartial] = pattern.hash;
+    }
   }
 
   writePattern(pattern, dateNow) {
