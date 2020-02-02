@@ -36,7 +36,8 @@ const patternMustacheExistsBefore = fs.existsSync(patternMustache);
 const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-const expectedContent = '<span class="test_base "></span><span class="test_base test_1"></span>';
+const expectedContent = '<span class="test_base ">   </span>  <span class="test_base test_1">   </span> ';
+const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>\n';
 
 describe('UI Builder', function () {
   let configClone;
@@ -95,7 +96,7 @@ describe('UI Builder', function () {
     expect(patternExportExistsBefore).to.be.false;
 
     expect(patternExportExistsAfter).to.be.true;
-    expect(patternExportContent).to.equal(expectedContent + '\n');
+    expect(patternExportContent).to.equal(expectedPatternExportContent);
   });
 
   it('writes patternlab-data.js for browser consumption', function () {

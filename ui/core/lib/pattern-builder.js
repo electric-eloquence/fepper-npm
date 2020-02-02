@@ -341,7 +341,7 @@ module.exports = class {
         if (line.includes('//')) {
           line += '\n';
         }
-        else {
+        else if (line) {
           line += ' ';
         }
 

@@ -35,9 +35,9 @@ describe('Pattern Builder', function () {
 `;
     // eslint-disable-next-line max-len
     const navExtendedTemplate =
-'<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a>\
-<a href="../facebook-cambridge-analytica-dave/facebook-cambridge-analytica-dave.html">Dave</a>\
-<a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a>';
+'<a href="../facebook-cambridge-analytica-brad/facebook-cambridge-analytica-brad.html">Brad</a> \
+<a href="../facebook-cambridge-analytica-dave/facebook-cambridge-analytica-dave.html">Dave</a> \
+<a href="../facebook-cambridge-analytica-brian/facebook-cambridge-analytica-brian.html">Brian</a> ';
 
     expect(navPattern.template).to.equal(navTemplate);
     expect(navPattern.templateExtended).to.equal(navExtendedTemplate);
@@ -62,7 +62,7 @@ describe('Pattern Builder', function () {
     it('creates a partials object for each unique partial keyed by its include tag', function () {
       expect(atomPattern.patternPartial).to.equal('test-styled-atom');
       expect(patternlab.ingredients.partials[atomPattern.patternPartial]).to
-        .equal('<span class="test_base {{ styleModifier }}">{{ message }}{{ description }}</span>');
+        .equal('<span class="test_base {{ styleModifier }}"> {{ message }} {{ description }} </span> ');
     });
 
     it('creates a partialsComp object for each unique compiled partial keyed by its include tag', function () {
@@ -77,8 +77,8 @@ describe('Pattern Builder', function () {
     it('includes partials directly within templates', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
-      const molPartial = '<span class="test_base "></span>';
+      const atomExtendedTemplate = '<span class="test_base ">  atomic </span> ';
+      const molPartial = '<span class="test_base ">   </span>';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.have.string(atomTemplate);
@@ -90,8 +90,8 @@ describe('Pattern Builder', function () {
     it('recursively includes nested partials', function () {
       const atomTemplate =
         '<span class="test_base {{ styleModifier }}">\n    {{ message }}\n    {{ description }}\n</span>\n';
-      const atomExtendedTemplate = '<span class="test_base ">atomic</span>';
-      const orgPartial = '<span class="test_base "></span>';
+      const atomExtendedTemplate = '<span class="test_base ">  atomic </span> ';
+      const orgPartial = '<span class="test_base ">   </span>';
 
       expect(atomPattern.template).to.equal(atomTemplate);
       expect(molPattern.template).to.not.have.string(atomTemplate);
