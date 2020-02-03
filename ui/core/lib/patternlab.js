@@ -303,6 +303,22 @@ module.exports = class {
     this.emptyFilesNotDirs(dirToEmpty);
   }
 
+  // DEPRECATED. In fepper-utils and will be removed from here.
+  strReplaceGlobal(haystack, needle, replacement) /* istanbul ignore next */ {
+    let haystackNew = haystack;
+    let needleIndex = needle ? haystackNew.indexOf(needle) : -1;
+
+    while (needleIndex > -1) {
+      haystackNew = haystackNew.substring(0, needleIndex) +
+        replacement +
+        haystackNew.substring(needleIndex + needle.length);
+
+      needleIndex = haystackNew.indexOf(needle);
+    }
+
+    return haystackNew;
+  }
+
   // PUBLIC METHODS
 
   build(options) {
