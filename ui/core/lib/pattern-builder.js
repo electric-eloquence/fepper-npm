@@ -499,29 +499,34 @@ module.exports = class {
 
     // Check to see whether the last pattern build has been modified. If modified, write pattern files.
     if (this.ingredients.hashesOld[pattern.patternPartial] !== pattern.hash) {
+      // this.#patternlab.strReplaceGlobal is DEPRECATED.
+      // After deprecation period, permanently change conditionalObj to this.utils.
+      let conditionalObj = this.#patternlab;
+
+      /* istanbul ignore if */
+      if (typeof this.utils.strReplaceGlobal === 'function') {
+        conditionalObj = this.utils;
+      }
 
       // Write the built template to the public patterns directory.
+      const cacheBusterTag = '{{ cacheBuster }}';
       const paths = this.config.paths;
       const outfileFull = `${paths.public.patterns}/${pattern.patternLink}`;
-      const patternFull = pattern.header + pattern.templateExtended + pattern.footer;
-
-      let cacheBuster;
-
-      if (this.config.cacheBust) {
-        cacheBuster = `?${dateNow}`;
-      }
-      else {
-        cacheBuster = '';
-      }
-
-      // Write the full pattern page.
-      fs.outputFileSync(outfileFull, patternFull.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
 
       // Write the markup-only version.
       const outfileMarkupOnly = paths.public.patterns + '/' +
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
 
-      fs.outputFileSync(outfileMarkupOnly, pattern.templateExtended.replace(/\{\{ cacheBuster \}\}/g, cacheBuster));
+      const cacheBuster = this.config.cacheBust ? `?${dateNow}` : '';
+      const templateExtended = conditionalObj.strReplaceGlobal(pattern.templateExtended, cacheBusterTag, cacheBuster);
+
+      fs.outputFileSync(outfileMarkupOnly, templateExtended);
+
+      const patternFull = conditionalObj.strReplaceGlobal(pattern.header, cacheBusterTag, cacheBuster) +
+        templateExtended + conditionalObj.strReplaceGlobal(pattern.footer, cacheBusterTag, cacheBuster);
+
+      // Write the full pattern page.
+      fs.outputFileSync(outfileFull, patternFull);
 
       // Write the mustache file.
       const outfileMustache = paths.public.patterns + '/' +
