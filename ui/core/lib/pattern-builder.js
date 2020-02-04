@@ -138,6 +138,7 @@ module.exports = class {
         fmCandidate.frontMatterRelPathTrunc === pattern.relPathTrunc &&
         fmCandidate.frontMatterData
       ) {
+
         /* 1 FOR-LOOP LEVELS IN. */
         for (let in1 = 0, le1 = fmCandidate.frontMatterData.length; in1 < le1; in1++) {
           if (fmCandidate.frontMatterData[in1].state) {
