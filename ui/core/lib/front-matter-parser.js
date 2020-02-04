@@ -29,7 +29,7 @@ exports.main = (fileContent) => {
   // Take raw file content text and split it with Pattern Lab's custom delimiter.
   const fileContentSplit = fileContent.split('~*~');
 
-  // 0 FOR-LOOP LEVELS IN.
+  /* 0 FOR-LOOP LEVELS IN. */
   for (let in0 = 0, le0 = fileContentSplit.length; in0 < le0; in0++) {
     const frontMatterPrecursor = fileContentSplit[in0];
     const frontMatterLines = frontMatterPrecursor.split('\n');
@@ -40,7 +40,7 @@ exports.main = (fileContent) => {
     const frontMatterLinesClone = frontMatterLines.slice(0, frontMatterLinesLength);
 
     // Remove comments and/or whitespace before "---" delimiter.
-    // 1 FOR-LOOP LEVELS IN.
+    /* 1 FOR-LOOP LEVELS IN. */
     for (let in1 = 0, le1 = frontMatterLinesClone.length; in1 < le1; in1++) {
       const line = frontMatterLinesClone[in1];
 
@@ -58,7 +58,7 @@ exports.main = (fileContent) => {
     }
 
     // Escape "#" in the data for el.
-    // 1 FOR-LOOP LEVELS IN.
+    /* 1 FOR-LOOP LEVELS IN. */
     for (let in1 = 0, le1 = frontMatterLinesLength; in1 < le1; in1++) {
       const line = frontMatterLines[in1];
 

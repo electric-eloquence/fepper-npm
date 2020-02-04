@@ -19,7 +19,7 @@ module.exports = class {
     this.utils = patternlab.utils;
   }
 
-  // GETTERS for patternlab instance props in case they are undefined at instantiation.
+  /* GETTERS for patternlab instance props in case they are undefined at instantiation. */
 
   get patternBuilder() {
     return this.#patternlab.patternBuilder;
@@ -29,7 +29,7 @@ module.exports = class {
     return this.#patternlab.viewallBuilder;
   }
 
-  // METHODS
+  /* METHODS */
 
   processAllPatterns() {
     const dateNow = Date.now();
@@ -85,7 +85,7 @@ module.exports = class {
 
     // Process patterns and viewall in the same nested loop.
     // This way, memory can be freed for both at the end of each loop.
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = this.ingredients.patternTypes.length; in0 < le0; in0++) {
       const patternType = this.ingredients.patternTypes[in0];
 
@@ -98,7 +98,7 @@ module.exports = class {
       }
 
       // Iterate through this type's items.
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       for (let in1 = 0, le1 = patternType.patternTypeItems.length; in1 < le1; in1++) {
         const patternTypeItem = patternType.patternTypeItems[in1];
 
@@ -144,7 +144,7 @@ module.exports = class {
         this.patternBuilder.freePattern(pattern);
       }
 
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       for (let in1 = 0, le1 = patternType.patternSubTypes.length; in1 < le1; in1++) {
         const patternSubType = patternType.patternSubTypes[in1];
 
@@ -158,7 +158,7 @@ module.exports = class {
         }
 
         // Iterate through this subType's items.
-        // 2 FOR-LOOP LEVELS IN.
+        /* 2 FOR-LOOP LEVELS IN. */
         for (let in2 = 0, le2 = patternSubType.patternSubTypeItems.length; in2 < le2; in2++) {
           const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];
 
@@ -225,13 +225,13 @@ module.exports = class {
     }
 
     // Fully remove no longer needed data from patternTypes array so we don't write a huge ui/data.js file.
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = this.ingredients.patternTypes.length; in0 < le0; in0++) {
       const patternType = this.ingredients.patternTypes[in0];
 
       delete patternType.pathsPublic;
 
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       // Must reevaluate length each iteration so we cannot cache le1.
       for (let in1 = 0; in1 < patternType.patternTypeItems.length; in1++) {
         const patternTypeItem = patternType.patternTypeItems[in1];
@@ -246,13 +246,13 @@ module.exports = class {
         }
       }
 
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       for (let in1 = 0, le1 = patternType.patternSubTypes.length; in1 < le1; in1++) {
         const patternSubType = patternType.patternSubTypes[in1];
 
         delete patternSubType.pathsPublic;
 
-        // 2 FOR-LOOP LEVELS IN.
+        /* 2 FOR-LOOP LEVELS IN. */
         // Must reevaluate length each iteration so we cannot cache le2.
         for (let in2 = 0; in2 < patternSubType.patternSubTypeItems.length; in2++) {
           const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];

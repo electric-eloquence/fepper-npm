@@ -141,7 +141,7 @@ module.exports = class {
     this.ingredients.patternTypes = [];
     this.ingredients.patternTypesIndex = [];
 
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = this.ingredients.patterns.length; in0 < le0; in0++) {
       const pattern = this.ingredients.patterns[in0];
 
@@ -203,7 +203,7 @@ module.exports = class {
       }
 
       // Check if we are moving to a new subType in the next loop.
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       for (let in1 = in0, le1 = this.ingredients.patterns.length; in1 < le1; in1++) {
         if (pattern.isHidden) {
           break;

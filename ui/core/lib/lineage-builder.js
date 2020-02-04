@@ -8,7 +8,7 @@ module.exports = class {
     this.utils = patternlab.utils;
   }
 
-  // PRIVATE METHODS
+  /* PRIVATE METHODS */
 
   matchPattern(partial) {
     // First, perform a check for partials with parameters.
@@ -50,7 +50,7 @@ module.exports = class {
     return partialsArr;
   }
 
-  // PUBLIC METHOD
+  /* PUBLIC METHOD */
 
   main(pattern) {
     if (!pattern.fepletParse) {
