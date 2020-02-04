@@ -273,12 +273,6 @@ module.exports = class {
     if (Object.keys(this.ingredients.hashesNew).length) {
       fs.writeJsonSync(`${this.config.paths.public.patterns}/hashes.json`, this.ingredients.hashesNew);
     }
-
-    // Unset partials and partialsComp;
-    for (let i in this.ingredients.partials) { // eslint-disable-line guard-for-in
-      this.ingredients.partials[i] = '';
-      this.ingredients.partialsComp[i] = {};
-    }
   }
 
   writePatternlabData() {
