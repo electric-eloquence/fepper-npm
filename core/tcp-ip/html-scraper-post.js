@@ -221,7 +221,7 @@ module.exports = class {
 
     let msgPrefix = '';
 
-    // .htmlOutput() is only invoked in one place with the msgClass param. Test cannot seem to be easily trigger this
+    // .htmlOutput() is only invoked in one place with the msgClass param. Tests cannot seem to easily trigger this
     // condition. Do not have istanbul ignore this since this condition might still be testable.
     if (msgClass) {
       msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
