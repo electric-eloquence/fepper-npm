@@ -51,30 +51,10 @@ module.exports = class {
     this.config.enc = utils.deepGet(global, 'conf.enc') || 'utf8';
     this.config.useListItems = false;
 
-    this.ingredients = {
-      data: {},
-      dataKeysSchema: {},
-      dataKeys: [],
-      footer: '',
-      hashesNew: {},
-      hashesOld: {},
-      listItems: {},
-      partials: {},
-      partialsComp: {},
-      patternPaths: {},
-      patterns: [],
-      patternTypes: [],
-      patternTypesIndex: [],
-      portReloader: utils.deepGet(global, 'conf.livereload_port') || '',
-      portServer: utils.deepGet(global, 'conf.express_port') || '',
-      userHeadComp: null,
-      userHeadGlobal: '',
-      userHeadParse: [],
-      userFootSplit: [],
-      viewallPatterns: {}
-    };
-
     this.utils = utils;
+
+    this.ingredients = {};
+    this.resetIngredients();
 
     this.annotationsBuilder = new AnnotationsBuilder(this);
     this.listItemsBuilder = new ListItemsBuilder(this);
@@ -298,6 +278,29 @@ module.exports = class {
     this.annotationsBuilder.main();
   }
 
+  resetIngredients() {
+    this.ingredients.data = {};
+    this.ingredients.dataKeysSchema = {};
+    this.ingredients.dataKeys = [];
+    this.ingredients.footer = '';
+    this.ingredients.hashesNew = {};
+    this.ingredients.hashesOld = {};
+    this.ingredients.listItems = {};
+    this.ingredients.partials = {};
+    this.ingredients.partialsComp = {};
+    this.ingredients.patternPaths = {};
+    this.ingredients.patterns = [];
+    this.ingredients.patternTypes = [];
+    this.ingredients.patternTypesIndex = [];
+    this.ingredients.portReloader = utils.deepGet(global, 'conf.livereload_port') || '';
+    this.ingredients.portServer = utils.deepGet(global, 'conf.express_port') || '';
+    this.ingredients.userHeadComp = null;
+    this.ingredients.userHeadGlobal = '';
+    this.ingredients.userHeadParse = [];
+    this.ingredients.userFootSplit = [];
+    this.ingredients.viewallPatterns = {};
+  }
+
   // DEPRECATED. Moved to fepper-utils.
   rmRfFilesNotDirs(dirToEmpty) /* istanbul ignore next */ {
     this.emptyFilesNotDirs(dirToEmpty);
@@ -341,6 +344,10 @@ module.exports = class {
       utils.log('Please run `fp ui:compile`.');
 
       throw new Error('ENOENT');
+    }
+
+    if (this.ingredients.patterns.length) {
+      this.resetIngredients();
     }
 
     const patternsDir = this.config.paths.source.patterns;
