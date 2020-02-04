@@ -86,7 +86,7 @@ module.exports = class {
     this.viewallBuilder = new ViewallBuilder(this);
   }
 
-  // PRIVATE METHODS
+  /* PRIVATE METHODS */
 
   buildPatternData(dataFilesPath) {
     const jsonFileStr = fs.readFileSync(`${dataFilesPath}/data.json`, this.config.enc);
@@ -319,7 +319,7 @@ module.exports = class {
     return haystackNew;
   }
 
-  // PUBLIC METHODS
+  /* PUBLIC METHODS */
 
   build(options) {
     if (options && options.constructor === Object) {
