@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.34.2
+* Resetting ingredients object per build
+
 ### v0.34.1
 * Keeping original template whitespacing for output to .mustache file
 * Better z-indexing of UI
