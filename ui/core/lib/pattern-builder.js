@@ -27,7 +27,7 @@ module.exports = class {
     this.utils = patternlab.utils;
   }
 
-  // GETTERS for patternlab instance props in case they are undefined at instantiation.
+  /* GETTERS for patternlab instance props in case they are undefined at instantiation. */
 
   get lineageBuilder() {
     return this.#patternlab.lineageBuilder;
@@ -41,7 +41,7 @@ module.exports = class {
     return this.#patternlab.pseudoPatternBuilder;
   }
 
-  // PRIVATE METHODS
+  /* PRIVATE METHODS */
 
   addPattern(pattern) {
     this.ingredients.data.link[pattern.patternPartial] = '../' + pattern.patternLink;
@@ -129,7 +129,7 @@ module.exports = class {
 
   setState(pattern) {
     // Check for a corresponding Front Matter file to the pattern and get the patternState from its data.
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = this.ingredients.patterns.length; in0 < le0; in0++) {
       const fmCandidate = this.ingredients.patterns[in0];
 
@@ -138,7 +138,7 @@ module.exports = class {
         fmCandidate.frontMatterRelPathTrunc === pattern.relPathTrunc &&
         fmCandidate.frontMatterData
       ) {
-        // 1 FOR-LOOP LEVELS IN.
+        /* 1 FOR-LOOP LEVELS IN. */
         for (let in1 = 0, le1 = fmCandidate.frontMatterData.length; in1 < le1; in1++) {
           if (fmCandidate.frontMatterData[in1].state) {
             pattern.patternState = fmCandidate.frontMatterData[in1].state;
@@ -150,7 +150,7 @@ module.exports = class {
     }
   }
 
-  // PUBLIC METHODS
+  /* PUBLIC METHODS */
 
   freePattern(pattern) {
     // Will free significant memory if processing many templates.
@@ -216,7 +216,7 @@ module.exports = class {
       }
     }
 
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = patterns.length; in0 < le0; in0++) {
       const pattern = patterns[in0];
       const partialsKeys = pattern.fepletComp ? Object.keys(pattern.fepletComp.partials) : [];
@@ -227,7 +227,7 @@ module.exports = class {
         let hasParam = false;
         let hasStyleModifier = false;
 
-        // 1 FOR-LOOP LEVELS IN.
+        /* 1 FOR-LOOP LEVELS IN. */
         for (let in1 = 0; in1 < partialsKeysLength; in1++) {
           if (/\([\S\s]*\)/.test(partialsKeys[in1])) {
             hasParam = true;

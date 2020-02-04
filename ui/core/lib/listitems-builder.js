@@ -41,14 +41,14 @@ module.exports = class {
 
     let counter = 0;
 
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = counts.length; in0 < le0; in0++) {
       const count = counts[in0];
       const tempItems = [];
 
       counter++;
 
-      // 1 FOR-LOOP LEVELS IN.
+      /* 1 FOR-LOOP LEVELS IN. */
       for (let in1 = 0; in1 < counter; in1++) {
         if (listItemsArr[in1]) {
           tempItems.push(listItemsArr[in1]);
@@ -69,7 +69,7 @@ module.exports = class {
       return true;
     }
 
-    // 0 FOR-LOOP LEVELS IN.
+    /* 0 FOR-LOOP LEVELS IN. */
     for (let in0 = 0, le0 = parseArr.length; in0 < le0; in0++) {
       const parseObj = parseArr[in0];
 
