@@ -305,7 +305,8 @@ module.exports = class {
    * @returns {boolean} True or false.
    */
   filenameValidate(filename) {
-    if (filename === this.conf.scrape.scraper_file) {
+    // Invalidate filename starting with "00-html-scraper" as defined in fepper-utils.
+    if (filename.indexOf(this.conf.scrape.scraper_file.slice(0, -(this.conf.ui.patternExtension.length))) === 0) {
       return false;
     }
 
