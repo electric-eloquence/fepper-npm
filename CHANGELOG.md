@@ -2,6 +2,8 @@
 
 ### v0.34.2
 * Resetting ingredients object per build
+* Better invalidating of html scraper filename
+* Better annotations and code viewer toggling
 
 ### v0.34.1
 * Keeping original template whitespacing for output to .mustache file
