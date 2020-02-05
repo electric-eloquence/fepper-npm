@@ -16,7 +16,7 @@ export function sgTAnnotationsClick(event) {
   annotationsViewer.toggleAnnotations();
 
   // If viewall, scroll to the focused pattern.
-  if (annotationsViewer.viewall) {
+  if (annotationsViewer.viewall && annotationsViewer.annotationsActive) {
     annotationsViewer.scrollViewall();
   }
 
@@ -38,7 +38,7 @@ export function sgTCodeClick(event) {
   codeViewer.toggleCode();
 
   // If viewall, scroll to the focused pattern.
-  if (codeViewer.viewall) {
+  if (codeViewer.viewall && codeViewer.codeActive) {
     codeViewer.scrollViewall();
   }
 
