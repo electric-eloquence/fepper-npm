@@ -425,7 +425,7 @@ describe('HTML Scraper Post', function () {
       .then((response) => {
         expect(response.statusCode).to.equal(303);
         // eslint-disable-next-line max-len
-        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Please%20enter%20a%20valid%20filename.&url=&selector=');
+        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Invalid%20filename!&url=&selector=');
         done();
       })
       .catch((err) => {
