@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const crypto = require('crypto');
 
 const Feplet = require('feplet');
 const fs = require('fs-extra');
@@ -8,13 +9,6 @@ const JSON5 = require('json5');
 
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
-
-let XXHash;
-
-try {
-  XXHash = require('xxhash');
-}
-catch {}
 
 module.exports = class {
   #patternlab;
@@ -481,10 +475,11 @@ module.exports = class {
     pattern.header = header;
     pattern.footer = footer;
 
-    if (XXHash && this.config.hashPatterns) {
-      pattern.hash = XXHash.hash64(
-        Buffer.from(pattern.header + pattern.templateExtended + pattern.footer, this.config.enc), 64, 'base64'
-      );
+    if (this.config.hashPatterns) {
+      // MD4 is not used for cryptographic purposes here, only for string comparison.
+      pattern.hash = crypto.createHash('md4').update(
+        pattern.header + pattern.templateExtended + pattern.footer
+      ).digest('base64');
     }
 
     if (pattern.hash) {
