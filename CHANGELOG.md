@@ -3,6 +3,7 @@
 ### v0.34.2
 * Resetting ingredients object per build
 * Better invalidating of html scraper filename
+* Switched from xxhash to md4 for non-cryptographic hashing
 
 ### v0.34.1
 * Keeping original template whitespacing for output to .mustache file
