@@ -635,7 +635,7 @@ module.exports = class {
       let filename;
 
       if (!this.filenameValidate(this.filename)) {
-        this.redirectWithMsg('error', 'Please enter a valid filename.');
+        this.redirectWithMsg('error', 'Invalid filename!');
 
         return;
       }
