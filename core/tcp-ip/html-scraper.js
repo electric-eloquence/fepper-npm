@@ -1,7 +1,7 @@
 'use strict';
 
 const Feplet = require('feplet');
-const request = require('request');
+const fetch = require('node-fetch');
 
 module.exports = class {
   constructor(options, html, gatekeeper) {
@@ -21,19 +21,27 @@ module.exports = class {
         return;
       }
 
-      try {
-        request(req.query.url, (error, response, body) => {
-          if (!error && response.statusCode === 200) {
-            res.send(body);
+      fetch(req.query.url)
+        .then((response) => {
+          if (response.status === 200) {
+            return response.text();
           }
           else {
-            res.status(response.statusCode).end();
+            return response.status;
           }
+        })
+        .then((output) => {
+          if (typeof output === 'string') {
+            res.send(output);
+          }
+          else {
+            res.status(output).end();
+          }
+        })
+        .catch((error) => {
+          this.utils.error(error);
+          res.status(500).end();
         });
-      }
-      catch (err) {
-        this.utils.error(err);
-      }
     };
   }
 
