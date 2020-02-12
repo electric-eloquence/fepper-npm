@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.34.3
+* Replaced deprecated request npm with node-fetch
+
 ### v0.34.2
 * Resetting ingredients object per build
 * Better invalidating of html scraper filename
