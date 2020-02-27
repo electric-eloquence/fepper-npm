@@ -188,13 +188,15 @@ module.exports = class {
     }
   }
 
-  preProcessDataKeys(schemaObj, dataObj) {
+  preProcessDataKeys(schemaObj, dataObj, flattened_ = '') {
     for (let key of Object.keys(dataObj)) {
+      const flattened = flattened_ ? `${flattened_}.${key}` : key;
+
       if (dataObj[key].constructor === Object) {
-        schemaObj[key] = this.preProcessDataKeys(schemaObj, dataObj[key]);
+        this.preProcessDataKeys(schemaObj, dataObj[key], flattened);
       }
 
-      schemaObj[key] = true;
+      schemaObj[flattened] = true;
     }
   }
 
