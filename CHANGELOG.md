@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.34.4
+* Bumped gulp version
+
 ### v0.34.3
 * Replaced deprecated request npm with node-fetch
 
