@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.34.5
+* Correctly preprocessing dot.separated data keys
+
 ### v0.34.4
 * Bumped gulp version
 
