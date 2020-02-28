@@ -20,26 +20,7 @@ describe('Patternlab', function () {
 
       expect(dataResult).to.be.an.instanceof(Object);
       expect(dataResult.data).to.equal('test');
-    });
-  });
-
-  describe('.getPattern()', function () {
-    it('matches by type-pattern shorthand syntax', function () {
-      const result = patternlab.getPattern('test-nav');
-
-      expect(result.patternPartial).to.equal('test-nav');
-    });
-
-    it('matches by full relative path', function () {
-      const result = patternlab.getPattern('00-test/00-foo.mustache');
-
-      expect(result.relPath).to.equal('00-test/00-foo.mustache');
-    });
-
-    it('matches by relative path minus extension', function () {
-      const result = patternlab.getPattern('00-test/00-foo');
-
-      expect(result.relPathTrunc).to.equal('00-test/00-foo');
+      expect(dataResult.dot.notation.test).to.equal('foo');
     });
   });
 
@@ -109,6 +90,13 @@ describe('Patternlab', function () {
       expect(viewallAltContent).to.have.string(scriptTagStr);
       expect(viewallAltContent).to.not.match(scriptTagRegex);
     });
+
+    it('correctly renders tags written in dot notation', function () {
+      const dotNotationTest = `${patternlab.config.paths.public.patterns}/01-test1-08-dot-notation/01-test1-08-dot-notation.markup-only.html`;
+      const dotNotationTestContent = fs.readFileSync(dotNotationTest, patternlab.config.enc);
+
+      expect(dotNotationTestContent).to.equal(' foo   foo  foo ');
+    });
   });
 
   describe('.compile()', function () {
@@ -155,6 +143,26 @@ describe('Patternlab', function () {
 
       expect(uiIndexOrigContent).to.not.have.string(testString);
       expect(uiIndexAltContent).to.have.string(testString);
+    });
+  });
+
+  describe('.getPattern()', function () {
+    it('matches by type-pattern shorthand syntax', function () {
+      const result = patternlab.getPattern('test-nav');
+
+      expect(result.patternPartial).to.equal('test-nav');
+    });
+
+    it('matches by full relative path', function () {
+      const result = patternlab.getPattern('00-test/00-foo.mustache');
+
+      expect(result.relPath).to.equal('00-test/00-foo.mustache');
+    });
+
+    it('matches by relative path minus extension', function () {
+      const result = patternlab.getPattern('00-test/00-foo');
+
+      expect(result.relPathTrunc).to.equal('00-test/00-foo');
     });
   });
 
