@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.34.6
+* Updated dependencies
+
 ### v0.34.5
 * Correctly preprocessing dot.separated data keys
 
