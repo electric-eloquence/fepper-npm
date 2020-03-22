@@ -19,6 +19,11 @@ gulp.task('tcp-ip-reload:annotations', function () {
     .pipe(reload());
 });
 
+gulp.task('tcp-ip-reload:assets', function () {
+  return gulp.src(pubDir.images + '/**/*')
+    .pipe(reload());
+});
+
 gulp.task('tcp-ip-reload:index', function () {
   return gulp.src(pubDir.root + '/index.html')
     .pipe(reload());
@@ -53,6 +58,7 @@ gulp.task('tcp-ip-reload:watch', function () {
   gulp.watch(pubDir.annotations + '/**/*', ['tcp-ip-reload:annotations']);
   gulp.watch(pubDir.css + '/**/*.css', ['tcp-ip-reload:styles-inject']);
   gulp.watch(pubDir.css + '/**/!(*.css)', ['tcp-ip-reload:styles-reload']);
+  gulp.watch(pubDir.images + '/**/*', ['tcp-ip-reload:assets']);
   gulp.watch(pubDir.js + '/**/*', ['tcp-ip-reload:scripts']);
   gulp.watch(pubDir.root + '/index.html', ['tcp-ip-reload:index']);
 });
