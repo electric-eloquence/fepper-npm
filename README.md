@@ -173,14 +173,14 @@ please open an issue</a>.
 [snyk-image]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release/badge.svg
 [snyk-url]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release
 
-[linux-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Linux%20Build%20Status/badge.svg?branch=release
-[linux-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Linux+Build+Status"
+[linux-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Linux%20build/badge.svg?branch=release
+[linux-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Linux+build"
 
-[mac-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Mac%20Build%20Status/badge.svg?branch=release
-[mac-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Mac+Build+Status"
+[mac-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Mac%20build/badge.svg?branch=release
+[mac-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Mac+build"
 
-[windows-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Windows%20Build%20Status/badge.svg?branch=release
-[windows-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Windows+Build+Status"
+[windows-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Windows%20build/badge.svg?branch=release
+[windows-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Windows+build"
 
 [coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fepper-npm/release.svg
 [coveralls-url]: https://coveralls.io/r/electric-eloquence/fepper-npm
