@@ -26,15 +26,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: npm install, npm test 
+    - name: Build
       run: |
         npm install
         npm test
+        nyc report --reporter=text-lcov > ./.lcov.info
 
-    - name: Coveralls
+    - name: Coverage
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./.lcov.info
 
       env:
         CI: true
