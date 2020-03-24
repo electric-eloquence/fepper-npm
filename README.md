@@ -8,8 +8,9 @@
 <h2 align="center">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 [![Known Vulnerabilities][snyk-image]][snyk-url]
-[![Mac/Linux Build Status][travis-image]][travis-url]
-[![Windows Build Status][appveyor-image]][appveyor-url]
+[![Linux Build Status][linux-image]][linux-url]
+[![Mac Build Status][mac-image]][mac-url]
+[![Windows Build Status][windows-image]][windows-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 ![Node Version][node-version-image]
 [![License][license-image]][license-url]
@@ -172,11 +173,14 @@ please open an issue</a>.
 [snyk-image]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release/badge.svg
 [snyk-url]: https://snyk.io//test/github/electric-eloquence/fepper-npm/release
 
-[travis-image]: https://img.shields.io/travis/electric-eloquence/fepper-npm/release.svg?label=mac%20%26%20linux
-[travis-url]: https://travis-ci.org/electric-eloquence/fepper-npm
+[linux-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Linux%20Build%20Status/badge.svg?branch=release
+[linux-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Linux+Build+Status"
 
-[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fepper-npm/release.svg?label=windows
-[appveyor-url]: https://ci.appveyor.com/project/e2tha-e/fepper-npm
+[mac-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Mac%20Build%20Status/badge.svg?branch=release
+[mac-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Mac+Build+Status"
+
+[windows-image]: https://github.com/electric-eloquence/fepper-npm/workflows/Windows%20Build%20Status/badge.svg?branch=release
+[windows-url]: https://github.com/electric-eloquence/fepper-npm/actions?query=workflow%3A"Windows+Build+Status"
 
 [coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fepper-npm/release.svg
 [coveralls-url]: https://coveralls.io/r/electric-eloquence/fepper-npm
