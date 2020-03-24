@@ -1,4 +1,4 @@
-name: Windows Build Status
+name: Windows build
 
 on:
   push:
