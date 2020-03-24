@@ -26,8 +26,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: npm install --no-package-lock
-    - run: npm test
+    - name: Build
+      run: |
+        npm install
+        npm test
 
       env:
         CI: true
