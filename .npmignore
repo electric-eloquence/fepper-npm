@@ -1,5 +1,6 @@
 *.log
 .*
+!.gitkeep
 !.jsbeautifyrc
 excludes/fepper-branding.*
 test/
