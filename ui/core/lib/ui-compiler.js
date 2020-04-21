@@ -284,7 +284,8 @@ module.exports = class {
       return;
     }
 
-    const uiCreate = React.createFactory(
+    const createFactory = (type) => React.createElement.bind(null, type);
+    const uiCreate = createFactory(
       class extends React.Component {
         constructor(props) {
           super(props);
