@@ -1,10 +1,14 @@
 'use strict';
 
+let t;
+
 module.exports = class {
   constructor(patternlab) {
     this.config = patternlab.config;
     this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
+
+    t = this.utils.t;
   }
 
   main(pattern) {
@@ -23,7 +27,7 @@ module.exports = class {
       }
 
       if (this.config.debug) {
-        this.utils.log('Found pseudo-pattern ' + pseudoPattern.patternPartial + ' - variant of ' +
+        this.utils.log(`{t('Found pseudo-pattern')} ${pseudoPattern.patternPartial} - ${t('variant of')} ` +
           pattern.patternPartial);
       }
 
