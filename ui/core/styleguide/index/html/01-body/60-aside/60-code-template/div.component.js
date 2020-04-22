@@ -11,17 +11,17 @@ module.exports = {
 </div>
 <div id="sg-code-pattern-state" style="display: none;">
   <p>
-    The state of the <span id="sg-code-pattern-state-pattern-name" class="sg-code-pattern-name"></span> pattern is: <span id="sg-code-pattern-state-fill"></span>
+    ${t('The state of')} <span id="sg-code-pattern-state-pattern-name" class="sg-code-pattern-name"></span>: <span id="sg-code-pattern-state-fill"></span>
   </p>
 </div>
 <div id="sg-code-lineage" style="display: none;">
   <p>
-    The <span id="sg-code-lineage-pattern-name" class="sg-code-pattern-name"></span> pattern includes the following patterns: <span id="sg-code-lineage-fill"></span>
+    <span id="sg-code-lineage-pattern-name" class="sg-code-pattern-name"></span> ${t('includes the following patterns')}: <span id="sg-code-lineage-fill"></span>
   </p>
 </div>
 <div id="sg-code-lineager" style="display: none;">
   <p>
-    The <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> pattern is included by the following patterns: <span id="sg-code-lineager-fill"></span>
+    <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> ${t('is included by the following patterns')}: <span id="sg-code-lineager-fill"></span>
   </p>
 </div>
 <div id="sg-code-markup">
