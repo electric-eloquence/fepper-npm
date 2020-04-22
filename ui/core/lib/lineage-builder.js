@@ -1,11 +1,15 @@
 'use strict';
 
+let t;
+
 module.exports = class {
   constructor(patternlab) {
     this.config = patternlab.config;
     this.getPattern = patternlab.getPattern;
     this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
+
+    t = this.utils.t;
   }
 
   /* PRIVATE METHODS */
@@ -74,7 +78,7 @@ module.exports = class {
       // Skip if no descendentPattern.
       /* istanbul ignore if */
       if (!descendentPattern) {
-        this.utils.error('`' + pattern.relPath + '` is missing pattern `' + descendentPatternName + '`');
+        this.utils.error(`${pattern.relPath} ${t('is missing pattern')} ${descendentPatternName}`);
 
         continue;
       }

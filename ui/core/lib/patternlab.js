@@ -16,6 +16,7 @@ const fs = require('fs-extra');
 const JSON5 = require('json5');
 const slash = require('slash');
 const utils = require('fepper-utils');
+const t = utils.t;
 
 const AnnotationsBuilder = require('./annotations-builder');
 // CamelCasing "ListItems" (and "listItems") for the purpose of naming within code.
@@ -106,7 +107,7 @@ module.exports = class {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error('ERROR: Missing or malformed ' + `${this.config.paths.source.data}/data.json`);
+      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed')} ${this.config.paths.source.data}/data.json`);
       this.utils.error(err);
     }
 
@@ -117,7 +118,7 @@ module.exports = class {
       this.ingredients.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error('ERROR: Missing an essential file from ' + immutableDir);
+      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from')} ${immutableDir}`);
       this.utils.error(err);
     }
 
@@ -152,7 +153,7 @@ module.exports = class {
           this.ingredients.listItems = JSON5.parse(listItemsStr);
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error('ERROR: Malformed ' + listItemsFile);
+          this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${listItemsFile}`);
           this.utils.error(err);
         }
       }
@@ -172,14 +173,14 @@ module.exports = class {
             pattern.listItems = JSON5.parse(jsonFileStr);
 
             if (this.config.debug) {
-              this.utils.log('Found pattern-specific listitems.json for ' + pattern.patternPartial);
+              this.utils.log(`${t('Found pattern-specific listitems.json for')} ${pattern.patternPartial}`);
             }
 
             this.listItemsBuilder.listItemsBuild(pattern);
             this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
           }
           catch (err) /* istanbul ignore next */ {
-            this.utils.error('There was an error parsing pattern-specific listitems.json for ' +
+            this.utils.error(`${t('There was an error parsing pattern-specific listitems.json for')} ` +
               pattern.relPath);
             this.utils.error(err);
           }
@@ -224,8 +225,8 @@ module.exports = class {
       if (this.config.debug) {
         this.utils.warn(err);
 
-        let warnHead = 'Could not find optional user-defined header, usually found at ';
-        warnHead += './source/_meta/_00-head.mustache. It was likely deleted.';
+        let warnHead = `${t('Could not find optional user-defined header, usually found at')} `;
+        warnHead += `./source/_meta/_00-head.mustache. ${t('It was likely deleted')}`;
 
         utils.warn(warnHead);
       }
@@ -249,8 +250,8 @@ module.exports = class {
       if (this.config.debug) {
         this.utils.warn(err);
 
-        let warnFoot = 'Could not find optional user-defined footer, usually found at ';
-        warnFoot += './source/_meta/_01-foot.mustache. It was likely deleted.';
+        let warnFoot = `${t('Could not find optional user-defined footer, usually found at')} `;
+        warnFoot += `./source/_meta/_01-foot.mustache. ${t('It was likely deleted')}`;
 
         this.utils.warn(warnFoot);
       }
@@ -342,8 +343,8 @@ module.exports = class {
     // Throw error if compilation fails.
     /* istanbul ignore if */
     if (!fs.existsSync(indexHtml)) {
-      utils.error('There is no public/index.html, which means the UI needs to be compiled.');
-      utils.log('Please run `fp ui:compile`.');
+      utils.error(`${t('There is no public/index.html, which means the UI needs to be compiled')}`;
+      utils.log(`${t('Please run fp ui:compile'})`);
 
       throw new Error('ENOENT');
     }
@@ -373,7 +374,7 @@ module.exports = class {
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-      this.utils.log(`The build used approximately ${Math.round(used * 100) / 100} MB`);
+      this.utils.log(`${t('The build used approximately')} ${Math.round(used * 100) / 100} MB`);
     }
   }
 
@@ -471,7 +472,7 @@ Tasks:
     }
     else {
       /* istanbul ignore next */
-      this.utils.error('Invalid config object!');
+      this.utils.error(`${t('Invalid config object!')}`);
     }
   }
 };
