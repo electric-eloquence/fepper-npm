@@ -3,10 +3,14 @@
  */
 'use strict';
 
+let t;
+
 module.exports = class {
   constructor(options) {
     this.options = options;
     this.utils = options.utils;
+
+    t = this.utils.t;
   }
 
   main() {
