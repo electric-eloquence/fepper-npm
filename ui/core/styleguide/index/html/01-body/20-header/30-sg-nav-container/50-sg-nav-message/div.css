@@ -1,0 +1,10 @@
+#sg-nav-message {
+  margin-bottom: 0.5em;
+  text-transform: none;
+}
+#sg-nav-message h1 {
+  margin: 0.25em;
+}
+#sg-nav-message li {
+  margin: 0.25em 0.5em;
+}
