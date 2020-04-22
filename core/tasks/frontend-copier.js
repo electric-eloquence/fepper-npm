@@ -7,6 +7,8 @@ const fs = require('fs-extra');
 const slash = require('slash');
 const yaml = require('js-yaml');
 
+let t;
+
 module.exports = class {
   constructor(options) {
     this.options = options;
@@ -14,6 +16,8 @@ module.exports = class {
     this.pref = options.pref;
     this.rootDir = options.rootDir;
     this.utils = options.utils;
+
+    t = this.utils.t;
   }
 
   mapPlNomenclature(frontendType) {
