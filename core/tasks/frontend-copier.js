@@ -209,7 +209,7 @@ module.exports = class {
           }
 
           this.utils.log(
-            'Copied \x1b[36m%s\x1b[0m to \x1b[36m%s\x1b[0m.',
+            `${t('Copied')} \x1b[36m%s\x1b[0m ${t('to')} \x1b[36m%s\x1b[0m.`,
             file.replace(this.rootDir, '').replace(/^\//, ''),
             targetFilePath.replace(this.rootDir, '').replace(/^\//, '')
           );
