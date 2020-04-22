@@ -5,6 +5,8 @@ const fs = require('fs-extra');
 
 const objectFactory = require('./object-factory');
 
+let t;
+
 module.exports = class {
   constructor(patternlab) {
     this.config = patternlab.config;
@@ -24,6 +26,8 @@ module.exports = class {
     this.viewallTemplateHead = '';
     this.viewallTemplateBody = '';
     this.viewallTemplateFoot = '';
+
+    t = this.utils.t;
 
     // DEPRECATED
     this.strReplaceGlobal = patternlab.strReplaceGlobal;
@@ -122,11 +126,11 @@ module.exports = class {
 
     if (viewallSplit.length < 3) {
       /* istanbul ignore next */
-      this.utils.error('The "partials" list in viewall.mustache must have valid opening and closing tags!');
+      this.utils.error(`${t('The partials list in viewall.mustache must have valid opening and closing tags!')}`);
     }
     else if (viewallSplit.length > 3) {
       /* istanbul ignore next */
-      this.utils.error('There can be only one "partials" list in viewall.mustache!');
+      this.utils.error(`${t('There can be only one partials list in viewall.mustache!')}`);
     }
     else {
       this.viewallTemplateHead = viewallSplit[0];
@@ -338,7 +342,7 @@ module.exports = class {
       }
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error('ERROR: Missing an essential file from ' + viewallCoreDir);
+      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from')} ${viewallCoreDir}`);
       this.utils.error(err);
     }
   }

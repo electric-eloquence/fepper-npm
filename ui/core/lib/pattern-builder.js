@@ -10,6 +10,8 @@ const JSON5 = require('json5');
 const frontMatterParser = require('./front-matter-parser');
 const Pattern = require('./object-factory').Pattern;
 
+let t;
+
 module.exports = class {
   #patternlab;
 
@@ -19,6 +21,8 @@ module.exports = class {
     this.config = patternlab.config;
     this.ingredients = patternlab.ingredients;
     this.utils = patternlab.utils;
+
+    t = this.utils.t;
   }
 
   /* GETTERS for patternlab instance props in case they are undefined at instantiation. */
@@ -57,7 +61,7 @@ module.exports = class {
     // If the pattern is new, we must register it with various data structures!
     if (isNew) {
       if (this.config.debug) {
-        this.utils.log('Found new pattern ' + pattern.patternPartial);
+        this.utils.log(`${t('Found new pattern')} ${pattern.patternPartial}`);
       }
 
       this.ingredients.patterns.push(pattern);
@@ -281,11 +285,11 @@ module.exports = class {
           pattern.jsonFileData = JSON5.parse(jsonFileStr);
 
           if (this.config.debug) {
-            this.utils.log('Found pattern-specific JSON data for ' + pattern.patternPartial);
+            this.utils.log(`${t('Found pattern-specific JSON data for')} ${pattern.patternPartial}`);
           }
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error('There was an error parsing pattern-specific JSON for ' + pattern.relPath);
+          this.utils.error(`${t('There was an error parsing pattern-specific JSON for')} ${pattern.relPath}`);
           this.utils.error(err);
         }
       }
