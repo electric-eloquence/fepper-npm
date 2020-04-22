@@ -11,8 +11,8 @@ module.exports = {
 </div>
 <div id="sg-annotations">
   <div class="sg-annotation">
-    <h2>No Annotations</h2>
-    <div>There are no annotations for this pattern.</div>
+    <h2>${t('No Annotations')}</h2>
+    <div>${t('There are no annotations for this pattern')}</div>
   </div>
 </div>
 `
