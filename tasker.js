@@ -10,6 +10,7 @@ const gulp = global.gulp = require('gulp');
 const requireDir = require('require-dir');
 const slash = require('slash');
 const utils = require('fepper-utils');
+const t = utils.t;
 
 // We need to set globals in order to parse prefs in order to see if the user wants to instantiate a custom subclass.
 global.appDir = slash(__dirname);
@@ -185,7 +186,7 @@ gulp.task('default', function (cb) {
 
   args.push(() => {
     cb();
-    utils.log(`Listening on port ${conf.express_port}`);
+    utils.log(`${t('Listening on port')} ${conf.express_port}`);
   });
   gulp.runSeq(...args);
 });
@@ -269,7 +270,7 @@ gulp.task('restart', function (cb) {
 
   args.push(() => {
     cb();
-    utils.log(`Listening on port ${conf.express_port}`);
+    utils.log(`${t('Listening on port')} ${conf.express_port}`);
   });
 
   // An added measure for power-usage, delete any lingering install.log, normally deleted by the plain `fp` task.

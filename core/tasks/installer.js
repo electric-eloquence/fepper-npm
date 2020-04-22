@@ -5,6 +5,8 @@ const spawnSync = require('child_process').spawnSync;
 
 const fs = require('fs-extra');
 
+let t;
+
 module.exports = class {
   constructor(options) {
     this.options = options;
@@ -14,6 +16,8 @@ module.exports = class {
     this.extendDir = this.conf.extend_dir;
     this.publicDir = this.conf.ui.paths.public.root;
     this.sourceDir = this.conf.ui.paths.source.root;
+
+    t = this.utils.t;
 
     // Spawn npm.cmd if Windows.
     /* istanbul ignore if */
@@ -40,7 +44,7 @@ module.exports = class {
     /* istanbul ignore if */
     if (!fs.existsSync(`${this.extendDir}/node_modules`)) {
       process.chdir(this.extendDir);
-      this.utils.log(`Working directory changed to ${path.resolve(this.extendDir)}.`);
+      this.utils.log(`${t('Working directory changed to')} ${path.resolve(this.extendDir)}.`);
       spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
     }
 
@@ -48,7 +52,7 @@ module.exports = class {
     /* istanbul ignore if */
     if (!fs.existsSync(`${this.publicDir}/node_modules`)) {
       process.chdir(this.publicDir);
-      this.utils.log(`Working directory changed to ${path.resolve(this.publicDir)}.`);
+      this.utils.log(`${t('Working directory changed to')} ${path.resolve(this.publicDir)}.`);
       spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
     }
 
@@ -56,7 +60,7 @@ module.exports = class {
     const cwd = process.cwd();
 
     process.chdir(cwd);
-    this.utils.log(`Working directory changed to ${cwd}.`);
+    this.utils.log(`${t('Working directory changed to')} ${cwd}.`);
   }
 
   copyBase() {

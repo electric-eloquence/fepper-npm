@@ -16,6 +16,7 @@ const fs = require('fs-extra');
 const JSON5 = require('json5');
 const slash = require('slash');
 const utils = require('fepper-utils');
+
 const t = utils.t;
 
 const AnnotationsBuilder = require('./annotations-builder');
@@ -343,8 +344,8 @@ module.exports = class {
     // Throw error if compilation fails.
     /* istanbul ignore if */
     if (!fs.existsSync(indexHtml)) {
-      utils.error(`${t('There is no public/index.html, which means the UI needs to be compiled')}`;
-      utils.log(`${t('Please run fp ui:compile'})`);
+      utils.error(`${t('There is no public/index.html, which means the UI needs to be compiled')}`);
+      utils.log(`${t('Please run fp ui:compile')}`);
 
       throw new Error('ENOENT');
     }
@@ -428,18 +429,18 @@ module.exports = class {
 
   help() {
     let out = `
-User Interface CLI
+${t('User Interface CLI')}
 
-Use:
-    <task> [<additional args>... [-d | --debug]]
+${t('Use:')}
+    <${t('task')}> [<${t('additional args')}>... [-d | --debug]]
 
-Tasks:
-    fp ui:build         Build the patterns, outputting to the public directory.
-    fp ui:clean         Delete all patterns in the public directory.
-    fp ui:compile       Compile the user interface from its component parts.
-    fp ui:copy          Copy frontend files (_assets, _scripts, _styles) to the public directory.
-    fp ui:copy-styles   Copy _styles to the public directory (for injection into browser without refresh.
-    fp ui:help          Get more information about Fepper UI CLI commands.
+${t('Tasks:')}
+    fp ui:build         ${t('Build the patterns, outputting to the public directory')}
+    fp ui:clean         ${t('Delete all patterns in the public directory')}
+    fp ui:compile       ${t('Compile the user interface from its component parts')}
+    fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
+    fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into browser without refresh)')}
+    fp ui:help          ${t('Get more information about Fepper UI CLI commands')}
 `;
 
     this.utils.info(out);

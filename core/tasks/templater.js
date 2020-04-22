@@ -14,6 +14,8 @@ const fs = require('fs-extra');
 const slash = require('slash');
 const yaml = require('js-yaml');
 
+let t;
+
 module.exports = class {
   constructor(options) {
     this.options = options;
@@ -23,6 +25,8 @@ module.exports = class {
     this.utils = options.utils;
 
     this.srcDir = this.conf.ui.paths.source.templates;
+
+    t = this.utils.t;
   }
 
   mustacheRecurse(file) {
@@ -175,7 +179,7 @@ module.exports = class {
         // Write translated templates.
         const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
-        this.utils.log('Template \x1b[36m%s\x1b[0m translated.', dest.replace(this.rootDir, '').replace(/^\//, ''));
+        this.utils.log(`${t('Template')} \x1b[36m%s\x1b[0m ${t('translated')}.`, dest.replace(this.rootDir, '').replace(/^\//, ''));
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);

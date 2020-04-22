@@ -14,11 +14,15 @@ const diveSync = require('diveSync');
 const fs = require('fs-extra');
 const JSON5 = require('json5');
 
+let t;
+
 module.exports = class {
   constructor(options) {
     this.options = options;
     this.conf = options.conf;
     this.utils = options.utils;
+
+    t = this.utils.t;
   }
 
   main() {
@@ -34,7 +38,7 @@ module.exports = class {
       dataGlobalJson = JSON5.parse(dataGlobalStr);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error('ERROR: Missing or malformed ' + dataGlobal);
+      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed')} ${dataGlobal}`);
       this.utils.error(err);
 
       return;
@@ -75,7 +79,7 @@ module.exports = class {
           JSON5.parse(dataPartialStr);
         }
         catch (err1) /* istanbul ignore next */ {
-          this.utils.error('ERROR: Malformed ' + file);
+          this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${file}`);
           this.utils.error(err1);
 
           return;
@@ -118,7 +122,7 @@ module.exports = class {
         dataAppendixJson = JSON5.parse(dataAppendixStr);
       }
       catch (err) /* istanbul ignore next */ {
-        this.utils.error('ERROR: Malformed ' + dataAppendix);
+        this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${dataAppendix}`);
         this.utils.error(err);
       }
     }
