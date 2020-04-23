@@ -77,8 +77,9 @@ else {
 
     if (arg === '-d' || arg === '--debug') {
       process.env.DEBUG = true;
-
-      continue;
+    }
+    else if (arg === '--help') {
+      argv.push('help');
     }
     else {
       argv.push(arg);
