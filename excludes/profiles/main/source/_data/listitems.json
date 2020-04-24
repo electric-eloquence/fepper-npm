@@ -1,6 +1,6 @@
 {
   "1": {
-    "listitem_index": "1",
+    "listitem_id": "1",
     "svg_fill": "Olive",
     "name": {
       "first": "Junius",
@@ -10,7 +10,7 @@
     "url": "http://lorizzle.nl/"
   },
   "2": {
-    "listitem_index": "2",
+    "listitem_id": "2",
     "svg_fill": "Magenta",
     "name": {
       "first": "Siguror",
@@ -20,7 +20,7 @@
     "url": "http://veggieipsum.com"
   },
   "3": {
-    "listitem_index": "3",
+    "listitem_id": "3",
     "svg_fill": "Lime",
     "name": {
       "first": "Teun",
@@ -30,7 +30,7 @@
     "url": "http://baconipsum.com/"
   },
   "4": {
-    "listitem_index": "4",
+    "listitem_id": "4",
     "svg_fill": "Maroon",
     "name": {
       "first": "Duane",
@@ -40,7 +40,7 @@
     "url": "http://hipsum.co/"
   },
   "5": {
-    "listitem_index": "5",
+    "listitem_id": "5",
     "svg_fill": "Brown",
     "name": {
       "first": "Frans",
@@ -50,7 +50,7 @@
     "url": "http://www.niemanlab.org/journo-ipsum/"
   },
   "6": {
-    "listitem_index": "6",
+    "listitem_id": "6",
     "svg_fill": "Purple",
     "name": {
       "first": "Fergus",
@@ -60,7 +60,7 @@
     "url": "http://www.malevole.com/mv/misc/text/"
   },
   "7": {
-    "listitem_index": "7",
+    "listitem_id": "7",
     "svg_fill": "Orange",
     "name": {
       "first": "Bertil",
@@ -70,7 +70,7 @@
     "url": "http://slipsum.com/lite/"
   },
   "8": {
-    "listitem_index": "8",
+    "listitem_id": "8",
     "svg_fill": "LightBlue",
     "name": {
       "first": "Freyr",
@@ -80,7 +80,7 @@
     "url": "http://web20ipsum.com"
   },
   "9": {
-    "listitem_index": "9",
+    "listitem_id": "9",
     "svg_fill": "Blue",
     "name": {
       "first": "Jacobus",
@@ -90,7 +90,7 @@
     "url": "http://chrisvalleskey.com/fillerama/"
   },
   "10": {
-    "listitem_index": "10",
+    "listitem_id": "10",
     "svg_fill": "Cyan",
     "name": {
       "first": "Plinius",
@@ -100,7 +100,7 @@
     "url": "http://chrisvalleskey.com/fillerama/"
   },
   "11": {
-    "listitem_index": "11",
+    "listitem_id": "11",
     "svg_fill": "Green",
     "name": {
       "first": "Matthias",
@@ -110,7 +110,7 @@
     "url": "http://cupcakeipsum.com/"
   },
   "12": {
-    "listitem_index": "12",
+    "listitem_id": "12",
     "svg_fill": "Salmon",
     "name": {
       "first": "Aquila",
