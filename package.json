@@ -1,6 +1,6 @@
 {
   "name": "fepper",
-  "version": "0.34.6",
+  "version": "0.35.0-rc.0",
   "description": "A Front End Prototyper tool for rapid prototyping of web sites",
   "main": "core/fepper.js",
   "bin": {
