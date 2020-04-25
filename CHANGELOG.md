@@ -1,5 +1,10 @@
 # Fepper NPM Changelog
 
+### v0.35.0
+* Livereloading of images and other assets
+* Replaced placeholder images with svgs
+* Added i18n for all user-facing text
+
 ### v0.34.6
 * Updated dependencies
 
