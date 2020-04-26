@@ -709,7 +709,7 @@ input[type="search"]::-webkit-search-decoration {
 }
 .comment-meta {
   float: left;
-  width: 6.5em;
+  width: 8em;
 }
 .comment-meta img {
   display: block;
@@ -719,7 +719,7 @@ input[type="search"]::-webkit-search-decoration {
 .comment-name {
   display: block;
   font-size: 0.75em;
-  font-weight: bold;
+  margin-top: 0.25em;
 }
 .comment-text {
   margin-left: 9em;
