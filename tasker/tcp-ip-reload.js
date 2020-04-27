@@ -58,7 +58,9 @@ gulp.task('tcp-ip-reload:watch', function () {
   gulp.watch(pubDir.annotations + '/**/*', ['tcp-ip-reload:annotations']);
   gulp.watch(pubDir.css + '/**/*.css', ['tcp-ip-reload:styles-inject']);
   gulp.watch(pubDir.css + '/**/!(*.css)', ['tcp-ip-reload:styles-reload']);
-  gulp.watch(pubDir.images + '/**/*', ['tcp-ip-reload:assets']);
+  if (!conf.is_windows) {
+    gulp.watch(pubDir.images + '/**/*', ['tcp-ip-reload:assets']);
+  }
   gulp.watch(pubDir.js + '/**/*', ['tcp-ip-reload:scripts']);
   gulp.watch(pubDir.root + '/index.html', ['tcp-ip-reload:index']);
 });
