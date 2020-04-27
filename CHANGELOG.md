@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.35.1
+* Removed livereloading of images and other assets from Windows
+
 ### v0.35.0
 * Livereloading of images and other assets
 * Replaced placeholder images with svgs
