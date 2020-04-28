@@ -22,7 +22,7 @@ ${t('Tasks:')}
     fp                  ${t('Launch Fepper and open it in a browser')}
     fp data             ${t('Build data.json from underscore-prefixed .json files')}
     fp frontend-copy    ${t('Copy assets, scripts, and styles to the backend')}
-    fp once             ${t('Do a one-off Fepper build to the public directory')}
+    fp once             ${t('Output a new build to the public directory')}
     fp restart          ${t('Restart after shutdown, but without opening the browser')}
     fp static           ${t('Generate a static site from the 04-pages directory')}
     fp syncback         ${t('Combine frontend-copy and template tasks')}

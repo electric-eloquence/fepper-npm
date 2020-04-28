@@ -27,8 +27,11 @@ module.exports = class {
       }
 
       if (this.config.debug) {
-        this.utils.log(`${t('Found pseudo-pattern')} ${pseudoPattern.patternPartial} - ${t('variant of')} ` +
-          pattern.patternPartial);
+        this.utils.log(
+          `${t('Found pseudo-pattern %s - variant of %s')}`,
+          pseudoPattern.patternPartial,
+          pattern.patternPartial
+        );
       }
 
       // Fill out the properties of this pseudoPattern.
