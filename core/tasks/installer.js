@@ -44,7 +44,7 @@ module.exports = class {
     /* istanbul ignore if */
     if (!fs.existsSync(`${this.extendDir}/node_modules`)) {
       process.chdir(this.extendDir);
-      this.utils.log(`${t('Working directory changed to')} ${path.resolve(this.extendDir)}.`);
+      this.utils.log(`${t('Working directory changed to %s')}`, path.resolve(this.extendDir));
       spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
     }
 
@@ -52,7 +52,7 @@ module.exports = class {
     /* istanbul ignore if */
     if (!fs.existsSync(`${this.publicDir}/node_modules`)) {
       process.chdir(this.publicDir);
-      this.utils.log(`${t('Working directory changed to')} ${path.resolve(this.publicDir)}.`);
+      this.utils.log(`${t('Working directory changed to %s')}`, path.resolve(this.publicDir));
       spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
     }
 
@@ -60,7 +60,7 @@ module.exports = class {
     const cwd = process.cwd();
 
     process.chdir(cwd);
-    this.utils.log(`${t('Working directory changed to')} ${cwd}.`);
+    this.utils.log(`${t('Working directory changed to %s')}`, cwd);
   }
 
   copyBase() {
