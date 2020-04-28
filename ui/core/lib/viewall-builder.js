@@ -342,7 +342,7 @@ module.exports = class {
       }
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from')} ${viewallCoreDir}`);
+      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from %s')}`, viewallCoreDir);
       this.utils.error(err);
     }
   }

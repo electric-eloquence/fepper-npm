@@ -108,7 +108,7 @@ module.exports = class {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed')} ${this.config.paths.source.data}/data.json`);
+      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed %s')}`, `${this.config.paths.source.data}/data.json`);
       this.utils.error(err);
     }
 
@@ -119,7 +119,7 @@ module.exports = class {
       this.ingredients.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from')} ${immutableDir}`);
+      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from %s')}`, immutableDir);
       this.utils.error(err);
     }
 
@@ -154,7 +154,7 @@ module.exports = class {
           this.ingredients.listItems = JSON5.parse(listItemsStr);
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${listItemsFile}`);
+          this.utils.error(`${t('ERROR:')} ${t('Malformed %s')}`, listItemsFile);
           this.utils.error(err);
         }
       }
@@ -165,7 +165,7 @@ module.exports = class {
         const pattern = this.ingredients.patterns[i];
 
         // Look for a listitems.json file for this template.
-        const listJsonFileName = `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.listitems.json';
+        const listJsonFileName = `${patternsPath}/${pattern.subdir}/${pattern.fileName}.listitems.json`;
 
         if (fs.existsSync(listJsonFileName)) {
           try {
@@ -174,14 +174,14 @@ module.exports = class {
             pattern.listItems = JSON5.parse(jsonFileStr);
 
             if (this.config.debug) {
-              this.utils.log(`${t('Found pattern-specific listitems.json for')} ${pattern.patternPartial}`);
+              this.utils.log(`${t('Found pattern-specific listitems.json for %s')}`, pattern.patternPartial);
             }
 
             this.listItemsBuilder.listItemsBuild(pattern);
             this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
           }
           catch (err) /* istanbul ignore next */ {
-            this.utils.error(`${t('There was an error parsing pattern-specific listitems.json for')} ` +
+            this.utils.error(`${t('There was an error parsing pattern-specific listitems.json for %s')}`,
               pattern.relPath);
             this.utils.error(err);
           }
@@ -226,10 +226,10 @@ module.exports = class {
       if (this.config.debug) {
         this.utils.warn(err);
 
-        let warnHead = `${t('Could not find optional user-defined header, usually found at')} `;
-        warnHead += `./source/_meta/_00-head.mustache. ${t('It was likely deleted')}`;
+        let warnHead =
+          `${t('Could not find optional user-defined header, usually found at %s')}`;
 
-        utils.warn(warnHead);
+        utils.warn(warnHead, './source/_meta/_00-head.mustache');
       }
 
       // Default HTML head.
@@ -251,10 +251,10 @@ module.exports = class {
       if (this.config.debug) {
         this.utils.warn(err);
 
-        let warnFoot = `${t('Could not find optional user-defined footer, usually found at')} `;
-        warnFoot += `./source/_meta/_01-foot.mustache. ${t('It was likely deleted')}`;
+        let warnFoot =
+          `${t('Could not find optional user-defined footer, usually found at %s')}`;
 
-        this.utils.warn(warnFoot);
+        this.utils.warn(warnFoot, './source/_meta/_01-foot.mustache');
       }
 
       // Default HTML foot.
@@ -375,7 +375,7 @@ module.exports = class {
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-      this.utils.log(`${t('The build used approximately')} ${Math.round(used * 100) / 100} MB`);
+      this.utils.log(`${t('The build used approximately %s')}`, `${Math.round(used * 100) / 100} MB`);
     }
   }
 
@@ -437,7 +437,7 @@ ${t('Use:')}
 ${t('Tasks:')}
     fp ui:build         ${t('Build the patterns, outputting to the public directory')}
     fp ui:clean         ${t('Delete all patterns in the public directory')}
-    fp ui:compile       ${t('Compile the user interface from its component parts')}
+    fp ui:compile       ${t('Compile the user interface from its components')}
     fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
     fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into browser without refresh)')}
     fp ui:help          ${t('Get more information about Fepper UI CLI commands')}

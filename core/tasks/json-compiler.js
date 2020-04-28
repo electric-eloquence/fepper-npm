@@ -38,7 +38,7 @@ module.exports = class {
       dataGlobalJson = JSON5.parse(dataGlobalStr);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed')} ${dataGlobal}`);
+      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed %s')}`, dataGlobal);
       this.utils.error(err);
 
       return;
@@ -79,7 +79,7 @@ module.exports = class {
           JSON5.parse(dataPartialStr);
         }
         catch (err1) /* istanbul ignore next */ {
-          this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${file}`);
+          this.utils.error(`${t('ERROR:')} ${t('Malformed %s')}`, file);
           this.utils.error(err1);
 
           return;
@@ -122,7 +122,7 @@ module.exports = class {
         dataAppendixJson = JSON5.parse(dataAppendixStr);
       }
       catch (err) /* istanbul ignore next */ {
-        this.utils.error(`${t('ERROR:')} ${t('Malformed')} ${dataAppendix}`);
+        this.utils.error(`${t('ERROR:')} ${t('Malformed %s')}`, dataAppendix);
         this.utils.error(err);
       }
     }
