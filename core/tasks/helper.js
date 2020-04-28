@@ -26,7 +26,7 @@ ${t('Tasks:')}
     fp restart          ${t('Restart after shutdown, but without opening the browser')}
     fp static           ${t('Generate a static site from the 04-pages directory')}
     fp syncback         ${t('Combine frontend-copy and template tasks')}
-    fp template         ${t('Translate templates in 03-templates for the backend and copy them there')}
+    fp template         ${t('Translate templates in 03-templates for the backend, and copy them there')}
     fp ui:compile       ${t('Compile the UI React components')}
     fp ui:help          ${t('Print UI tasks and descriptions')}
     fp update           ${t('Update Fepper distro, Fepper CLI, Fepper NPM, Fepper UI, and Fepper extensions')}
