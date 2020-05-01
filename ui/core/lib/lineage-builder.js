@@ -78,7 +78,7 @@ module.exports = class {
       // Skip if no descendentPattern.
       /* istanbul ignore if */
       if (!descendentPattern) {
-        this.utils.error(`${t('%s is missing pattern %s')}`, pattern.relPath, descendentPatternName);
+        this.utils.error(`${t('%s is missing partial %s')}`, pattern.relPath, descendentPatternName);
 
         continue;
       }

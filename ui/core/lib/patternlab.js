@@ -435,11 +435,11 @@ ${t('Use:')}
     <${t('task')}> [<${t('additional args')}>... [-d | --debug]]
 
 ${t('Tasks:')}
-    fp ui:build         ${t('Build the patterns, outputting to the public directory')}
+    fp ui:build         ${t('Build the patterns and output them to the public directory')}
     fp ui:clean         ${t('Delete all patterns in the public directory')}
     fp ui:compile       ${t('Compile the user interface from its components')}
     fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
-    fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into browser without refresh)')}
+    fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into the browser without a refresh)')}
     fp ui:help          ${t('Get more information about Fepper UI CLI commands')}
 `;
 
