@@ -81,6 +81,9 @@ else {
     else if (arg === '--help') {
       argv.push('help');
     }
+    else if (arg === '-v' || arg === '--version') {
+      argv.push('version');
+    }
     else {
       argv.push(arg);
     }
