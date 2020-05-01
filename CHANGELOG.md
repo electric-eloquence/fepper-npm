@@ -2,6 +2,7 @@
 
 ### v0.35.1
 * Removed livereloading of images and other assets from Windows
+* Added SameSite=strict attribute to cookies 
 
 ### v0.35.0
 * Livereloading of images and other assets
