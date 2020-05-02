@@ -2,7 +2,8 @@
 
 ### v0.35.1
 * Removed livereloading of images and other assets from Windows
-* Added SameSite=strict attribute to cookies 
+* Added SameSite=strict attribute to cookies
+* Updated fonts to not emit warnings in Firefox
 
 ### v0.35.0
 * Livereloading of images and other assets
