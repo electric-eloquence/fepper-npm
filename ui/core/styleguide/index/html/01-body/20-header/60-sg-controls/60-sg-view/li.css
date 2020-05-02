@@ -1,7 +1,6 @@
 .sg-icon-eye::before {
-  content: "\e60b";
+  content: "\e9ce";
 }
-
 .sg-icon-link::before {
-  content: "\e608";
+  content: "\e9cb";
 }

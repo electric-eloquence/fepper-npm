@@ -12,8 +12,7 @@
 }
 
 .sg-icon-search::before {
-  content: "\e600";
-  font-size: 87.5%;
+  content: "\e986";
 }
 
 .typeahead,
