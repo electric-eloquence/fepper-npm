@@ -13,7 +13,7 @@
   float: left;
 }
 
-.sg-header .sg-icon {
+.sg-control-trigger.sg-icon {
   display: block;
   width: auto;
   height: 3.2rem;
@@ -35,26 +35,6 @@
   margin-right: 0.4rem;
 }
 
-.sg-icon-search::before,
-.sg-icon-cog::before,
-.sg-checkbox.active::before,
-.sg-checkbox::before,
-.sg-icon-file::before,
-.sg-icon-link::before,
-.sg-icon-keyboard::before,
-.sg-icon-eye::before {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .sg-view {
   position: relative;
 }
@@ -70,10 +50,22 @@
   right: 0;
 }
 
-.sg-checkbox::before {
-  content: "\e606";
+.sg-icon::before {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.sg-icon-radio::before {
+  content: "\ea56";
   display: inline-block;
 }
-.sg-checkbox.active::before {
-  content: "\e605";
+.sg-icon-radio.active::before {
+  content: "\ea54";
 }

@@ -1,11 +1,9 @@
 .sg-icon-cog::before {
-  content: "\e601";
+  content: "\e994";
 }
-
 .sg-icon-keyboard::before {
-  content: "\e609";
+  content: "\e955";
 }
-
 .sg-icon-file::before {
-  content: "\e607";
+  content: "\e926";
 }
