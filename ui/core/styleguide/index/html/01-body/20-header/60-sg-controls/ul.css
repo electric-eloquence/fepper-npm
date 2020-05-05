@@ -9,6 +9,9 @@
   right: 0;
   z-index: 2;
 }
+.sg-controls a {
+  height: auto;
+}
 .sg-controls > li {
   float: left;
 }
@@ -17,7 +20,7 @@
   display: block;
   width: auto;
   height: 3.2rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   padding: 0.8rem 0.4rem 0.6rem 0.4rem;
 }
 .sg-acc-handle.sg-icon::after,
