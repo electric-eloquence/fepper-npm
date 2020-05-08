@@ -394,7 +394,7 @@ module.exports = class {
         }
         else if (
           jsonForMustacheChild.node === 'comment' &&
-          jsonForMustacheChild.text.indexOf(' BEGIN ARRAY ELEMENT ') === 0
+          jsonForMustacheChild.text.indexOf(' SCRAPER SELECTION ') === 0
         ) {
           inc++;
           jsonForData.scrape[inc] = {};
@@ -596,7 +596,7 @@ module.exports = class {
           let childIndexLast = allObj.child.length - 1;
 
           if (childIndexLast > -1) {
-            allObj.child[childIndexLast].text = `\n<!-- BEGIN ARRAY ELEMENT ${elIndex} -->\n`;
+            allObj.child[childIndexLast].text = `\n<!-- SCRAPER SELECTION ${elIndex} -->\n`;
           }
 
           allObj.child.push(elObj);
