@@ -36,6 +36,7 @@
 
 .sg-checklist .sg-checklist-icon::before {
   margin-right: 0.4rem;
+  vertical-align: -0.1rem;
 }
 
 .sg-view {
