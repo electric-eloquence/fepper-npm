@@ -158,13 +158,13 @@ describe('HTML Scraper Post', function () {
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
-<!-- BEGIN ARRAY ELEMENT 1 -->
+<!-- SCRAPER SELECTION 1 -->
 <div id="two" class="test">Bar</div>
-<!-- BEGIN ARRAY ELEMENT 2 -->
+<!-- SCRAPER SELECTION 2 -->
 <div class="test">Foot</div>
-<!-- BEGIN ARRAY ELEMENT 3 -->
+<!-- SCRAPER SELECTION 3 -->
 <div class="test">Barf</div>
-<!-- BEGIN ARRAY ELEMENT 4 -->
+<!-- SCRAPER SELECTION 4 -->
 <div class="test">Bazm</div>
 `);
       expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
@@ -193,19 +193,19 @@ describe('HTML Scraper Post', function () {
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
-<!-- BEGIN ARRAY ELEMENT 1 -->
+<!-- SCRAPER SELECTION 1 -->
 <div id="two" class="test">Bar</div>
-<!-- BEGIN ARRAY ELEMENT 2 -->
+<!-- SCRAPER SELECTION 2 -->
 <div class="test">Foot</div>
-<!-- BEGIN ARRAY ELEMENT 3 -->
+<!-- SCRAPER SELECTION 3 -->
 <div class="test">Barf</div>
-<!-- BEGIN ARRAY ELEMENT 4 -->
+<!-- SCRAPER SELECTION 4 -->
 <div class="test">Bazm</div>
-<!-- BEGIN ARRAY ELEMENT 5 -->
+<!-- SCRAPER SELECTION 5 -->
 <div>Fooz</div>
-<!-- BEGIN ARRAY ELEMENT 6 -->
+<!-- SCRAPER SELECTION 6 -->
 <div>Barz</div>
-<!-- BEGIN ARRAY ELEMENT 7 -->
+<!-- SCRAPER SELECTION 7 -->
 <div>Bazz</div>
 `);
       expect(targetHtmlObj.single).to.equal('<div id="one" class="test">Foo</div>\n');
