@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 
-const opn = require('opn');
+const open = require('open');
 
 module.exports = class {
   constructor(options) {
@@ -29,10 +29,10 @@ module.exports = class {
 
     if (fs.existsSync(log)) {
       fs.removeSync(log);
-      opn(origin + '/success?ts=' + timestamp);
+      open(origin + '/success?ts=' + timestamp);
     }
     else {
-      opn(origin + '?ts=' + timestamp);
+      open(origin + '?ts=' + timestamp);
     }
   }
 };
