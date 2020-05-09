@@ -24,14 +24,17 @@ module.exports = class {
 <!DOCTYPE html>
 <html>
   <head>
-    <title id="title">Error</title>
+    <title id="title">${t('ERROR')}</title>
     <meta charset="UTF-8">
   </head>
   <body>
     <main>
-`;
-      outputFpt += `<pre>Cannot GET ${req.url}</pre>\n`;
-      outputFpt += this.html.foot;
+      <pre>${t('Cannot GET %s')}</pre>
+    </main>
+  </body>
+</html>`;
+      outputFpt = outputFpt.replace('%s', req.url);
+
       const output = Feplet.render(outputFpt, {patternlabFoot});
 
       res.status(404).send(output);
