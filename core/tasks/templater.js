@@ -179,10 +179,10 @@ module.exports = class {
         // Write translated templates.
         const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
 
-        this.utils.log(
-          `${t('Template')} \x1b[36m%s\x1b[0m ${t('translated')}.`,
-          dest.replace(this.rootDir, '').replace(/^\//, '')
-        );
+        let msg = 'Template %s translated';
+        msg = msg.replace('%s', '\x1b[36m' + dest.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
+
+        this.utils.log(t(msg));
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);

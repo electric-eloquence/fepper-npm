@@ -108,7 +108,7 @@ module.exports = class {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing or malformed %s')}`, `${this.config.paths.source.data}/data.json`);
+      this.utils.error(`${t('ERROR')}: ${t('Missing or malformed %s!')}`, `${this.config.paths.source.data}/data.json`);
       this.utils.error(err);
     }
 
@@ -119,7 +119,7 @@ module.exports = class {
       this.ingredients.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR:')} ${t('Missing an essential file from %s')}`, immutableDir);
+      this.utils.error(`${t('ERROR')}: ${t('Missing an essential file from %s')}`, immutableDir);
       this.utils.error(err);
     }
 
@@ -154,7 +154,7 @@ module.exports = class {
           this.ingredients.listItems = JSON5.parse(listItemsStr);
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error(`${t('ERROR:')} ${t('Malformed %s')}`, listItemsFile);
+          this.utils.error(`${t('ERROR')}: ${t('Malformed %s')}`, listItemsFile);
           this.utils.error(err);
         }
       }

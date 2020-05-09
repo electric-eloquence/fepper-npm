@@ -49,9 +49,9 @@
     "",
   "There are no annotations for this pattern":
     "",
-  "ERROR:":
+  "ERROR":
     "",
-  "Missing or malformed %s":
+  "Missing or malformed %s!":
     "",
   "Missing an essential file from %s":
     "",
@@ -111,21 +111,19 @@
     "",
   "Listening on port %s":
     "",
+  "Cannot GET %s":
+    "",
   "Running npm --global update on fepper-cli...":
     "",
   "Running this command again as root/Administrator...":
     "",
   "Running npm update in %s...":
     "",
-  "Copied":
-    "",
-  "to":
+  "Copied %s to %s":
     "",
   "Working directory changed to %s":
     "",
-  "Template":
-    "",
-  "translated":
+  "Template %s translated":
     "",
   "Launch Fepper and open it in a browser":
     "",
