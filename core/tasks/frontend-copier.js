@@ -212,11 +212,11 @@ module.exports = class {
             fs.copySync(file, targetFilePath);
           }
 
-          this.utils.log(
-            `${t('Copied')} \x1b[36m%s\x1b[0m ${t('to')} \x1b[36m%s\x1b[0m.`,
-            file.replace(this.rootDir, '').replace(/^\//, ''),
-            targetFilePath.replace(this.rootDir, '').replace(/^\//, '')
-          );
+          let msg = 'Copied %s to %s';
+          msg = msg.replace('%s', '\x1b[36m' + file.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
+          msg = msg.replace('%s', '\x1b[36m' + targetFilePath.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
+
+          this.utils.log(t(msg));
         }
       }
     }
