@@ -113,6 +113,22 @@
     "",
   "Cannot GET %s":
     "",
+  "SUCCESS":
+    "",
+  "Refresh the browser to check that your template appears under the &quot;Scrape&quot; menu.":
+    "",
+  "WARNING":
+    "",
+  "The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML spec. This will prevent Fepper from writing its data into a JSON file.":
+    "",
+  "Invalid filename!":
+    "",
+  "The HTML at that URL and selector could not be parsed. Make sure it is well formed and syntactically correct.":
+    "",
+  "The HTML at that URL and selector could not be parsed. Make sure that they are reachable and syntactically correct.":
+    "",
+  "Incorrect submission!":
+    "",
   "Running npm --global update on fepper-cli...":
     "",
   "Running this command again as root/Administrator...":

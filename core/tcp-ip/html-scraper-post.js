@@ -186,7 +186,7 @@ module.exports = class {
 
       // this.conf.scrape.limit_time set in fepper-utils.
       if (scrapeFileAge < this.conf.scrape.limit_time) {
-        this.redirectWithMsg('error', this.conf.scrape.limit_error_msg);
+        this.redirectWithMsg('error', `${t('ERROR')}! ${this.conf.scrape.limit_error_msg}`);
 
         return;
       }
@@ -196,9 +196,10 @@ module.exports = class {
       fs.outputFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
       fs.outputFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
-      let msg = 'Refresh the browser to check that your template appears under the "Scrape" menu.';
+      let message = `${t('SUCCESS')}! `;
+      message += `${t('Refresh the browser to check that your template appears under the &quot;Scrape&quot; menu.')}`;
 
-      this.redirectWithMsg('success', msg, '', '');
+      this.redirectWithMsg('success', message);
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
@@ -218,14 +219,6 @@ module.exports = class {
     const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
     const url = this.url;
     const selector = this.selector;
-
-    let msgPrefix = '';
-
-    // .htmlOutput() is only invoked in one place with the msgClass param. Tests cannot seem to easily trigger this
-    // condition. Do not have istanbul ignore this since this condition might still be testable.
-    if (msgClass) {
-      msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
-    }
 
     let outputFpt = this.html.headWithMsg;
     outputFpt += this.html.scraperTitle;
@@ -249,7 +242,7 @@ module.exports = class {
         main_id: 'scraper',
         main_class: 'scraper',
         msg_class: msgClass,
-        message: msgPrefix + message,
+        message,
         url,
         selector,
         mustache
@@ -453,28 +446,17 @@ module.exports = class {
    *
    * @param {string} msgClass - e.g. success, error.
    * @param {string} message - Message to end-user.
-   * @param {string} url_ - URL to be scraped.
-   * @param {string} selector_ - CSS selector plus optional array index.
    */
-  redirectWithMsg(msgClass, message, url_, selector_) {
+  redirectWithMsg(msgClass, message) {
     if (this.res) {
-      let msgPrefix = '';
-
-      if (msgClass) {
-        msgPrefix = msgClass[0].toUpperCase() + msgClass.slice(1) + '! ';
-      }
-
-      const url = url_ || this.url;
-      const selector = selector_ || this.selector;
-
       this.res.writeHead(
         303,
         {
           Location:
             '/html-scraper?msg_class=' + encodeURIComponent(msgClass) +
-            '&message=' + encodeURIComponent(msgPrefix) + encodeURIComponent(message) +
-            '&url=' + encodeURIComponent(url) +
-            '&selector=' + encodeURIComponent(selector)
+            '&message=' + encodeURIComponent(message) +
+            '&url=' + encodeURIComponent(this.url) +
+            '&selector=' + encodeURIComponent(this.selector)
         }
       );
       this.res.end();
@@ -515,8 +497,8 @@ module.exports = class {
         mustache = this.jsonToMustache(jsonForMustache, jsonForData);
       }
       else {
-        message = 'The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML ' +
-          'spec. This will prevent Fepper from writing its data into a JSON file.';
+        // eslint-disable-next-line max-len
+        message = `${t('WARNING')}! ${t('The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML spec. This will prevent Fepper from writing its data into a JSON file.')}`;
         msgClass = 'warning';
         mustache = targetSingle;
       }
@@ -596,6 +578,7 @@ module.exports = class {
           let childIndexLast = allObj.child.length - 1;
 
           if (childIndexLast > -1) {
+            // DO NOT internationalize this.
             allObj.child[childIndexLast].text = `\n<!-- SCRAPER SELECTION ${elIndex} -->\n`;
           }
 
@@ -635,7 +618,7 @@ module.exports = class {
       let filename;
 
       if (!this.filenameValidate(this.filename)) {
-        this.redirectWithMsg('error', 'Invalid filename!');
+        this.redirectWithMsg('error', `${t('ERROR')}! ${t('Invalid filename!')}`);
 
         return;
       }
@@ -665,8 +648,9 @@ module.exports = class {
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
 
-        message = 'The HTML at that URL and selector could not be parsed. Make sure it is well formed and ' +
-          'syntactically correct.';
+        message = `${t('ERROR')}! `;
+        // eslint-disable-next-line max-len
+        message += `${t('The HTML at that URL and selector could not be parsed. Make sure it is well formed and syntactically correct.')}`;
 
         this.redirectWithMsg('error', message);
 
@@ -675,8 +659,9 @@ module.exports = class {
 
       /* istanbul ignore if */
       if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
-        message = 'The HTML at that URL and selector could not be parsed. Make sure that they are reachable and ' +
-          'syntactically correct.';
+        message = `${t('ERROR')}! `;
+        // eslint-disable-next-line max-len
+        message += `${t('The HTML at that URL and selector could not be parsed. Make sure that they are reachable and syntactically correct.')}`;
 
         this.redirectWithMsg('error', message);
 
@@ -691,7 +676,7 @@ module.exports = class {
     // If no form variables sent, redirect back with GET.
     else {
       try {
-        this.redirectWithMsg('error', 'Incorrect submission.');
+        this.redirectWithMsg('error', `${t('ERROR')}! ${t('Incorrect submission!')}`);
 
         return;
       }
