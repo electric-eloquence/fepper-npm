@@ -55,6 +55,7 @@ exports.landingBody = `
         <div class="cf" style="padding-top: 10px;">
           <input name="url-form" type="submit" value="${t('Submit')}" style="float: left;">
           <button id="help-button" style="float: right;">${t('Help')}</button>
+          <button id="hide-button" style="float: right;display: none;">${t('Hide')}</button>
         </div>
       </form>
       <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
