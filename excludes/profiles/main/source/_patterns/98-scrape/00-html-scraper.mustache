@@ -1,6 +1,4 @@
 <main id="scraper" class="scraper">
-  <div id="message" class="message"></div>
-  <h1 id="scraper-heading" class="scraper-heading" style="display: none;">Fepper HTML Scraper</h1>
   <script>
     (() => {
       'use strict';
@@ -14,15 +12,6 @@
         link.href = '/fepper-core/style.css';
         link.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(link);
-
-        window.onload = () => {
-          // Reveal the heading after the new styles load to avoid the blink when applying new styles.
-          const scraperHeading = document.getElementById('scraper-heading');
-
-          if (scraperHeading) {
-            scraperHeading.style.display = 'block';
-          }
-        };
       }
     })();
   </script>

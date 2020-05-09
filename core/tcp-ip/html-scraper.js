@@ -107,7 +107,7 @@ module.exports = class {
       const output = Feplet.render(
         outputFpt,
         {
-          title: 'Fepper HTML Scraper',
+          title: t('Fepper HTML Scraper'),
           main_id: 'scraper',
           main_class: 'scraper',
           msg_class: '',
