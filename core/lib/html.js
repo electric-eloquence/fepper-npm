@@ -32,35 +32,35 @@ exports.head = `
 exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>';
 
 exports.scraperTitle = `
-      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>`;
+      <h1 id="scraper-heading" class="scraper-heading">${t('Fepper HTML Scraper')}</h1>`;
 
 exports.forbidden = `
     <section id="forbidden" class="error">
-      <p>Error! You can only use the HTML Scraper on the machine that is running this Fepper instance!</p>
-      <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      <p>${t('ERROR')}! ${t('You can only use the HTML Scraper on the machine that is running this Fepper instance!')}</p>
+      <p>${t('If you <em>are</em> on this machine, you may need to resync this browser with Fepper.')}</p>
+      <p>${t('Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).')}</p>
     </section>`;
 
 exports.landingBody = `
       <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter">
         <div>
-          <label for="url">URL:</label>
+          <label for="url">${t('URL:')}</label>
           <input name="url" type="text" value="{{{ url }}}" style="width: 100%;">
         </div>
         <div>
-          <label for="selector">Target Selector:</label>
+          <label for="selector">${t('Target Selector:')}</label>
           <input name="selector" type="text" value="{{ selector }}" style="width: 100%;">
         </div>
         <textarea name="html2json" style="display: none;"></textarea>
         <div class="cf" style="padding-top: 10px;">
-          <input name="url-form" type="submit" value="Submit" style="float: left;">
-          <button id="help-button" style="float: right;">Help</button>
+          <input name="url-form" type="submit" value="${t('Submit')}" style="float: left;">
+          <button id="help-button" style="float: right;">${t('Help')}</button>
         </div>
       </form>
       <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
         <p></p>
-        <p>Use this tool to scrape and import Mustache templates and JSON data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with "#" for IDs and "." for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the JSON file, but will only save the first instance of the target to a Mustache template.</p>
-  <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save Mustache and JSON files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar. The Scraper will correctly indent the Mustache code. However, the JSON parsing requires a conversion from HTML to XHTML, so don&apos;t expect an exact copy of the HTML structure of the source HTML.</p>
+        <p>${t('Use this tool to scrape and import Mustache templates and JSON data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the JSON file, but will only save the first instance of the target to a Mustache template.')}</p>
+  <p>${t('Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save Mustache and JSON files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar. The Scraper will correctly indent the Mustache code. However, the JSON parsing requires a conversion from HTML to XHTML, so don&apos;t expect an exact copy of the HTML structure of the source HTML.')}</p>
       </div>`;
 
 exports.reviewerPrefix = `
@@ -70,10 +70,10 @@ exports.reviewerSuffix = `
       </div>`;
 
 exports.importerPrefix = `
-      <h3>Does this HTML look right?</h3>
+      <h3>${t('Does this HTML look right?')}</h3>
       <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
-        <div>Yes, import into Fepper.</div>
-        <label for="import-form">Enter a filename to save this under (extension not necessary):</label>
+        <div>${t('Yes, import into Fepper.')}</div>
+        <label for="import-form">${t('Enter a filename to save this under (extension not necessary):')}</label>
         <input name="filename" type="text" value="" style="width: 100%">
         <input name="url" type="hidden" value="{{{ url }}}">
         <input name="selector" type="hidden" value="{{ selector }}">
@@ -86,14 +86,14 @@ exports.json = `
 
 exports.importerSuffix = `
         </textarea>
-        <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;">
+        <input name="import-form" type="submit" value="${t('Submit')}" style="margin-top: 10px;">
       </form>
-      <h3>Otherwise, correct the URL and Target Selector and submit again.</h3>`;
+      <h3>${t('Otherwise, correct the URL and Target Selector and submit again.')}</h3>`;
 
 exports.success = `
-      <p>To open the UI, click here: <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
-      <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
-      <p>The following documentation is also available in Fepper's README.md:</p>`;
+      <p>${t('To open the UI, click here:')} <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
+      <p>${t('To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.')}</p>
+      <p>${t('The following documentation is also available in Fepper&apos;s README.md:')}</p>`;
 
 exports.foot = `
     </main>
