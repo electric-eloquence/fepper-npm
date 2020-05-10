@@ -3,6 +3,12 @@
 const path = require('path');
 
 const slash = require('slash');
+
+// global.appDir and global.rootDir are used in the gulp app, fepper-utils, extensions, etc.
+// The Pattern Lab fork contained within Fepper uses global in case it is invoked completely independent of Fepper.
+// This strays from the object-oriented paradigm, but where oo is applicable, try to refrain from using global.
+global.appDir = global.appDir || slash(path.resolve(__dirname, '..'));
+
 const utils = require('fepper-utils');
 
 const Tasks = require('./tasks/tasks');
@@ -11,14 +17,10 @@ const Ui = require('./ui/ui');
 
 module.exports = class {
   constructor(cwd) {
-    // global.appDir and global.rootDir are used in the gulp app, fepper-utils, extensions, etc.
-    // The Pattern Lab fork contained within Fepper uses global in case it is invoked completely independent of Fepper.
-    // This strays from the object-oriented paradigm, but where oo is applicable, try to refrain from using global.
-    global.appDir = global.appDir || slash(path.resolve(__dirname, '..'));
     global.rootDir = global.rootDir || utils.findupRootDir(cwd, __dirname);
-    // utils.conf() and utils.pref() depend on global.appDir and global.rootDir.
+    // utils.pref() and utils.conf() depend on global.appDir and global.rootDir.
+    global.pref = global.pref || utils.pref(); // pref() must run before conf() in order for i18n to work.
     global.conf = global.conf || utils.conf(); // This runs utils.uiConfigNormalize().
-    global.pref = global.pref || utils.pref();
 
     /* istanbul ignore if */
     if (!global.conf) {
