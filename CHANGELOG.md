@@ -1,5 +1,9 @@
 # Fepper NPM Changelog
 
+### v0.36.0
+* Loading pref before conf to define the i18n lang earlier
+* More and better i18n
+
 ### v0.35.1
 * Removed livereloading of images and other assets from Windows
 * Added SameSite=strict attribute to cookies
