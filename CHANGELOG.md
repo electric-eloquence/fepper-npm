@@ -3,6 +3,7 @@
 ### v0.36.0
 * Loading pref before conf to define the i18n lang earlier
 * More and better i18n
+* Removed deprecated conf.backend\_dir
 
 ### v0.35.1
 * Removed livereloading of images and other assets from Windows
