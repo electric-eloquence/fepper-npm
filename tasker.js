@@ -15,8 +15,8 @@ const t = utils.t;
 // We need to set globals in order to parse prefs in order to see if the user wants to instantiate a custom subclass.
 global.appDir = slash(__dirname);
 const rootDir = global.rootDir = utils.findupRootDir(null, __dirname);
+const pref = global.pref = utils.pref(); // pref() must run before conf() in order for i18n to work.
 const conf = global.conf = utils.conf(); // This runs utils.uiConfigNormalize().
-const pref = global.pref = utils.pref();
 
 let instanceFile;
 
