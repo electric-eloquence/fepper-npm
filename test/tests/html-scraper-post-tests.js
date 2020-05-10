@@ -425,7 +425,7 @@ describe('HTML Scraper Post', function () {
       .then((response) => {
         expect(response.statusCode).to.equal(303);
         // eslint-disable-next-line max-len
-        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Invalid%20filename!&url=&selector=');
+        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector=');
         done();
       })
       .catch((err) => {
@@ -460,7 +460,7 @@ describe('HTML Scraper Post', function () {
         .then((response) => {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=Success!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%22Scrape%22%20menu.&url=&selector=');
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
           done();
         })
         .catch((err) => {
@@ -496,7 +496,7 @@ describe('HTML Scraper Post', function () {
         .then((response) => {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=Error!%20Submitting%20too%20many%20requests%20per%20minute&url=&selector=');
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector=');
           done();
         })
         .catch((err) => {
@@ -606,7 +606,7 @@ describe('HTML Scraper Post', function () {
       .then((response) => {
         expect(response.statusCode).to.equal(303);
         expect(response.statusMessage.Location)
-          .to.equal('/html-scraper?msg_class=error&message=Error!%20Incorrect%20submission.&url=&selector=');
+          .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector=');
         done();
       })
       .catch((err) => {
