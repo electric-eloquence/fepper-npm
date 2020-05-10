@@ -8,8 +8,7 @@
     "sourceType": "module"
   },
   "globals": {
-    "FEPPER_UI": true,
-    "t": true
+    "FEPPER_UI": true
   },
   "rules": {
     "max-len": 0,

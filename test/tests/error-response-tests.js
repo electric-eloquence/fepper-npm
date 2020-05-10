@@ -21,13 +21,13 @@ describe('Error Response', function () {
 <!DOCTYPE html>
 <html>
   <head>
-    <title id="title">Error</title>
+    <title id="title">ERROR</title>
     <meta charset="UTF-8">
+    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
   <body>
     <main>
-<pre>Cannot GET undefined</pre>
-
+      <pre>Cannot GET undefined</pre>
     </main>
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->

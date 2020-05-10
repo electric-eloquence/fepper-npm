@@ -77,7 +77,7 @@ describe('Success', function () {
       <div id="message" class="message success"><h1>Installation success!</h1></div>
       <p>To open the UI, click here: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
-      <p>The following documentation is also available in Fepper's README.md:</p><h1 id="fepper">Fepper</h1>
+      <p>The following documentation is also available in Fepper&apos;s README.md:</p><h1 id="fepper">Fepper</h1>
 <h2 id="a-frontend-prototyper-tool-for-rapid-prototyping-of-websites">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 <p>&nbsp;</p>
