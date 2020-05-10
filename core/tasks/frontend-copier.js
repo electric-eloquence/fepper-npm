@@ -214,7 +214,8 @@ module.exports = class {
 
           let message = 'Copied %s to %s';
           message = message.replace('%s', '\x1b[36m' + file.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
-          message = message.replace('%s', '\x1b[36m' + targetFilePath.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
+          message = message.replace('%s', '\x1b[36m' + targetFilePath.replace(this.rootDir, '').replace(/^\//, '') +
+            '\x1b[0m');
 
           this.utils.log(t(message));
         }
