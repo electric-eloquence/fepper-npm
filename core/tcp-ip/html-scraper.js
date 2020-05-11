@@ -106,7 +106,7 @@ module.exports = class {
       let patternlabFoot;
 
       // Disable UI navigation on the success page so users must refresh the browser.
-      if (req.query.msg_class !== 'success') {
+      if (this.utils.deepGet(req, 'query.msg_class') !== 'success') {
         patternlabFoot = Feplet.render(
           this.html.getImmutableFooter(this.conf),
           {

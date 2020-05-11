@@ -546,6 +546,7 @@ describe('HTML Scraper Post', function () {
     
 
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
+    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
 
   <body class="text ">
@@ -574,7 +575,26 @@ describe('HTML Scraper Post', function () {
       <h3>Otherwise, correct the URL and Target Selector and submit again.</h3><script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
     </main>
 
-    
+    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  
+</script>
+
+<script>
+  // LiveReload.
+  const {protocol, hostname} = window.location;
+
+  if (protocol !== 'file:') {
+    const reloader = document.createElement('script');
+
+    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    document.body.appendChild(reloader);
+  }
+</script>
+
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
+<!-- End Pattern Lab -->
+
 
   </body>
 </html>`);
