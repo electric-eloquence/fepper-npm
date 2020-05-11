@@ -53,7 +53,7 @@ module.exports = class {
     if (this.ingredients.patternTypes.length && this.isViewallValid) {
       if (
         this.ingredients.patternTypes[0].patternTypeItems.length &&
-        this.ingredients.patternTypes[0].patternTypeItems[0].patternName !== 'View All'
+        this.ingredients.patternTypes[0].patternTypeItems[0].patternName !== t('View All')
       ) {
         isFirstPatternSubType = false;
         firstPattern = this.ingredients.patternTypes[0].patternTypeItems[0].pattern;
@@ -102,7 +102,7 @@ module.exports = class {
       for (let in1 = 0, le1 = patternType.patternTypeItems.length; in1 < le1; in1++) {
         const patternTypeItem = patternType.patternTypeItems[in1];
 
-        if (patternTypeItem.patternName === 'View All') {
+        if (patternTypeItem.patternName === t('View All')) {
           continue;
         }
 
@@ -162,7 +162,7 @@ module.exports = class {
         for (let in2 = 0, le2 = patternSubType.patternSubTypeItems.length; in2 < le2; in2++) {
           const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];
 
-          if (patternSubTypeItem.patternName === 'View All') {
+          if (patternSubTypeItem.patternName === t('View All')) {
             continue;
           }
 
