@@ -61,6 +61,7 @@ describe('Readme', function () {
     
 
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
+    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
 
   <body class="text ">
