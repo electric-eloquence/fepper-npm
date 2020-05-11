@@ -708,25 +708,28 @@ input[type="search"]::-webkit-search-decoration {
 .comments li {
   margin-bottom: 1.6rem;
 }
-.comment-meta {
-  float: left;
-  width: 8em;
+.comment-block {
+  display: flex;
 }
-.comment-meta img {
-  display: block;
+.comment-avatar {
   border: 1px solid #eee;
-  margin-bottom: 0.8rem;
 }
-.comment-name {
-  display: block;
-  font-size: 0.75em;
-  margin-top: 0.25em;
+.comment-avatar,
+.comment-avatar > * {
+  width: 5em;
+  height: 5em;
 }
 .comment-text {
-  margin-left: 9em;
+  margin-left: 1em;
 }
-.comment-text p:first-of-type {
-  margin-top: 0;
+.comment-meta {
+  font-size: 0.875em;
+}
+.comment-name {
+  display: inline;
+}
+.comment-content p {
+  margin-top: 0.1875em;
 }
 .nav {
   background: rgba(255,255,255,0.95);
