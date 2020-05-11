@@ -99,10 +99,22 @@ module.exports = class {
     return (req, res) => {
       // Gatekept by fepper-ui/scripts/pattern/html-scraper-ajax.js.
 
-      let outputFpt = this.html.headWithMsg;
-      outputFpt += this.html.scraperTitle;
+      let outputFpt = this.html.head;
       outputFpt += '<script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>\n';
       outputFpt += this.html.foot;
+
+      let patternlabFoot;
+
+      // Disable UI navigation on the success page so users must refresh the browser.
+      if (req.query.msg_class !== 'success') {
+        patternlabFoot = Feplet.render(
+          this.html.getImmutableFooter(this.conf),
+          {
+            portReloader: this.conf.livereload_port,
+            portServer: this.conf.express_port
+          }
+        );
+      }
 
       const output = Feplet.render(
         outputFpt,
@@ -111,7 +123,8 @@ module.exports = class {
           main_id: 'scraper',
           main_class: 'scraper',
           msg_class: '',
-          message: ''
+          message: '',
+          patternlabFoot
         }
       );
 
