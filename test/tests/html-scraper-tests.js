@@ -69,7 +69,7 @@ describe('HTML Scraper', function () {
       <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
         <p></p>
         <p>Use this tool to scrape and import Mustache templates and JSON data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the JSON file, but will only save the first instance of the target to a Mustache template.</p>
-  <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save Mustache and JSON files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar. The Scraper will correctly indent the Mustache code. However, the parsing may render an inexact copy of your source HTML.</p>
+        <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save Mustache and JSON files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar. The Scraper will correctly indent the Mustache code. However, the parsing may render an inexact copy of your source HTML.</p>
       </div></html>`);
       /* eslint-enable max-len */
       done();
@@ -105,16 +105,34 @@ describe('HTML Scraper', function () {
     
 
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
+    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
 
   <body class="text ">
-    <main id="scraper" class="scraper">
-      <div id="message" class="message "></div>
-      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1><script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+    <main id="scraper" class="scraper"><script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
 
     </main>
 
-    
+    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  
+</script>
+
+<script>
+  // LiveReload.
+  const {protocol, hostname} = window.location;
+
+  if (protocol !== 'file:') {
+    const reloader = document.createElement('script');
+
+    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    document.body.appendChild(reloader);
+  }
+</script>
+
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
+<!-- End Pattern Lab -->
+
 
   </body>
 </html>`);
