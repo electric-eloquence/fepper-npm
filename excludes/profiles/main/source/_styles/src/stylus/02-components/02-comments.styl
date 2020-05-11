@@ -1,18 +1,20 @@
 .comments
   li
     margin-bottom: $space
-.comment-meta
-  float: left
-  width: 8em
-  img
-    display: block
-    border: 1px solid $gray-light-1
-    margin-bottom: $space-half
-.comment-name
-  display: block
-  font-size: 0.75em
-  margin-top: 0.25em
+.comment-block
+  display: flex
+.comment-avatar
+  border: 1px solid $gray-light-1
+.comment-avatar,
+.comment-avatar > *
+  width: 5em
+  height: 5em
 .comment-text
-  margin-left: 9em
-  p:first-of-type
-    margin-top: 0
+  margin-left: 1em
+.comment-meta
+  font-size: 0.875em
+.comment-name
+  display: inline
+.comment-content
+  p
+    margin-top: 0.1875em
