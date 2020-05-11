@@ -111,10 +111,10 @@ exports.Pattern = class {
 
 exports.PatternItem = class {
   constructor(name, pattern) {
-    this.patternName = name;
     this.pattern = pattern;
 
     if (name === 'View All') {
+      this.patternName = t('View All');
       this.patternLink = `${pattern.flatPatternPath}/index.html`;
 
       if (pattern.patternSubType) {
@@ -125,6 +125,7 @@ exports.PatternItem = class {
       }
     }
     else {
+      this.patternName = name;
       this.patternLink = pattern.patternLink;
       this.patternPartial = pattern.patternPartial;
     }
