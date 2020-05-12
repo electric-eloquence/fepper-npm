@@ -572,7 +572,7 @@ describe('HTML Scraper Post', function () {
         </textarea>
         <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;">
       </form>
-      <h3>Otherwise, correct the URL and Target Selector and submit again.</h3><script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+      <h3>Otherwise, correct the URL and selector and submit again.</h3><script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
     </main>
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->

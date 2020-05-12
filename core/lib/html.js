@@ -49,7 +49,7 @@ exports.landingBody = `
           <input name="url" type="text" value="{{{ url }}}" style="width: 100%;">
         </div>
         <div>
-          <label for="selector">${t('Target Selector:')}</label>
+          <label for="selector">${t('Selector:')}</label>
           <input name="selector" type="text" value="{{ selector }}" style="width: 100%;">
         </div>
         <textarea name="html2json" style="display: none;"></textarea>
@@ -90,7 +90,7 @@ exports.importerSuffix = `
         </textarea>
         <input name="import-form" type="submit" value="${t('Submit')}" style="margin-top: 10px;">
       </form>
-      <h3>${t('Otherwise, correct the URL and Target Selector and submit again.')}</h3>`;
+      <h3>${t('Otherwise, correct the URL and selector and submit again.')}</h3>`;
 
 exports.success = `
       <p>${t('To open the UI, click here:')} <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
