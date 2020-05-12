@@ -522,7 +522,7 @@ module.exports = class {
   }
 
   /**
-   * Validate syntax of Target Selector input.
+   * Validate syntax of selector input.
    *
    * @param {string} selectorRaw_ - CSS selector plus optional array index.
    * @returns {array} CSS selector and its index if it comprises more than one element.

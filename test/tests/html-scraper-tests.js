@@ -56,7 +56,7 @@ describe('HTML Scraper', function () {
           <input name="url" type="text" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html" style="width: 100%;">
         </div>
         <div>
-          <label for="selector">Target Selector:</label>
+          <label for="selector">Selector:</label>
           <input name="selector" type="text" value=".test-message" style="width: 100%;">
         </div>
         <textarea name="html2json" style="display: none;"></textarea>
