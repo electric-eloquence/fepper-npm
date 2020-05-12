@@ -670,7 +670,7 @@ module.exports = class {
       if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
         message = `${t('ERROR')}! `;
         // eslint-disable-next-line max-len
-        message += `${t('The HTML at that URL and selector could not be parsed. Make sure that they are reachable and syntactically correct.')}`;
+        message += `${t('The HTML at that URL and selector could not be scraped. Make sure that they are reachable and syntactically correct.')}`;
 
         this.redirectWithMsg('error', message);
 
