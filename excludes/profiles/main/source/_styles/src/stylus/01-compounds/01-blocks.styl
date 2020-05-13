@@ -74,7 +74,7 @@
     padding: $space-half
   @media all and (min-width: $bp-med)
     padding-top: $space-half
-    width: "calc(%s - (%s / 3))" % ($column-width-narrow $space-double)
+    width: "calc(%s - (%s / 3))" % ($column-width-one-third $space-double)
     .headline
       font-size: 2rem
 // Block Hoagie
@@ -90,7 +90,7 @@
     @media all and (min-width: $bp-small)
       float: right
       padding: 0 $space
-      width: $column-width-wide
+      width: $column-width-three-quarters
     @media all and (min-width: $bp-med)
       font-size: 2rem
   .b-thumb
@@ -103,7 +103,7 @@
       img
         max-width: 22.5rem
     @media all and (min-width: $bp-small)
-      width: $column-width-narrow
+      width: $column-width-one-quarter
   .b-text
     float: right
     p:first-of-type
@@ -112,7 +112,7 @@
       p:first-of-type
         margin-top: $space-quarter
     @media all and (min-width: $bp-small)
-      width: $column-width-wide
+      width: $column-width-three-quarters
       padding: 0 $space
 // Block Hero and Subs
 .block-hero,
