@@ -70,6 +70,8 @@ input[type="search"]::-webkit-search-decoration
   width: 13.5em
   @media all and (max-width: $bp-sm-max)
     float: right
+  @media all and (min-width: $bp-med) and (max-width: ($max-width - 1px))
+    width: 11.4375em
 .inline-form .search-submit
   background: transparent
   border: 1px solid $gray
