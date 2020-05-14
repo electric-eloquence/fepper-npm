@@ -886,11 +886,11 @@ input[type="search"]::-webkit-search-decoration {
   .l-two-col .l-main {
     float: left;
     width: 66.66666666666667%;
-    padding-right: 1.6rem;
   }
 }
 @media all and (min-width: 1152px) {
   .l-two-col .l-main {
+    padding-right: 1.6rem;
     width: 75%;
   }
 }
