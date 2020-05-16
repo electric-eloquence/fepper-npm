@@ -29,12 +29,10 @@ module.exports = class {
     const dataDir = this.conf.ui.paths.source.data;
     const dataGlobal = `${dataDir}/_data.json`;
     let dataGlobalJson = {};
-    let dataGlobalStr = '';
-    let jsonStr = '';
 
     // Validate that the data in _data.json are JSON5. Error if they aren't.
     try {
-      dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
+      const dataGlobalStr = fs.readFileSync(dataGlobal, this.conf.enc);
       dataGlobalJson = JSON5.parse(dataGlobalStr);
     }
     catch (err) /* istanbul ignore next */ {
@@ -44,18 +42,7 @@ module.exports = class {
       return;
     }
 
-    // If _data.json has valid data, delete the curly brace and any whitespace from the end of its string content.
-    if (Object.keys(dataGlobalJson).length) {
-      jsonStr += dataGlobalStr.replace(/\s*\}\s*$/, '');
-    }
-
-    // Else, start compiling the JSON5 with opening curly brace.
-    else {
-      jsonStr += '{';
-    }
-
     const extname = '.json';
-    let dataPartialRecursed = false;
 
     // Compile JSON5 partials from patterns directory.
     diveSync(
@@ -72,11 +59,12 @@ module.exports = class {
           return;
         }
 
-        const dataPartialStr = fs.readFileSync(file, this.conf.enc);
+        let dataPartialJson = {};
 
         // Validate that the data in the partial are JSON5. Error if they aren't.
         try {
-          JSON5.parse(dataPartialStr);
+          const dataPartialStr = fs.readFileSync(file, this.conf.enc);
+          dataPartialJson = JSON5.parse(dataPartialStr);
         }
         catch (err1) /* istanbul ignore next */ {
           this.utils.error(`${t('ERROR')}: ${t('Malformed %s')}`, file);
@@ -85,40 +73,19 @@ module.exports = class {
           return;
         }
 
-        let tmp = '';
-
-        if (dataPartialRecursed) {
-          tmp += ',';
-        }
-        else {
-          if (Object.keys(dataGlobalJson).length) {
-            tmp += ',';
-          }
-
-          dataPartialRecursed = true;
-        }
-
-        // Delete curly brace and any whitespace at beginning of file.
-        tmp += dataPartialStr.replace(/^\s*\{/, '');
-        tmp = tmp.replace(/^\s*\n/, '');
-
-        // Delete curly brace and any whitespace at end of file.
-        tmp = tmp.replace(/\s*\}\s*$/, '');
-
-        jsonStr += tmp;
+        Object.assign(dataGlobalJson, dataPartialJson);
       }
     );
 
     const dataAppendix = `${dataDir}/_appendix.json`;
-    let dataAppendixStr;
-    let dataAppendixJson;
+    let dataAppendixJson = {};
 
     // Validate that the data in _appendix.json are JSON5. Error if they aren't.
     if (fs.existsSync(dataAppendix)) {
       try {
 
         // Save contents of _appendix.json to append to data.json.
-        dataAppendixStr = fs.readFileSync(dataAppendix, this.conf.enc);
+        const dataAppendixStr = fs.readFileSync(dataAppendix, this.conf.enc);
         dataAppendixJson = JSON5.parse(dataAppendixStr);
       }
       catch (err) /* istanbul ignore next */ {
@@ -127,24 +94,11 @@ module.exports = class {
       }
     }
 
-    if (dataAppendixJson instanceof Object && Object.keys(dataAppendixJson).length) {
-      let tmp = dataAppendixStr;
-
-      // Delete curly brace and any whitespace at beginning of _appendix.json.
-      tmp = tmp.replace(/^\s*\{/, '');
-      tmp = tmp.replace(/^\s*\n/, '');
-
-      if (Object.keys(dataGlobalJson).length || dataPartialRecursed) {
-        jsonStr += ',\n' + tmp;
-      }
-    }
-    else {
-      jsonStr += '\n}\n';
-    }
+    Object.assign(dataGlobalJson, dataAppendixJson);
 
     try {
       // Write to data.json.
-      fs.outputFileSync(`${dataDir}/data.json`, jsonStr);
+      fs.outputJsonSync(`${dataDir}/data.json`, dataGlobalJson, {spaces: 2});
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
