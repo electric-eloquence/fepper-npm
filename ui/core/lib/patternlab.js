@@ -194,7 +194,7 @@ module.exports = class {
     for (let key of Object.keys(dataObj)) {
       const flattened = flattened_ ? `${flattened_}.${key}` : key;
 
-      if (dataObj[key].constructor === Object) {
+      if (dataObj[key] instanceof Object) {
         this.preProcessDataKeys(schemaObj, dataObj[key], flattened);
       }
 
