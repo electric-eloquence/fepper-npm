@@ -642,7 +642,7 @@ input[type="search"]::-webkit-search-decoration {
     float: right;
   }
 }
-@media all and (min-width: 768px) and (max-width: 1151px) {
+@media all and (min-width: 768px) and (max-width: 1024px) {
   .search-field {
     width: 11.4375em;
   }
@@ -662,6 +662,11 @@ input[type="search"]::-webkit-search-decoration {
 .comment-form input[type="url"],
 .comment-form textarea {
   width: 100%;
+}
+@media all and (min-width: 768px) {
+  .article {
+    padding-right: 1.6rem;
+  }
 }
 .section {
   margin: 0 0 1.6rem;
@@ -749,7 +754,7 @@ input[type="search"]::-webkit-search-decoration {
   }
   .nav a {
     border-top: 1px solid #ddd;
-    padding: 0.8rem 1.6rem;
+    padding: 0.7rem 1.6rem;
   }
   .nav.active {
     border-bottom: 1px solid #ddd;
@@ -811,7 +816,7 @@ input[type="search"]::-webkit-search-decoration {
     padding-left: 0.8rem;
   }
 }
-@media all and (min-width: 768px) and (max-width: 1152px) {
+@media all and (min-width: 768px) {
   .header {
     width: calc(100% - 1.6rem);
   }
@@ -888,9 +893,8 @@ input[type="search"]::-webkit-search-decoration {
     width: 66.66666666666667%;
   }
 }
-@media all and (min-width: 1152px) {
+@media all and (min-width: 1025px) {
   .l-two-col .l-main {
-    padding-right: 1.6rem;
     width: 75%;
   }
 }
@@ -906,7 +910,7 @@ input[type="search"]::-webkit-search-decoration {
     padding: 0 0 0 1.6rem;
   }
 }
-@media all and (min-width: 1152px) {
+@media all and (min-width: 1025px) {
   .l-two-col .l-sidebar {
     width: 25%;
   }
