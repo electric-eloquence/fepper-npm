@@ -221,6 +221,7 @@ module.exports = class {
     const selector = this.selector;
 
     let outputFpt = this.html.headWithMsg;
+    outputFpt += this.html.loadingAnimation;
     outputFpt += this.html.scraperTitle;
     outputFpt += this.html.reviewerPrefix;
     outputFpt += '<div>' + targetHtml + '</div>';

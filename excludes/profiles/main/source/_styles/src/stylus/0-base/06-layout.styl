@@ -4,6 +4,7 @@
   .l-main
     @media all and (min-width: $bp-med)
       float: left
+      padding-right: $space
       width: $column-width-two-thirds
     @media all and (min-width: $bp-large)
       width: $column-width-three-quarters
@@ -23,9 +24,12 @@
   overflow: hidden
 // Hero and Subs
 .hero-and-subs
+  border-bottom: 1px solid $gray-light-2
   display: flex
   flex-wrap: wrap
   justify-content: space-between
+  margin-bottom: 1em
+  padding-bottom: 1.5em
 // Hero, Subs, Hoagies, Sidebar
 .hero-and-subs,
 .hoagies,

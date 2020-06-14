@@ -74,12 +74,12 @@ module.exports = class {
         }
       }
 
-      let outputFpt = '\n<!DOCTYPE html>\n';
-      outputFpt += '<html>\n';
+      let outputFpt = '\n<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>\n';
       outputFpt += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
+      outputFpt += this.html.loadingAnimation;
       outputFpt += this.html.scraperTitle;
       outputFpt += this.html.landingBody;
-      outputFpt += '</html>';
+      outputFpt += '</body></html>';
 
       const output = Feplet.render(
         outputFpt,
