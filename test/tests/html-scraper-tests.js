@@ -45,10 +45,52 @@ describe('HTML Scraper', function () {
     .then((output) => {
       /* eslint-disable max-len */
       expect(output).to.equal(`
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
 <div id="message" class="message test-message">Test message</div>
 
+      <div id="load-anim">
+        <style>
+          #load-anim {
+            display: none;
+            position: absolute;
+            top: 13rem;
+            left: calc(50vw - 4rem);
+            width: 8rem;
+            height: 8rem;
+          }
+          #load-anim div {
+            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #ccc transparent transparent transparent;
+            border-radius: 50%;
+            border-style: solid;
+            border-width: 0.8rem;
+            box-sizing: border-box;
+            display: block;
+            margin: 0.8rem;
+            position: absolute;
+            width: 6.4rem;
+            height: 6.4rem;
+          }
+          #load-anim div:nth-child(1) {
+            animation-delay: -0.45s;
+          }
+          #load-anim div:nth-child(2) {
+            animation-delay: -0.3s;
+          }
+          #load-anim div:nth-child(3) {
+            animation-delay: -0.15s;
+          }
+          @keyframes load-anim {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+        <div></div><div></div><div></div><div></div>
+      </div>
       <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>
       <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter">
         <div>
@@ -70,7 +112,7 @@ describe('HTML Scraper', function () {
         <p></p>
         <p>Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.</p>
         <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.</p>
-      </div></html>`);
+      </div></body></html>`);
       /* eslint-enable max-len */
       done();
     })
