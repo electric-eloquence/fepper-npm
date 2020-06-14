@@ -552,6 +552,49 @@ describe('HTML Scraper Post', function () {
   <body class="text ">
     <main id="scraper" class="scraper">
       <div id="message" class="message "></div>
+      <div id="load-anim">
+        <style>
+          #load-anim {
+            display: none;
+            position: absolute;
+            top: 13rem;
+            left: calc(50vw - 4rem);
+            width: 8rem;
+            height: 8rem;
+          }
+          #load-anim div {
+            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #ccc transparent transparent transparent;
+            border-radius: 50%;
+            border-style: solid;
+            border-width: 0.8rem;
+            box-sizing: border-box;
+            display: block;
+            margin: 0.8rem;
+            position: absolute;
+            width: 6.4rem;
+            height: 6.4rem;
+          }
+          #load-anim div:nth-child(1) {
+            animation-delay: -0.45s;
+          }
+          #load-anim div:nth-child(2) {
+            animation-delay: -0.3s;
+          }
+          #load-anim div:nth-child(3) {
+            animation-delay: -0.15s;
+          }
+          @keyframes load-anim {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+        <div></div><div></div><div></div><div></div>
+      </div>
       <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>
       <div style="border: 1px solid black;margin: 10px 0 20px;overflow-x: scroll;padding: 20px;width: 100%;"><div>&#x3C;div id=&#x22;one&#x22; class=&#x22;test&#x22;&#x3E;Foo&#x3C;/div&#x3E;<br></div>
       </div>
