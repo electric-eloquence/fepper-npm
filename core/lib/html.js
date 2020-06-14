@@ -32,6 +32,51 @@ exports.head = `
 
 exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>';
 
+exports.loadingAnimation = `
+      <div id="load-anim">
+        <style>
+          #load-anim {
+            display: none;
+            position: absolute;
+            top: 13rem;
+            left: calc(50vw - 4rem);
+            width: 8rem;
+            height: 8rem;
+          }
+          #load-anim div {
+            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #ccc transparent transparent transparent;
+            border-radius: 50%;
+            border-style: solid;
+            border-width: 0.8rem;
+            box-sizing: border-box;
+            display: block;
+            margin: 0.8rem;
+            position: absolute;
+            width: 6.4rem;
+            height: 6.4rem;
+          }
+          #load-anim div:nth-child(1) {
+            animation-delay: -0.45s;
+          }
+          #load-anim div:nth-child(2) {
+            animation-delay: -0.3s;
+          }
+          #load-anim div:nth-child(3) {
+            animation-delay: -0.15s;
+          }
+          @keyframes load-anim {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+        <div></div><div></div><div></div><div></div>
+      </div>`;
+
 exports.scraperTitle = `
       <h1 id="scraper-heading" class="scraper-heading">${t('Fepper HTML Scraper')}</h1>`;
 

@@ -1,6 +1,6 @@
 .header
   @extend .lc
-  background: $white
+  background-color: $white
   border-bottom: 1px solid $gray-light-2
   padding: 0
   width: 100%
@@ -13,13 +13,13 @@
     width: "calc(%s - %s)" % ($max-width $space)
 .logo
   float: left
-  margin: $space-half 0
-  padding: 0
+  margin-top: $space-half
+  margin-right: $space-half
   @media all and (max-width: $bp-sm-max)
     img
       height: 3.8rem
 .nav-toggle
-  background: $white-translucent
+  background-color: $white-translucent
   border: 0
   border-left: 1px solid $gray-light-2
   color: $gray-dark
@@ -32,23 +32,25 @@
   width: $nav-toggle-n-border
   height: $nav-toggle-height
   z-index: 2
-  &:hover
+  &:hover,
+  &:focus
     color: $gray
+  &:active
+    background-color: $gray-light-1
   @media all and (min-width: $bp-med)
     display: none
 .search-form
-  background: $white-translucent
-  overflow: hidden
-  margin: $space-half 0 0
-  max-height: 0
+  background-color: $white-translucent
   @media all and (max-width: $bp-sm-max)
-    margin: 0.1rem 0 0
+    margin: 0
+    max-height: 0
+    overflow: hidden
     position: absolute
-    top: $nav-toggle-height
+    top: $nav-toggle-n-border
     right: 0
     z-index: 3
     &.active
       max-height: none
   @media all and (min-width: $bp-med)
     float: right
-    max-height: none
+    margin-top: $space-half

@@ -5,6 +5,8 @@
 .DS_Store
 .coveralls.yml
 .nyc_output/
+/excludes/profiles/base/source/_data/data.json
+/excludes/profiles/main/source/_data/data.json
 ignore/
 node_modules/
 !/test/public/node_modules/
