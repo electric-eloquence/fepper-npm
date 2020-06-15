@@ -3,7 +3,7 @@ module.exports = {
   dangerouslySetInnerHTML: {
     __html: `
 {{^ ishControlsHide.tools-all }}
-  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-cog" id="sg-tools-toggle" title="${t('Tools')}"><span class="is-vishidden">${t('Tools')}</span></a>
+  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-cog" id="sg-tools-toggle" title="${t('Tools')}"><span class="visually-hidden">${t('Tools')}</span></a>
   <ul class="sg-acc-panel sg-right sg-checklist" id="sg-tools">
     {{^ ishControlsHide.tools-fpdocs }}<li><a href="/readme" class="sg-tool sg-checklist-icon sg-icon sg-icon-file" target="_blank">${t('Fepper docs')}</a>{{/ ishControlsHide.tools-fpdocs }}
     {{^ ishControlsHide.tools-docs }}<li><a href="https://patternlab.io/docs/" class="sg-tool sg-checklist-icon sg-icon sg-icon-file" target="_blank">${t('Pattern Lab docs')}</a>{{/ ishControlsHide.tools-docs }}

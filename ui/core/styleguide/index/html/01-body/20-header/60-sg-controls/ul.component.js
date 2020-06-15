@@ -1,4 +1,4 @@
 module.exports = {
-  className: 'sg-controls is-vishidden',
+  className: 'sg-controls visually-hidden',
   id: 'sg-controls'
 };

@@ -1,5 +1,5 @@
 module.exports = {
-  className: 'is-vishidden',
+  className: 'visually-hidden',
   id: 'sg-nav-message',
   dangerouslySetInnerHTML: {
     __html: `
