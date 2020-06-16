@@ -28,7 +28,7 @@
 <script src="node_modules/wolfy87-eventemitter/EventEmitter.min.js"></script>
 <script src="_scripts/src/variables.styl" type="text/javascript"></script>
 <script src="_scripts/src/fepper-obj.js"></script>
-</head><body id="patternlab-body"><header class="sg-header" role="banner"><div class="sg-nav-container" id="sg-nav-container"><a href="#" class="sg-nav-toggle">Menu</a><div class="is-vishidden" id="sg-nav-message">
+</head><body id="patternlab-body"><header class="sg-header" role="banner"><div class="sg-nav-container" id="sg-nav-container"><a href="#" class="sg-nav-toggle">Menu</a><div class="visually-hidden" id="sg-nav-message">
 <h1>Nothing here yet!</h1>
 <ul>
   <li>Make sure there are patterns in source/_patterns</li>
@@ -36,7 +36,7 @@
   <li>Run fp restart</li>
   <li>Check the console for JavaScript errors</li>
 </ul>
-</div><ul class="sg-nav is-vishidden" id="sg-nav-target">
+</div><ul class="sg-nav visually-hidden" id="sg-nav-target">
 {{# patternTypes }}
   <li class="sg-nav-{{ patternTypeLC }}"><a class="sg-acc-handle">{{ patternTypeUC }}</a><ul class="sg-acc-panel sg-sub-nav">
   {{# patternSubTypes }}
@@ -64,7 +64,7 @@
   </ul></li>
 {{/ patternTypes }}
 <li><a href="{{ pathsPublic.patterns }}/viewall/viewall.html" class="sg-pop" data-patternpartial="viewall">All</a></li>
-</ul></div><ul class="sg-controls is-vishidden" id="sg-controls"><li class="sg-size">
+</ul></div><ul class="sg-controls visually-hidden" id="sg-controls"><li class="sg-size">
 <div class="sg-current-size">
   <form id="sg-form">
     <a class="sg-acc-handle sg-size-label" id="sg-form-label">Size</a
@@ -85,14 +85,14 @@
 </div>
 </li><li class="sg-find">
 {{^ ishControlsHide.find }}
-  <a href="#" class="sg-control-trigger sg-icon sg-icon-search" id="sg-f-toggle" title="Search patterns"><span class="is-vishidden">Search patterns</span></a>
+  <a href="#" class="sg-control-trigger sg-icon sg-icon-search" id="sg-f-toggle" title="Search patterns"><span class="visually-hidden">Search patterns</span></a>
   <ul class="sg-acc-panel sg-right sg-checklist" id="sg-find" style="top: 32px;">
     <li><input class="typeahead" id="typeahead" type="text" placeholder="Search patterns"></li>
   </ul>
 {{/ ishControlsHide.find }}
 </li><div class="sg-control-content" id="foo"><li id="branch-extend"><div id="branch-extension"><div>baz</div></div></li></div><li class="sg-view">
 {{^ ishControlsHide.views-all }}
-  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-eye" id="sg-t-toggle" title="View"><span class="is-vishidden">View</span></a>
+  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-eye" id="sg-t-toggle" title="View"><span class="visually-hidden">View</span></a>
   <ul class="sg-acc-panel sg-right sg-checklist" id="sg-view">
     {{^ ishControlsHide.views-annotations }}<li><a href="#" class="sg-checklist-icon sg-icon sg-icon-radio" id="sg-t-annotations">Annotations</a></li>{{/ ishControlsHide.views-annotations }}
     {{^ ishControlsHide.views-code }}<li><a href="#" class="sg-checklist-icon sg-icon sg-icon-radio" id="sg-t-code">Code</a></li>{{/ ishControlsHide.views-code }}
@@ -101,7 +101,7 @@
 {{/ ishControlsHide.views-all }}
 </li><div id="test-el"><div id="test-child"><div>bar</div></div></div><li class="sg-tools">
 {{^ ishControlsHide.tools-all }}
-  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="is-vishidden">Tools</span></a>
+  <a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="visually-hidden">Tools</span></a>
   <ul class="sg-acc-panel sg-right sg-checklist" id="sg-tools">
     {{^ ishControlsHide.tools-fpdocs }}<li><a href="/readme" class="sg-tool sg-checklist-icon sg-icon sg-icon-file" target="_blank">Fepper docs</a>{{/ ishControlsHide.tools-fpdocs }}
     {{^ ishControlsHide.tools-docs }}<li><a href="https://patternlab.io/docs/" class="sg-tool sg-checklist-icon sg-icon sg-icon-file" target="_blank">Pattern Lab docs</a>{{/ ishControlsHide.tools-docs }}
@@ -110,12 +110,10 @@
 {{/ ishControlsHide.tools-all }}
 </li></ul></header><main>
 <div id="sg-vp-wrap" class="anim-ready">
-  <div id="sg-cover"></div>
   <div id="sg-gen-container">
     <iframe id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-    <div id="sg-rightpull-container">
-      <div id="sg-rightpull"></div>
-    </div>
+    <div id="sg-cover"></div>
+    <div id="sg-rightpull"></div>
   </div>
 </div>
 </main><aside><div class="sg-view-container" id="sg-annotations-container" style="bottom:auto">
