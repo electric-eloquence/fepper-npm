@@ -1,5 +1,9 @@
 # Fepper NPM Changelog
 
+### v0.36.1
+* Updated main profile demo site
+* Fixed manual viewport resizer in Firefox
+
 ### v0.36.0
 * Loading pref before conf to define the i18n lang earlier
 * More and better i18n
