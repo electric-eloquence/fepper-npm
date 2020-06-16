@@ -15,18 +15,6 @@
 }
 
 /**
- * This is an invisible div that sits above the iframe and is used in JS for manual viewport resizing purposes.
- */
-#sg-cover {
-  width: 100%;
-  height: 100%;
-  display: none;
-  position: absolute;
-  z-index: 20;
-  cursor: col-resize;
-}
-
-/**
  * This is the iframe container.
  */
 #sg-gen-container {
@@ -60,29 +48,32 @@
 }
 
 /**
- * Container used for manual resizing.
+ * This is an invisible div that sits above the iframe so that the cursor doesn't get lost in the iframe.
+ */
+#sg-cover {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: col-resize;
+}
+#sg-cover.shown-by-rightpull-hover,
+#sg-cover.shown-by-rightpull-drag {
+  display: block;
+}
+
+/**
+ * The handle used for manual resizing.
  * It is IMPERATIVE to never give this padding, border, or margin.
  */
-#sg-rightpull-container {
+#sg-rightpull {
+  background: #c2c2c2;
   width: 14px; /* Also hard-coded in fepper-ui. Changes here must be made there. Not meant to be user-configured. */
   float: right;
   margin: 0;
   height: 100%;
   cursor: col-resize;
-}
-.mobile #sg-rightpull-container {
-  width: 0;
-}
-
-/**
- * This is the handle that lets users resize the viewport.
- */
-#sg-rightpull {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background: #c2c2c2;
-  transition: background 0.1s ease-out;
+  position: relative;
 }
 #sg-rightpull:hover {
   background: #808080;
@@ -90,6 +81,9 @@
 #sg-rightpull:active {
   cursor: col-resize;
   background: #666;
+}
+.mobile #sg-rightpull {
+  width: 0;
 }
 
 /**
