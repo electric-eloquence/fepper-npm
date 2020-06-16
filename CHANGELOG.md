@@ -1,6 +1,6 @@
 # Fepper NPM Changelog
 
-### v0.36.1
+### v0.37.0
 * Updated main profile demo site
 * Fixed manual viewport resizer in Firefox
 
