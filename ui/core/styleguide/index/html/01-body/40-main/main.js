@@ -29,7 +29,7 @@ if (typeof window === 'object') {
       $orgs['#sg-cover'].dispatchAction('addClass', 'shown-by-rightpull-hover');
     });
 
-    $orgs['#sg-rightpull'].on('mouseleave', function (e) {
+    $orgs['#sg-rightpull'].on('mouseleave', function () {
       $orgs['#sg-cover'].dispatchAction('removeClass', 'shown-by-rightpull-hover');
     });
 
