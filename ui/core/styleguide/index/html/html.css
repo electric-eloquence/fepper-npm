@@ -9,11 +9,6 @@
   font-style: normal;
 }
 
-.hidden {
-  display: none !important;
-  visibility: hidden !important;
-}
-
 /* Visibilly hidden but still accessible to screen readers. */
 .visually-hidden {
   border: 0 !important;
