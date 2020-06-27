@@ -26,25 +26,27 @@ describe('HTML Scraper', function () {
   });
 
   it('.xhr() responds with a script tag requesting html-scraper-ajax.js', function (done) {
-    new Promise((resolve) => {
-      htmlScraper.xhr()(
-        {
-          cookies: {
-            fepper_ts: timestampFromFile
+    new Promise(
+      (resolve) => {
+        htmlScraper.xhr()(
+          {
+            cookies: {
+              fepper_ts: timestampFromFile
+            },
+            query: {
+              message: 'Test message',
+              msg_class: 'test-message',
+              selector: '.test-message',
+              url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html'
+            }
           },
-          query: {
-            message: 'Test message',
-            msg_class: 'test-message',
-            selector: '.test-message',
-            url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html'
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
 <div id="message" class="message test-message">Test message</div>
 
@@ -113,24 +115,28 @@ describe('HTML Scraper', function () {
         <p>Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.</p>
         <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.</p>
       </div></body></html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 
   it('.main() responds with a script tag requesting html-scraper-ajax.js', function (done) {
-    new Promise((resolve) => {
-      htmlScraper.main()(
-        {},
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+    new Promise(
+      (resolve) => {
+        htmlScraper.main()(
+          {},
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -178,11 +184,13 @@ describe('HTML Scraper', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 });

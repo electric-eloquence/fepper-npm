@@ -71,15 +71,17 @@ describe('Gatekeeper', function () {
 
   describe('.render()', function () {
     it('responds with "forbidden" page', function (done) {
-      new Promise((resolve) => {
-        gatekeeper.render()(
-          {},
-          responseFactory(resolve)
-        );
-      })
-      .then((output) => {
-        /* eslint-disable max-len */
-        expect(output).to.equal(`
+      new Promise(
+        (resolve) => {
+          gatekeeper.render()(
+            {},
+            responseFactory(resolve)
+          );
+        }
+      ).then(
+        (output) => {
+          /* eslint-disable max-len */
+          expect(output).to.equal(`
 <!DOCTYPE html>
 <html>
   <body>
@@ -91,34 +93,40 @@ describe('Gatekeeper', function () {
     </section>
   </body>
 </html>`);
-        /* eslint-enable max-len */
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+          /* eslint-enable max-len */
+          done();
+        }
+      ).catch(
+        (err) => {
+          done(err);
+        }
+      );
     });
   });
 
   describe('.respond()', function () {
     it('responds with timestamp', function (done) {
-      new Promise((resolve) => {
-        gatekeeper.respond()(
-          {
-            cookies: {
-              fepper_ts: timestampFromFile
-            }
-          },
-          responseFactory(resolve)
-        );
-      })
-      .then((output) => {
-        expect(output).to.equal(timestampFromFile);
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+      new Promise(
+        (resolve) => {
+          gatekeeper.respond()(
+            {
+              cookies: {
+                fepper_ts: timestampFromFile
+              }
+            },
+            responseFactory(resolve)
+          );
+        }
+      ).then(
+        (output) => {
+          expect(output).to.equal(timestampFromFile);
+          done();
+        }
+      ).catch(
+        (err) => {
+          done(err);
+        }
+      );
     });
   });
 });
