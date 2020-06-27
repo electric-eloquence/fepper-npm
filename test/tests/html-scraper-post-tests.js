@@ -401,46 +401,12 @@ describe('HTML Scraper Post', function () {
     it('redirects with error message if invalid filename is submitted', function (done) {
       const invalidChar = '0-test.1_0!';
 
-      new Promise((resolve) => {
-        const htmlScraperPost = new HtmlScraperPost(
-          {
-            body: {
-              filename: invalidChar,
-              json: jsonStrConst,
-              mustache: mustacheConst
-            },
-            cookies: {
-              fepper_ts: timestampFromFile
-            }
-          },
-          responseFactory(resolve),
-          conf,
-          gatekeeper,
-          html,
-          {appDir, rootDir, utils}
-        );
-
-        htmlScraperPost.main();
-      })
-      .then((response) => {
-        expect(response.statusCode).to.equal(303);
-        // eslint-disable-next-line max-len
-        expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector=');
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
-    });
-
-    it(
-      'redirects with success message if valid filename, json, and mustache are submitted, and within limit',
-      function (done) {
-        new Promise((resolve) => {
+      new Promise(
+        (resolve) => {
           const htmlScraperPost = new HtmlScraperPost(
             {
               body: {
-                filename: scrapeFile0,
+                filename: invalidChar,
                 json: jsonStrConst,
                 mustache: mustacheConst
               },
@@ -456,29 +422,110 @@ describe('HTML Scraper Post', function () {
           );
 
           htmlScraperPost.main();
-        })
-        .then((response) => {
+        }
+      ).then(
+        (response) => {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector=');
           done();
-        })
-        .catch((err) => {
+        }
+      ).catch(
+        (err) => {
           done(err);
-        });
+        }
+      );
+    });
+
+    it(
+      'redirects with success message if valid filename, json, and mustache are submitted, and within limit',
+      function (done) {
+        new Promise(
+          (resolve) => {
+            const htmlScraperPost = new HtmlScraperPost(
+              {
+                body: {
+                  filename: scrapeFile0,
+                  json: jsonStrConst,
+                  mustache: mustacheConst
+                },
+                cookies: {
+                  fepper_ts: timestampFromFile
+                }
+              },
+              responseFactory(resolve),
+              conf,
+              gatekeeper,
+              html,
+              {appDir, rootDir, utils}
+            );
+
+            htmlScraperPost.main();
+          }
+        ).then(
+          (response) => {
+            expect(response.statusCode).to.equal(303);
+            // eslint-disable-next-line max-len
+            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
+            done();
+          }
+        ).catch(
+          (err) => {
+            done(err);
+          }
+        );
       }
     );
 
     it(
       'redirects with error message if valid filename, json, and mustache are submitted, but limit is exceeded',
       function (done) {
-        new Promise((resolve) => {
+        new Promise(
+          (resolve) => {
+            const htmlScraperPost = new HtmlScraperPost(
+              {
+                body: {
+                  filename: scrapeFile1,
+                  json: jsonStrConst,
+                  mustache: mustacheConst
+                },
+                cookies: {
+                  fepper_ts: timestampFromFile
+                }
+              },
+              responseFactory(resolve),
+              conf,
+              gatekeeper,
+              html,
+              {appDir, rootDir, utils}
+            );
+
+            htmlScraperPost.main();
+          }
+        ).then(
+          (response) => {
+            expect(response.statusCode).to.equal(303);
+            // eslint-disable-next-line max-len
+            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector=');
+            done();
+          }
+        ).catch(
+          (err) => {
+            done(err);
+          }
+        );
+      }
+    );
+
+    it('scrapes and renders if url, selector, and html2json are submitted', function (done) {
+      new Promise(
+        (resolve) => {
           const htmlScraperPost = new HtmlScraperPost(
             {
               body: {
-                filename: scrapeFile1,
-                json: jsonStrConst,
-                mustache: mustacheConst
+                url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html',
+                selector: '#one',
+                html2json: JSON.stringify(jsonFromHtmlConst)
               },
               cookies: {
                 fepper_ts: timestampFromFile
@@ -492,44 +539,11 @@ describe('HTML Scraper Post', function () {
           );
 
           htmlScraperPost.main();
-        })
-        .then((response) => {
-          expect(response.statusCode).to.equal(303);
-          // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector=');
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-      }
-    );
-
-    it('scrapes and renders if url, selector, and html2json are submitted', function (done) {
-      new Promise((resolve) => {
-        const htmlScraperPost = new HtmlScraperPost(
-          {
-            body: {
-              url: 'http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html',
-              selector: '#one',
-              html2json: JSON.stringify(jsonFromHtmlConst)
-            },
-            cookies: {
-              fepper_ts: timestampFromFile
-            }
-          },
-          responseFactory(resolve),
-          conf,
-          gatekeeper,
-          html,
-          {appDir, rootDir, utils}
-        );
-
-        htmlScraperPost.main();
-      })
-      .then((output) => {
-        /* eslint-disable max-len */
-        expect(output).to.equal(`
+        }
+      ).then(
+        (output) => {
+          /* eslint-disable max-len */
+          expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -641,40 +655,46 @@ describe('HTML Scraper Post', function () {
 
   </body>
 </html>`);
-        /* eslint-enable max-len */
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+          /* eslint-enable max-len */
+          done();
+        }
+      ).catch(
+        (err) => {
+          done(err);
+        }
+      );
     });
 
     it('redirects with error message if no url, selector, html2json, or filename submitted', function (done) {
-      new Promise((resolve) => {
-        const htmlScraperPost = new HtmlScraperPost(
-          {
-            cookies: {
-              fepper_ts: timestampFromFile
-            }
-          },
-          responseFactory(resolve),
-          conf,
-          gatekeeper,
-          html,
-          {appDir, rootDir, utils}
-        );
+      new Promise(
+        (resolve) => {
+          const htmlScraperPost = new HtmlScraperPost(
+            {
+              cookies: {
+                fepper_ts: timestampFromFile
+              }
+            },
+            responseFactory(resolve),
+            conf,
+            gatekeeper,
+            html,
+            {appDir, rootDir, utils}
+          );
 
-        htmlScraperPost.main();
-      })
-      .then((response) => {
-        expect(response.statusCode).to.equal(303);
-        expect(response.statusMessage.Location)
-          .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector=');
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+          htmlScraperPost.main();
+        }
+      ).then(
+        (response) => {
+          expect(response.statusCode).to.equal(303);
+          expect(response.statusMessage.Location)
+            .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector=');
+          done();
+        }
+      ).catch(
+        (err) => {
+          done(err);
+        }
+      );
     });
   });
 

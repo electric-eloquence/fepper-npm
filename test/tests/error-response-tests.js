@@ -10,14 +10,16 @@ const errorResponse = fepper.tcpIp.fpExpress.errorResponse;
 
 describe('Error Response', function () {
   it('responds with a 404 if no README.md present', function (done) {
-    new Promise((resolve) => {
-      errorResponse.notFound()(
-        {},
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      expect(output).to.equal(`
+    new Promise(
+      (resolve) => {
+        errorResponse.notFound()(
+          {},
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html>
   <head>
@@ -53,10 +55,12 @@ describe('Error Response', function () {
 
   </body>
 </html>`);
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 });
