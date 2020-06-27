@@ -15,36 +15,42 @@ describe('Readme', function () {
   });
 
   it('responds with a 404 if no README.md present', function (done) {
-    new Promise((resolve) => {
-      readme.main()(
-        {},
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      expect(output).to.equal('HTTP 404: Not Found');
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+    new Promise(
+      (resolve) => {
+        readme.main()(
+          {},
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        expect(output).to.equal('HTTP 404: Not Found');
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 
   it('responds with README.md rendered as HTML if README.md present', function (done) {
-    new Promise((resolve) => {
-      fs.writeFileSync(
-        `${global.rootDir}/README.md`,
-        '# Fepper\n\n## A frontend prototyper tool for rapid prototyping of websites'
-      );
+    new Promise(
+      (resolve) => {
+        fs.writeFileSync(
+          `${global.rootDir}/README.md`,
+          '# Fepper\n\n## A frontend prototyper tool for rapid prototyping of websites'
+        );
 
-      readme.main()(
-        {},
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+        readme.main()(
+          {},
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -75,11 +81,13 @@ describe('Readme', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 });

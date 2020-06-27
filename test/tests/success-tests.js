@@ -15,45 +15,51 @@ describe('Success', function () {
   });
 
   it('responds with a simple Success page HTML if no README.md present', function (done) {
-    new Promise((resolve) => {
-      success.main()(
-        {
-          headers: {
-            host: 'localhost:3000'
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+    new Promise(
+      (resolve) => {
+        success.main()(
+          {
+            headers: {
+              host: 'localhost:3000'
+            }
+          },
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
 <body>Installation success!<br><a href="/">Open Fepper UI</a></body></html>`);
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 
   it('responds with a full Success page HTML if README.md present', function (done) {
-    new Promise((resolve) => {
-      fs.writeFileSync(
-        `${global.rootDir}/README.md`,
-        '# Fepper\n\n## A frontend prototyper tool for rapid prototyping of websites'
-      );
+    new Promise(
+      (resolve) => {
+        fs.writeFileSync(
+          `${global.rootDir}/README.md`,
+          '# Fepper\n\n## A frontend prototyper tool for rapid prototyping of websites'
+        );
 
-      success.main()(
-        {
-          headers: {
-            host: 'localhost:3000'
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+        success.main()(
+          {
+            headers: {
+              host: 'localhost:3000'
+            }
+          },
+          responseFactory(resolve)
+        );
+      }
+    ).then(
+      (output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -90,11 +96,13 @@ describe('Success', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      }
+    ).catch(
+      (err) => {
+        done(err);
+      }
+    );
   });
 });
