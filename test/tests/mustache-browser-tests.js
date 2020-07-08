@@ -396,19 +396,20 @@ describe('Mustache Browser', function () {
   });
 
   it('responds with the Mustache Browser if the "partial" query param is valid', function (done) {
-    new Promise((resolve) => {
-      mustacheBrowser.main()(
-        {
-          query: {
-            partial: 'components-header-localhost'
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+    new Promise(
+      (resolve) => {
+        mustacheBrowser.main()(
+          {
+            query: {
+              partial: 'components-header-localhost'
+            }
+          },
+          responseFactory(resolve)
+        );
+      })
+      .then((output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -462,27 +463,28 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 
   it('responds with a no result page if no "partial" query param', function (done) {
-    new Promise((resolve) => {
-      mustacheBrowser.main()(
-        {
-          query: {
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+    new Promise(
+      (resolve) => {
+        mustacheBrowser.main()(
+          {
+            query: {
+            }
+          },
+          responseFactory(resolve)
+        );
+      })
+      .then((output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -534,28 +536,29 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 
   it('responds with the Mustache Browser if the "partial" query param is invalid', function (done) {
-    new Promise((resolve) => {
-      mustacheBrowser.main()(
-        {
-          query: {
-            partial: 'components-header-localhots'
-          }
-        },
-        responseFactory(resolve)
-      );
-    })
-    .then((output) => {
-      /* eslint-disable max-len */
-      expect(output).to.equal(`
+    new Promise(
+      (resolve) => {
+        mustacheBrowser.main()(
+          {
+            query: {
+              partial: 'components-header-localhots'
+            }
+          },
+          responseFactory(resolve)
+        );
+      })
+      .then((output) => {
+        /* eslint-disable max-len */
+        expect(output).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -607,11 +610,11 @@ describe('Mustache Browser', function () {
 
   </body>
 </html>`);
-      /* eslint-enable max-len */
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+        /* eslint-enable max-len */
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 });
