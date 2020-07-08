@@ -459,8 +459,7 @@ describe('HTML Scraper Post', function () {
 
             htmlScraperPost.main();
           })
-          .then(
-            (response) => {
+          .then((response) => {
             expect(response.statusCode).to.equal(303);
             // eslint-disable-next-line max-len
             expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');

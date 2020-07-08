@@ -120,8 +120,7 @@ describe('Gatekeeper', function () {
         })
         .catch((err) => {
           done(err);
-        }
-      );
+        });
     });
   });
 });
