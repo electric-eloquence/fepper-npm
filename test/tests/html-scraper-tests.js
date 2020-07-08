@@ -42,9 +42,8 @@ describe('HTML Scraper', function () {
           },
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
@@ -117,12 +116,10 @@ describe('HTML Scraper', function () {
       </div></body></html>`);
         /* eslint-enable max-len */
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 
   it('.main() responds with a script tag requesting html-scraper-ajax.js', function (done) {
@@ -132,9 +129,8 @@ describe('HTML Scraper', function () {
           {},
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html>
@@ -186,11 +182,9 @@ describe('HTML Scraper', function () {
 </html>`);
         /* eslint-enable max-len */
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 });
