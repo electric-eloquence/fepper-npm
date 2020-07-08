@@ -465,8 +465,7 @@ describe('HTML Scraper Post', function () {
             expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
             done();
           })
-          .catch(
-            (err) => {
+          .catch((err) => {
             done(err);
           });
       }
