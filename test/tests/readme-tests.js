@@ -21,17 +21,14 @@ describe('Readme', function () {
           {},
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         expect(output).to.equal('HTTP 404: Not Found');
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 
   it('responds with README.md rendered as HTML if README.md present', function (done) {
@@ -46,9 +43,8 @@ describe('Readme', function () {
           {},
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html>
@@ -83,11 +79,9 @@ describe('Readme', function () {
 </html>`);
         /* eslint-enable max-len */
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 });
