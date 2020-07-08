@@ -77,9 +77,8 @@ describe('Gatekeeper', function () {
             {},
             responseFactory(resolve)
           );
-        }
-      ).then(
-        (output) => {
+        })
+        .then((output) => {
           /* eslint-disable max-len */
           expect(output).to.equal(`
 <!DOCTYPE html>
@@ -95,12 +94,10 @@ describe('Gatekeeper', function () {
 </html>`);
           /* eslint-enable max-len */
           done();
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           done(err);
-        }
-      );
+        });
     });
   });
 
@@ -116,14 +113,12 @@ describe('Gatekeeper', function () {
             },
             responseFactory(resolve)
           );
-        }
-      ).then(
-        (output) => {
+        })
+        .then((output) => {
           expect(output).to.equal(timestampFromFile);
           done();
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           done(err);
         }
       );
