@@ -25,18 +25,15 @@ describe('Success', function () {
           },
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
 <body>Installation success!<br><a href="/">Open Fepper UI</a></body></html>`);
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 
   it('responds with a full Success page HTML if README.md present', function (done) {
@@ -55,9 +52,8 @@ describe('Success', function () {
           },
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html>
@@ -98,11 +94,9 @@ describe('Success', function () {
 </html>`);
         /* eslint-enable max-len */
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 });

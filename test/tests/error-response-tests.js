@@ -16,9 +16,8 @@ describe('Error Response', function () {
           {},
           responseFactory(resolve)
         );
-      }
-    ).then(
-      (output) => {
+      })
+      .then((output) => {
         expect(output).to.equal(`
 <!DOCTYPE html>
 <html>
@@ -56,11 +55,9 @@ describe('Error Response', function () {
   </body>
 </html>`);
         done();
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         done(err);
-      }
-    );
+      });
   });
 });

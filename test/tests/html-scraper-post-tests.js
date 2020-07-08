@@ -422,19 +422,16 @@ describe('HTML Scraper Post', function () {
           );
 
           htmlScraperPost.main();
-        }
-      ).then(
-        (response) => {
+        })
+        .then((response) => {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
           expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector=');
           done();
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           done(err);
-        }
-      );
+        });
     });
 
     it(
@@ -461,19 +458,18 @@ describe('HTML Scraper Post', function () {
             );
 
             htmlScraperPost.main();
-          }
-        ).then(
-          (response) => {
+          })
+          .then(
+            (response) => {
             expect(response.statusCode).to.equal(303);
             // eslint-disable-next-line max-len
             expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
             done();
-          }
-        ).catch(
-          (err) => {
+          })
+          .catch(
+            (err) => {
             done(err);
-          }
-        );
+          });
       }
     );
 
@@ -501,19 +497,16 @@ describe('HTML Scraper Post', function () {
             );
 
             htmlScraperPost.main();
-          }
-        ).then(
-          (response) => {
+          })
+          .then((response) => {
             expect(response.statusCode).to.equal(303);
             // eslint-disable-next-line max-len
             expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector=');
             done();
-          }
-        ).catch(
-          (err) => {
+          })
+          .catch((err) => {
             done(err);
-          }
-        );
+          });
       }
     );
 
@@ -539,9 +532,8 @@ describe('HTML Scraper Post', function () {
           );
 
           htmlScraperPost.main();
-        }
-      ).then(
-        (output) => {
+        })
+        .then((output) => {
           /* eslint-disable max-len */
           expect(output).to.equal(`
 <!DOCTYPE html>
@@ -657,12 +649,10 @@ describe('HTML Scraper Post', function () {
 </html>`);
           /* eslint-enable max-len */
           done();
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           done(err);
-        }
-      );
+        });
     });
 
     it('redirects with error message if no url, selector, html2json, or filename submitted', function (done) {
@@ -682,19 +672,16 @@ describe('HTML Scraper Post', function () {
           );
 
           htmlScraperPost.main();
-        }
-      ).then(
-        (response) => {
+        })
+        .then((response) => {
           expect(response.statusCode).to.equal(303);
           expect(response.statusMessage.Location)
             .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector=');
           done();
-        }
-      ).catch(
-        (err) => {
+        })
+        .catch((err) => {
           done(err);
-        }
-      );
+        });
     });
   });
 
