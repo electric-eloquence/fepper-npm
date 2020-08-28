@@ -1,11 +1,5 @@
 /**
  * Adds the data appendix to data.json.
- *
- * Since the last property appended to data.json by json-compiler.js ends in a
- * comma, we need this operation to append to data.json in such a way that the
- * last property ends in a closing brace without a comma. This also compiles the
- * data from variables.styl into data.json so it shares its cross-everything
- * data with Pattern Lab as well.
  */
 'use strict';
 
@@ -49,14 +43,27 @@ module.exports = class {
         if (i > 0 && jsonStr !== '{\n') {
           jsonStr += ',\n';
         }
+
         let key = varLine.slice(0, indexOfEqual).trim();
         let value = varLine.slice(indexOfEqual + 1).trim();
 
         if (key) {
-          jsonStr += `  "${key}": "${value}"`;
+          jsonStr += `  "${key}": `;
+
+          if (value[0] === '"' && value.slice(-1) === '"') {
+            jsonStr += value;
+          }
+          else {
+            if (value[0] === '\'' && value.slice(-1) === '\'') {
+              value = value.slice(1, -1);
+            }
+
+            jsonStr += `"${value}"`;
+          }
         }
       }
     }
+
     jsonStr += '\n}\n';
 
     try {
