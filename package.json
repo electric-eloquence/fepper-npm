@@ -83,7 +83,7 @@
     "eslint": "6.x",
     "husky": "4.x",
     "json-eval": "*",
-    "mocha": "7.x",
+    "mocha": "8.x",
     "nyc": "15.x"
   }
 }
