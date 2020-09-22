@@ -51,7 +51,7 @@ describe('Readme', function () {
 <html class="">
   <head>
     <title id="title">Fepper</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">

@@ -25,7 +25,7 @@ module.exports = class {
 <html>
   <head>
     <title id="title">${t('ERROR')}</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
   <body>

@@ -46,7 +46,7 @@ describe('HTML Scraper', function () {
       .then((output) => {
         /* eslint-disable max-len */
         expect(output).to.equal(`
-<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
+<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
 <div id="message" class="message test-message">Test message</div>
 
       <div id="load-anim">
@@ -137,7 +137,7 @@ describe('HTML Scraper', function () {
 <html class="">
   <head>
     <title id="title">Fepper HTML Scraper</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">

@@ -414,7 +414,7 @@ describe('Mustache Browser', function () {
 <html class="mustache-browser">
   <head>
     <title id="title">Fepper Mustache Browser</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">
@@ -489,7 +489,7 @@ describe('Mustache Browser', function () {
 <html class="mustache-browser">
   <head>
     <title id="title">Fepper Mustache Browser</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">
@@ -563,7 +563,7 @@ describe('Mustache Browser', function () {
 <html class="mustache-browser">
   <head>
     <title id="title">Fepper Mustache Browser</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">

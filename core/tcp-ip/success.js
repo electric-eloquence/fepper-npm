@@ -18,7 +18,7 @@ module.exports = class {
     return (req, res) => {
       fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
         const successMsg = 'Installation success!';
-        const successSimple = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+        const successSimple = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body>${successMsg}<br><a href="/">Open Fepper UI</a></body></html>`;
 
         if (!dat) {

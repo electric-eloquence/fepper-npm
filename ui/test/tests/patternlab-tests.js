@@ -139,7 +139,7 @@ describe('Patternlab', function () {
       const uiIndexAltContent = fs.readFileSync(uiIndexAlt, patternlab.config.enc);
       const testString = `<head id="patternlab-head">
 <title id="title">Fepper</title>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 </head>`;
 
       expect(uiIndexOrigContent).to.not.have.string(testString);
