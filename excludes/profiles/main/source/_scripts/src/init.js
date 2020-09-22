@@ -12,8 +12,7 @@
         if (menuNav) {
           menuNav.classList.toggle('active');
         }
-      },
-      false
+      }
     );
   }
   
@@ -28,8 +27,7 @@
         if (searchForm) {
           searchForm.classList.toggle('active');
         }
-      },
-      false
+      }
     );
   }
 
@@ -43,7 +41,6 @@
       if (searchForm) {
         searchForm.classList.remove('active');
       }
-    },
-    false
+    }
   );
 })(document);
