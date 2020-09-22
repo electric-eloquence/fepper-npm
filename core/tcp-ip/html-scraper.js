@@ -74,7 +74,7 @@ module.exports = class {
         }
       }
 
-      let outputFpt = '\n<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>\n';
+      let outputFpt = '\n<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>\n';
       outputFpt += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
       outputFpt += this.html.loadingAnimation;
       outputFpt += this.html.scraperTitle;

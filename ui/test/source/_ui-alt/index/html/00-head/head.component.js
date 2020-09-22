@@ -3,7 +3,7 @@ module.exports = {
   dangerouslySetInnerHTML: {
     __html: `
 <title id="title">Fepper</title>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 `
   }
 };

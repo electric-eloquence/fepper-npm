@@ -27,7 +27,7 @@ describe('Success', function () {
         );
       })
       .then((output) => {
-        expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+        expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body>Installation success!<br><a href="/">Open Fepper UI</a></body></html>`);
         done();
       })
@@ -60,7 +60,7 @@ describe('Success', function () {
 <html class="">
   <head>
     <title id="title">Installation success!</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 
     <!-- Disable cache -->
     <meta http-equiv="cache-control" content="max-age=0">
