@@ -59,7 +59,7 @@
     "cookie-parser": "^1.4.3",
     "diveSync": "^0.3.0",
     "express": "^4.16.3",
-    "feplet": "^1.2.1",
+    "feplet": "^1.2.2-rc.0",
     "fepper-utils": "^1.4.0",
     "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.0",
@@ -83,7 +83,7 @@
     "coveralls": "3.x",
     "eslint": "6.x",
     "husky": "4.x",
-    "json-eval": "*",
+    "json-eval": "^1.0.9",
     "mocha": "8.x",
     "nyc": "15.x"
   }
