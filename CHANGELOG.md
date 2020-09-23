@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.37.1
+* Updated appendixer to account for variables.styl strings wrapped in quotes
+
 ### v0.37.0
 * Updated main profile demo site
 * Fixed manual viewport resizer in Firefox
