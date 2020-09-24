@@ -10,7 +10,13 @@
       function (e) {
         e.preventDefault();
         if (menuNav) {
-          menuNav.classList.toggle('active');
+          if (menuNav.classList.contains('active')) {
+            menuNav.classList.remove('active');
+            menuToggle.blur();
+          }
+          else {
+            menuNav.classList.add('active');
+          }
         }
       }
     );
@@ -25,7 +31,13 @@
       function (e) {
         e.preventDefault();
         if (searchForm) {
-          searchForm.classList.toggle('active');
+          if (searchForm.classList.contains('active')) {
+            searchForm.classList.remove('active');
+            searchToggle.blur();
+          }
+          else {
+            searchForm.classList.add('active');
+          }
         }
       }
     );

@@ -32,11 +32,13 @@
   width: $nav-toggle-n-border
   height: $nav-toggle-height
   z-index: 2
-  &:hover,
   &:focus
     color: $gray
   &:active
     background-color: $gray-light-1
+  @media (hover: hover)
+    &:hover
+      color: $gray
   @media all and (min-width: $bp-med)
     display: none
 .search-form
