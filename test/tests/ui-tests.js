@@ -129,7 +129,6 @@ describe('UI', function () {
       expect(jsPublicContentsAfter).to.include('src');
       expect(jsPublicContentsAfter).to.include('ui-only.js');
 
-      expect(jsPublicContentsAfter1).to.include('fepper-obj.js');
       expect(jsPublicContentsAfter1).to.include('nested');
       expect(jsPublicContentsAfter1).to.include('variables-alt.styl');
       expect(jsPublicContentsAfter1).to.include('variables-alt.yml');
@@ -263,7 +262,6 @@ describe('UI', function () {
 
       expect(staticPublicContentsAfter5).to.include('nosync.png');
 
-      expect(staticPublicContentsAfter6).to.include('fepper-obj.js');
       expect(staticPublicContentsAfter6).to.include('nested');
       expect(staticPublicContentsAfter6).to.include('variables-alt.styl');
       expect(staticPublicContentsAfter6).to.include('variables-alt.yml');

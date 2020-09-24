@@ -22,7 +22,6 @@ const stylesTargetDir = utils.backendDirCheck(pref.backend.synced_dirs.styles_di
 describe('Frontend Copier', function () {
   let assetExistsBefore;
   let scriptExistsBefore;
-  let scriptExistsBefore1;
   let styleExistsBefore;
   let styleExistsBefore1;
   let styleExistsBefore2;
@@ -36,8 +35,7 @@ describe('Frontend Copier', function () {
     utils.rmRfFilesNotDirs(stylesTargetDir);
 
     assetExistsBefore = fs.existsSync(`${assetsTargetDir}/logo.png`);
-    scriptExistsBefore = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);
-    scriptExistsBefore1 = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
+    scriptExistsBefore = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
     styleExistsBefore = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
     styleExistsBefore1 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);
     styleExistsBefore2 = fs.existsSync(`${stylesTargetDir}/fonts-alt/icons-alt.svg`);
@@ -53,8 +51,7 @@ describe('Frontend Copier', function () {
 
   it('copies frontend files to the backend', function () {
     const assetExistsAfter = fs.existsSync(`${assetsTargetDir}/logo.png`);
-    const scriptExistsAfter = fs.existsSync(`${scriptsTargetDir}/src/fepper-obj.js`);
-    const scriptExistsAfter1 = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
+    const scriptExistsAfter = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
     const styleExistsAfter = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
     const styleExistsAfter1 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);
     const styleExistsAfter2 = fs.existsSync(`${stylesTargetDir}/fonts-alt/icons-alt.svg`);
@@ -64,7 +61,6 @@ describe('Frontend Copier', function () {
 
     expect(assetExistsBefore).to.be.false;
     expect(scriptExistsBefore).to.be.false;
-    expect(scriptExistsBefore1).to.be.false;
     expect(styleExistsBefore).to.be.false;
     expect(styleExistsBefore1).to.be.false;
     expect(styleExistsBefore2).to.be.false;
@@ -72,7 +68,6 @@ describe('Frontend Copier', function () {
     expect(styleExistsBefore4).to.be.false;
     expect(assetExistsAfter).to.be.true;
     expect(scriptExistsAfter).to.be.true;
-    expect(scriptExistsAfter1).to.be.true;
     expect(styleExistsAfter).to.be.true;
     expect(styleExistsAfter1).to.be.true;
     expect(styleExistsAfter2).to.be.true;

@@ -283,10 +283,8 @@ describe('Static Generator', function () {
 
   it('strips cacheBusters from static content', function () {
     const testStringOrig = `
-  <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>
-  <script src='../../_scripts/src/fepper-obj.js?1513596429153'></script>`;
+  <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>`;
     const testRegex = /<script src="\.\.\/\.\.\/_scripts\/src\/variables.styl\?\d+" type="text\/javascript"><\/script>/;
-    const testRegex1 = /<script src="\.\.\/\.\.\/_scripts\/src\/fepper-obj.js\?\d+"><\/script>/;
     const testStringConverted = staticGenerator.convertCacheBusters(testStringOrig);
     const uiConfOrig = JSON.parse(JSON.stringify(fepper.ui.patternlab.config));
 
@@ -301,36 +299,27 @@ describe('Static Generator', function () {
     const cacheBusterTestAfter = fs.readFileSync(staticIndex, conf.enc);
 
     expect(testStringConverted).to.equal(`
-  <script src="../../_scripts/src/variables.styl" type="text/javascript"></script>
-  <script src='../../_scripts/src/fepper-obj.js'></script>`);
+  <script src="../../_scripts/src/variables.styl" type="text/javascript"></script>`);
     expect(cacheBusterTestBefore).to.match(testRegex);
-    expect(cacheBusterTestBefore).to.match(testRegex1);
 
     expect(cacheBusterTestAfter).to.not.match(testRegex);
-    expect(cacheBusterTestAfter).to.not.match(testRegex1);
 
     // Ignore path conversion in this test.
     expect(cacheBusterTestAfter).to.have.string('_scripts/src/variables.styl" type="text/javascript"></script>');
-    expect(cacheBusterTestAfter).to.have.string('_scripts/src/fepper-obj.js"></script>');
   });
 
   it('converts Fepper relative paths to portable static relative paths', function () {
     const testStringOrig = `
-  <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>
-  <script src='../../_scripts/src/fepper-obj.js?1513596429153'></script>`;
+  <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>`;
     const testStringConverted = staticGenerator.convertPaths(testStringOrig);
 
     expect(testStringConverted).to.equal(`
-  <script src="_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>
-  <script src='_scripts/src/fepper-obj.js?1513596429153'></script>`);
+  <script src="_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>`);
 
     // Ignore cacheBuster conversion in this test.
     // eslint-disable-next-line max-len
     expect(publicIndexContent).to.have.string('<script src="../../_scripts/src/variables.styl" type="text/javascript"></script>');
-    expect(publicIndexContent).to.have.string('<script src="../../_scripts/src/fepper-obj.js"></script>');
-
     expect(staticIndexContent).to.have.string('<script src="_scripts/src/variables.styl');
-    expect(staticIndexContent).to.have.string('<script src="_scripts/src/fepper-obj.js');
   });
 
   it('converts double-quoted absolute Fepper homepage links to portable, static index page links', function () {
