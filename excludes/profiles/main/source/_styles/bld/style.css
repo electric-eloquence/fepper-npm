@@ -253,9 +253,13 @@ a {
   text-decoration: none;
   outline: 0;
 }
-a:hover,
 a:focus {
   color: #808080;
+}
+@media (hover: hover) {
+  a:hover {
+    color: #808080;
+  }
 }
 .hidden {
   display: none !important;
@@ -354,12 +358,16 @@ a:focus {
   height: 5.4rem;
   z-index: 2;
 }
-.nav-toggle:hover,
 .nav-toggle:focus {
   color: #808080;
 }
 .nav-toggle:active {
   background-color: #eee;
+}
+@media (hover: hover) {
+  .nav-toggle:hover {
+    color: #808080;
+  }
 }
 @media all and (min-width: 768px) {
   .nav-toggle {

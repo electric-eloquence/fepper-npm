@@ -31,8 +31,11 @@ a
   color: $gray-dark
   text-decoration: none
   outline: 0
-  &:hover, &:focus
+  &:focus
     color: $gray
+  @media (hover: hover)
+    &:hover
+      color: $gray
 // Completely remove from the flow and screen readers.
 .hidden
   display: none !important
