@@ -3,6 +3,7 @@
 ### v0.37.1
 * Updated appendixer to account for variables.styl strings wrapped in quotes
 * Sunsetting fepper-obj.js
+* Improvements to mobile nav toggles in demo site
 
 ### v0.37.0
 * Updated main profile demo site
