@@ -440,7 +440,6 @@ ${t('Tasks:')}
     fp ui:compile       ${t('Compile the Fepper User Interface from its components')}
     fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
     fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into the browser without a refresh)')}
-    fp ui:help          ${t('Get more information about Fepper UI CLI commands')}
 `;
 
     this.utils.info(out);
