@@ -21,7 +21,7 @@
       }
     );
   }
-  
+
   var searchToggle = d.querySelector('.nav-toggle-search');
   var searchForm = d.querySelector('.header .search-form');
 
