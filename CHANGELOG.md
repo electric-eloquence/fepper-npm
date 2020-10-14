@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.37.2
+* Improved browser JavaScript
+
 ### v0.37.1
 * Updated appendixer to account for variables.styl strings wrapped in quotes
 * Sunsetting fepper-obj.js
