@@ -6,12 +6,10 @@
 {{# portReloader }}
 <script>
   // LiveReload.
-  const {protocol, hostname} = window.location;
-
-  if (protocol !== 'file:') {
+  if (location.protocol !== 'file:') {
     const reloader = document.createElement('script');
 
-    reloader.setAttribute('src', protocol + '//' + hostname + ':{{ portReloader }}/livereload.js');
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':{{ portReloader }}/livereload.js');
     document.body.appendChild(reloader);
   }
 </script>
