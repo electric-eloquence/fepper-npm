@@ -1,6 +1,6 @@
 # Fepper NPM Changelog
 
-### v0.37.2
+### v0.38.0
 * Improved browser JavaScript
 
 ### v0.37.1
