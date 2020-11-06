@@ -447,12 +447,10 @@ describe('Mustache Browser', function () {
 
 <script>
   // LiveReload.
-  const {protocol, hostname} = window.location;
-
-  if (protocol !== 'file:') {
+  if (location.protocol !== 'file:') {
     const reloader = document.createElement('script');
 
-    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
     document.body.appendChild(reloader);
   }
 </script>
@@ -520,12 +518,10 @@ describe('Mustache Browser', function () {
 
 <script>
   // LiveReload.
-  const {protocol, hostname} = window.location;
-
-  if (protocol !== 'file:') {
+  if (location.protocol !== 'file:') {
     const reloader = document.createElement('script');
 
-    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
     document.body.appendChild(reloader);
   }
 </script>
@@ -594,12 +590,10 @@ describe('Mustache Browser', function () {
 
 <script>
   // LiveReload.
-  const {protocol, hostname} = window.location;
-
-  if (protocol !== 'file:') {
+  if (location.protocol !== 'file:') {
     const reloader = document.createElement('script');
 
-    reloader.setAttribute('src', protocol + '//' + hostname + ':35729/livereload.js');
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
     document.body.appendChild(reloader);
   }
 </script>
