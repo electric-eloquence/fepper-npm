@@ -74,10 +74,9 @@
   "devDependencies": {
     "chai": "4.x",
     "eslint": "5.x",
-    "fepper-ui": "*",
-    "fepper-utils": "*",
-    "husky": "1.x",
-    "json-eval": "*",
+    "fepper-ui": "^0.5.4",
+    "fepper-utils": "^1.1.7",
+    "json-eval": "^1.0.7",
     "mocha": "6.x"
   }
 }
