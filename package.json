@@ -83,7 +83,7 @@
     "coveralls": "3.x",
     "eslint": "6.x",
     "husky": "4.x",
-    "json-eval": "*",
+    "json-eval": "^1.0.8",
     "mocha": "7.x",
     "nyc": "15.x"
   }
