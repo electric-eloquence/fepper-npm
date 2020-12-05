@@ -18,8 +18,9 @@ module.exports = class {
     return (req, res) => {
       fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
         const successMsg = 'Installation success!';
+        const ts = this.utils.deepGet(req, 'query.ts') ? req.query.ts : '';
         const successSimple = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
-<body>${successMsg}<br><a href="/">Open Fepper UI</a></body></html>`;
+<body>${successMsg}<br><a href="/?ts=${ts}">Open Fepper UI</a></body></html>`;
 
         if (!dat) {
           res.send(successSimple);
@@ -60,7 +61,7 @@ module.exports = class {
             msg_class: 'success',
             message: `<h1>${successMsg}</h1>`,
             origin: req.headers.host,
-            search: req.query && req.query.ts ? `?ts=${req.query.ts}` : ''
+            search: ts ? `?ts=${ts}` : ''
           }
         );
 
