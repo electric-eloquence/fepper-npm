@@ -28,7 +28,7 @@ describe('Success', function () {
       })
       .then((output) => {
         expect(output).to.equal(`<!DOCTYPE html><html><head><meta charset="utf-8"></head>
-<body>Installation success!<br><a href="/">Open Fepper UI</a></body></html>`);
+<body>Installation success!<br><a href="/?ts=">Open Fepper UI</a></body></html>`);
         done();
       })
       .catch((err) => {
