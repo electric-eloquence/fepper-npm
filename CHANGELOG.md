@@ -2,6 +2,7 @@
 
 ### v0.38.0
 * Improved browser JavaScript
+* Improved simple success page
 
 ### v0.37.1
 * Updated appendixer to account for variables.styl strings wrapped in quotes
