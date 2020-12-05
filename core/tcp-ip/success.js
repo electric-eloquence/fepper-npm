@@ -16,7 +16,6 @@ module.exports = class {
 
   main() {
     return (req, res) => {
-console.warn(req)
       fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
         const successMsg = 'Installation success!';
         const ts = this.utils.deepGet(req, 'query.ts') ? req.query.ts : '';
