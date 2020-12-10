@@ -9,11 +9,11 @@ const {
 const errorResponse = fepper.tcpIp.fpExpress.errorResponse;
 
 describe('Error Response', function () {
-  it('responds with a 404 if no README.md present', function (done) {
+  it('responds with a 404 if file is missing', function (done) {
     new Promise(
       (resolve) => {
         errorResponse.notFound()(
-          {},
+          {url: 'missing.html'},
           responseFactory(resolve)
         );
       })
@@ -33,15 +33,14 @@ describe('Error Response', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/style.css">
     
   </head>
 
-  <body class="text ">
+  <body class="">
     <main id="" class="">
       <div id="message" class="message "></div>
-      <pre>Cannot GET undefined</pre>
+      <pre>Cannot GET missing.html</pre>
     </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">

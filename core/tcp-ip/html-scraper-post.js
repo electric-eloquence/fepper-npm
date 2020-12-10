@@ -61,7 +61,7 @@ module.exports = class {
     }
 
     const persistentObj = persistentObj_ || new HtmlObj();
-    const selector = selectorObj.selector;
+    const selectorName = selectorObj.name;
     const selectorType = selectorObj.type;
     persistentObj.index = selectorObj.index;
 
@@ -81,19 +81,19 @@ module.exports = class {
       let matched = false;
       switch (selectorType) {
         case 'tag':
-          if (child.tag && child.tag === selector) {
+          if (child.tag && child.tag === selectorName) {
             persistentObj.child.push(child);
             matched = true;
           }
           break;
         case 'id':
-          if (child.attr && child.attr.id && child.attr.id === selector) {
+          if (child.attr && child.attr.id && child.attr.id === selectorName) {
             persistentObj.child.push(child);
             matched = true;
           }
           break;
         case 'class':
-          if (child.attr && child.attr.class && child.attr.class.indexOf(selector) > -1) {
+          if (child.attr && child.attr.class && child.attr.class.indexOf(selectorName) > -1) {
             persistentObj.child.push(child);
             matched = true;
           }
@@ -487,7 +487,7 @@ module.exports = class {
   /**
    * Objectify raw selector string.
    *
-   * @param {string} selectorRaw - CSS selector plus optional array index.
+   * @param {string} selectorRaw - CSS selector plus optional array index. DEPRECATED. To be renamed "selector".
    * @param {string} selectorIdx - The index at which to select from an array of CSS selections.
    * @returns {object} CSS selector, its index, and type.
    */
@@ -496,7 +496,7 @@ module.exports = class {
     // It is extraneous in newer Fepper versions and will be removed.
     const selectorSplit = selectorRaw.trim().split('[');
     let index;
-    let selector;
+    let name;
     let type;
 
     if (selectorSplit[1]) {
@@ -518,19 +518,19 @@ module.exports = class {
 
     switch (selectorSplit[0][0]) {
       case '#':
-        selector = selectorSplit[0].slice(1);
+        name = selectorSplit[0].slice(1);
         type = 'id';
         break;
       case '.':
-        selector = selectorSplit[0].slice(1);
+        name = selectorSplit[0].slice(1);
         type = 'class';
         break;
       default:
-        selector = selectorSplit[0];
+        name = selectorSplit[0];
         type = 'tag';
     }
 
-    return {selector, index, type};
+    return {name, index, type};
   }
 
   /**

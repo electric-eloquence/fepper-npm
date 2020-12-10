@@ -100,61 +100,73 @@ describe('HTML Scraper Post', function () {
     fs.removeSync(scrapeFile2Mustache);
   });
 
-  describe('.selectorValidate()', function () {
-    const req = {body: {target: '', url: ''}};
-
+  describe('.selectorObjectify()', function () {
     it('identifies the CSS class with no index', function () {
       const selector = '.class_test-0';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
-      expect(selectorObj.name).to.equal('.class_test-0');
+      expect(selectorObj.name).to.equal('class_test-0');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('class');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS class and index', function () {
       const selector = '.class_test-0[0]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '0');
 
-      expect(selectorObj.name).to.equal('.class_test-0');
+      expect(selectorObj.name).to.equal('class_test-0');
       expect(selectorObj.index).to.equal(0);
+      expect(selectorObj.type).to.equal('class');
     });
 
     it('identifies the CSS id with no index', function () {
       const selector = '#id_test-0';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
-      expect(selectorObj.name).to.equal('#id_test-0');
+      expect(selectorObj.name).to.equal('id_test-0');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('id');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS id and index', function () {
       const selector = '#id_test-0[1]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '1');
 
-      expect(selectorObj.name).to.equal('#id_test-0');
+      expect(selectorObj.name).to.equal('id_test-0');
       expect(selectorObj.index).to.equal(1);
+      expect(selectorObj.type).to.equal('id');
     });
 
     it('identifies the HTML tag with no index', function () {
       const selector = 'h1';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
       expect(selectorObj.name).to.equal('h1');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('tag');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS id and index', function () {
       const selector = 'h1[2]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '2');
 
       expect(selectorObj.name).to.equal('h1');
       expect(selectorObj.index).to.equal(2);
+      expect(selectorObj.type).to.equal('tag');
     });
   });
 
   describe('.targetHtmlGet()', function () {
     it('gets all selectors of a given class if given no index', function () {
-      const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtmlConst);
+      const selectorObj = {
+        name: 'test',
+        index: -1,
+        type: 'class'
+      };
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -171,7 +183,12 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given class if given an index', function () {
-      const html2jsonObj = htmlScraperPost.elementSelect('.test[1]', jsonFromHtmlConst);
+      const selectorObj = {
+        name: 'test',
+        index: 1,
+        type: 'class'
+      };
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -179,8 +196,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given id', function () {
+      const selectorObj = {
+        name: 'one',
+        index: -1,
+        type: 'id'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('#one', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="one" class="test">Foo</div>\n');
@@ -188,8 +210,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets all selectors of a given tagname if given no index', function () {
+      const selectorObj = {
+        name: 'div',
+        index: -1,
+        type: 'tag'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('div', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -212,8 +239,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given tagname if given an index', function () {
+      const selectorObj = {
+        name: 'div',
+        index: 1,
+        type: 'tag'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('div[1]', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -294,8 +326,13 @@ describe('HTML Scraper Post', function () {
 <div class="test">Barf</div>
 <div class="test">Bazm</div>
 `;
+      const selectorObj = {
+        name: 'test',
+        index: -1,
+        type: 'class'
+      };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
@@ -318,9 +355,13 @@ describe('HTML Scraper Post', function () {
 </div>
 <div id="test3">Bazm</div>
 `;
-
+      const selectorObj = {
+        name: 'test2',
+        index: -1,
+        type: 'id'
+      };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect('#test2', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
@@ -548,12 +589,11 @@ describe('HTML Scraper Post', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/html-scraper.css" media="all">
-    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/html-scraper.css">
     
   </head>
 
-  <body class="text ">
+  <body class="">
     <main id="fepper-html-scraper" class="">
       <div id="message" class="message "></div>
       <div id="load-anim">
