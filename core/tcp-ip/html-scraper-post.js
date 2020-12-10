@@ -38,46 +38,21 @@ module.exports = class {
     this.json = this.utils.deepGet(this, 'req.body.json') || '';
     this.mustache = this.utils.deepGet(this, 'req.body.mustache') || '';
     this.selector = this.utils.deepGet(this, 'req.body.selector') || '';
+    this.selectorIdx = this.utils.deepGet(this, 'req.body.index') || ''; // Leave as string, parseInt later.
+    this.selectorRaw = this.utils.deepGet(this, 'req.body.selector_raw') || '';
     this.url = this.utils.deepGet(this, 'req.body.url') || '';
-  }
-
-  /**
-   * @param {string} selectorRaw - CSS selector plus optional array index.
-   * @returns {object} An object storing properties of the selector.
-   */
-  elementParse(selectorRaw) {
-    const selectorObj = this.selectorValidate(selectorRaw);
-    const index = selectorObj.index;
-    let name;
-    let type;
-
-    switch (selectorObj.name[0]) {
-      case '#':
-        name = selectorObj.name.slice(1);
-        type = 'id';
-        break;
-      case '.':
-        name = selectorObj.name.slice(1);
-        type = 'class';
-        break;
-      default:
-        name = selectorObj.name;
-        type = 'tag';
-    }
-
-    return {name, index, type};
   }
 
   /**
    * Recurse through the object returned by html2json to find the selected element(s).
    *
-   * @param {string|object} selector_ - At level 0, a CSS selector. At deeper levels, the selector object.
+   * @param {object} selectorObj - An object describing selection criteria.
    * @param {object} html2jsonObj - The object returned by html2json.
    * @param {object|null} persistentObj_ - A mutating object persisting to return results. Not submitted at level 0.
    * @param {number} level - The level of recursion. Not submitted at level 0.
    * @returns {object} An html2json object containing the matched elements. Only returns at level 0.
    */
-  elementSelect(selector_, html2jsonObj, persistentObj_ = null, level = 0) {
+  elementSelect(selectorObj, html2jsonObj, persistentObj_ = null, level = 0) {
     // Validate 1st param.
     // Validate 2nd param.
     /* istanbul ignore if */
@@ -86,20 +61,7 @@ module.exports = class {
     }
 
     const persistentObj = persistentObj_ || new HtmlObj();
-    let selectorObj;
-
-    /* istanbul ignore else */
-    if (typeof selector_ === 'string') {
-      selectorObj = this.elementParse(selector_);
-    }
-    else if (selector_ && selector_.constructor === Object) {
-      selectorObj = selector_;
-    }
-    else {
-      return null;
-    }
-
-    const selectorName = selectorObj.name;
+    const selector = selectorObj.selector;
     const selectorType = selectorObj.type;
     persistentObj.index = selectorObj.index;
 
@@ -119,19 +81,19 @@ module.exports = class {
       let matched = false;
       switch (selectorType) {
         case 'tag':
-          if (child.tag && child.tag === selectorName) {
+          if (child.tag && child.tag === selector) {
             persistentObj.child.push(child);
             matched = true;
           }
           break;
         case 'id':
-          if (child.attr && child.attr.id && child.attr.id === selectorName) {
+          if (child.attr && child.attr.id && child.attr.id === selector) {
             persistentObj.child.push(child);
             matched = true;
           }
           break;
         case 'class':
-          if (child.attr && child.attr.class && child.attr.class.indexOf(selectorName) > -1) {
+          if (child.attr && child.attr.class && child.attr.class.indexOf(selector) > -1) {
             persistentObj.child.push(child);
             matched = true;
           }
@@ -148,7 +110,7 @@ module.exports = class {
       }
     }
 
-    if (!level) {
+    if (level === 0) {
       return persistentObj;
     }
   }
@@ -217,23 +179,24 @@ module.exports = class {
   htmlOutput(jsonForData, targetHtml_, mustache, msgClass = '', message = '') {
     const dataStr = JSON.stringify(jsonForData, null, 2);
     const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
-    const url = this.url;
-    const selector = this.selector;
+    const url = this.url
+    const selectorRaw = this.selectorRaw;
 
-    let outputFpt = this.html.headWithMsg;
+    let outputFpt = this.html.headScraper;
     outputFpt += this.html.loadingAnimation;
-    outputFpt += this.html.scraperTitle;
+    outputFpt += this.html.scraperHeading;
     outputFpt += this.html.reviewerPrefix;
-    outputFpt += '<div>' + targetHtml + '</div>';
+    outputFpt += targetHtml;
     outputFpt += this.html.reviewerSuffix;
     outputFpt += this.html.importerPrefix;
     outputFpt += '{{{ mustache }}}';
     outputFpt += this.html.json;
-
-    // Escape double-quotes.
-    outputFpt += dataStr.replace(/&quot;/g, '&bsol;&quot;');
+    outputFpt += dataStr.replace(/&quot;/g, '&bsol;&quot;'); // Escape double-quotes.
     outputFpt += this.html.importerSuffix;
-    outputFpt += '<script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>';
+    outputFpt += this.html.landingBody;
+    outputFpt += this.html.helpText;
+    outputFpt += this.html.scraperStage;
+    outputFpt += '\n      <script src ="/node_modules/fepper-ui/scripts/pattern/html-scraper-dhtml.js"></script>';
     outputFpt += this.html.foot;
 
     const patternlabFoot = Feplet.render(
@@ -248,13 +211,14 @@ module.exports = class {
       outputFpt,
       {
         title: t('Fepper HTML Scraper'),
-        main_id: 'scraper',
-        main_class: 'scraper',
+        main_id: 'fepper-html-scraper',
         msg_class: msgClass,
         message,
-        url,
-        selector,
         mustache,
+        url,
+        selector_raw: selectorRaw,
+        help_buttons: this.html.helpButtons,
+        help_text: this.html.scraperHelpText,
         patternlabFoot
       }
     );
@@ -466,19 +430,19 @@ module.exports = class {
             '/html-scraper?msg_class=' + encodeURIComponent(msgClass) +
             '&message=' + encodeURIComponent(message) +
             '&url=' + encodeURIComponent(this.url) +
-            '&selector=' + encodeURIComponent(this.selector)
+            '&selector_raw=' + encodeURIComponent(this.selectorRaw)
         }
       );
       this.res.end();
     }
   }
 
-  scrapeAndRender(selector, html2jsonObj) {
+  scrapeAndRender(selectorObj, html2jsonObj) {
     let msgClass;
     let message;
 
     try {
-      const elementSelection = this.elementSelect(selector, html2jsonObj);
+      const elementSelection = this.elementSelect(selectorObj, html2jsonObj);
       let jsonForData = new JsonForData();
       let jsonForMustache;
       let mustache = '';
@@ -523,55 +487,58 @@ module.exports = class {
   }
 
   /**
-   * Validate syntax of selector input.
+   * Objectify raw selector string.
    *
-   * @param {string} selectorRaw_ - CSS selector plus optional array index.
-   * @returns {array} CSS selector and its index if it comprises more than one element.
+   * @param {string} selectorRaw - CSS selector plus optional array index.
+   * @param {string} selectorIdx - The index at which to select from an array of CSS selections.
+   * @returns {object} CSS selector, its index, and type.
    */
-  selectorValidate(selectorRaw_) {
-    const selectorRaw = selectorRaw_.trim();
-    const bracketOpenPos = selectorRaw.indexOf('[');
-    const bracketClosePos = selectorRaw.indexOf(']');
+  selectorObjectify(selectorRaw, selectorIdx) {
+    // DEPRECATED: The parsing of the raw selector into selector name and index should have occurred on the client-side.
+    // It is extraneous in newer Fepper versions and will be removed.
+    const selectorSplit = selectorRaw.trim().split('[');
+    let index;
+    let selector;
+    let type;
 
-    let index = -1;
-    let indexStr;
-    let name = selectorRaw;
-
-    // Slice selectorRaw to extract name and indexStr if submitted.
-    if (bracketOpenPos > -1) {
-      // This should already be validated by the .main() method and client-side, in fepper-ui.
-      // Here for due diligence.
-      /* istanbul ignore else */
-      if (bracketClosePos === selectorRaw.length - 1) {
-        indexStr = selectorRaw.slice(bracketOpenPos + 1, bracketClosePos);
-        name = selectorRaw.slice(0, bracketOpenPos);
-      }
-      else {
-        name = '';
+    if (selectorSplit[1]) {
+      // DEPRECATED
+      if (/^\d+\]$/.test(selectorSplit[1])) {
+        index = selectorSplit[1].slice(0, -1);
       }
     }
-
-    // If indexStr if submitted, validate it is an integer.
-    if (indexStr) {
-      // This should already be validated by the .main() method and client-side, in fepper-ui.
-      // Here for due diligence.
-      /* istanbul ignore else */
-      if (/^\d+$/.test(indexStr)) {
-        index = parseInt(indexStr);
-      }
-      else {
-        name = '';
-      }
+    else {
+      index = selectorIdx;
     }
 
-    return {name, index};
+    if (index === '') {
+      index = -1;
+    }
+    else {
+      index = parseInt(index);
+    }
+
+    switch (selectorSplit[0][0]) {
+      case '#':
+        selector = selectorSplit[0].slice(1);
+        type = 'id';
+        break;
+      case '.':
+        selector = selectorSplit[0].slice(1);
+        type = 'class';
+        break;
+      default:
+        selector = selectorSplit[0];
+        type = 'tag';
+    }
+
+    return {selector, index, type};
   }
 
   /**
    * Iterate through collection of selected elements. If an index is specified, skip until that index is iterated upon.
    *
    * @param {string} html2jsonObj - An html2json object.
-   * @param {string} targetIndex - Optional user submitted index from which the node in html2jsonObj is selected.
    * @returns {object} An object containing an html2json object containing all nodes, and another containg only one.
    */
   targetHtmlGet(html2jsonObj) {
@@ -678,7 +645,9 @@ module.exports = class {
         return;
       }
 
-      this.scrapeAndRender(this.selector.trim(), html2jsonObj);
+      const selectorObj = this.selectorObjectify(this.selector, this.selectorIdx);
+
+      this.scrapeAndRender(selectorObj, html2jsonObj);
 
       return;
     }

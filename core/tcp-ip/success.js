@@ -45,7 +45,7 @@ module.exports = class {
           return;
         }
 
-        let outputFpt = this.html.headWithMsg;
+        let outputFpt = this.html.head;
         outputFpt += this.html.success;
         outputFpt += htmlMd + '\n';
         outputFpt += '<p>&nbsp;</p>\n';

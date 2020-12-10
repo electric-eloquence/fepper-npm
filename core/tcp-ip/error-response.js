@@ -20,18 +20,9 @@ module.exports = class {
         }
       );
 
-      let outputFpt = `
-<!DOCTYPE html>
-<html>
-  <head>
-    <title id="title">${t('ERROR')}</title>
-    <meta charset="utf-8">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
-  </head>
-  <body>
-    <main>
-      <pre>${t('Cannot GET %s')}</pre>`;
-
+      let outputFpt = this.html.head;
+      outputFpt = outputFpt.replace('{{ title }}', t('ERROR'));
+      outputFpt += `\n      <pre>${t('Cannot GET %s')}</pre>`;
       outputFpt = outputFpt.replace('%s', req.url);
       outputFpt += this.html.foot;
       const output = Feplet.render(outputFpt, {patternlabFoot});
