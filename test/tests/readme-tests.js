@@ -61,20 +61,19 @@ describe('Readme', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    
   </head>
 
   <body class="text ">
-    <main id="readme" class="readme"><h1 id="fepper">Fepper</h1>
+    <main id="readme" class="readme">
+      <div id="message" class="message "></div><h1 id="fepper">Fepper</h1>
 <h2 id="a-frontend-prototyper-tool-for-rapid-prototyping-of-websites">A frontend prototyper tool for rapid prototyping of websites</h2>
 
 
     </main>
-
     
-
   </body>
 </html>`);
         /* eslint-enable max-len */

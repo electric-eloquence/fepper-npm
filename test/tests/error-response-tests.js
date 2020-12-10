@@ -20,17 +20,29 @@ describe('Error Response', function () {
       .then((output) => {
         expect(output).to.equal(`
 <!DOCTYPE html>
-<html>
+<html class="">
   <head>
     <title id="title">ERROR</title>
     <meta charset="utf-8">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+
+    <!-- Disable cache -->
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+
+    
+    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    
   </head>
-  <body>
-    <main>
+
+  <body class="text ">
+    <main id="" class="">
+      <div id="message" class="message "></div>
       <pre>Cannot GET undefined</pre>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -48,7 +60,6 @@ describe('Error Response', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);

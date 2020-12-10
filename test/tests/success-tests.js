@@ -70,9 +70,9 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    
   </head>
 
   <body class="text ">
@@ -87,9 +87,7 @@ describe('Success', function () {
 <p>&nbsp;</p>
 
     </main>
-
     
-
   </body>
 </html>`);
         /* eslint-enable max-len */

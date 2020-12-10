@@ -179,8 +179,6 @@ module.exports = class {
   htmlOutput(jsonForData, targetHtml_, mustache, msgClass = '', message = '') {
     const dataStr = JSON.stringify(jsonForData, null, 2);
     const targetHtml = he.encode(targetHtml_).replace(/\n/g, '<br>');
-    const url = this.url
-    const selectorRaw = this.selectorRaw;
 
     let outputFpt = this.html.headScraper;
     outputFpt += this.html.loadingAnimation;
@@ -215,8 +213,8 @@ module.exports = class {
         msg_class: msgClass,
         message,
         mustache,
-        url,
-        selector_raw: selectorRaw,
+        url: this.url,
+        selector_raw: this.selectorRaw,
         help_buttons: this.html.helpButtons,
         help_text: this.html.scraperHelpText,
         patternlabFoot

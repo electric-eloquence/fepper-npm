@@ -29,7 +29,7 @@ module.exports = class {
    * @param {string} err - Error.
    */
   noResult(req, res, err) {
-    let template = this.html.head;
+    let template = this.html.headMustache;
     template += backButton;
 
     /* istanbul ignore if */
@@ -158,7 +158,7 @@ module.exports = class {
           let entitiesAndLinks = this.toHtmlEntitiesAndLinks(mustacheCode);
 
           // Render the output with HTML head and foot.
-          let template = this.html.head;
+          let template = this.html.headMustache;
           template += backButton;
           template += `<h2><a
             href="../${this.conf.ui.pathsPublic.patterns}/${patternLink}"

@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background: white;
+  font-family: Menlo, "Lucida Console", "DejaVu Sans Mono", "Liberation Mono", "Roboto Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+}
+
+main {
+  margin: 0 auto;
+  padding: 40px 0;
+  width: auto;
+}
+
+@media all and (max-width: 768px) {
+  main {
+    margin: 0 20px;
+  }
+}
+
+@media all and (min-width: 769px) {
+  main {
+    width: 700px;
+  }
+}
+
+@media all and (min-width: 1025px) {
+  main {
+    width: 800px;
+  }
+}
+
+a {
+  color: #333333;
+  text-decoration: none;
+  outline: 0;
+}
+
+a:hover,
+a:focus {
+  color: gray;
+}
+
+.mustache-browser {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mustache-browser body::-webkit-scrollbar {
+  display: none;
+}
+
+.mustache-browser h2 {
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 4px 0 10px;
+  padding: 4px 0 0;
+}
+
+a.mustache-browser__back {
+  color: blue;
+  font-size: 2.4rem;
+  position: relative;
+  text-decoration: none;
+  top: -2rem;
+}
+
+a.mustache-browser__pattern-link {
+  text-decoration: none;
+}

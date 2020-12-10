@@ -23,19 +23,21 @@ exports.headBoilerplate = `
 
     {{{ patternlabHead }}}
     {{{ stylesheets }}}
-    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
     {{{ scripts }}}
   </head>
 
-  <body class="text {{ body_class }}">
+  <body class="{{ body_class }}">
     <main id="{{ main_id }}" class="{{ main_class }}">
       <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>`;
 
 exports.head = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/style.css" media="all">');
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/style.css">');
+
+exports.headMustache = exports.headBoilerplate
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/mustache-browser.css">');
 
 exports.headScraper = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/html-scraper.css" media="all">');
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/html-scraper.css">');
 
 exports.loadingAnimation = `
       <div id="load-anim">
@@ -116,9 +118,7 @@ exports.success = `
 
 exports.foot = `
     </main>
-
     {{{ patternlabFoot }}}
-
   </body>
 </html>`;
 

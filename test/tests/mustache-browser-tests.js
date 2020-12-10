@@ -504,7 +504,6 @@ describe('Mustache Browser', function () {
 
 
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
   </head>
 
   <body class="text ">
@@ -574,15 +573,15 @@ describe('Mustache Browser', function () {
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
 
-
     <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    
   </head>
 
   <body class="text ">
-    <main id="" class="mustache-browser__no-result"><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
+    <main id="" class="mustache-browser__no-result">
+      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -600,7 +599,6 @@ describe('Mustache Browser', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);
