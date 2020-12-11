@@ -23,7 +23,7 @@ module.exports = class {
 
       fetch(req.query.url)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.ok) {
             return response.text();
           }
           else {
@@ -38,8 +38,8 @@ module.exports = class {
             res.status(output).end();
           }
         })
-        .catch((error) => {
-          this.utils.error(error);
+        .catch((err) => {
+          this.utils.error(err);
           res.status(500).end();
         });
     };
