@@ -20,7 +20,7 @@ module.exports = class {
         }
       );
 
-      let outputFpt = this.html.head;
+      let outputFpt = this.html.headBoilerplate;
       outputFpt = outputFpt.replace('{{ title }}', t('ERROR'));
       outputFpt += `\n      <pre>${t('Cannot GET %s')}</pre>`;
       outputFpt = outputFpt.replace('%s', req.url);

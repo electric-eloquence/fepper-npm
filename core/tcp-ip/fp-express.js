@@ -6,8 +6,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 
-const html = require('../lib/html');
-
 const ErrorResponse = require('./error-response');
 const Gatekeeper = require('./gatekeeper');
 const HtmlScraper = require('./html-scraper');
@@ -17,7 +15,7 @@ const Readme = require('./readme');
 const Success = require('./success');
 
 module.exports = class {
-  constructor(options, ui) {
+  constructor(options, ui, html) {
     this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
@@ -102,9 +100,6 @@ module.exports = class {
 
     // For all other static requests, document root = public directory.
     app.use(express.static(this.conf.ui.paths.public.root));
-
-    // If the request has fallen through this far, respond with a 404.
-    app.use(this.errorResponse.notFound());
 
     this.app = global.expressApp = app;
   }
