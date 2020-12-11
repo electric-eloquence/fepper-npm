@@ -52,7 +52,7 @@ module.exports = class {
    * @param {number} level - The level of recursion. Not submitted at level 0.
    * @returns {object} An html2json object containing the matched elements. Only returns at level 0.
    */
-  elementSelect(selectorObj, html2jsonObj, persistentObj_ = null, level = 0) {
+  elementsSelect(selectorObj, html2jsonObj, persistentObj_ = null, level = 0) {
     // Validate 1st param.
     // Validate 2nd param.
     /* istanbul ignore if */
@@ -106,7 +106,7 @@ module.exports = class {
 
       // Else if recursable, recurse.
       else if (Array.isArray(child.child) && child.child.length) {
-        this.elementSelect(selectorObj, child, persistentObj, level + 1);
+        this.elementsSelect(selectorObj, child, persistentObj, level + 1);
       }
     }
 
@@ -440,13 +440,13 @@ module.exports = class {
     let message;
 
     try {
-      const elementSelection = this.elementSelect(selectorObj, html2jsonObj);
+      const elementsSelection = this.elementsSelect(selectorObj, html2jsonObj);
       let jsonForData = new JsonForData();
       let jsonForMustache;
       let mustache = '';
       let targetSingle;
       let targetHtml = '';
-      let targetHtmlObj = this.targetHtmlGet(elementSelection);
+      let targetHtmlObj = this.targetHtmlGet(elementsSelection);
 
       // Sanitize scraped HTML.
       targetHtml = this.htmlSanitize(targetHtmlObj.all);
