@@ -33,7 +33,7 @@ describe('Error Response', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    
     
   </head>
 
