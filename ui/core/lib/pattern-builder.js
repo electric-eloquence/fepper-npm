@@ -182,24 +182,31 @@ module.exports = class {
     // Disabling guard-for-in because we have complete control over construction of partials.
     // eslint-disable-next-line guard-for-in
     for (let partialKey in partials) {
+
       // The partialKey may or may not have a param.
       // Whether it does or not, make sure there is an entry for the non-param partial.
       for (let i = 0, l = patterns.length; i < l; i++) {
         const pattern = patterns[i];
 
+        let nonParamPartialKeyTest = partialKey.trim();
+        const nonParamPartialKeyTestIndex = nonParamPartialKeyTest.indexOf('(');
         let nonParamPartialKey;
 
+        if (nonParamPartialKeyTestIndex > -1) {
+          nonParamPartialKeyTest = partialKey.slice(0, nonParamPartialKeyTestIndex).trim();
+        }
+
         /* istanbul ignore else */
-        if (partialKey.indexOf(pattern.patternPartial) === 0) {
+        if (nonParamPartialKeyTest === pattern.patternPartial) {
           nonParamPartialKey = pattern.patternPartial;
         }
-        else if (partialKey.indexOf(pattern.patternPartialPhp) === 0) {
+        else if (nonParamPartialKeyTest === pattern.patternPartialPhp) {
           nonParamPartialKey = pattern.patternPartialPhp;
         }
-        else if (partialKey.indexOf(pattern.relPath) === 0) {
+        else if (nonParamPartialKeyTest === pattern.relPath) {
           nonParamPartialKey = pattern.relPath;
         }
-        else if (partialKey.indexOf(pattern.relPathTrunc) === 0) { // Must come after relPath.
+        else if (nonParamPartialKeyTest === pattern.relPathTrunc) { // Must come after relPath.
           nonParamPartialKey = pattern.relPathTrunc;
         }
 
