@@ -56,7 +56,7 @@ module.exports = class {
     // Validate 1st param.
     // Validate 2nd param.
     /* istanbul ignore if */
-    if (!html2jsonObj || html2jsonObj.constructor !== Object || !Array.isArray(html2jsonObj.child)) {
+    if (!html2jsonObj || !(html2jsonObj instanceof Object) || !Array.isArray(html2jsonObj.child)) {
       return null;
     }
 
@@ -69,7 +69,7 @@ module.exports = class {
       let child = html2jsonObj.child[i];
 
       /* istanbul ignore if */
-      if (!child || child.constructor !== Object) {
+      if (!child || !(child instanceof Object)) {
         continue;
       }
 

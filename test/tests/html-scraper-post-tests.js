@@ -166,7 +166,7 @@ describe('HTML Scraper Post', function () {
         index: -1,
         type: 'class'
       };
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtmlConst);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -188,7 +188,7 @@ describe('HTML Scraper Post', function () {
         index: 1,
         type: 'class'
       };
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtmlConst);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -202,7 +202,7 @@ describe('HTML Scraper Post', function () {
         type: 'id'
       };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="one" class="test">Foo</div>\n');
@@ -216,7 +216,7 @@ describe('HTML Scraper Post', function () {
         type: 'tag'
       };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -245,7 +245,7 @@ describe('HTML Scraper Post', function () {
         type: 'tag'
       };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -332,7 +332,7 @@ describe('HTML Scraper Post', function () {
         type: 'class'
       };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
@@ -361,7 +361,7 @@ describe('HTML Scraper Post', function () {
         type: 'id'
       };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect(selectorObj, jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
