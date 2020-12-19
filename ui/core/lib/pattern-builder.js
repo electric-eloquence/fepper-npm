@@ -340,8 +340,12 @@ module.exports = class {
 
     pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
-    // Do not trim patterns with `pre` tags.
-    if (pattern.template.includes('</pre>')) {
+    // Do not trim patterns with `pre` or `script` tags.
+    // Otherwise, trimming patterns of newlines and extraneous whitespace will greatly enhance build performance.
+    if (
+      pattern.template.includes('</pre>') ||
+      pattern.template.includes('</script>')
+    ) {
       pattern.templateTrimmed = pattern.template;
     }
     else {
@@ -350,10 +354,7 @@ module.exports = class {
         .map((line_) => {
           let line = line_.trim();
 
-          if (line.includes('//')) {
-            line += '\n';
-          }
-          else if (line) {
+          if (line) {
             line += ' ';
           }
 
