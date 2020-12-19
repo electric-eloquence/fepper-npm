@@ -339,21 +339,28 @@ module.exports = class {
     this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
 
     pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
-    pattern.templateTrimmed = pattern.template
-      .split('\n')
-      .map((line_) => {
-        let line = line_.trim();
 
-        if (line.includes('//')) {
-          line += '\n';
-        }
-        else if (line) {
-          line += ' ';
-        }
+    // Do not trim patterns with `pre` tags.
+    if (pattern.template.includes('</pre>')) {
+      pattern.templateTrimmed = pattern.template;
+    }
+    else {
+      pattern.templateTrimmed = pattern.template
+        .split('\n')
+        .map((line_) => {
+          let line = line_.trim();
 
-        return line;
-      })
-      .join('');
+          if (line.includes('//')) {
+            line += '\n';
+          }
+          else if (line) {
+            line += ' ';
+          }
+
+          return line;
+        })
+        .join('');
+    }
 
     const parseArr = Feplet.parse(Feplet.scan(pattern.templateTrimmed));
 
