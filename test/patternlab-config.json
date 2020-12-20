@@ -40,6 +40,7 @@
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
   "frontMatterExtension": ".md",
+  "hashPatterns": true,
   "ishControlsHide": {
     "disco": true,
     "find": false,
@@ -54,8 +55,8 @@
     "tools-docs": false,
     "tools-shortcuts": false
   },
-  "ishMinimum": "240",
-  "ishMaximum": "2600",
+  "ishMinimum": 240,
+  "ishMaximum": 2600,
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [
   ],

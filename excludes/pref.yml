@@ -68,4 +68,6 @@ templater:
 # default class, put the relative path to that file here.
 instance_file: node_modules/fepper/core/fepper.js
 
+# The language of the UI and console. Fepper will translate according to the
+# .json file at source/_ui/i18n declared by this setting.
 lang: en
