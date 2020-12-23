@@ -65,7 +65,7 @@
     "facebook-brad"
   ],
   "patternExtension": ".mustache",
-  "styleGuideExcludes": [
+  "styleguideExcludes": [
     "facebook"
   ]
 }

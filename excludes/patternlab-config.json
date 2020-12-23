@@ -61,6 +61,6 @@
   "patternExportPatternPartials": [
   ],
   "patternExtension": ".mustache",
-  "styleGuideExcludes": [
+  "styleguideExcludes": [
   ]
 }
