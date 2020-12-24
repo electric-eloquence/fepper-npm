@@ -6,7 +6,11 @@ const diveSync = require('diveSync');
 const fs = require('fs-extra');
 
 module.exports = class {
-  constructor(options) {
+  #ui;
+
+  constructor(options, ui) {
+    this.#ui = ui;
+
     this.options = options;
     this.appDir = options.appDir;
     this.conf = options.conf;
@@ -26,6 +30,10 @@ module.exports = class {
     this.stylesRelative = this.stylesPublic.replace(`${this.rootPublic}/`, '');
 
     this.pagesPrefix = this.conf.ui.paths.source.pages.replace(`${this.conf.ui.paths.source.patterns}/`, '');
+  }
+
+  get patternlab() {
+    return this.#ui.patternlab;
   }
 
   generatePages() {
@@ -106,11 +114,30 @@ module.exports = class {
             fs.outputFileSync(`${this.staticSource}/index.html`, tmpStr);
           }
           else {
-            regexStr = '^.*\\/';
-            regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-            regex = new RegExp(regexStr);
+            const outfilePath = this.patternlab.ingredients.patterns.reduce((acc_, cur) => {
+              let acc = acc_;
 
-            fs.outputFileSync(`${this.staticSource}/${file.replace(regex, '')}`, tmpStr);
+              if (acc.includes(cur.patternLink)) {
+                const pathParts = cur.relPathTrunc.split('/').slice(1);
+                let pathNew;
+
+                if (pathParts.length) {
+                  pathNew = pathParts
+                    .map(pathPart => pathPart.replace(/^\d+-/, ''))
+                    .join('-')
+                    + '.html';
+                }
+                else {
+                  return acc;
+                }
+
+                return pathNew;
+              }
+
+              return acc;
+            }, file);
+
+            fs.outputFileSync(`${this.staticSource}/${outfilePath}`, tmpStr);
           }
         }
         catch (err) /* istanbul ignore next */ {
@@ -137,29 +164,38 @@ module.exports = class {
   convertLinksHomepage(content_, homepage) {
     let content = content_;
 
-    if (homepage) {
-      let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*\\/' + homepage, 'gi');
-      content = content.replace(homepageRegex, '$1"index');
-
-      homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*\\/' + homepage, 'gi');
-      content = content.replace(homepageRegex, '$1\'index');
+    if (homepage && content_.includes(homepage)) {
+      const homepageRegex = new RegExp('(href=")\\.\\.\\/' + homepage + '\\/' + homepage, 'gi');
+      content = content.replace(homepageRegex, '$1index');
     }
 
     return content;
   }
 
   convertLinksSibling(content_) {
-    let content = content_;
+    const content = this.patternlab.ingredients.patterns.reduce((acc_, cur) => {
+      let acc = acc_;
 
-    let regexStr = '(href\\s*=\\s*)"[^"]*\\/';
-    regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-    const regex = new RegExp(regexStr, 'gi');
-    content = content.replace(regex, '$1"');
+      if (acc.includes(cur.patternLink)) {
+        const pathParts = cur.relPathTrunc.split('/').slice(1);
+        let pathNew;
 
-    let regexStr1 = '(href\\s*=\\s*)\'[^\']*\\/';
-    regexStr1 += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-    const regex1 = new RegExp(regexStr1, 'gi');
-    content = content.replace(regex1, '$1\'');
+        if (pathParts.length) {
+          pathNew = pathParts
+            .map(pathPart => pathPart.replace(/^\d+-/, ''))
+            .join('-')
+            + '.html';
+        }
+        else {
+          return acc;
+        }
+
+        const regex = new RegExp('(href=")\\.\\.\\/' + cur.patternLink, 'g');
+        acc = acc.replace(regex, '$1' + pathNew);
+      }
+
+      return acc;
+    }, content_);
 
     return content;
   }

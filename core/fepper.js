@@ -41,8 +41,8 @@ module.exports = class {
     this.utils = options.utils = utils;
     this.options = options;
 
-    this.tasks = new Tasks(options);
     this.ui = new Ui(options);
+    this.tasks = new Tasks(options, this.ui);
     this.tcpIp = new TcpIp(options, this.ui);
 
     global.fepper = global.fepper || this;

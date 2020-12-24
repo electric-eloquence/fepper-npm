@@ -12,7 +12,7 @@ const Updater = require('./updater');
 const Versioner = require('./versioner');
 
 module.exports = class {
-  constructor(options) {
+  constructor(options, ui) {
     this.options = options;
     this.appendixer = new Appendixer(options);
     this.frontendCopier = new FrontendCopier(options);
@@ -20,7 +20,7 @@ module.exports = class {
     this.installer = new Installer(options);
     this.jsonCompiler = new JsonCompiler(options);
     this.opener = new Opener(options);
-    this.staticGenerator = new StaticGenerator(options);
+    this.staticGenerator = new StaticGenerator(options, ui);
     this.templater = new Templater(options);
     this.updater = new Updater(options);
     this.versioner = new Versioner(options);

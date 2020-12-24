@@ -10,6 +10,7 @@
 const path = require('path');
 
 const diveSync = require('diveSync');
+const Feplet = require('feplet');
 const fs = require('fs-extra');
 const slash = require('slash');
 const yaml = require('js-yaml');
@@ -29,57 +30,73 @@ module.exports = class {
     t = this.utils.t;
   }
 
-  mustacheRecurse(file) {
+  mustacheRecurse(code) {
+    const partsByTag = code.split('{{');
+    const patternExtension = this.conf.ui.patternExtension;
     const patternsDir = this.conf.ui.paths.source.patterns;
+    let codeEscaped = '';
 
-    let code;
-    let code1 = '';
+    for (let i = 0; i < partsByTag.length; i++) {
+      const part = partsByTag[i];
 
-    try {
-      // Read code which will receive token replacement.
-      code = fs.readFileSync(file, this.conf.enc);
-      // Split by Mustache tag for parsing.
-      let codeSplit = code.split('{{');
+      if (i === 0) {
+        codeEscaped += part;
+      }
+      else {
+        if (part[0] === '>') {
+          const partsOfPart = part.split('}}');
+          const regexStr = patternExtension + '\\s*\\(';
+          const regex = new RegExp(regexStr);
 
-      for (let i = 0; i < codeSplit.length; i++) {
-        const codeSplitChunk = codeSplit[i];
-        const codeSplitIdx = i;
-
-        // Signal the OK to recurse by appending partial tags with the .mustache extension.
-        // We do NOT want to recurse EVERY included partial because then the outputted file will not
-        // contain any partials, which defeats the purpose of recursing templates in the first place.
-        // eslint-disable-next-line no-useless-escape
-        if (/^>\s*[\w\-\.\/~]+\.mustache\s*\}\}/.test(codeSplitChunk)) {
-          let partial = codeSplitChunk.split('}}');
-          partial[0] = partial[0].replace(/^>\s*/, '').trim();
-          let partialCode = this.mustacheRecurse(patternsDir + '/' + partial[0], patternsDir);
-          code1 += partialCode;
-
-          for (let partialIdx = 0; partialIdx < partial.length; partialIdx++) {
-            if (partialIdx > 0) {
-              code1 += partial[partialIdx];
-
-              if (partialIdx < partial.length - 1) {
-                code1 += '}}';
-              }
-            }
+          if (
+            partsOfPart[0].trim().slice(-patternExtension.length) === patternExtension ||
+            regex.test(partsOfPart[0])
+          ) {
+            codeEscaped += '\u0002\u0002' + part.replace('}}', '\u0003\u0003');
+          }
+          else {
+            codeEscaped += '{{' + part;
           }
         }
         else {
-          if (codeSplitIdx > 0) {
-            code1 += '{{' + codeSplitChunk;
-          }
-          else {
-            code1 += codeSplitChunk;
-          }
+          codeEscaped += '{{' + part;
         }
       }
+    }
 
-      return code1;
+    const delimiters = '\u0002\u0002 \u0003\u0003';
+    const parseArr = Feplet.parse(Feplet.scan(codeEscaped, delimiters), null, {delimiters});
+    const partials = {};
+    const partialsComp = {};
+
+    for (const part of parseArr) {
+      if (part.tag === '>') {
+        const parenIndex = part.n.indexOf('(');
+        let partPath = part.n;
+
+        if (parenIndex > -1) {
+          partPath = part.n.slice(0, parenIndex);
+        }
+
+        const codeUnescaped = fs.readFileSync(`${patternsDir}/${partPath}`, this.conf.enc);
+        const recursionResults = this.mustacheRecurse(codeUnescaped);
+        partials[part.n] = recursionResults.codeEscaped;
+        partialsComp[part.n] = recursionResults;
+
+        Object.assign(partials, recursionResults.partials);
+        Object.assign(partialsComp, recursionResults.partialsComp);
+      }
     }
-    catch (err) /* istanbul ignore next */ {
-      this.utils.error(err);
-    }
+
+    const compilation = Feplet.generate(parseArr, codeEscaped, {delimiters});
+
+    return {
+      codeEscaped,
+      compilation,
+      parseArr,
+      partials,
+      partialsComp
+    };
   }
 
   mustacheUnescape(escaped) {
@@ -173,16 +190,21 @@ module.exports = class {
     if (templatesDir && templatesExt) {
       try {
         // Recurse through Mustache templates (sparingly. See comment above.)
-        let code = this.mustacheRecurse(mustacheFile);
+        const {
+          compilation,
+          partials,
+          partialsComp
+        } = this.mustacheRecurse(fs.readFileSync(mustacheFile, this.conf.enc));
+        const codeRecursed = compilation.render({}, partials, null, partialsComp);
         // Iterate through tokens and replace keys for values in the code.
-        code = this.tokensReplace(data, code);
+        const codeTranslated = this.tokensReplace(data, codeRecursed);
         // Write translated templates.
-        const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
+        const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, codeTranslated);
 
-        let message = 'Template %s translated';
+        let message = t('Template %s translated');
         message = message.replace('%s', '\x1b[36m' + dest.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
 
-        this.utils.log(t(message));
+        this.utils.log(message);
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
