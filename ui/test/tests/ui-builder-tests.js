@@ -37,7 +37,7 @@ const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
 const expectedContent = '<span class="test_base ">   </span>  <span class="test_base test_1">   </span> ';
-const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>\n';
+const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>';
 
 describe('UI Builder', function () {
   let configClone;

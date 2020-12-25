@@ -1,6 +1,6 @@
-"templates_dir": |
+"templates_dir": |2
   docroot/templates-alt
-"templates_ext": |
+"templates_ext": |2
   twig
-"content": |
+"content": |2
   02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml

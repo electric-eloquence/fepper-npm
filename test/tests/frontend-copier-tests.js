@@ -34,7 +34,7 @@ describe('Frontend Copier', function () {
     utils.rmRfFilesNotDirs(scriptsTargetDir);
     utils.rmRfFilesNotDirs(stylesTargetDir);
 
-    assetExistsBefore = fs.existsSync(`${assetsTargetDir}/logo.png`);
+    assetExistsBefore = fs.existsSync(`${assetsTargetDir}/src/logo.png`);
     scriptExistsBefore = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
     styleExistsBefore = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
     styleExistsBefore1 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);
@@ -50,7 +50,7 @@ describe('Frontend Copier', function () {
   });
 
   it('copies frontend files to the backend', function () {
-    const assetExistsAfter = fs.existsSync(`${assetsTargetDir}/logo.png`);
+    const assetExistsAfter = fs.existsSync(`${assetsTargetDir}/src/logo.png`);
     const scriptExistsAfter = fs.existsSync(`${scriptsTargetDir}/src/variables.styl`);
     const styleExistsAfter = fs.existsSync(`${stylesTargetDir}/bld/style.css`);
     const styleExistsAfter1 = fs.existsSync(`${stylesTargetDir}/bld/fonts/icons.svg`);

@@ -121,6 +121,7 @@ module.exports = class {
                 const pathParts = cur.relPathTrunc.split('/').slice(1);
                 let pathNew;
 
+                /* istanbul ignore else */
                 if (pathParts.length) {
                   pathNew = pathParts
                     .map(pathPart => pathPart.replace(/^\d+-/, ''))
@@ -180,6 +181,7 @@ module.exports = class {
         const pathParts = cur.relPathTrunc.split('/').slice(1);
         let pathNew;
 
+        /* istanbul ignore else */
         if (pathParts.length) {
           pathNew = pathParts
             .map(pathPart => pathPart.replace(/^\d+-/, ''))

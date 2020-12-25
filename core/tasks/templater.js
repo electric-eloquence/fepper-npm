@@ -99,13 +99,6 @@ module.exports = class {
     };
   }
 
-  mustacheUnescape(escaped) {
-    let unescaped = escaped.replace(/\{\s*/, '{\\s');
-    unescaped = unescaped.replace(/\s*\}/, '\\s}');
-
-    return unescaped;
-  }
-
   templateProcess(file, templatesDirDefault, templatesExtDefault) {
     const patternExtension = this.conf.ui.patternExtension;
     let data = null;
@@ -273,11 +266,9 @@ module.exports = class {
     let code = codeParam;
     let regex;
     let token;
-    let unescaped;
 
     for (let tokenKey of tokenKeys) {
-      unescaped = this.mustacheUnescape(tokenKey);
-      regex = new RegExp('\\{\\{\\{?\\s*' + unescaped + '\\s*\\}?\\}\\}', 'g');
+      regex = new RegExp('\\{\\{\\{?\\s*' + tokenKey + '\\s*\\}?\\}\\}', 'g');
       token = tokens[tokenKey].replace(/^\n/, '');
       token = token.replace(/\n$/, '');
       code = code.replace(regex, token);
@@ -288,9 +279,6 @@ module.exports = class {
       // eslint-disable-next-line no-useless-escape
       code = code.replace(/\{\{[^\(]*?(\([\S\s]*?\))?\s*\}?\}\}\s*\n?/g, '');
     }
-    // Replace escaped curly braces.
-    code = code.replace(/\\\{/g, '{');
-    code = code.replace(/\\\}/g, '}');
 
     return code;
   }

@@ -1,0 +1,16 @@
+<div class="page" id="page">
+  {{# img }}{{# logo }}<a href="{{ url }}"><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a>{{/ logo }}{{/ img }}
+{{> backend-primary-nav }}
+  <section class="section hoagies">
+    {{# latest_posts_title }}
+      <h2 class="section-title">{{{ latest_posts_title }}}</h2>
+    {{/ latest_posts_title }}
+    <ul class="post-list">
+      {{# latest_posts }}
+        <li>{{{ post }}}</li>
+      {{/ latest_posts }}
+    </ul>
+    <a href="#" class="text-btn">View more posts</a>
+  </section>
+  {{> backend-footer }}
+</div>

@@ -25,7 +25,7 @@ const stylesPublic = conf.ui.paths.public.css;
 const hashesFile = `${patternsPublic}/hashes.json`;
 const publicIndex = `${patternsPublic}/04-pages-00-homepage/04-pages-00-homepage.html`;
 const staticIndex = `${staticSource}/index.html`;
-const staticSibling = `${staticSource}/01-blog.html`;
+const staticSibling = `${staticSource}/blog.html`;
 
 function glob(topDir, globArr) {
   diveSync(
@@ -41,7 +41,6 @@ function glob(topDir, globArr) {
 }
 
 describe('Static Generator', function () {
-  let dataJson;
   let publicIndexContent;
   let staticIndexContent;
   let staticIndexExistsBefore;
@@ -49,8 +48,6 @@ describe('Static Generator', function () {
   let staticSiblingExistsBefore;
 
   before(function () {
-    dataJson = utils.data();
-
     if (fs.existsSync(hashesFile)) {
       fs.removeSync(hashesFile);
     }
@@ -262,7 +259,7 @@ describe('Static Generator', function () {
     expect(staticIndexContent).to.not.equal('');
   });
 
-  it('writes static/01-blog.html', function () {
+  it('writes static/blog.html', function () {
     const staticSiblingExistsAfter = fs.existsSync(staticSibling);
 
     // Test expectations.
@@ -308,7 +305,16 @@ describe('Static Generator', function () {
     expect(cacheBusterTestAfter).to.have.string('_scripts/src/variables.styl" type="text/javascript"></script>');
   });
 
-  it('converts Fepper relative paths to portable static relative paths', function () {
+  it('converts public/_assets relative paths to portable static relative paths', function () {
+    const testStringOrig = '<img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text">';
+    const testStringConverted = staticGenerator.convertPaths(testStringOrig);
+
+    expect(testStringConverted).to.equal('<img src="_assets/src/logo.png" class="logo" alt="Logo Alt Text">');
+    expect(publicIndexContent).to.have.string(testStringOrig);
+    expect(staticIndexContent).to.have.string(testStringConverted);
+  });
+
+  it('converts public/_scripts relative paths to portable static relative paths', function () {
     const testStringOrig = `
   <script src="../../_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>`;
     const testStringConverted = staticGenerator.convertPaths(testStringOrig);
@@ -317,100 +323,49 @@ describe('Static Generator', function () {
   <script src="_scripts/src/variables.styl?1513596429153" type="text/javascript"></script>`);
 
     // Ignore cacheBuster conversion in this test.
-    // eslint-disable-next-line max-len
-    expect(publicIndexContent).to.have.string('<script src="../../_scripts/src/variables.styl" type="text/javascript"></script>');
-    expect(staticIndexContent).to.have.string('<script src="_scripts/src/variables.styl');
+    expect(publicIndexContent)
+      .to.have.string('<script src="../../_scripts/src/variables.styl" type="text/javascript"></script>');
+    expect(staticIndexContent)
+      .to.have.string('<script src="_scripts/src/variables.styl" type="text/javascript"></script>');
   });
 
-  it('converts double-quoted absolute Fepper homepage links to portable, static index page links', function () {
-    const testStringOrig = '<a href="/patterns/04-pages-00-homepage/04-pages-00-homepage.html">';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
+  it('converts public/_styles relative paths to portable static relative paths', function () {
+    const testStringOrig = `
+  <link rel="stylesheet" href="../../_styles/bld/style.css?1513596429153" media="all">`;
+    const testStringConverted = staticGenerator.convertPaths(testStringOrig);
 
-    expect(testStringConverted).to.equal('<a href="index.html">');
+    expect(testStringConverted).to.equal(`
+  <link rel="stylesheet" href="_styles/bld/style.css?1513596429153" media="all">`);
+
+    // Ignore cacheBuster conversion in this test.
+    expect(publicIndexContent).to.have.string('<link rel="stylesheet" href="../../_styles/bld/style.css" media="all">');
+    expect(staticIndexContent).to.have.string('<link rel="stylesheet" href="_styles/bld/style.css" media="all">');
   });
 
-  it('converts double-quoted one-level deep relative Fepper homepage links to portable, static index page links\
-', function () {
-    const testStringOrig = '<a HREF="../04-pages-00-homepage/04-pages-00-homepage.html">';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
+  it('converts public/patterns relative homepage links to portable static index page links', function () {
+    const testStringOrig = '<a href="../04-pages-00-homepage/04-pages-00-homepage.html">';
+    const testStringConverted = '<a href="index.html">';
 
-    expect(testStringConverted).to.equal('<a HREF="index.html">');
+    expect(publicIndexContent).to.have.string(testStringOrig);
+    expect(staticIndexContent).to.not.have.string(testStringOrig);
+    expect(staticIndexContent).to.have.string(testStringConverted);
   });
 
-  it('converts double-quoted two-levels deep relative Fepper homepage links to portable, static index page links\
-', function () {
-    const testStringOrig = '<a href="../../patterns/04-pages-00-homepage/04-pages-00-homepage.html">';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
-
-    expect(testStringConverted).to.equal('<a href="index.html">');
-  });
-
-  it('converts single-quoted absolute Fepper homepage links to portable, static index page links', function () {
-    const testStringOrig = '<a HREF=\'/patterns/04-pages-00-homepage/04-pages-00-homepage.html\'>';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
-
-    expect(testStringConverted).to.equal('<a HREF=\'index.html\'>');
-  });
-
-  it('converts single-quoted one-level deep relative Fepper homepage links to portable, static index page links\
-', function () {
-    const testStringOrig = '<a href=\'../04-pages-00-homepage/04-pages-00-homepage.html\'>';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
-
-    expect(testStringConverted).to.equal('<a href=\'index.html\'>');
-  });
-
-  it('converts single-quoted two-levels deep relative Fepper homepage links to portable, static index page links\
-', function () {
-    const testStringOrig = '<a HREF=\'../../patterns/04-pages-00-homepage/04-pages-00-homepage.html\'>';
-    const testStringConverted = staticGenerator.convertLinksHomepage(testStringOrig, dataJson.homepage);
-
-    expect(testStringConverted).to.equal('<a HREF=\'index.html\'>');
-  });
-
-  it('converts double-quoted absolute Fepper sibling links to portable, static sibling page links', function () {
-    const testStringOrig = '<a HREF="/patterns/04-pages-01-blog/04-pages-01-blog.html">';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
-
-    expect(testStringConverted).to.equal('<a HREF="01-blog.html">');
-  });
-
-  it('converts double-quoted one-level deep relative Fepper sibling links to portable, static sibling page links\
-', function () {
+  it('converts public/patterns relative sibling links to portable static sibling page links', function () {
     const testStringOrig = '<a href="../04-pages-01-blog/04-pages-01-blog.html">';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
+    const testStringConverted = '<a href="blog.html">';
 
-    expect(testStringConverted).to.equal('<a href="01-blog.html">');
+    expect(publicIndexContent).to.have.string(testStringOrig);
+    expect(staticIndexContent).to.not.have.string(testStringOrig);
+    expect(staticIndexContent).to.have.string(testStringConverted);
   });
 
-  it('converts double-quoted two-levels deep relative Fepper sibling links to portable, static sibling page links\
-', function () {
-    const testStringOrig = '<a HREF="../../patterns/04-pages-01-blog/04-pages-01-blog.html">';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
+  it('converts relative links to nested page patterns to portable static sibling page links', function () {
+    const testStringOrig = '<a href="../04-pages-articles--00-top-story/04-pages-articles--00-top-story.html">';
+    const testStringConverted = '<a href="articles--top-story.html">';
 
-    expect(testStringConverted).to.equal('<a HREF="01-blog.html">');
-  });
-
-  it('converts single-quoted absolute Fepper sibling links to portable, static sibling page links', function () {
-    const testStringOrig = '<a href=\'/patterns/04-pages-01-blog/04-pages-01-blog.html\'>';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
-
-    expect(testStringConverted).to.equal('<a href=\'01-blog.html\'>');
-  });
-
-  it('converts single-quoted one-level deep relative Fepper sibling links to portable, static sibling page links\
-', function () {
-    const testStringOrig = '<a HREF=\'../04-pages-01-blog/04-pages-01-blog.html\'>';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
-
-    expect(testStringConverted).to.equal('<a HREF=\'01-blog.html\'>');
-  });
-
-  it('converts single-quoted two-levels deep relative Fepper sibling links to portable, static sibling page links\
-', function () {
-    const testStringOrig = '<a href=\'../../patterns/04-pages-01-blog/04-pages-01-blog.html\'>';
-    const testStringConverted = staticGenerator.convertLinksSibling(testStringOrig);
-
-    expect(testStringConverted).to.equal('<a href=\'01-blog.html\'>');
+    expect(publicIndexContent).to.have.string(testStringOrig);
+    expect(staticIndexContent).to.not.have.string(testStringOrig);
+    expect(staticIndexContent).to.have.string(testStringConverted);
   });
 });

@@ -1,2 +1,2 @@
-"> 02-components/00-global/01-footer\\('boolean\\?': true\\)": |
+"> 02-components/00-global/01-footer\\('boolean\\?': true\\)": |2
   <?php print $page['footer']; ?>
