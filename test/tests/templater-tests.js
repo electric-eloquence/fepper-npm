@@ -10,6 +10,7 @@ const {
   conf,
   pref,
   tasks,
+  ui,
   utils
 } = fepper;
 const templater = tasks.templater;
@@ -37,6 +38,7 @@ describe('Templater', function () {
     fs.removeSync(templatesAlt + '/*');
 
     // Run templater.
+    ui.build();
     tasks.template();
 
     const templateTranslated = fs.statSync(templatesDest + '/00-homepage.tpl.php');

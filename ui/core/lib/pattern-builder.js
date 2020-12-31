@@ -164,6 +164,7 @@ module.exports = class {
         case 'pseudoPatternPartial':
         case 'relPathTrunc':
         case 'relPath':
+        case 'template':
           continue;
       }
 

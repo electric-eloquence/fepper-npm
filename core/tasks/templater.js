@@ -18,7 +18,11 @@ const yaml = require('js-yaml');
 let t;
 
 module.exports = class {
-  constructor(options) {
+  #ui;
+
+  constructor(options, ui) {
+    this.#ui = ui;
+
     this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
@@ -28,6 +32,10 @@ module.exports = class {
     this.srcDir = this.conf.ui.paths.source.templates;
 
     t = this.utils.t;
+  }
+
+  get patternlab() {
+    return this.#ui.patternlab;
   }
 
   mustacheRecurse(code) {
@@ -72,13 +80,26 @@ module.exports = class {
     for (const part of parseArr) {
       if (part.tag === '>') {
         const parenIndex = part.n.indexOf('(');
+        let codeUnescaped;
         let partPath = part.n;
 
         if (parenIndex > -1) {
           partPath = part.n.slice(0, parenIndex);
         }
 
-        const codeUnescaped = fs.readFileSync(`${patternsDir}/${partPath}`, this.conf.enc);
+        // Reduce file reads by checking if file content has already been saved in the patternlab object.
+        for (const pattern of this.patternlab.ingredients.patterns) {
+          if (partPath === pattern.relPath) {
+            codeUnescaped = pattern.template;
+
+            break;
+          }
+        }
+
+        if (typeof codeUnescaped === 'undefined') {
+          codeUnescaped = fs.readFileSync(`${patternsDir}/${partPath}`, this.conf.enc);
+        }
+
         const recursionResults = this.mustacheRecurse(codeUnescaped);
         partials[part.n] = recursionResults.codeEscaped;
         partialsComp[part.n] = recursionResults;
@@ -182,12 +203,27 @@ module.exports = class {
 
     if (templatesDir && templatesExt) {
       try {
+        let code;
+
+        // Reduce file reads by checking if file content has already been saved in the patternlab object.
+        for (const pattern of this.patternlab.ingredients.patterns) {
+          if (mustacheFile.includes(pattern.relPath)) {
+            code = pattern.template;
+
+            break;
+          }
+        }
+
+        if (typeof code === 'undefined') {
+          code = fs.readFileSync(mustacheFile, this.conf.enc);
+        }
+
         // Recurse through Mustache templates (sparingly. See comment above.)
         const {
           compilation,
           partials,
           partialsComp
-        } = this.mustacheRecurse(fs.readFileSync(mustacheFile, this.conf.enc));
+        } = this.mustacheRecurse(code);
         const codeRecursed = compilation.render({}, partials, null, partialsComp);
         // Iterate through tokens and replace keys for values in the code.
         const codeTranslated = this.tokensReplace(data, codeRecursed);
@@ -261,13 +297,17 @@ module.exports = class {
   }
 
   tokensReplace(tokens, codeParam) {
+    if (!tokens) {
+      return codeParam;
+    }
+
     const tokenKeys = Object.keys(tokens);
 
     let code = codeParam;
     let regex;
     let token;
 
-    for (let tokenKey of tokenKeys) {
+    for (const tokenKey of tokenKeys) {
       regex = new RegExp('\\{\\{\\{?\\s*' + tokenKey + '\\s*\\}?\\}\\}', 'g');
       token = tokens[tokenKey].replace(/^\n/, '');
       token = token.replace(/\n$/, '');

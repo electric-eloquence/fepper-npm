@@ -21,7 +21,7 @@ module.exports = class {
     this.jsonCompiler = new JsonCompiler(options);
     this.opener = new Opener(options);
     this.staticGenerator = new StaticGenerator(options, ui);
-    this.templater = new Templater(options);
+    this.templater = new Templater(options, ui);
     this.updater = new Updater(options);
     this.versioner = new Versioner(options);
   }

@@ -114,31 +114,28 @@ module.exports = class {
             fs.outputFileSync(`${this.staticSource}/index.html`, tmpStr);
           }
           else {
-            const outfilePath = this.patternlab.ingredients.patterns.reduce((acc_, cur) => {
-              let acc = acc_;
+            let outfilePath;
 
-              if (acc.includes(cur.patternLink)) {
-                const pathParts = cur.relPathTrunc.split('/').slice(1);
-                let pathNew;
+            for (let i = 0; i < this.patternlab.ingredients.patterns.length; i++) {
+              const pattern = this.patternlab.ingredients.patterns[i];
 
-                /* istanbul ignore else */
+              if (file.includes(pattern.patternLink)) {
+                const pathParts = pattern.relPathTrunc.split('/').slice(1);
+
                 if (pathParts.length) {
-                  pathNew = pathParts
+                  outfilePath = pathParts
                     .map(pathPart => pathPart.replace(/^\d+-/, ''))
                     .join('-')
                     + '.html';
-                }
-                else {
-                  return acc;
-                }
 
-                return pathNew;
+                  break;
+                }
               }
+            }
 
-              return acc;
-            }, file);
-
-            fs.outputFileSync(`${this.staticSource}/${outfilePath}`, tmpStr);
+            if (outfilePath) {
+              fs.outputFileSync(`${this.staticSource}/${outfilePath}`, tmpStr);
+            }
           }
         }
         catch (err) /* istanbul ignore next */ {
