@@ -356,7 +356,7 @@ module.exports = class {
           let line = line_.trim();
 
           if (line) {
-            line += ' ';
+            line += '  '; // The 2 spaces is a hack to pass htmllint default indentation rule (as opposed to 1 space).
           }
 
           return line;
