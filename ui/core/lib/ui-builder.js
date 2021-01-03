@@ -287,6 +287,7 @@ module.exports = class {
       '};\n';
     output += 'export const navItems = {"patternTypes": ' + JSON.stringify(this.ingredients.patternTypes) + '};\n';
     output += 'export const patternPaths = ' + JSON.stringify(this.ingredients.patternPaths) + ';\n';
+    output += 'export const sourceFiles = ' + JSON.stringify(this.ingredients.sourceFiles) + ';\n';
     output += 'export const viewallPaths = ' + JSON.stringify(this.ingredients.viewallPaths) + ';\n';
 
     // Re-add .paths to the config object.

@@ -298,6 +298,7 @@ module.exports = class {
     this.ingredients.patternTypesIndex = [];
     this.ingredients.portReloader = utils.deepGet(global, 'conf.livereload_port') || '';
     this.ingredients.portServer = utils.deepGet(global, 'conf.express_port') || '';
+    this.ingredients.sourceFiles = {};
     this.ingredients.userHeadComp = null;
     this.ingredients.userHeadGlobal = '';
     this.ingredients.userHeadParse = [];

@@ -9,19 +9,19 @@ module.exports = {
 <div id="sg-code-close" class="sg-view-close">
   <a href="#" id="sg-code-close-btn" class="sg-view-close-btn">&#x2715;</a>
 </div>
-<div id="sg-code-pattern-state" style="display: none;">
+<div id="sg-code-pattern-state">
   <p>
-    ${t('The state of')} <span id="sg-code-pattern-state-pattern-name" class="sg-code-pattern-name"></span>: <span id="sg-code-pattern-state-fill"></span>
+    <span id="sg-code-pattern-state-pattern-name" class="sg-code-pattern-name"></span> at <code id="sg-code-pattern-state-rel-path"></code> &nbsp; <span id="sg-code-pattern-state-fill"></span>
   </p>
 </div>
 <div id="sg-code-lineage" style="display: none;">
   <p>
-    <span id="sg-code-lineage-pattern-name" class="sg-code-pattern-name"></span> ${t('includes the following patterns')}: <span id="sg-code-lineage-fill"></span>
+    ${t('includes')}: <span id="sg-code-lineage-fill"></span>
   </p>
 </div>
 <div id="sg-code-lineager" style="display: none;">
   <p>
-    <span id="sg-code-lineager-pattern-name" class="sg-code-pattern-name"></span> ${t('is included by the following patterns')}: <span id="sg-code-lineager-fill"></span>
+    ${t('included by')}: <span id="sg-code-lineager-fill"></span>
   </p>
 </div>
 <div id="sg-code-markup">
