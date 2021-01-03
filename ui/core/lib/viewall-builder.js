@@ -36,6 +36,7 @@ module.exports = class {
   addToPatternPaths(pattern) {
     this.ingredients.patternPaths[pattern.patternPartial] =
       `${this.pathsPublic.patterns}/${pattern.name}/${pattern.name}.html`;
+    this.ingredients.sourceFiles[pattern.patternPartial] = pattern.relPath;
   }
 
   buildViewallTypeHead(patternType) {
