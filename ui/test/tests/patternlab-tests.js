@@ -96,7 +96,7 @@ describe('Patternlab', function () {
         `${patternlab.config.paths.public.patterns}/01-test1-08-dot-notation/01-test1-08-dot-notation.markup-only.html`;
       const dotNotationTestContent = fs.readFileSync(dotNotationTest, patternlab.config.enc);
 
-      expect(dotNotationTestContent).to.equal('  foo    foo   foo  foo ');
+      expect(dotNotationTestContent).to.equal('    foo        foo      foo    foo  ');
     });
   });
 

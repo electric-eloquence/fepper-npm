@@ -36,7 +36,7 @@ const patternMustacheExistsBefore = fs.existsSync(patternMustache);
 const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-const expectedContent = '<span class="test_base ">   </span>  <span class="test_base test_1">   </span> ';
+const expectedContent = '<span class="test_base ">      </span>    <span class="test_base test_1">      </span>  ';
 const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>\n';
 
 describe('UI Builder', function () {
