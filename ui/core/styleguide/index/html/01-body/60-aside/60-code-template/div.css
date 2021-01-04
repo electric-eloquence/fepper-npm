@@ -44,6 +44,11 @@
   background-color: #272822 !important;
 }
 
+.sg-code-button {
+  margin-top: 0.6rem;
+  margin-left: 0.6rem;
+}
+
 .sg-language-markup-container {
   clear: both;
 }

@@ -17,7 +17,7 @@ body {
 
 main {
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 0 0 40px;
   width: auto;
 }
 
@@ -71,9 +71,30 @@ a.mustache-browser__back {
   font-size: 2.4rem;
   position: relative;
   text-decoration: none;
-  top: -2rem;
 }
 
 a.mustache-browser__pattern-link {
   text-decoration: none;
+}
+
+.mustache-browser__paths {
+  position: relative;
+}
+
+.mustache-browser__path {
+  font-size: 1.6rem;
+}
+
+#mustache-browser__path--absolute {
+  visibility: hidden;
+}
+
+#mustache-browser__path--relative {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mustache-browser__heading > * {
+  display: inline-block;
 }

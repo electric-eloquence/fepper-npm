@@ -43,6 +43,10 @@
     "",
   "included by":
     "",
+  "Copy path":
+    "",
+  "Copied!":
+    "",
   "No Annotations":
     "",
   "There are no annotations for this pattern":
@@ -126,6 +130,10 @@
   "The HTML at that URL and selector could not be scraped. Make sure that they are reachable and syntactically correct.":
     "",
   "Incorrect submission!":
+    "",
+  "Copy relative path":
+    "",
+  "Copy absolute path":
     "",
   "Running npm --global update on fepper-cli...":
     "",

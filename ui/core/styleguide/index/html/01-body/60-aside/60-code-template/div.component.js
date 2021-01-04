@@ -28,6 +28,7 @@ module.exports = {
   <ul id="sg-code-tabs">
     <li id="sg-code-title-html" class="sg-code-title">HTML</li>
     <li id="sg-code-title-mustache" class="sg-code-title sg-code-title-active">Mustache</li>
+    <li><button id="sg-code-copy-path" class="sg-code-button" data-copied-msg="${t('Copied!')}">${t('Copy path')}</button></li>
   </ul>
   <div class="sg-language-markup-container">
     <pre><code id="sg-code-fill" class="language-markup"></code></pre>
