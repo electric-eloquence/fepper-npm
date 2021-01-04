@@ -124,11 +124,14 @@ exports.PatternItem = class {
       else {
         this.patternPartial = `viewall-${pattern.patternType}`;
       }
+
+      this.patternState = '';
     }
     else {
       this.patternName = name;
       this.patternLink = pattern.patternLink;
       this.patternPartial = pattern.patternPartial;
+      this.patternState = pattern.patternState;
     }
 
     this.subdir = pattern.subdir;
@@ -136,7 +139,6 @@ exports.PatternItem = class {
     this.pathsPublic = pattern.pathsPublic;
     this.patternType = pattern.patternType;
     this.patternSubType = pattern.patternSubType;
-    this.patternState = pattern.patternState;
   }
 };
 
