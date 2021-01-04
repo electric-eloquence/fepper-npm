@@ -125,7 +125,7 @@ describe('Static Generator', function () {
 
     // Traverse one level down before globbing.
     // Choosing for...of loop and its readability in exchange for performance.
-    for (let basenameAtLevel0 of fs.readdirSync(scriptsPublic)) {
+    for (const basenameAtLevel0 of fs.readdirSync(scriptsPublic)) {
       const level0 = scriptsPublic;
 
       try {
@@ -142,7 +142,7 @@ describe('Static Generator', function () {
     }
 
     // Again for destination.
-    for (let basenameAtLevel0 of fs.readdirSync(scriptsDir)) {
+    for (const basenameAtLevel0 of fs.readdirSync(scriptsDir)) {
       const level0 = scriptsDir;
 
       try {

@@ -47,7 +47,7 @@ module.exports = class {
     const level0 = this.patternsPublic;
     const basenamesAtLevel0 = fs.readdirSync(level0);
 
-    for (let basenameAtLevel0 of basenamesAtLevel0) {
+    for (const basenameAtLevel0 of basenamesAtLevel0) {
       try {
         const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
         const statAtLevel0 = fs.statSync(fileAtLevel0);
@@ -61,11 +61,11 @@ module.exports = class {
       }
     }
 
-    for (let dirAtLevel0 of dirsAtLevel0) {
+    for (const dirAtLevel0 of dirsAtLevel0) {
       // Level 1 declarations.
       const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
 
-      for (let basenameAtLevel1 of basenamesAtLevel1) {
+      for (const basenameAtLevel1 of basenamesAtLevel1) {
         try {
           const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
           const statAtLevel1 = fs.statSync(fileAtLevel1);

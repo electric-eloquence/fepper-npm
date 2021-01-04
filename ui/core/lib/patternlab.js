@@ -191,7 +191,7 @@ module.exports = class {
   }
 
   preProcessDataKeys(schemaObj, dataObj, flattened_ = '') {
-    for (let key of Object.keys(dataObj)) {
+    for (const key of Object.keys(dataObj)) {
       const flattened = flattened_ ? `${flattened_}.${key}` : key;
 
       if (dataObj[key] instanceof Object) {

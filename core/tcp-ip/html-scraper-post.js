@@ -291,7 +291,7 @@ module.exports = class {
     let inc = inc_;
 
     if (Array.isArray(jsonForMustache.child)) {
-      for (let jsonForMustacheChild of jsonForMustache.child) {
+      for (const jsonForMustacheChild of jsonForMustache.child) {
         if (
           jsonForMustacheChild.node === 'text' &&
           typeof jsonForMustacheChild.text === 'string' &&
