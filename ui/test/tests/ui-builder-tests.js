@@ -99,29 +99,25 @@ describe('UI Builder', function () {
     expect(patternExportContent).to.equal(expectedPatternExportContent);
   });
 
-  it('writes patternlab-data.js for browser consumption', function () {
+  it('writes data.js for browser consumption', function () {
     expect(patternlabDataExistsBefore).to.be.false;
 
     expect(patternlabDataExistsAfter).to.be.true;
   });
 
-  it('writes window.config to patternlab-data.js', function () {
+  it('writes window.config to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(configClone));
   });
 
-  it('writes window.ishControls to patternlab-data.js', function () {
+  it('writes window.ishControls to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(configClone.ishControlsHide));
   });
 
-  it('writes window.navItems to patternlab-data.js', function () {
+  it('writes window.navItems to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternTypes));
   });
 
-  it('writes window.patternPaths to patternlab-data.js', function () {
+  it('writes window.patternPaths to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternPaths));
-  });
-
-  it('writes window.viewallPaths to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.viewallPaths));
   });
 });
