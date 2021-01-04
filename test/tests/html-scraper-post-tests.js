@@ -382,22 +382,23 @@ describe('HTML Scraper Post', function () {
       const mustache = htmlScraperPost.jsonToMustache(jsons.jsonForMustache, jsons.jsonForData);
 
       expect(mustache).to.equal(`{{# scrape }}
-    <section>
-        <div id="one" class="test">{{ one }}</div>
-        <div id="two" class="test">{{ two }}</div>
-        <div class="test">{{ test }}</div>
-        <div class="test">{{ test_1 }}</div>
-        <div class="test">{{ test_2 }}</div>
-        <div>{{ div }}</div>
-        <div>{{ div_1 }}</div>
-        <div>{{ div_2 }}</div>
-        <script></script>
-        <br />
-        <p></p>
-        <textarea></textarea>
-        <!-- comment -->
-    </section>
-{{/ scrape }}`);
+  <section>
+    <div id="one" class="test">{{ one }}</div>
+    <div id="two" class="test">{{ two }}</div>
+    <div class="test">{{ test }}</div>
+    <div class="test">{{ test_1 }}</div>
+    <div class="test">{{ test_2 }}</div>
+    <div>{{ div }}</div>
+    <div>{{ div_1 }}</div>
+    <div>{{ div_2 }}</div>
+    <script></script>
+    <br />
+    <p></p>
+    <textarea></textarea>
+    <!-- comment -->
+  </section>
+{{/ scrape }}
+`);
     });
   });
 
@@ -610,6 +611,7 @@ describe('HTML Scraper Post', function () {
         <input name="selector_raw" type="hidden" value="">
         <textarea name="html2json"></textarea>
         <textarea name="mustache"><div id="one" class="test">{{ one }}</div>
+
         </textarea>
         <textarea name="json">{
   "one": "Foo"
@@ -749,7 +751,7 @@ describe('HTML Scraper Post', function () {
       expect(mustache).to.not.equal(mustacheWithCR);
       expect(mustache).to.not.have.string('\r');
       expect(mustacheWithCR).to.have.string('\r');
-      expect(htmlScraperPost.newlineFormat(mustacheWithCR).trim()).to.equal(mustache);
+      expect(htmlScraperPost.newlineFormat(mustacheWithCR)).to.equal(mustache);
     });
 
     it('correctly formats newlines in stringified json', function () {

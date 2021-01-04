@@ -409,7 +409,7 @@ describe('Mustache Browser', function () {
       })
       .then((output) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(output).to.have.string(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -437,7 +437,8 @@ describe('Mustache Browser', function () {
     <main id="" class="mustache-browser__result">
       <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a>
 <div class="mustache-browser__paths">
-  <div id="mustache-browser__path--absolute" class="mustache-browser__path">/Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-npm-dev/test/source/_patterns/02-components/00-global/00-header.mustache</div>
+  <div id="mustache-browser__path--absolute" class="mustache-browser__path">`);
+        expect(output).to.have.string(`/test/source/_patterns/02-components/00-global/00-header.mustache</div>
   <div id="mustache-browser__path--relative" class="mustache-browser__path">02-components/00-global/00-header.mustache</div>
 </div>
 <div class="mustache-browser__heading">
