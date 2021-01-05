@@ -10,6 +10,7 @@
 const path = require('path');
 
 const diveSync = require('diveSync');
+const Feplet = require('feplet');
 const fs = require('fs-extra');
 const slash = require('slash');
 const yaml = require('js-yaml');
@@ -17,7 +18,11 @@ const yaml = require('js-yaml');
 let t;
 
 module.exports = class {
-  constructor(options) {
+  #ui;
+
+  constructor(options, ui) {
+    this.#ui = ui;
+
     this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
@@ -29,64 +34,90 @@ module.exports = class {
     t = this.utils.t;
   }
 
-  mustacheRecurse(file) {
+  get patternlab() {
+    return this.#ui.patternlab;
+  }
+
+  mustacheRecurse(code) {
+    const partsByTag = code.split('{{');
+    const patternExtension = this.conf.ui.patternExtension;
     const patternsDir = this.conf.ui.paths.source.patterns;
+    let codeEscaped = '';
 
-    let code;
-    let code1 = '';
+    for (let i = 0; i < partsByTag.length; i++) {
+      const part = partsByTag[i];
 
-    try {
-      // Read code which will receive token replacement.
-      code = fs.readFileSync(file, this.conf.enc);
-      // Split by Mustache tag for parsing.
-      let codeSplit = code.split('{{');
+      if (i === 0) {
+        codeEscaped += part;
+      }
+      else {
+        if (part[0] === '>') {
+          const partsOfPart = part.split('}}');
+          const regexStr = patternExtension + '\\s*\\(';
+          const regex = new RegExp(regexStr);
 
-      for (let i = 0; i < codeSplit.length; i++) {
-        const codeSplitChunk = codeSplit[i];
-        const codeSplitIdx = i;
-
-        // Signal the OK to recurse by appending partial tags with the .mustache extension.
-        // We do NOT want to recurse EVERY included partial because then the outputted file will not
-        // contain any partials, which defeats the purpose of recursing templates in the first place.
-        // eslint-disable-next-line no-useless-escape
-        if (/^>\s*[\w\-\.\/~]+\.mustache\s*\}\}/.test(codeSplitChunk)) {
-          let partial = codeSplitChunk.split('}}');
-          partial[0] = partial[0].replace(/^>\s*/, '').trim();
-          let partialCode = this.mustacheRecurse(patternsDir + '/' + partial[0], patternsDir);
-          code1 += partialCode;
-
-          for (let partialIdx = 0; partialIdx < partial.length; partialIdx++) {
-            if (partialIdx > 0) {
-              code1 += partial[partialIdx];
-
-              if (partialIdx < partial.length - 1) {
-                code1 += '}}';
-              }
-            }
+          if (
+            partsOfPart[0].trim().slice(-patternExtension.length) === patternExtension ||
+            regex.test(partsOfPart[0])
+          ) {
+            codeEscaped += '\u0002\u0002' + part.replace('}}', '\u0003\u0003');
+          }
+          else {
+            codeEscaped += '{{' + part;
           }
         }
         else {
-          if (codeSplitIdx > 0) {
-            code1 += '{{' + codeSplitChunk;
-          }
-          else {
-            code1 += codeSplitChunk;
-          }
+          codeEscaped += '{{' + part;
         }
       }
-
-      return code1;
     }
-    catch (err) /* istanbul ignore next */ {
-      this.utils.error(err);
+
+    const delimiters = '\u0002\u0002 \u0003\u0003';
+    const parseArr = Feplet.parse(Feplet.scan(codeEscaped, delimiters), null, {delimiters});
+    const partials = {};
+    const partialsComp = {};
+
+    for (const part of parseArr) {
+      if (part.tag === '>') {
+        const parenIndex = part.n.indexOf('(');
+        let codeUnescaped;
+        let partPath = part.n;
+
+        if (parenIndex > -1) {
+          partPath = part.n.slice(0, parenIndex);
+        }
+
+        // Reduce file reads by checking if file content has already been saved in the patternlab object.
+        for (const pattern of this.patternlab.ingredients.patterns) {
+          if (partPath === pattern.relPath) {
+            codeUnescaped = pattern.template;
+
+            break;
+          }
+        }
+
+        if (typeof codeUnescaped === 'undefined') {
+          codeUnescaped = fs.readFileSync(`${patternsDir}/${partPath}`, this.conf.enc);
+        }
+
+        const recursionResults = this.mustacheRecurse(codeUnescaped);
+        partials[part.n] = recursionResults.codeEscaped;
+        partialsComp[part.n] = recursionResults;
+
+        Object.assign(partials, recursionResults.partials);
+        Object.assign(partialsComp, recursionResults.partialsComp);
+      }
     }
-  }
 
-  mustacheUnescape(escaped) {
-    let unescaped = escaped.replace(/\{\s*/, '{\\s');
-    unescaped = unescaped.replace(/\s*\}/, '\\s}');
+    const compilation = Feplet.generate(parseArr, codeEscaped, {delimiters});
 
-    return unescaped;
+    return {
+      codeEscaped,
+      compilation,
+      parseArr,
+      partials,
+      partialsComp
+    };
   }
 
   templateProcess(file, templatesDirDefault, templatesExtDefault) {
@@ -172,17 +203,37 @@ module.exports = class {
 
     if (templatesDir && templatesExt) {
       try {
-        // Recurse through Mustache templates (sparingly. See comment above.)
-        let code = this.mustacheRecurse(mustacheFile);
-        // Iterate through tokens and replace keys for values in the code.
-        code = this.tokensReplace(data, code);
-        // Write translated templates.
-        const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, code);
+        let code;
 
-        let message = 'Template %s translated';
+        // Reduce file reads by checking if file content has already been saved in the patternlab object.
+        for (const pattern of this.patternlab.ingredients.patterns) {
+          if (mustacheFile.includes(pattern.relPath)) {
+            code = pattern.template;
+
+            break;
+          }
+        }
+
+        if (typeof code === 'undefined') {
+          code = fs.readFileSync(mustacheFile, this.conf.enc);
+        }
+
+        // Recurse through Mustache templates (sparingly. See comment above.)
+        const {
+          compilation,
+          partials,
+          partialsComp
+        } = this.mustacheRecurse(code);
+        const codeRecursed = compilation.render({}, partials, null, partialsComp);
+        // Iterate through tokens and replace keys for values in the code.
+        const codeTranslated = this.tokensReplace(data, codeRecursed);
+        // Write translated templates.
+        const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, codeTranslated);
+
+        let message = t('Template %s translated');
         message = message.replace('%s', '\x1b[36m' + dest.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
 
-        this.utils.log(t(message));
+        this.utils.log(message);
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
@@ -246,16 +297,18 @@ module.exports = class {
   }
 
   tokensReplace(tokens, codeParam) {
+    if (!tokens) {
+      return codeParam;
+    }
+
     const tokenKeys = Object.keys(tokens);
 
     let code = codeParam;
     let regex;
     let token;
-    let unescaped;
 
-    for (let tokenKey of tokenKeys) {
-      unescaped = this.mustacheUnescape(tokenKey);
-      regex = new RegExp('\\{\\{\\{?\\s*' + unescaped + '\\s*\\}?\\}\\}', 'g');
+    for (const tokenKey of tokenKeys) {
+      regex = new RegExp('\\{\\{\\{?\\s*' + tokenKey + '\\s*\\}?\\}\\}', 'g');
       token = tokens[tokenKey].replace(/^\n/, '');
       token = token.replace(/\n$/, '');
       code = code.replace(regex, token);
@@ -266,9 +319,6 @@ module.exports = class {
       // eslint-disable-next-line no-useless-escape
       code = code.replace(/\{\{[^\(]*?(\([\S\s]*?\))?\s*\}?\}\}\s*\n?/g, '');
     }
-    // Replace escaped curly braces.
-    code = code.replace(/\\\{/g, '{');
-    code = code.replace(/\\\}/g, '}');
 
     return code;
   }

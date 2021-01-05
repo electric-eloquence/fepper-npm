@@ -43,7 +43,7 @@ try {
     const spawnObj = cp.spawnSync('pgrep', ['-x', 'gulp']);
     const gulpPids = spawnObj.stdout.toString(enc).trim().split('\n');
 
-    for (let gulpPid of gulpPids) {
+    for (const gulpPid of gulpPids) {
       if (!/^\d+$/.test(gulpPid)) {
         continue;
       }

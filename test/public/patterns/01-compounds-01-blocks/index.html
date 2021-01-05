@@ -14,7 +14,7 @@
   <meta http-equiv="pragma" content="no-cache">
 
   <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
@@ -24,7 +24,7 @@
 </head>
 <body class="">
 <!-- View All -->
-<link rel="stylesheet" href="../../_styles/pattern-scaffolding.css" media="all">
+<link rel="stylesheet" href="../../_styles/pattern-scaffolding.css">
 <div class="sg-main" role="main">
 
   <!-- Patterns -->
@@ -69,7 +69,7 @@
         </div>
         <div class="sg-pattern-example cf"></div>
         <script type="text/json" id="sg-pattern-data-compounds-block-hoagie" class="sg-pattern-data">
-          {"lineage":[{"lineagePattern":"elements-square","lineagePath":"patterns/00-elements-02-images-03-square/00-elements-02-images-03-square.html","isHidden":false}],"lineageExists":true,"lineageR":[{"lineagePattern":"components-latest-posts","lineagePath":"patterns/02-components-01-sections-02-latest-posts/02-components-01-sections-02-latest-posts.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Block Hoagie","patternPartial":"compounds-block-hoagie","patternState":"","portReloader":35729,"portServer":3000}
+          {"lineage":[{"lineagePattern":"elements-square","lineagePath":"patterns/00-elements-02-images-03-square/00-elements-02-images-03-square.html","isHidden":false}],"lineageExists":true,"lineageR":[{"lineagePattern":"templates-article","lineagePath":"patterns/03-templates-03-article/03-templates-03-article.html","isHidden":false}],"lineageRExists":true,"patternDesc":"","patternExtension":".mustache","patternName":"Block Hoagie","patternPartial":"compounds-block-hoagie","patternState":"","portReloader":35729,"portServer":3000}
         </script>
       </div><!--end .sg-pattern-->
     
@@ -81,7 +81,7 @@
   // Hydrate viewalls.
   const patternEls = document.getElementsByClassName('sg-pattern');
 
-  for (let patternEl of patternEls) {
+  for (const patternEl of patternEls) {
     const exampleEl = patternEl.querySelector('.sg-pattern-example');
     const linkEl = patternEl.querySelector('.sg-pattern-link');
     const xhr = new XMLHttpRequest();

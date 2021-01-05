@@ -409,7 +409,7 @@ describe('Mustache Browser', function () {
       })
       .then((output) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(output).to.have.string(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -424,22 +424,35 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
 
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
   </head>
 
-  <body class="text ">
-    <main id="" class="mustache-browser__result"><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><h2><a
-            href="../patterns/02-components-00-global-00-header-localhost/02-components-00-global-00-header-localhost.html"
-            class="fp-express mustache-browser__pattern-link">components-header-localhost</a></h2><a href="?partial={{&gt; 00-elements/02-images/00-logo.mustache }}" class="fp-express">{{&gt; 00-elements/02-images/00-logo.mustache }}</a><br><a href="?partial={{&gt; 02-components/03-navigation/00-primary-nav }}" class="fp-express">{{&gt; 02-components/03-navigation/00-primary-nav }}</a><br>
-    </main>
+  <body class="">
+    <main id="" class="mustache-browser__result">
+      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a>
+<div class="mustache-browser__paths">
+  <div id="mustache-browser__path--absolute" class="mustache-browser__path">`);
+        expect(output).to.have.string(`/test/source/_patterns/02-components/00-global/00-header.mustache</div>
+  <div id="mustache-browser__path--relative" class="mustache-browser__path">02-components/00-global/00-header.mustache</div>
+</div>
+<div class="mustache-browser__heading">
+  <h2><a
+    href="../patterns/02-components-00-global-00-header-localhost/02-components-00-global-00-header-localhost.html"
+    class="fp-express mustache-browser__pattern-link">components-header-localhost</a></h2>
+  <button id="mustache-browser__button--relative" data-copied-msg="Copied!">Copy relative path</button>
+  <button id="mustache-browser__button--absolute" data-copied-msg="Copied!">Copy absolute path</button>
+</div>
+<div class="mustache-browser__code">
+  <a href="?partial={{&gt; 00-elements/02-images/00-logo.mustache }}" class="fp-express">{{&gt; 00-elements/02-images/00-logo.mustache }}</a><br><a href="?partial={{&gt; 02-components/03-navigation/00-primary-nav }}" class="fp-express">{{&gt; 02-components/03-navigation/00-primary-nav }}</a><br>
+</div>
 
+    </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -457,7 +470,6 @@ describe('Mustache Browser', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);
@@ -497,20 +509,19 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
 
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
   </head>
 
-  <body class="text ">
-    <main id="" class="mustache-browser__no-result"><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>undefined</code>
+  <body class="">
+    <main id="" class="mustache-browser__no-result">
+      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>undefined</code>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -528,7 +539,6 @@ describe('Mustache Browser', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);
@@ -569,20 +579,19 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
 
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
   </head>
 
-  <body class="text ">
-    <main id="" class="mustache-browser__no-result"><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
+  <body class="">
+    <main id="" class="mustache-browser__no-result">
+      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -600,7 +609,6 @@ describe('Mustache Browser', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);

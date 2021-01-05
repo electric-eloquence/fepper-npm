@@ -14,7 +14,7 @@
   <meta http-equiv="pragma" content="no-cache">
 
   <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css" media="all">
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
 <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
 <script src="../../annotations/annotations.js"></script>
 <!-- End Pattern Lab -->
@@ -357,7 +357,7 @@
   // Hydrate viewalls.
   const patternEls = document.getElementsByClassName('sg-pattern');
 
-  for (let patternEl of patternEls) {
+  for (const patternEl of patternEls) {
     const exampleEl = patternEl.querySelector('.sg-pattern-example');
     const linkEl = patternEl.querySelector('.sg-pattern-link');
     const xhr = new XMLHttpRequest();

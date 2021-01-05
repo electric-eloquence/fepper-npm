@@ -9,28 +9,39 @@ const {
 const errorResponse = fepper.tcpIp.fpExpress.errorResponse;
 
 describe('Error Response', function () {
-  it('responds with a 404 if no README.md present', function (done) {
+  it('responds with a 404 if file is missing', function (done) {
     new Promise(
       (resolve) => {
         errorResponse.notFound()(
-          {},
+          {url: 'missing.html'},
           responseFactory(resolve)
         );
       })
       .then((output) => {
         expect(output).to.equal(`
 <!DOCTYPE html>
-<html>
+<html class="">
   <head>
     <title id="title">ERROR</title>
     <meta charset="utf-8">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
-  </head>
-  <body>
-    <main>
-      <pre>Cannot GET undefined</pre>
-    </main>
 
+    <!-- Disable cache -->
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+
+    
+    
+    
+  </head>
+
+  <body class="">
+    <main id="" class="">
+      <div id="message" class="message "></div>
+      <pre>Cannot GET missing.html</pre>
+    </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -48,7 +59,6 @@ describe('Error Response', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);

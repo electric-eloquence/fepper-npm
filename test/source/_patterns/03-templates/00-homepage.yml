@@ -1,34 +1,8 @@
-"# emergency\\?": |
-  <?php if ($emergency): ?>
-"alert": |
-  <?php print $alert; ?>
-"/ emergency\\?": |
-  <?php endif; ?>
-"# hero\\?": |
-  <?php if ($hero): ?>
-"block_hero": |
-  <?php print $hero; ?>
-"/ hero\\?": |
-  <?php endif; ?>
-"# subs": |
-  <?php foreach ($subs as $sub): ?>
-"{ sub }": |
-  <?php print $sub; ?>
-"/ subs": |
-  <?php endforeach; ?>
-"# latest_posts": |
+"# latest_posts": |2
   <?php foreach ($latest_posts as $post): ?>
-"{ post }": |
+"{ post }": |2
   <?php print $post; ?>
-"/ latest-posts": |
+"/ latest_posts": |2
   <?php endforeach; ?>
-"> 02-components/04-sections/02-related-posts": |
-  <?php print $page['related_posts']; ?>
-"> 02-components/04-sections/01-recent-tweets\\(strings: 'and special characters in keys must be wrapped in single-quotes'\\)": |
-  <?php print $page['recent_tweets']; ?>
-"> 02-components/00-global/01-footer\\('boolean\\?': true\\)": |
+"> 02-components/00-global/01-footer\\('boolean\\?': true\\)": |2
   <?php print $page['footer']; ?>
-"> molecules-primary-nav": |
-  <?php print $page['primary_nav']; ?>
-"> molecules-search": |
-  <?php print $page['search']; ?>

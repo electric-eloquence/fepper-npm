@@ -1,15 +1,25 @@
-#sg-code-pattern-state p,
+#sg-code-pattern-info p,
 #sg-code-lineage p,
 #sg-code-lineager p {
-  margin-top: 0;
+  margin: 0 0 0.8rem;
+}
+
+#sg-code-lineage a,
+#sg-code-lineager a {
+  text-decoration: none;
 }
 
 .sg-code-pattern-name {
   color: #aaa;
 }
 
+#sg-code-pattern-info-rel-path {
+  cursor: pointer;
+  font-size: 1.231em;
+}
+
 #sg-code-markup {
-  padding-top: 1rem;
+  padding-top: 0.4rem;
 }
 
 #sg-code-tabs {
@@ -32,6 +42,11 @@
 .sg-code-title-active {
   color: #bbb;
   background-color: #272822 !important;
+}
+
+.sg-code-button {
+  margin-top: 0.6rem;
+  margin-left: 0.6rem;
 }
 
 .sg-language-markup-container {

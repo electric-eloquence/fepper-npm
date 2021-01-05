@@ -6,7 +6,11 @@ const diveSync = require('diveSync');
 const fs = require('fs-extra');
 
 module.exports = class {
-  constructor(options) {
+  #ui;
+
+  constructor(options, ui) {
+    this.#ui = ui;
+
     this.options = options;
     this.appDir = options.appDir;
     this.conf = options.conf;
@@ -28,6 +32,10 @@ module.exports = class {
     this.pagesPrefix = this.conf.ui.paths.source.pages.replace(`${this.conf.ui.paths.source.patterns}/`, '');
   }
 
+  get patternlab() {
+    return this.#ui.patternlab;
+  }
+
   generatePages() {
     const files = [];
 
@@ -39,7 +47,7 @@ module.exports = class {
     const level0 = this.patternsPublic;
     const basenamesAtLevel0 = fs.readdirSync(level0);
 
-    for (let basenameAtLevel0 of basenamesAtLevel0) {
+    for (const basenameAtLevel0 of basenamesAtLevel0) {
       try {
         const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
         const statAtLevel0 = fs.statSync(fileAtLevel0);
@@ -53,11 +61,11 @@ module.exports = class {
       }
     }
 
-    for (let dirAtLevel0 of dirsAtLevel0) {
+    for (const dirAtLevel0 of dirsAtLevel0) {
       // Level 1 declarations.
       const basenamesAtLevel1 = fs.readdirSync(dirAtLevel0);
 
-      for (let basenameAtLevel1 of basenamesAtLevel1) {
+      for (const basenameAtLevel1 of basenamesAtLevel1) {
         try {
           const fileAtLevel1 = `${dirAtLevel0}/${basenameAtLevel1}`;
           const statAtLevel1 = fs.statSync(fileAtLevel1);
@@ -106,11 +114,28 @@ module.exports = class {
             fs.outputFileSync(`${this.staticSource}/index.html`, tmpStr);
           }
           else {
-            regexStr = '^.*\\/';
-            regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-            regex = new RegExp(regexStr);
+            let outfilePath;
 
-            fs.outputFileSync(`${this.staticSource}/${file.replace(regex, '')}`, tmpStr);
+            for (let i = 0; i < this.patternlab.ingredients.patterns.length; i++) {
+              const pattern = this.patternlab.ingredients.patterns[i];
+
+              if (file.includes(pattern.patternLink)) {
+                const pathParts = pattern.relPathTrunc.split('/').slice(1);
+
+                if (pathParts.length) {
+                  outfilePath = pathParts
+                    .map(pathPart => pathPart.replace(/^\d+-/, ''))
+                    .join('-')
+                    + '.html';
+
+                  break;
+                }
+              }
+            }
+
+            if (outfilePath) {
+              fs.outputFileSync(`${this.staticSource}/${outfilePath}`, tmpStr);
+            }
           }
         }
         catch (err) /* istanbul ignore next */ {
@@ -137,29 +162,39 @@ module.exports = class {
   convertLinksHomepage(content_, homepage) {
     let content = content_;
 
-    if (homepage) {
-      let homepageRegex = new RegExp('(href\\s*=\\s*)"[^"]*\\/' + homepage, 'gi');
-      content = content.replace(homepageRegex, '$1"index');
-
-      homepageRegex = new RegExp('(href\\s*=\\s*)\'[^\']*\\/' + homepage, 'gi');
-      content = content.replace(homepageRegex, '$1\'index');
+    if (homepage && content_.includes(homepage)) {
+      const homepageRegex = new RegExp('(href=")\\.\\.\\/' + homepage + '\\/' + homepage, 'gi');
+      content = content.replace(homepageRegex, '$1index');
     }
 
     return content;
   }
 
   convertLinksSibling(content_) {
-    let content = content_;
+    const content = this.patternlab.ingredients.patterns.reduce((acc_, cur) => {
+      let acc = acc_;
 
-    let regexStr = '(href\\s*=\\s*)"[^"]*\\/';
-    regexStr += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-    const regex = new RegExp(regexStr, 'gi');
-    content = content.replace(regex, '$1"');
+      if (acc.includes(cur.patternLink)) {
+        const pathParts = cur.relPathTrunc.split('/').slice(1);
+        let pathNew;
 
-    let regexStr1 = '(href\\s*=\\s*)\'[^\']*\\/';
-    regexStr1 += this.utils.regexReservedCharsEscape(this.pagesPrefix + '-');
-    const regex1 = new RegExp(regexStr1, 'gi');
-    content = content.replace(regex1, '$1\'');
+        /* istanbul ignore else */
+        if (pathParts.length) {
+          pathNew = pathParts
+            .map(pathPart => pathPart.replace(/^\d+-/, ''))
+            .join('-')
+            + '.html';
+        }
+        else {
+          return acc;
+        }
+
+        const regex = new RegExp('(href=")\\.\\.\\/' + cur.patternLink, 'g');
+        acc = acc.replace(regex, '$1' + pathNew);
+      }
+
+      return acc;
+    }, content_);
 
     return content;
   }

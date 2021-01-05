@@ -36,7 +36,7 @@ const patternMustacheExistsBefore = fs.existsSync(patternMustache);
 const patternExportExistsBefore = fs.existsSync(patternExport);
 const patternlabDataExistsBefore = fs.existsSync(patternlabData);
 
-const expectedContent = '<span class="test_base ">   </span>  <span class="test_base test_1">   </span> ';
+const expectedContent = '<span class="test_base ">      </span>    <span class="test_base test_1">      </span>  ';
 const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>\n';
 
 describe('UI Builder', function () {
@@ -99,29 +99,25 @@ describe('UI Builder', function () {
     expect(patternExportContent).to.equal(expectedPatternExportContent);
   });
 
-  it('writes patternlab-data.js for browser consumption', function () {
+  it('writes data.js for browser consumption', function () {
     expect(patternlabDataExistsBefore).to.be.false;
 
     expect(patternlabDataExistsAfter).to.be.true;
   });
 
-  it('writes window.config to patternlab-data.js', function () {
+  it('writes config to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(configClone));
   });
 
-  it('writes window.ishControls to patternlab-data.js', function () {
+  it('writes ishControls to data.js', function () {
     expect(patternlabDataContent).to.have.string(JSON.stringify(configClone.ishControlsHide));
   });
 
-  it('writes window.navItems to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternTypes));
+  it('writes navItems to data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.ingredients.patternTypes));
   });
 
-  it('writes window.patternPaths to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.patternPaths));
-  });
-
-  it('writes window.viewallPaths to patternlab-data.js', function () {
-    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.viewallPaths));
+  it('writes patternPaths to data.js', function () {
+    expect(patternlabDataContent).to.have.string(JSON.stringify(patternlab.ingredients.patternPaths));
   });
 });

@@ -164,6 +164,7 @@ module.exports = class {
         case 'pseudoPatternPartial':
         case 'relPathTrunc':
         case 'relPath':
+        case 'template':
           continue;
       }
 
@@ -182,24 +183,31 @@ module.exports = class {
     // Disabling guard-for-in because we have complete control over construction of partials.
     // eslint-disable-next-line guard-for-in
     for (let partialKey in partials) {
+
       // The partialKey may or may not have a param.
       // Whether it does or not, make sure there is an entry for the non-param partial.
       for (let i = 0, l = patterns.length; i < l; i++) {
         const pattern = patterns[i];
 
+        let nonParamPartialKeyTest = partialKey.trim();
+        const nonParamPartialKeyTestIndex = nonParamPartialKeyTest.indexOf('(');
         let nonParamPartialKey;
 
+        if (nonParamPartialKeyTestIndex > -1) {
+          nonParamPartialKeyTest = partialKey.slice(0, nonParamPartialKeyTestIndex).trim();
+        }
+
         /* istanbul ignore else */
-        if (partialKey.indexOf(pattern.patternPartial) === 0) {
+        if (nonParamPartialKeyTest === pattern.patternPartial) {
           nonParamPartialKey = pattern.patternPartial;
         }
-        else if (partialKey.indexOf(pattern.patternPartialPhp) === 0) {
+        else if (nonParamPartialKeyTest === pattern.patternPartialPhp) {
           nonParamPartialKey = pattern.patternPartialPhp;
         }
-        else if (partialKey.indexOf(pattern.relPath) === 0) {
+        else if (nonParamPartialKeyTest === pattern.relPath) {
           nonParamPartialKey = pattern.relPath;
         }
-        else if (partialKey.indexOf(pattern.relPathTrunc) === 0) { // Must come after relPath.
+        else if (nonParamPartialKeyTest === pattern.relPathTrunc) { // Must come after relPath.
           nonParamPartialKey = pattern.relPathTrunc;
         }
 
@@ -332,21 +340,29 @@ module.exports = class {
     this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
 
     pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
-    pattern.templateTrimmed = pattern.template
-      .split('\n')
-      .map((line_) => {
-        let line = line_.trim();
 
-        if (line.includes('//')) {
-          line += '\n';
-        }
-        else if (line) {
-          line += ' ';
-        }
+    // Do not trim patterns with `pre` or `script` tags.
+    // Otherwise, trimming patterns of newlines and extraneous whitespace will greatly enhance build performance.
+    if (
+      pattern.template.includes('</pre>') ||
+      pattern.template.includes('</script>')
+    ) {
+      pattern.templateTrimmed = pattern.template;
+    }
+    else {
+      pattern.templateTrimmed = pattern.template
+        .split('\n')
+        .map((line_) => {
+          let line = line_.trim();
 
-        return line;
-      })
-      .join('');
+          if (line) {
+            line += '  '; // The 2 spaces is a hack to pass htmllint default indentation rule (as opposed to 1 space).
+          }
+
+          return line;
+        })
+        .join('');
+    }
 
     const parseArr = Feplet.parse(Feplet.scan(pattern.templateTrimmed));
 

@@ -47,73 +47,33 @@ describe('HTML Scraper', function () {
         /* eslint-disable max-len */
         expect(output).to.equal(`
 <!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
-<div id="message" class="message test-message">Test message</div>
-
+      <div id="message" class="message test-message">Test message</div>
       <div id="load-anim">
-        <style>
-          #load-anim {
-            display: none;
-            position: absolute;
-            top: 13rem;
-            left: calc(50vw - 4rem);
-            width: 8rem;
-            height: 8rem;
-          }
-          #load-anim div {
-            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: #ccc transparent transparent transparent;
-            border-radius: 50%;
-            border-style: solid;
-            border-width: 0.8rem;
-            box-sizing: border-box;
-            display: block;
-            margin: 0.8rem;
-            position: absolute;
-            width: 6.4rem;
-            height: 6.4rem;
-          }
-          #load-anim div:nth-child(1) {
-            animation-delay: -0.45s;
-          }
-          #load-anim div:nth-child(2) {
-            animation-delay: -0.3s;
-          }
-          #load-anim div:nth-child(3) {
-            animation-delay: -0.15s;
-          }
-          @keyframes load-anim {
-            0% {
-              transform: rotate(0deg);
-            }
-            100% {
-              transform: rotate(360deg);
-            }
-          }
-        </style>
         <div></div><div></div><div></div><div></div>
       </div>
-      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>
-      <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter">
+      <h1 id="scraper__heading">Fepper HTML Scraper</h1>
+      <form id="scraper__targeter" action="/html-scraper" method="post" name="targeter">
         <div>
           <label for="url">URL:</label>
-          <input name="url" type="text" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html" style="width: 100%;">
+          <input name="url" type="text" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html">
         </div>
         <div>
-          <label for="selector">Selector:</label>
-          <input name="selector" type="text" value=".test-message" style="width: 100%;">
+          <label for="selector_raw">Selector:</label>
+          <input name="selector_raw" type="text" value="">
+          <input name="selector" type="hidden" value="">
+          <input name="index" type="hidden" value="">
         </div>
-        <textarea name="html2json" style="display: none;"></textarea>
-        <div class="cf" style="padding-top: 10px;">
-          <input name="url-form" type="submit" value="Submit" style="float: left;">
-          <button id="help-button" style="float: right;">Help</button>
-          <button id="hide-button" style="float: right;display: none;">Hide</button>
-        </div>
+        <textarea name="html2json"></textarea>
+        <input id="scraper__targeter__submit" name="submit_targeter" type="submit" value="Submit">
+        <button id="help-hide">Hide</button><button id="help-show">Help</button>
       </form>
-      <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
+      <div id="help-text">
         <p></p>
         <p>Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.</p>
         <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.</p>
-      </div></body></html>`);
+      </div>
+      <iframe id="scraper__stage" sandbox="allow-same-origin allow-scripts"></iframe>
+</body></html>`);
         /* eslint-enable max-len */
         done();
       })
@@ -147,16 +107,15 @@ describe('HTML Scraper', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/html-scraper.css">
+    
   </head>
 
-  <body class="text ">
-    <main id="scraper" class="scraper"><script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
-
+  <body class="">
+    <main id="fepper-html-scraper" class="">
+      <div id="message" class="message "></div>
+      <script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -174,7 +133,6 @@ describe('HTML Scraper', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);

@@ -89,7 +89,7 @@ module.exports = class {
         const basenamesAtLevel0 = fs.readdirSync(level0);
 
         // Choosing for...of loop and its readability in exchange for performance.
-        for (let basenameAtLevel0 of basenamesAtLevel0) {
+        for (const basenameAtLevel0 of basenamesAtLevel0) {
           try {
             const fileAtLevel0 = `${level0}/${basenameAtLevel0}`;
             const statAtLevel0 = fs.statSync(fileAtLevel0);

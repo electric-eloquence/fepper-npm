@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <title>Fepper</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="generator" content="Fepper Front End Prototyper (http://fepper.io)">
+
+  <!-- Disable cache -->
+  <meta http-equiv="cache-control" content="max-age=0">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+  <meta http-equiv="pragma" content="no-cache">
+
+  <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
+<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+<script src="../../annotations/annotations.js"></script>
+<!-- End Pattern Lab -->
+
+
+  <link rel="stylesheet" href="../../_styles/bld/style.css" media="all">
+</head>
+<body class="">
+<!-- View All -->
+<link rel="stylesheet" href="../../_styles/pattern-scaffolding.css">
+<div class="sg-main" role="main">
+
+  <!-- Patterns -->
+  <div id="sg-patterns">
+    
+      <div class="sg-pattern-category">
+        <h3 class="sg-pattern-category-title sg-pattern-sub-type">
+          <a
+            href="../../patterns/04-pages-articles-/index.html"
+            class="sg-pattern-link"
+            title="Link to Sub-Type"
+          >Articles</a>
+        </h3>
+      </div><!--end sg-pattern-category-->
+    
+      <div id="pages-top-story" class="sg-pattern">
+        <div class="sg-pattern-head">
+          <h4 class="sg-pattern-title">
+            <a
+              href="../../patterns/04-pages-articles--00-top-story/04-pages-articles--00-top-story.html"
+              class="sg-pattern-link"
+              data-patternpartial="pages-top-story"
+              title="Link to Pattern"
+            >Top Story</a>
+          </h4>
+          <div class="sg-pattern-info-toggles">
+            <a
+              href="#"
+              id="sg-pattern-toggle-annotations-pages-top-story"
+              class="sg-pattern-info-toggle sg-pattern-toggle-annotations"
+              data-patternpartial="pages-top-story"
+              title="View Pattern Annotations"
+            >&#x1F4C4;</a>
+            <a
+              href="#"
+              id="sg-pattern-toggle-code-pages-top-story"
+              class="sg-pattern-info-toggle sg-pattern-toggle-code"
+              data-patternpartial="pages-top-story"
+              title="View Pattern Code"
+            >&#x276E;&#x276F;</a>
+          </div>
+        </div>
+        <div class="sg-pattern-example cf"></div>
+        <script type="text/json" id="sg-pattern-data-pages-top-story" class="sg-pattern-data">
+          {"lineage":[{"lineagePattern":"templates-article","lineagePath":"patterns/03-templates-03-article/03-templates-03-article.html","isHidden":false}],"lineageExists":true,"lineageR":[],"lineageRExists":false,"patternDesc":"","patternExtension":".mustache","patternName":"Top Story","patternPartial":"pages-top-story","patternState":"","portReloader":35729,"portServer":3000}
+        </script>
+      </div><!--end .sg-pattern-->
+    
+  </div> <!--end #sg-patterns-->
+
+</div><!--end .sg-main-->
+
+<script>
+  // Hydrate viewalls.
+  const patternEls = document.getElementsByClassName('sg-pattern');
+
+  for (const patternEl of patternEls) {
+    const exampleEl = patternEl.querySelector('.sg-pattern-example');
+    const linkEl = patternEl.querySelector('.sg-pattern-link');
+    const xhr = new XMLHttpRequest();
+
+    if (linkEl && linkEl.href) {
+      const regex = /\.\w+$/;
+      const matches = linkEl.href.match(regex);
+      const ext = matches && matches[0] ? matches[0] : matches;
+
+      if (ext) {
+        const link = linkEl.href.replace(regex, '.markup-only' + ext);
+
+        xhr.open('GET', link, true);
+        xhr.onload = () => {
+          if (xhr.responseText) {
+            exampleEl.innerHTML = xhr.responseText;
+          }
+        };
+        xhr.send();
+      }
+    }
+  }
+</script>
+
+<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  {"patternPartial":"viewall-pages-articles-"}
+</script>
+
+<script>
+  // LiveReload.
+  if (location.protocol !== 'file:') {
+    const reloader = document.createElement('script');
+
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
+    document.body.appendChild(reloader);
+  }
+</script>
+
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
+<!-- End Pattern Lab -->
+
+
+  <script src="../../_scripts/src/variables.styl" type="text/javascript"></script>
+  <script src="../../node_modules/foo/bar.js"></script>
+</body>
+</html>

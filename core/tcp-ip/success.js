@@ -19,11 +19,25 @@ module.exports = class {
       fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
         const successMsg = 'Installation success!';
         const ts = this.utils.deepGet(req, 'query.ts') ? req.query.ts : '';
-        const successSimple = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
-<body>${successMsg}<br><a href="/?ts=${ts}">Open Fepper UI</a></body></html>`;
 
         if (!dat) {
-          res.send(successSimple);
+          let outputFpt = this.html.head;
+          outputFpt += `<a href="/?ts=${ts}">Open Fepper UI</a>`;
+          outputFpt += this.html.foot;
+
+          const output = Feplet.render(
+            outputFpt,
+            {
+              title: successMsg,
+              body_class: 'text',
+              main_id: 'success-page',
+              main_class: 'success-page',
+              msg_class: 'success',
+              message: `<h1>${successMsg}</h1>`
+            }
+          );
+
+          res.send(output);
 
           return;
         }
@@ -45,7 +59,7 @@ module.exports = class {
           return;
         }
 
-        let outputFpt = this.html.headWithMsg;
+        let outputFpt = this.html.head;
         outputFpt += this.html.success;
         outputFpt += htmlMd + '\n';
         outputFpt += '<p>&nbsp;</p>\n';
@@ -56,6 +70,7 @@ module.exports = class {
           outputFpt,
           {
             title: successMsg,
+            body_class: 'text',
             main_id: 'success-page',
             main_class: 'success-page',
             msg_class: 'success',

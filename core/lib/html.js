@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 
-exports.head = `
+exports.headBoilerplate = `
 <!DOCTYPE html>
 <html class="{{ html_class }}">
   <head>
@@ -22,63 +22,30 @@ exports.head = `
     <meta http-equiv="pragma" content="no-cache">
 
     {{{ patternlabHead }}}
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    {{{ stylesheets }}}
+    {{{ scripts }}}
   </head>
 
-  <body class="text {{ body_class }}">
-    <main id="{{ main_id }}" class="{{ main_class }}">`;
+  <body class="{{ body_class }}">
+    <main id="{{ main_id }}" class="{{ main_class }}">
+      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>`;
 
-exports.headWithMsg = exports.head + '\n      <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>';
+exports.head = exports.headBoilerplate
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/style.css">');
+
+exports.headMustache = exports.headBoilerplate
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/mustache-browser.css">');
+
+exports.headScraper = exports.headBoilerplate
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/html-scraper.css">');
 
 exports.loadingAnimation = `
       <div id="load-anim">
-        <style>
-          #load-anim {
-            display: none;
-            position: absolute;
-            top: 13rem;
-            left: calc(50vw - 4rem);
-            width: 8rem;
-            height: 8rem;
-          }
-          #load-anim div {
-            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: #ccc transparent transparent transparent;
-            border-radius: 50%;
-            border-style: solid;
-            border-width: 0.8rem;
-            box-sizing: border-box;
-            display: block;
-            margin: 0.8rem;
-            position: absolute;
-            width: 6.4rem;
-            height: 6.4rem;
-          }
-          #load-anim div:nth-child(1) {
-            animation-delay: -0.45s;
-          }
-          #load-anim div:nth-child(2) {
-            animation-delay: -0.3s;
-          }
-          #load-anim div:nth-child(3) {
-            animation-delay: -0.15s;
-          }
-          @keyframes load-anim {
-            0% {
-              transform: rotate(0deg);
-            }
-            100% {
-              transform: rotate(360deg);
-            }
-          }
-        </style>
         <div></div><div></div><div></div><div></div>
       </div>`;
 
-exports.scraperTitle = `
-      <h1 id="scraper-heading" class="scraper-heading">${t('Fepper HTML Scraper')}</h1>`;
+exports.scraperHeading = `
+      <h1 id="scraper__heading">${t('Fepper HTML Scraper')}</h1>`;
 
 exports.forbidden = `
     <section id="forbidden" class="error">
@@ -88,52 +55,59 @@ exports.forbidden = `
     </section>`;
 
 exports.landingBody = `
-      <form id="html-scraper-targeter" action="/html-scraper" method="post" name="targeter">
+      <form id="scraper__targeter" action="/html-scraper" method="post" name="targeter">
         <div>
           <label for="url">${t('URL:')}</label>
-          <input name="url" type="text" value="{{{ url }}}" style="width: 100%;">
+          <input name="url" type="text" value="{{{ url }}}">
         </div>
         <div>
-          <label for="selector">${t('Selector:')}</label>
-          <input name="selector" type="text" value="{{ selector }}" style="width: 100%;">
+          <label for="selector_raw">${t('Selector:')}</label>
+          <input name="selector_raw" type="text" value="{{ selector_raw }}">
+          <input name="selector" type="hidden" value="{{ selector }}">
+          <input name="index" type="hidden" value="{{ index }}">
         </div>
-        <textarea name="html2json" style="display: none;"></textarea>
-        <div class="cf" style="padding-top: 10px;">
-          <input name="url-form" type="submit" value="${t('Submit')}" style="float: left;">
-          <button id="help-button" style="float: right;">${t('Help')}</button>
-          <button id="hide-button" style="float: right;display: none;">${t('Hide')}</button>
-        </div>
-      </form>
-      <div id="help-text" style="border: 1px solid black;visibility: hidden;margin-top: 5.50px;padding: 0 20px;width: 100%">
+        <textarea name="html2json"></textarea>
+        <input id="scraper__targeter__submit" name="submit_targeter" type="submit" value="${t('Submit')}">
+        {{{ help_buttons }}}
+      </form>`;
+
+exports.helpButtons = `<button id="help-hide">${t('Hide')}</button><button id="help-show">${t('Help')}</button>`;
+
+exports.helpText = `
+      <div id="help-text">{{{ help_text }}}      </div>`;
+
+exports.scraperHelpText = `
         <p></p>
         <p>${t('Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.')}</p>
-        <p>${t('Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.')}</p>
-      </div>`;
+        <p>${t('Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.')}</p>\n`;
+
+exports.scraperStage = `
+      <iframe id="scraper__stage" sandbox="allow-same-origin allow-scripts"></iframe>`;
 
 exports.reviewerPrefix = `
-      <div style="border: 1px solid black;margin: 10px 0 20px;overflow-x: scroll;padding: 20px;width: 100%;">`;
+      <div id="scraper__reviewer">`;
 
 exports.reviewerSuffix = `
       </div>`;
 
 exports.importerPrefix = `
       <h3>${t('Does this HTML look right?')}</h3>
-      <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
+      <form id="scraper__importer" action="/html-scraper" method="post" name="importer">
         <div>${t('Yes, import into Fepper.')}</div>
-        <label for="import-form">${t('Enter a filename to save this under (extension not necessary):')}</label>
-        <input name="filename" type="text" value="" style="width: 100%">
+        <label for="filename">${t('Enter a filename to save this under (extension not necessary):')}</label>
+        <input name="filename" type="text" value="">
         <input name="url" type="hidden" value="{{{ url }}}">
-        <input name="selector" type="hidden" value="{{ selector }}">
-        <textarea name="html2json" style="display: none;"></textarea>
-        <textarea name="mustache" style="display: none;">`;
+        <input name="selector_raw" type="hidden" value="{{ selector_raw }}">
+        <textarea name="html2json"></textarea>
+        <textarea name="mustache">`;
 
 exports.json = `
         </textarea>
-        <textarea name="json" style="display: none;">`;
+        <textarea name="json">`;
 
 exports.importerSuffix = `
         </textarea>
-        <input name="import-form" type="submit" value="${t('Submit')}" style="margin-top: 10px;">
+        <input id="scraper__importer__submit" name="submit_importer" type="submit" value="${t('Submit')}">
       </form>
       <h3>${t('Otherwise, correct the URL and selector and submit again.')}</h3>`;
 
@@ -144,9 +118,7 @@ exports.success = `
 
 exports.foot = `
     </main>
-
     {{{ patternlabFoot }}}
-
   </body>
 </html>`;
 

@@ -23,7 +23,7 @@ module.exports = class {
 
       fetch(req.query.url)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.ok) {
             return response.text();
           }
           else {
@@ -38,8 +38,8 @@ module.exports = class {
             res.status(output).end();
           }
         })
-        .catch((error) => {
-          this.utils.error(error);
+        .catch((err) => {
+          this.utils.error(err);
           res.status(500).end();
         });
     };
@@ -56,38 +56,33 @@ module.exports = class {
 
       let message = '';
       let msgClass = '';
-      let selector = '';
+      let selectorRaw = '';
       let url = '';
 
       if (req.query) {
-        if (typeof req.query.message === 'string') {
-          message = req.query.message;
-        }
-        if (typeof req.query.msg_class === 'string') {
-          msgClass = req.query.msg_class;
-        }
-        if (typeof req.query.selector === 'string') {
-          selector = req.query.selector;
-        }
-        if (typeof req.query.url === 'string') {
-          url = req.query.url;
-        }
+        message = req.query.message || '';
+        msgClass = req.query.msg_class || '';
+        selectorRaw = req.query.selector_raw || '';
+        url = req.query.url || '';
       }
 
-      let outputFpt = '\n<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>\n';
-      outputFpt += `<div id="message" class="message ${msgClass}">${message}</div>\n`;
+      let outputFpt = '\n<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>';
+      outputFpt += `\n      <div id="message" class="message ${msgClass}">${message}</div>`;
       outputFpt += this.html.loadingAnimation;
-      outputFpt += this.html.scraperTitle;
+      outputFpt += this.html.scraperHeading;
       outputFpt += this.html.landingBody;
-      outputFpt += '</body></html>';
+      outputFpt += this.html.helpText;
+      outputFpt += this.html.scraperStage;
+      outputFpt += '\n</body></html>';
 
       const output = Feplet.render(
         outputFpt,
         {
-          main_id: 'scraper',
-          main_class: 'scraper',
+          main_id: 'fepper-html-scraper',
           url,
-          selector
+          selector_raw: selectorRaw,
+          help_buttons: this.html.helpButtons,
+          help_text: this.html.scraperHelpText
         }
       );
 
@@ -99,8 +94,8 @@ module.exports = class {
     return (req, res) => {
       // Gatekept by fepper-ui/scripts/pattern/html-scraper-ajax.js.
 
-      let outputFpt = this.html.head;
-      outputFpt += '<script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>\n';
+      let outputFpt = this.html.headScraper;
+      outputFpt += '\n      <script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>';
       outputFpt += this.html.foot;
 
       let patternlabFoot;
@@ -120,10 +115,9 @@ module.exports = class {
         outputFpt,
         {
           title: t('Fepper HTML Scraper'),
-          main_id: 'scraper',
-          main_class: 'scraper',
-          msg_class: '',
-          message: '',
+          main_id: 'fepper-html-scraper',
+          msg_class: this.utils.deepGet(req, 'query.msg_class') || '',
+          message: this.utils.deepGet(req, 'query.message') || '',
           patternlabFoot
         }
       );

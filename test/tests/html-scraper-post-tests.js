@@ -100,61 +100,73 @@ describe('HTML Scraper Post', function () {
     fs.removeSync(scrapeFile2Mustache);
   });
 
-  describe('.selectorValidate()', function () {
-    const req = {body: {target: '', url: ''}};
-
+  describe('.selectorObjectify()', function () {
     it('identifies the CSS class with no index', function () {
       const selector = '.class_test-0';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
-      expect(selectorObj.name).to.equal('.class_test-0');
+      expect(selectorObj.name).to.equal('class_test-0');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('class');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS class and index', function () {
       const selector = '.class_test-0[0]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '0');
 
-      expect(selectorObj.name).to.equal('.class_test-0');
+      expect(selectorObj.name).to.equal('class_test-0');
       expect(selectorObj.index).to.equal(0);
+      expect(selectorObj.type).to.equal('class');
     });
 
     it('identifies the CSS id with no index', function () {
       const selector = '#id_test-0';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
-      expect(selectorObj.name).to.equal('#id_test-0');
+      expect(selectorObj.name).to.equal('id_test-0');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('id');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS id and index', function () {
       const selector = '#id_test-0[1]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '1');
 
-      expect(selectorObj.name).to.equal('#id_test-0');
+      expect(selectorObj.name).to.equal('id_test-0');
       expect(selectorObj.index).to.equal(1);
+      expect(selectorObj.type).to.equal('id');
     });
 
     it('identifies the HTML tag with no index', function () {
       const selector = 'h1';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '');
 
       expect(selectorObj.name).to.equal('h1');
       expect(selectorObj.index).to.equal(-1);
+      expect(selectorObj.type).to.equal('tag');
     });
 
+    // DEPRECATED: The submission of array notation.
     it('identifies the CSS id and index', function () {
       const selector = 'h1[2]';
-      const selectorObj = htmlScraperPost.selectorValidate(selector, null, req);
+      const selectorObj = htmlScraperPost.selectorObjectify(selector, '2');
 
       expect(selectorObj.name).to.equal('h1');
       expect(selectorObj.index).to.equal(2);
+      expect(selectorObj.type).to.equal('tag');
     });
   });
 
   describe('.targetHtmlGet()', function () {
     it('gets all selectors of a given class if given no index', function () {
-      const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtmlConst);
+      const selectorObj = {
+        name: 'test',
+        index: -1,
+        type: 'class'
+      };
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -171,7 +183,12 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given class if given an index', function () {
-      const html2jsonObj = htmlScraperPost.elementSelect('.test[1]', jsonFromHtmlConst);
+      const selectorObj = {
+        name: 'test',
+        index: 1,
+        type: 'class'
+      };
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtmlConst);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -179,8 +196,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given id', function () {
+      const selectorObj = {
+        name: 'one',
+        index: -1,
+        type: 'id'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('#one', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="one" class="test">Foo</div>\n');
@@ -188,8 +210,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets all selectors of a given tagname if given no index', function () {
+      const selectorObj = {
+        name: 'div',
+        index: -1,
+        type: 'tag'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('div', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal(`<div id="one" class="test">Foo</div>
@@ -212,8 +239,13 @@ describe('HTML Scraper Post', function () {
     });
 
     it('gets one selector of a given tagname if given an index', function () {
+      const selectorObj = {
+        name: 'div',
+        index: 1,
+        type: 'tag'
+      };
       const jsonFromHtml = html2json(htmlConst);
-      const html2jsonObj = htmlScraperPost.elementSelect('div[1]', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
 
       expect(targetHtmlObj.all).to.equal('<div id="two" class="test">Bar</div>\n');
@@ -294,8 +326,13 @@ describe('HTML Scraper Post', function () {
 <div class="test">Barf</div>
 <div class="test">Bazm</div>
 `;
+      const selectorObj = {
+        name: 'test',
+        index: -1,
+        type: 'class'
+      };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect('.test', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
@@ -318,9 +355,13 @@ describe('HTML Scraper Post', function () {
 </div>
 <div id="test3">Bazm</div>
 `;
-
+      const selectorObj = {
+        name: 'test2',
+        index: -1,
+        type: 'id'
+      };
       const jsonFromHtml = html2json(htmlVar);
-      const html2jsonObj = htmlScraperPost.elementSelect('#test2', jsonFromHtml);
+      const html2jsonObj = htmlScraperPost.elementsSelect(selectorObj, jsonFromHtml);
       const targetHtmlObj = htmlScraperPost.targetHtmlGet(html2jsonObj);
       const targetHtml = htmlScraperPost.htmlSanitize(targetHtmlObj.all);
       const jsonForData = htmlScraperPost.htmlToJsons(targetHtml).jsonForData;
@@ -426,7 +467,7 @@ describe('HTML Scraper Post', function () {
         .then((response) => {
           expect(response.statusCode).to.equal(303);
           // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector=');
+          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector_raw=');
           done();
         })
         .catch((err) => {
@@ -462,7 +503,7 @@ describe('HTML Scraper Post', function () {
           .then((response) => {
             expect(response.statusCode).to.equal(303);
             // eslint-disable-next-line max-len
-            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector=');
+            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector_raw=');
             done();
           })
           .catch((err) => {
@@ -499,7 +540,7 @@ describe('HTML Scraper Post', function () {
           .then((response) => {
             expect(response.statusCode).to.equal(303);
             // eslint-disable-next-line max-len
-            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector=');
+            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector_raw=');
             done();
           })
           .catch((err) => {
@@ -548,80 +589,60 @@ describe('HTML Scraper Post', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-
-    <link rel="stylesheet" href="/fepper-core/style.css" media="all">
-    <script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+    <link rel="stylesheet" href="/fepper-core/html-scraper.css">
+    
   </head>
 
-  <body class="text ">
-    <main id="scraper" class="scraper">
+  <body class="">
+    <main id="fepper-html-scraper" class="">
       <div id="message" class="message "></div>
       <div id="load-anim">
-        <style>
-          #load-anim {
-            display: none;
-            position: absolute;
-            top: 13rem;
-            left: calc(50vw - 4rem);
-            width: 8rem;
-            height: 8rem;
-          }
-          #load-anim div {
-            animation: load-anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            border-color: #ccc transparent transparent transparent;
-            border-radius: 50%;
-            border-style: solid;
-            border-width: 0.8rem;
-            box-sizing: border-box;
-            display: block;
-            margin: 0.8rem;
-            position: absolute;
-            width: 6.4rem;
-            height: 6.4rem;
-          }
-          #load-anim div:nth-child(1) {
-            animation-delay: -0.45s;
-          }
-          #load-anim div:nth-child(2) {
-            animation-delay: -0.3s;
-          }
-          #load-anim div:nth-child(3) {
-            animation-delay: -0.15s;
-          }
-          @keyframes load-anim {
-            0% {
-              transform: rotate(0deg);
-            }
-            100% {
-              transform: rotate(360deg);
-            }
-          }
-        </style>
         <div></div><div></div><div></div><div></div>
       </div>
-      <h1 id="scraper-heading" class="scraper-heading">Fepper HTML Scraper</h1>
-      <div style="border: 1px solid black;margin: 10px 0 20px;overflow-x: scroll;padding: 20px;width: 100%;"><div>&#x3C;div id=&#x22;one&#x22; class=&#x22;test&#x22;&#x3E;Foo&#x3C;/div&#x3E;<br></div>
+      <h1 id="scraper__heading">Fepper HTML Scraper</h1>
+      <div id="scraper__reviewer">&#x3C;div id=&#x22;one&#x22; class=&#x22;test&#x22;&#x3E;Foo&#x3C;/div&#x3E;<br>
       </div>
       <h3>Does this HTML look right?</h3>
-      <form id="html-scraper-importer" action="/html-scraper" method="post" name="importer" style="margin-bottom: 20px;">
+      <form id="scraper__importer" action="/html-scraper" method="post" name="importer">
         <div>Yes, import into Fepper.</div>
-        <label for="import-form">Enter a filename to save this under (extension not necessary):</label>
-        <input name="filename" type="text" value="" style="width: 100%">
+        <label for="filename">Enter a filename to save this under (extension not necessary):</label>
+        <input name="filename" type="text" value="">
         <input name="url" type="hidden" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html">
-        <input name="selector" type="hidden" value="#one">
-        <textarea name="html2json" style="display: none;"></textarea>
-        <textarea name="mustache" style="display: none;"><div id="one" class="test">{{ one }}</div>
+        <input name="selector_raw" type="hidden" value="">
+        <textarea name="html2json"></textarea>
+        <textarea name="mustache"><div id="one" class="test">{{ one }}</div>
 
         </textarea>
-        <textarea name="json" style="display: none;">{
+        <textarea name="json">{
   "one": "Foo"
 }
         </textarea>
-        <input name="import-form" type="submit" value="Submit" style="margin-top: 10px;">
+        <input id="scraper__importer__submit" name="submit_importer" type="submit" value="Submit">
       </form>
-      <h3>Otherwise, correct the URL and selector and submit again.</h3><script src="/node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+      <h3>Otherwise, correct the URL and selector and submit again.</h3>
+      <form id="scraper__targeter" action="/html-scraper" method="post" name="targeter">
+        <div>
+          <label for="url">URL:</label>
+          <input name="url" type="text" value="http://localhost:3000/patterns/04-pages-00-homepage/04-pages-00-homepage.html">
+        </div>
+        <div>
+          <label for="selector_raw">Selector:</label>
+          <input name="selector_raw" type="text" value="">
+          <input name="selector" type="hidden" value="">
+          <input name="index" type="hidden" value="">
+        </div>
+        <textarea name="html2json"></textarea>
+        <input id="scraper__targeter__submit" name="submit_targeter" type="submit" value="Submit">
+        <button id="help-hide">Hide</button><button id="help-show">Help</button>
+      </form>
+      <div id="help-text">
+        <p></p>
+        <p>Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.</p>
+        <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.</p>
+      </div>
+      <iframe id="scraper__stage" sandbox="allow-same-origin allow-scripts"></iframe>
+      <script src ="/node_modules/fepper-ui/scripts/pattern/html-scraper-dhtml.js"></script>
     </main>
-
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
   
@@ -639,7 +660,6 @@ describe('HTML Scraper Post', function () {
 
 <script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
 <!-- End Pattern Lab -->
-
 
   </body>
 </html>`);
@@ -672,7 +692,7 @@ describe('HTML Scraper Post', function () {
         .then((response) => {
           expect(response.statusCode).to.equal(303);
           expect(response.statusMessage.Location)
-            .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector=');
+            .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector_raw=');
           done();
         })
         .catch((err) => {

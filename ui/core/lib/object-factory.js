@@ -12,9 +12,10 @@ function isPatternHidden(pattern, config) {
   }
 
   // Retaining inconsistent camelCasing from Pattern Lab. The casing of the "styleGuideExcludes" config is publicly
-  // documented by Pattern Lab and is unlikely to change. Internally, "styleguide" will be all lowercase.
+  // documented by Pattern Lab and is unlikely to change. Fepper will document this as "styleguideExcludes" nonetheless.
+  // "styleGuideExcludes" will not be deprecated unless the Pattern Lab documentation changes.
   // Return true if the pattern is configured to be excluded in patternlab-config.json.
-  const styleguideExcludes = config.styleGuideExcludes || [];
+  const styleguideExcludes = config.styleguideExcludes || config.styleGuideExcludes || [];
 
   if (Array.isArray(styleguideExcludes) && styleguideExcludes.length) {
     const partial = pattern.patternPartial;
@@ -123,11 +124,14 @@ exports.PatternItem = class {
       else {
         this.patternPartial = `viewall-${pattern.patternType}`;
       }
+
+      this.patternState = '';
     }
     else {
       this.patternName = name;
       this.patternLink = pattern.patternLink;
       this.patternPartial = pattern.patternPartial;
+      this.patternState = pattern.patternState;
     }
 
     this.subdir = pattern.subdir;
@@ -135,7 +139,6 @@ exports.PatternItem = class {
     this.pathsPublic = pattern.pathsPublic;
     this.patternType = pattern.patternType;
     this.patternSubType = pattern.patternSubType;
-    this.patternState = pattern.patternState;
   }
 };
 

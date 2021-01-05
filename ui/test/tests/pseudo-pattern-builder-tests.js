@@ -34,9 +34,9 @@ describe('Pseudo-Pattern Hunter', function () {
   });
 
   it('renders the base pattern and pseudo-pattern each with their own data', function () {
-    expect(basePattern.templateExtended).to.equal('<span class="test_base ">  atomic </span> ');
+    expect(basePattern.templateExtended).to.equal('<span class="test_base ">    atomic  </span>  ');
     expect(altPattern.templateExtended)
-      .to.equal('<span class="test_base "> alternateMessage atomic </span> ');
+      .to.equal('<span class="test_base ">  alternateMessage  atomic  </span>  ');
     expect(altPattern.templateExtended).to.not.equal(basePattern.templateExtended);
   });
 
@@ -46,8 +46,8 @@ describe('Pseudo-Pattern Hunter', function () {
     patternlab.patternBuilder.processPattern(basePattern);
     patternlab.patternBuilder.processPattern(altPattern);
 
-    expect(basePattern.templateExtended).to.equal('<span class="test_base ">   </span> ');
-    expect(altPattern.templateExtended).to.equal('<span class="test_base "> alternateMessage  </span> ');
+    expect(basePattern.templateExtended).to.equal('<span class="test_base ">      </span>  ');
+    expect(altPattern.templateExtended).to.equal('<span class="test_base ">  alternateMessage    </span>  ');
     expect(altPattern.templateExtended).to.not.equal(basePattern.templateExtended);
   });
 });

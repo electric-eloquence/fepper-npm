@@ -39,11 +39,13 @@
     "",
   "Check the console for JavaScript errors":
     "",
-  "The state of":
+  "includes":
     "",
-  "includes the following patterns":
+  "included by":
     "",
-  "is included by the following patterns":
+  "Copy path":
+    "",
+  "Copied!":
     "",
   "No Annotations":
     "",
@@ -128,6 +130,10 @@
   "The HTML at that URL and selector could not be scraped. Make sure that they are reachable and syntactically correct.":
     "",
   "Incorrect submission!":
+    "",
+  "Copy relative path":
+    "",
+  "Copy absolute path":
     "",
   "Running npm --global update on fepper-cli...":
     "",

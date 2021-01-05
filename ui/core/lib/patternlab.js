@@ -191,7 +191,7 @@ module.exports = class {
   }
 
   preProcessDataKeys(schemaObj, dataObj, flattened_ = '') {
-    for (let key of Object.keys(dataObj)) {
+    for (const key of Object.keys(dataObj)) {
       const flattened = flattened_ ? `${flattened_}.${key}` : key;
 
       if (dataObj[key] instanceof Object) {
@@ -298,6 +298,7 @@ module.exports = class {
     this.ingredients.patternTypesIndex = [];
     this.ingredients.portReloader = utils.deepGet(global, 'conf.livereload_port') || '';
     this.ingredients.portServer = utils.deepGet(global, 'conf.express_port') || '';
+    this.ingredients.sourceFiles = {};
     this.ingredients.userHeadComp = null;
     this.ingredients.userHeadGlobal = '';
     this.ingredients.userHeadParse = [];

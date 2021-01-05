@@ -3,7 +3,7 @@
  *
  * Annotations will only be supported for modified Front Matter syntax in .md files.
  * Support has been completely dropped for the chaotically documented JS (JSON?) annotation standard.
- * @see {@link https://patternlab.io/docs/pattern-adding-annotations.html}
+ * @see {@link https://patternlab.io/docs/adding-annotations/}
  *
  * JS annotation pain points:
  *   - Earlier versions of Pattern Lab for Node used true JavaScript code beginning with "var comments =".

@@ -21,7 +21,6 @@ module.exports = class {
     this.source = patternlab.config.paths.source;
     this.utils = patternlab.utils;
     this.viewallPageHead = '';
-    this.viewallPaths = {};
     this.viewallTemplateFull = '';
     this.viewallTemplateHead = '';
     this.viewallTemplateBody = '';
@@ -36,6 +35,7 @@ module.exports = class {
   addToPatternPaths(pattern) {
     this.ingredients.patternPaths[pattern.patternPartial] =
       `${this.pathsPublic.patterns}/${pattern.name}/${pattern.name}.html`;
+    this.ingredients.sourceFiles[pattern.patternPartial] = pattern.relPath;
   }
 
   buildViewallTypeHead(patternType) {
@@ -170,9 +170,6 @@ module.exports = class {
 
         this.ingredients.patternTypes.push(patternType);
         this.ingredients.patternTypesIndex.push(pattern.patternType);
-
-        // Create a property for this type in this.viewallPaths. The viewall property needs to be first.
-        this.viewallPaths[pattern.patternType] = {viewall: ''};
       }
       else {
         patternType = this.ingredients.patternTypes[patternTypesIndex];
@@ -237,8 +234,6 @@ module.exports = class {
             // Add viewall.
             patternSubType.patternSubTypeItems.push(viewallPatternSubTypeItem);
 
-            // Create a property for this subType in this.viewallPaths.
-            this.viewallPaths[pattern.patternType][pattern.patternSubType] = pattern.flatPatternPath;
             // Create a property for this subType in this.ingredients.patternPaths.
             this.ingredients.patternPaths[viewallPatternSubTypeItem.patternPartial] =
               `${this.pathsPublic.patterns}/${viewallPatternSubTypeItem.flatPatternPath}/index.html`;
@@ -272,9 +267,6 @@ module.exports = class {
           // Add viewall.
           patternType.patternTypeItems.push(viewallPatternTypeItem);
 
-          // Set viewall property for this type's viewallPath.
-          this.viewallPaths[pattern.patternType].viewall =
-            pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternType) + pattern.patternType.length);
           // Create a property for this subType in this.ingredients.patternPaths.
           this.ingredients.patternPaths[viewallPatternTypeItem.patternPartial] =
             `${this.pathsPublic.patterns}/${viewallPatternTypeItem.flatPatternPath}/index.html`;

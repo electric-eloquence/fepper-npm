@@ -65,9 +65,9 @@ templater:
 
 # The instance_file declares the class which defines the Fepper instance for
 # this project. If you wish to customize a subclass that inherits from the
-# default class, put the path to that file here. Make sure the path is relative
-# to this directory (the current working directory). This setting is safe to
-# delete. Fepper will instantiate the default class if it is missing.
+# default class, put the relative path to that file here.
 instance_file: node_modules/fepper/core/fepper.js
 
+# The language of the UI and console. Fepper will translate according to the
+# .json file at source/_ui/i18n declared by this setting.
 lang: en

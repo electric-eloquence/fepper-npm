@@ -29,7 +29,7 @@ module.exports = class {
    * @param {string} err - Error.
    */
   noResult(req, res, err) {
-    let template = this.html.head;
+    let template = this.html.headMustache;
     template += backButton;
 
     /* istanbul ignore if */
@@ -158,12 +158,24 @@ module.exports = class {
           let entitiesAndLinks = this.toHtmlEntitiesAndLinks(mustacheCode);
 
           // Render the output with HTML head and foot.
-          let template = this.html.head;
+          let template = this.html.headMustache;
           template += backButton;
-          template += `<h2><a
-            href="../${this.conf.ui.pathsPublic.patterns}/${patternLink}"
-            class="fp-express mustache-browser__pattern-link">${patternPartial}</a></h2>`;
-          template += '{{{ entitiesAndLinks }}}';
+          template += `
+<div class="mustache-browser__paths">
+  <div id="mustache-browser__path--absolute" class="mustache-browser__path">${fullPath}</div>
+  <div id="mustache-browser__path--relative" class="mustache-browser__path">${pattern.relPath}</div>
+</div>
+<div class="mustache-browser__heading">
+  <h2><a
+    href="../${this.conf.ui.pathsPublic.patterns}/${patternLink}"
+    class="fp-express mustache-browser__pattern-link">${patternPartial}</a></h2>
+  <button id="mustache-browser__button--relative" data-copied-msg="${t('Copied!')}">${t('Copy relative path')}</button>
+  <button id="mustache-browser__button--absolute" data-copied-msg="${t('Copied!')}">${t('Copy absolute path')}</button>
+</div>
+<div class="mustache-browser__code">
+  {{{ entitiesAndLinks }}}
+</div>
+`;
           template += this.html.foot;
           const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
           const patternlabFoot = Feplet.render(

@@ -55,12 +55,12 @@
     "tools-docs": false,
     "tools-shortcuts": false
   },
-  "ishMinimum": "240",
-  "ishMaximum": "2600",
+  "ishMinimum": 240,
+  "ishMaximum": 2600,
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [
   ],
   "patternExtension": ".mustache",
-  "styleGuideExcludes": [
+  "styleguideExcludes": [
   ]
 }

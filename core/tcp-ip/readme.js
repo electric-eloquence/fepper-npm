@@ -54,6 +54,7 @@ module.exports = class {
           outputFpt,
           {
             title: 'Fepper',
+            body_class: 'text',
             main_id: 'readme',
             main_class: 'readme'
           }
