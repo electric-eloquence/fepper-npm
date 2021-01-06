@@ -149,7 +149,30 @@ module.exports = class {
     for (let in0 = 0, le0 = this.ingredients.patterns.length; in0 < le0; in0++) {
       const pattern = this.ingredients.patterns[in0];
 
-      // Non-pattern files (like .md) files are not assigned a patternPartial. We can safely skip those.
+      // We need to get pattern states for pseudo-patterns here.
+      /* 1 FOR-LOOP LEVELS IN. */
+      for (let in1 = 0, le1 = this.ingredients.patterns.length; in1 < le1; in1++) {
+        const fmCandidate = this.ingredients.patterns[in1];
+
+        if (
+          fmCandidate.isFrontMatter &&
+          fmCandidate.frontMatterData &&
+          fmCandidate.name === pattern.name
+        ) {
+
+          /* 2 FOR-LOOP LEVELS IN. */
+          for (let in2 = 0, le2 = fmCandidate.frontMatterData.length; in2 < le2; in2++) {
+            if (fmCandidate.frontMatterData[in2].state) {
+              pattern.patternState = fmCandidate.frontMatterData[in2].state;
+
+              // Breaking after finding the first state, in congruence with patternBuilder.setState().
+              break;
+            }
+          }
+        }
+      }
+
+      // Non-pattern files (like .md) files are not assigned a patternPartial. We can safely skip those at this point.
       if (!pattern.patternPartial) {
         continue;
       }
