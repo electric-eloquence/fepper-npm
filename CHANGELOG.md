@@ -1,8 +1,12 @@
 # Fepper NPM Changelog
 
 ### v0.38.0
-* Improved browser JavaScript
+* Improved browser javascript
 * Improved simple success page
+* Showing pattern states for pseudo-patterns
+* Showing pattern states in more places
+* Code viewer and mustache browser have widgets for copying path
+* HTML scraper scrapes pages after running their javascript
 
 ### v0.37.1
 * Updated appendixer to account for variables.styl strings wrapped in quotes
