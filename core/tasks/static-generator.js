@@ -124,7 +124,7 @@ module.exports = class {
 
                 if (pathParts.length) {
                   outfilePath = pathParts
-                    .map(pathPart => pathPart.replace(/^\d+-/, ''))
+                    .map(pathPart => pathPart.replace(/^\d+-/, '').replace(/~/g, '-'))
                     .join('-')
                     + '.html';
 
@@ -181,7 +181,7 @@ module.exports = class {
         /* istanbul ignore else */
         if (pathParts.length) {
           pathNew = pathParts
-            .map(pathPart => pathPart.replace(/^\d+-/, ''))
+            .map(pathPart => pathPart.replace(/^\d+-/, '').replace(/~/g, '-'))
             .join('-')
             + '.html';
         }
