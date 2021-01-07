@@ -7,6 +7,7 @@
 * Showing pattern states in more places
 * Code viewer and mustache browser have widgets for copying path
 * HTML scraper scrapes pages after running their javascript
+* Removing file and directory numeric prefixes when generating static site html files
 
 ### v0.37.1
 * Updated appendixer to account for variables.styl strings wrapped in quotes
