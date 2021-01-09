@@ -1,4 +1,4 @@
 "> 02-components/03-navigation/00-primary-nav": |2
   {{> backend-primary-nav }}
-"> 02-components/00-global/01-footer\\('boolean\\?': true\\)": |2
+"> 02-components/00-global/01-footer('boolean?': true)": |2
   {{> backend-footer }}
