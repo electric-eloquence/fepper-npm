@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.38.1
+* Removed need to escape reserved regexp chars in templater yaml keys
+
 ### v0.38.0
 * Improved browser javascript
 * Improved simple success page
