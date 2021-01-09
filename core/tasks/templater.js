@@ -302,22 +302,27 @@ module.exports = class {
     }
 
     const tokenKeys = Object.keys(tokens);
-
     let code = codeParam;
-    let regex;
-    let token;
 
+    // Switch delimiters where there is a tokenKey match.
     for (const tokenKey of tokenKeys) {
-      regex = new RegExp('\\{\\{\\{?\\s*' + tokenKey + '\\s*\\}?\\}\\}', 'g');
-      token = tokens[tokenKey].replace(/^\n/, '');
-      token = token.replace(/\n$/, '');
-      code = code.replace(regex, token);
+      const regexStr = '\\{\\{\\{?\\s*' + this.utils.regexReservedCharsEscape(tokenKey) + '\\s*\\}?\\}\\}';
+      const regex = new RegExp(regexStr, 'g');
+      code = code.replace(regex, '\u0002\u0002' + tokenKey + '\u0003\u0003');
     }
 
     // Delete remaining Mustache tags if configured to do so.
     if (!this.pref.templater.retain_mustache) {
       // eslint-disable-next-line no-useless-escape
       code = code.replace(/\{\{[^\(]*?(\([\S\s]*?\))?\s*\}?\}\}\s*\n?/g, '');
+    }
+
+    // Hydate the newly delimited tokens.
+    for (const tokenKey of tokenKeys) {
+      const regexStr = '\u0002\u0002' + this.utils.regexReservedCharsEscape(tokenKey) + '\u0003\u0003';
+      const regex = new RegExp(regexStr, 'g');
+      const token = tokens[tokenKey].replace(/^\n/, '').replace(/\n$/, '');
+      code = code.replace(regex, token);
     }
 
     return code;
