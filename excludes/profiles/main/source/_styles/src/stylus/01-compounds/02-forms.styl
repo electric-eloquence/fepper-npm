@@ -50,8 +50,6 @@ textarea
     position: relative
 .inline-search-results-form
   width: 100%
-  @media all and (min-width: $bp-med)
-    width: 82%
   fieldset, .inline-container
     position: relative
   input[type="submit"], button
@@ -60,6 +58,8 @@ textarea
     right: 0
     z-index: 1
     width: auto
+  @media all and (min-width: $bp-med)
+    width: 82%
 // Search Form
 .search-form
   fieldset
