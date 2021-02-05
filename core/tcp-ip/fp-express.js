@@ -27,7 +27,7 @@ module.exports = class {
     this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
     this.mustacheBrowser = new MustacheBrowser(options, html, ui);
     this.readme = new Readme(options, html);
-    this.success = new Success(options, html);
+    this.success = new Success(options, html, this.readme);
 
     const app = express();
 

@@ -2,6 +2,7 @@
 
 const path = require('path');
 
+const fs = require('fs-extra');
 const slash = require('slash');
 
 // global.appDir and global.rootDir are used in the gulp app, fepper-utils, extensions, etc.
@@ -39,6 +40,14 @@ module.exports = class {
     this.pref = options.pref = global.pref;
     this.rootDir = options.rootDir = global.rootDir;
     this.utils = options.utils = utils;
+
+    const packageDistro = fs.readJsonSync(`${options.rootDir}/package.json`, {throws: false});
+    const packageNpm = fs.readJsonSync(`${options.appDir}/package.json`, {throws: false});
+    const packageUi = fs.readJsonSync(`${options.conf.ui.paths.public.styleguide}/package.json`, {throws: false});
+    options.distro = {name: packageDistro.distro, version: packageDistro.version};
+    options.npm = {version: packageNpm.version};
+    options.ui = {version: packageUi.version};
+
     this.options = options;
 
     this.ui = new Ui(options);
