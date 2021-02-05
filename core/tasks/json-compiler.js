@@ -97,8 +97,13 @@ module.exports = class {
     Object.assign(dataGlobalJson, dataAppendixJson);
 
     try {
+      const dataFileSource = `${dataDir}/data.json`;
+      // Backward compatible with patternlab-config.json before addition of this.conf.ui.paths.public.data (<= v0.38.2).
+      let dataFilePublic = (this.conf.ui.paths.public.data || `${this.conf.ui.paths.public.root}/data`) + '/data.json';
+
       // Write to data.json.
-      fs.outputJsonSync(`${dataDir}/data.json`, dataGlobalJson, {spaces: 2});
+      fs.outputJsonSync(dataFileSource, dataGlobalJson, {spaces: 2});
+      fs.copySync(dataFileSource, dataFilePublic);
     }
     catch (err) /* istanbul ignore next */ {
       this.utils.error(err);
