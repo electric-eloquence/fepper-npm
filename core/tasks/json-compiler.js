@@ -99,6 +99,7 @@ module.exports = class {
     try {
       const dataFileSource = `${dataDir}/data.json`;
       // Backward compatible with patternlab-config.json before addition of this.conf.ui.paths.public.data (<= v0.38.2).
+      // DEPRECATED: backward compatibility.
       let dataFilePublic = (this.conf.ui.paths.public.data || `${this.conf.ui.paths.public.root}/data`) + '/data.json';
 
       // Write to data.json.

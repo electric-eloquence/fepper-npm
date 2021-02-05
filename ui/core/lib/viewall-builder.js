@@ -27,9 +27,6 @@ module.exports = class {
     this.viewallTemplateFoot = '';
 
     t = this.utils.t;
-
-    // DEPRECATED
-    this.strReplaceGlobal = patternlab.strReplaceGlobal;
   }
 
   addToPatternPaths(pattern) {
@@ -372,18 +369,9 @@ module.exports = class {
       const viewall = this.ingredients.viewallPatterns[keys[in0]];
 
       if (viewall.path && viewall.content) {
-        // this.strReplaceGlobal is DEPRECATED.
-        // After deprecation period, permanently change conditionalObj to this.utils.
-        let conditionalObj = this;
-
-        /* istanbul ignore if */
-        if (typeof this.utils.strReplaceGlobal === 'function') {
-          conditionalObj = this.utils;
-        }
-
         // Write the built template to the public patterns directory.
         const cacheBusterTag = '{{ cacheBuster }}';
-        const viewallContent = conditionalObj.strReplaceGlobal(viewall.content, cacheBusterTag, '');
+        const viewallContent = this.utils.strReplaceGlobal(viewall.content, cacheBusterTag, '');
 
         fs.outputFileSync(viewall.path, viewallContent);
 

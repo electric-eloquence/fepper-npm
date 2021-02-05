@@ -515,15 +515,6 @@ module.exports = class {
 
     // Check to see whether the last pattern build has been modified. If modified, write pattern files.
     if (this.ingredients.hashesOld[pattern.patternPartial] !== pattern.hash) {
-      // this.#patternlab.strReplaceGlobal is DEPRECATED.
-      // After deprecation period, permanently change conditionalObj to this.utils.
-      let conditionalObj = this.#patternlab;
-
-      /* istanbul ignore if */
-      if (typeof this.utils.strReplaceGlobal === 'function') {
-        conditionalObj = this.utils;
-      }
-
       // Write the built template to the public patterns directory.
       const cacheBusterTag = '{{ cacheBuster }}';
       const paths = this.config.paths;
@@ -534,12 +525,12 @@ module.exports = class {
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
 
       const cacheBuster = this.config.cacheBust ? `?${dateNow}` : '';
-      const templateExtended = conditionalObj.strReplaceGlobal(pattern.templateExtended, cacheBusterTag, cacheBuster);
+      const templateExtended = this.utils.strReplaceGlobal(pattern.templateExtended, cacheBusterTag, cacheBuster);
 
       fs.outputFileSync(outfileMarkupOnly, templateExtended);
 
-      const patternFull = conditionalObj.strReplaceGlobal(pattern.header, cacheBusterTag, cacheBuster) +
-        templateExtended + conditionalObj.strReplaceGlobal(pattern.footer, cacheBusterTag, cacheBuster);
+      const patternFull = this.utils.strReplaceGlobal(pattern.header, cacheBusterTag, cacheBuster) +
+        templateExtended + this.utils.strReplaceGlobal(pattern.footer, cacheBusterTag, cacheBuster);
 
       // Write the full pattern page.
       fs.outputFileSync(outfileFull, patternFull);

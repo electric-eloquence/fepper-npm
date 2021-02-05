@@ -92,8 +92,7 @@ module.exports = class {
         webservedDirSplit.shift();
         app.use(
           `/${webservedDirSplit.join('/')}`,
-          // TODO: conf.backend_dir is DEPRECATED and will be removed.
-          express.static(`${this.pref.backend.backend_dir || this.conf.backend_dir}/${webservedDir}`)
+          express.static(`${this.pref.backend.backend_dir}/${webservedDir}`)
         );
       }
     }
