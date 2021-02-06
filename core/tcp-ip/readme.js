@@ -23,6 +23,8 @@ module.exports = class {
 
         if (!dat) {
           reject({code: 404, msg: err || ''});
+
+          return;
         }
 
         let htmlMd;
@@ -33,6 +35,8 @@ module.exports = class {
         catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);
           reject({code: 500, msg: err1});
+
+          return;
         }
 
         // Escape curly braces so they don't get interpreted as stashes.
@@ -65,6 +69,7 @@ module.exports = class {
           res.send(output);
         })
         .catch((statusData) => {
+          /* istanbul ignore if */
           if (statusData.code === 500) {
             res.status(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }

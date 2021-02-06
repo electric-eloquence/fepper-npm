@@ -44,9 +44,17 @@ module.exports = class {
     const packageDistro = fs.readJsonSync(`${options.rootDir}/package.json`, {throws: false});
     const packageNpm = fs.readJsonSync(`${options.appDir}/package.json`, {throws: false});
     const packageUi = fs.readJsonSync(`${options.conf.ui.paths.public.styleguide}/package.json`, {throws: false});
-    options.distro = {name: packageDistro.distro, version: packageDistro.version};
-    options.npm = {version: packageNpm.version};
-    options.ui = {version: packageUi.version};
+
+    options.distro = {
+      name: this.utils.deepGet(packageDistro, 'distro') || '',
+      version: this.utils.deepGet(packageDistro, 'version') || ''
+    };
+    options.npm = {
+      version: this.utils.deepGet(packageNpm, 'version') || ''
+    };
+    options.ui = {
+      version: this.utils.deepGet(packageUi, 'version') || ''
+    };
 
     this.options = options;
 

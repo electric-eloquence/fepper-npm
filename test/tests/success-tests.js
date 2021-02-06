@@ -106,8 +106,6 @@ describe('Success', function () {
       <p>The following documentation is also available in Fepper&apos;s README.md:</p><h1 id="fepper">Fepper</h1>
 <h2 id="a-frontend-prototyper-tool-for-rapid-prototyping-of-websites">A frontend prototyper tool for rapid prototyping of websites</h2>
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 
     </main>
     

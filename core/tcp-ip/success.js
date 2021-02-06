@@ -78,6 +78,7 @@ module.exports = class {
           res.send(output);
         })
         .catch((statusData) => {
+          /* istanbul ignore else */
           if (statusData.code === 404) {
             let outputFpt = this.html.head;
             outputFpt += `<a href="/?ts=${ts}">Open Fepper UI</a>`;
