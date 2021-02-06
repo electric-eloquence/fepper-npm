@@ -46,7 +46,7 @@ module.exports = class {
     const packageUi = fs.readJsonSync(`${options.conf.ui.paths.public.styleguide}/package.json`, {throws: false});
 
     options.distro = {
-      name: this.utils.deepGet(packageDistro, 'distro') || '',
+      name: this.utils.deepGet(packageDistro, 'name') || '',
       version: this.utils.deepGet(packageDistro, 'version') || ''
     };
     options.npm = {

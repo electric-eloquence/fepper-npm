@@ -23,11 +23,11 @@ module.exports = class {
           // Replace GitHub image with Fepper website image for analytic purposes.
           let imageSrc = 'https://fepper.io/_assets/src/fepper-branding.svg?';
 
-          if (this.options.distro.name) {
+          if (this.utils.deepGet(this.options, 'distro.name')) {
             imageSrc += 'distro=' + this.options.distro.name;
           }
 
-          if (this.options.distro.version) {
+          if (this.utils.deepGet(this.options, 'distro.version')) {
             if (!imageSrc.endsWith('?')) {
               imageSrc += '&';
             }
@@ -35,7 +35,7 @@ module.exports = class {
             imageSrc += 'distro_v=' + this.options.distro.version;
           }
 
-          if (this.options.npm.version) {
+          if (this.utils.deepGet(this.options, 'npm.version')) {
             if (!imageSrc.endsWith('?')) {
               imageSrc += '&';
             }
@@ -43,12 +43,20 @@ module.exports = class {
             imageSrc += 'npm_v=' + this.options.npm.version;
           }
 
-          if (this.options.ui.version) {
+          if (this.utils.deepGet(this.options, 'ui.version')) {
             if (!imageSrc.endsWith('?')) {
               imageSrc += '&';
             }
 
             imageSrc += 'ui_v=' + this.options.ui.version;
+          }
+
+          if (this.utils.deepGet(this.options, 'utils.version')) {
+            if (!imageSrc.endsWith('?')) {
+              imageSrc += '&';
+            }
+
+            imageSrc += 'utils_v=' + this.options.utils.version;
           }
 
           const htmlMd = htmlMd_.replace(
@@ -102,7 +110,7 @@ module.exports = class {
             res.status(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }
           else {
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code]);
+            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
           }
         });
     };

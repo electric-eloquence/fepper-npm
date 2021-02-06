@@ -17,10 +17,6 @@ module.exports = class {
   getHtml() {
     return new Promise((resolve, reject) => {
       fs.readFile(`${this.rootDir}/README.md`, this.conf.enc, (err, dat) => {
-        if (err) {
-          this.utils.error(err);
-        }
-
         if (!dat) {
           reject({code: 404, msg: err || ''});
 
@@ -74,7 +70,9 @@ module.exports = class {
             res.status(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }
           else {
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code]);
+            this.utils.error(statusData.msg);
+
+            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
           }
         });
     };
