@@ -23,8 +23,8 @@ module.exports = class {
           // Replace GitHub image with Fepper website image for analytic purposes.
           let imageSrc = 'https://fepper.io/_assets/src/fepper-branding.svg?';
 
-          if (this.utils.deepGet(this.options, 'distro.name')) {
-            imageSrc += 'distro=' + this.options.distro.name;
+          if (this.utils.deepGet(this.options, 'distro.distro')) {
+            imageSrc += 'distro=' + this.options.distro.distro;
           }
 
           if (this.utils.deepGet(this.options, 'distro.version')) {

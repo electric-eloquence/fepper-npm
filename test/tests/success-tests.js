@@ -202,7 +202,7 @@ describe('Success', function () {
     });
 
     it('distro name and version written to fepper.io src', function (done) {
-      fs.writeFileSync(`${global.rootDir}/package.json`, '{"name": "main", "version": "0.0.0"}');
+      fs.writeFileSync(`${global.rootDir}/package.json`, '{"distro": "main", "version": "0.0.0"}');
 
       const {
         fepper,
