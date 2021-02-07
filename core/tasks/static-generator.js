@@ -22,6 +22,7 @@ module.exports = class {
     this.patternsPublic = this.conf.ui.paths.public.patterns;
     this.scriptsPublic = this.conf.ui.paths.public.js;
     this.rootPublic = this.conf.ui.paths.public.root;
+    this.staticPublic = this.conf.ui.paths.public.static;
     this.staticSource = this.conf.ui.paths.source.static;
     this.stylesPublic = this.conf.ui.paths.public.css;
 
@@ -276,7 +277,7 @@ module.exports = class {
 
   deletePages() {
     diveSync(
-      this.staticSource,
+      this.staticPublic,
       {
         directories: true
       },
@@ -294,16 +295,16 @@ module.exports = class {
   }
 
   main() {
-    // Delete old static site pages.
+    // Delete old static public html pages.
     this.deletePages();
 
-    try {
-      // Delete old assets, scripts, styles in static dir.
-      fs.emptyDirSync(`${this.staticSource}/${this.assetsRelative}`);
-      fs.emptyDirSync(`${this.staticSource}/${this.scriptsRelative}`);
-      fs.emptyDirSync(`${this.staticSource}/${this.stylesRelative}`);
+    // Delete old assets, scripts, styles in static public dir.
+    fs.emptyDirSync(`${this.staticPublic}/${this.assetsRelative}`);
+    fs.emptyDirSync(`${this.staticPublic}/${this.scriptsRelative}`);
+    fs.emptyDirSync(`${this.staticPublic}/${this.stylesRelative}`);
 
-      // Copy assets, scripts, styles directories.
+    try {
+      // Copy assets, scripts, styles directories to static source dir.
       this.copyAssetsDir();
       this.copyScriptsDir();
       this.copyStylesDir();
