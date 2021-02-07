@@ -302,6 +302,20 @@ module.exports = class {
         }
       }
 
+      // Check if a Front Matter file exists for this pattern and whether or not the Front Matter got preprocessed yet.
+      const frontMatterFileName =
+        `${patternsPath}/${pattern.subdir}/${pattern.fileName}.${this.config.frontMatterExtension}`;
+
+      if (fs.existsSync(frontMatterFileName)) {
+        const frontMatterPattern = this.#patternlab.getPattern(frontMatterFileName);
+
+        // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
+        if (frontMatterPattern) {
+          pattern.jsonFileData[frontMatterPattern.frontMatterData.content_key] =
+            frontMatterPattern.frontMatterData.content;
+        }
+      }
+
       // If file is named in the syntax for variants, add data keys to dataKeysSchema, add and return pattern.
       if (this.isPseudoPatternJson(fileName)) {
         this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
@@ -312,7 +326,7 @@ module.exports = class {
     }
 
     // Preprocess Front Matter files.
-    else if (ext === this.config.frontMatterExtension || ext === '.md') {
+    else if (ext === this.config.frontMatterExtension) {
       const mustacheFileName =
         `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
       const jsonFileName =
@@ -325,6 +339,17 @@ module.exports = class {
 
         this.addPattern(pattern);
         this.preProcessFrontMatter(pattern);
+
+        // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
+        const primaryPattern = this.#patternlab.getPattern(mustacheFileName);
+        const pseudoPattern = this.#patternlab.getPattern(jsonFileName);
+
+        if (primaryPattern) {
+          primaryPattern.jsonFileData[pattern.frontMatterData.content_key] = pattern.frontMatterData.content;
+        }
+        else if (pseudoPattern) {
+          pseudoPattern.jsonFileData[pattern.frontMatterData.content_key] = pattern.frontMatterData.content;
+        }
       }
 
       return pattern;

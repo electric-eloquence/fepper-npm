@@ -88,14 +88,14 @@ exports.main = (fileContent) => {
     }
 
     if (frontMatterObj.content) {
-      // Usually, an absence of Front Matter data will result in frontMatterObj.data being an empty object.
-      // Keeping the else clause just in case.
-      /* istanbul ignore else */
-      if (frontMatterData) {
+      // The "el" field means this is an annotation.
+      if (typeof frontMatterData.el === 'string') {
         frontMatterData.annotation = marked(frontMatterObj.content);
       }
-      else {
-        frontMatterData = {annotation: marked(frontMatterObj.content)};
+
+      // The "content_key" field is meant for hydrating a tag by that value in the Feplet template.
+      if (typeof frontMatterData.content_key === 'string') {
+        frontMatterData.content = marked(frontMatterObj.content);
       }
     }
 

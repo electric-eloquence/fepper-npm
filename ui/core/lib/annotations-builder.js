@@ -30,7 +30,7 @@ module.exports = class {
 
         const ext = path.extname(file);
 
-        if (ext === this.config.frontMatterExtension || ext === '.md') {
+        if (ext === this.config.frontMatterExtension) {
           const fileContent = fs.readFileSync(file, this.config.enc);
           annotationsArr = annotationsArr.concat(frontMatterParser.main(fileContent));
         }
