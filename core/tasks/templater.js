@@ -306,6 +306,11 @@ module.exports = class {
 
     // Switch delimiters where there is a tokenKey match.
     for (const tokenKey of tokenKeys) {
+      // DEPRECATED: the next 3 lines are for backward compatibility with fepper-drupal versions < v0.15.0.
+      const regexStrDeprecated = '\\{\\{\\{?\\s*' + tokenKey + '\\s*\\}?\\}\\}';
+      const regexDeprecated = new RegExp(regexStrDeprecated, 'g');
+      code = code.replace(regexDeprecated, '\u0002\u0002' + tokenKey + '\u0003\u0003');
+
       const regexStr = '\\{\\{\\{?\\s*' + this.utils.regexReservedCharsEscape(tokenKey) + '\\s*\\}?\\}\\}';
       const regex = new RegExp(regexStr, 'g');
       code = code.replace(regex, '\u0002\u0002' + tokenKey + '\u0003\u0003');
@@ -319,9 +324,21 @@ module.exports = class {
 
     // Hydate the newly delimited tokens.
     for (const tokenKey of tokenKeys) {
+      // DEPRECATED: the next 7 lines are for backward compatibility with fepper-drupal versions < v0.15.0.
+      const regexStrDeprecated = '\u0002\u0002' + tokenKey + '\u0003\u0003';
+      const regexDeprecated = new RegExp(regexStrDeprecated, 'g');
+      const tokenDeprecated = tokens[tokenKey]
+        .replace(/\\\{\\\{(.*)\\\}\\\}/g, '{{$1}}')
+        .replace(/^\n/, '')
+        .replace(/\n$/, '');
+      code = code.replace(regexDeprecated, tokenDeprecated);
+
       const regexStr = '\u0002\u0002' + this.utils.regexReservedCharsEscape(tokenKey) + '\u0003\u0003';
       const regex = new RegExp(regexStr, 'g');
-      const token = tokens[tokenKey].replace(/^\n/, '').replace(/\n$/, '');
+      const token = tokens[tokenKey]
+        .replace(/\\\{\\\{(.*)\\\}\\\}/g, '{{$1}}') // DEPRECATED: for backward compatibility - to be removed.
+        .replace(/^\n/, '')
+        .replace(/\n$/, '');
       code = code.replace(regex, token);
     }
 
