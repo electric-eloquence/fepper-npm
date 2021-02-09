@@ -1,5 +1,5 @@
 /**
- * Handle annotations and pattern state, while keeping Front Matter capability extensible.
+ * Handle annotations, pattern state, and Markdown content, while keeping Front Matter capability extensible.
  *
  * Annotations will only be supported for modified Front Matter syntax in .md files.
  * Support has been completely dropped for the chaotically documented JS (JSON?) annotation standard.

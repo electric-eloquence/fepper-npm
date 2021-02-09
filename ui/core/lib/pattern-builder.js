@@ -97,11 +97,19 @@ module.exports = class {
     pattern.isHidden = true;
     pattern.isPattern = false;
 
-    // Unset Patternlab.getPattern identifiers.
-    pattern.patternPartialPhp = '';
-    pattern.patternPartial = '';
-    pattern.relPathTrunc = '';
-    pattern.relPath = '';
+    for (let i = 0, l = pattern.frontMatterData.length; i < l; i++) {
+      if (pattern.frontMatterData[i].content_key && pattern.frontMatterData[i].content) {
+        pattern.frontMatterContent = pattern.frontMatterData[i];
+      }
+    }
+
+    // If not pattern content, unset Patternlab.getPattern identifiers.
+    if (!pattern.frontMatterContent) {
+      pattern.patternPartialPhp = '';
+      pattern.patternPartial = '';
+      pattern.relPathTrunc = '';
+      pattern.relPath = '';
+    }
   }
 
   preProcessPartials(fepletPartials) {
@@ -303,16 +311,16 @@ module.exports = class {
       }
 
       // Check if a Front Matter file exists for this pattern and whether or not the Front Matter got preprocessed yet.
-      const frontMatterFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}.${this.config.frontMatterExtension}`;
+      const frontMatterRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.frontMatterExtension;
+      const frontMatterFileName = `${patternsPath}/${frontMatterRelPath}`;
 
       if (fs.existsSync(frontMatterFileName)) {
-        const frontMatterPattern = this.#patternlab.getPattern(frontMatterFileName);
+        const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
         // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
         if (frontMatterPattern) {
-          pattern.jsonFileData[frontMatterPattern.frontMatterData.content_key] =
-            frontMatterPattern.frontMatterData.content;
+          pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
+            frontMatterPattern.frontMatterContent.content;
         }
       }
 
@@ -327,10 +335,10 @@ module.exports = class {
 
     // Preprocess Front Matter files.
     else if (ext === this.config.frontMatterExtension) {
-      const mustacheFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
-      const jsonFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.json';
+      const mustacheRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
+      const mustacheFileName = `${patternsPath}/${mustacheRelPath}`;
+      const jsonRelPath = `${pattern.subdir}/${pattern.fileName}` + '.json';
+      const jsonFileName = `${patternsPath}/${jsonRelPath}`;
 
       // Check for a corresponding Pattern or JSON file.
       // If it exists, preprocess Front Matter and add it to the patterns array.
@@ -341,14 +349,14 @@ module.exports = class {
         this.preProcessFrontMatter(pattern);
 
         // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
-        const primaryPattern = this.#patternlab.getPattern(mustacheFileName);
-        const pseudoPattern = this.#patternlab.getPattern(jsonFileName);
+        const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
+        const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
         if (primaryPattern) {
-          primaryPattern.jsonFileData[pattern.frontMatterData.content_key] = pattern.frontMatterData.content;
+          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
         else if (pseudoPattern) {
-          pseudoPattern.jsonFileData[pattern.frontMatterData.content_key] = pattern.frontMatterData.content;
+          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
       }
 
@@ -425,8 +433,10 @@ module.exports = class {
     }
 
     // Render templateExtended whether pseudoPattern or not.
-    pattern.templateExtended =
-      pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
+    if (this.utils.deepGet(pattern, 'fepletComp.render')) {
+      pattern.templateExtended =
+        pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
+    }
 
     // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
