@@ -67,7 +67,7 @@ exports.main = (fileContent) => {
         continue;
       }
 
-      if (line.slice(0, 3) === 'el:') {
+      if (line.startsWith('el:')) {
         frontMatterLines[in1] = line.replace('#', '\\#');
 
         break;

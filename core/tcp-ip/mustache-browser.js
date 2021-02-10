@@ -102,7 +102,7 @@ module.exports = class {
     // Strip parameters.
     // eslint-disable-next-line no-useless-escape
     entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^\(]*)\([^"]*\)([^"]*\}\})/g, '$1$2');
-    // Strip styleModifiers.
+    // Strip styleModifiers. Even after styleModifier deprecation and removal, leave the next line intact.
     entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^"]*):[^"]*(\}\})/g, '$1$2');
     // Render indentation whitespace as HTML entities.
     entitiesAndLinks = entitiesAndLinks.replace(/^ /gm, '&nbsp;');

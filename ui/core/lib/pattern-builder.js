@@ -103,12 +103,9 @@ module.exports = class {
       }
     }
 
-    // If not pattern content, unset Patternlab.getPattern identifiers.
+    // If no pattern content, unset Patternlab.getPattern identifiers.
     if (!pattern.frontMatterContent) {
-      pattern.patternPartialPhp = '';
-      pattern.patternPartial = '';
-      pattern.relPathTrunc = '';
-      pattern.relPath = '';
+      this.unsetIdentifiers(pattern);
     }
   }
 
@@ -155,6 +152,13 @@ module.exports = class {
         }
       }
     }
+  }
+
+  unsetIdentifiers(pattern) {
+    pattern.patternPartialPhp = '';
+    pattern.patternPartial = '';
+    pattern.relPathTrunc = '';
+    pattern.relPath = '';
   }
 
   /* PUBLIC METHODS */
@@ -321,6 +325,8 @@ module.exports = class {
         if (frontMatterPattern) {
           pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
             frontMatterPattern.frontMatterContent.content;
+
+          this.unsetIdentifiers(frontMatterPattern);
         }
       }
 
@@ -353,10 +359,22 @@ module.exports = class {
         const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
         if (primaryPattern) {
-          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          this.setState(primaryPattern);
+
+          if (pattern.frontMatterContent) {
+            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
+
+          this.unsetIdentifiers(pattern);
         }
         else if (pseudoPattern) {
-          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          this.setState(pseudoPattern);
+
+          if (pattern.frontMatterContent) {
+            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
+
+          this.unsetIdentifiers(pattern);
         }
       }
 
