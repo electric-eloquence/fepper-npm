@@ -117,15 +117,13 @@ describe('JSON Compiler', function () {
     without_data = fs.readJsonSync(dataFile, {throws: false});
 
     expect(with_data).to.have.property('backend_serve_dir');
-    expect(with_data).to.have.property('homepage');
-    expect(with_data).to.have.property('title');
+    expect(with_data).to.have.property('html_title');
     expect(with_data).to.have.property('excerpt');
     expect(with_data).to.have.property('description');
     expect(with_data).to.have.property('url');
 
     expect(without_data).to.not.have.property('backend_serve_dir');
-    expect(without_data).to.not.have.property('homepage');
-    expect(without_data).to.not.have.property('title');
+    expect(without_data).to.not.have.property('html_title');
     expect(without_data).to.not.have.property('excerpt');
     expect(without_data).to.not.have.property('description');
     expect(without_data).to.not.have.property('url');
