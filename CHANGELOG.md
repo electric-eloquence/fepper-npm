@@ -1,5 +1,13 @@
 # Fepper NPM Changelog
 
+### v0.39.0
+* Copying data.json to public directory
+* Fetching success page branding image from fepper.io
+* Backward compatibility for escaped templater YAML
+* Support for Markdown content
+* Static Site Generator uses defaultPattern config to determine index.html
+* Better data inheritance by pseudo-patterns
+
 ### v0.38.2
 * Updated UI toolbar with more relevant link to Fepper docs
 
