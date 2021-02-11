@@ -75,7 +75,7 @@ describe('Templater', function () {
 
     /* eslint-disable max-len */
     expect(output).to.equal(`<div class="page" id="page">
-  <a href=""><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a><section class="section hoagies">
+  <a href=""><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a><section class="section dagwood">
     <h2 class="section-title"></h2>
     <ul class="post-list">
       <?php foreach ($latest_posts as $post): ?>

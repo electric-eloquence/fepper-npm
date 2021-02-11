@@ -53,7 +53,7 @@ describe('Templater retaining Mustache', function () {
     expect(output).to.equal(`<div class="page" id="page">
   {{# img }}{{# logo }}<a href="{{ url }}"><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a>{{/ logo }}{{/ img }}
 {{> backend-primary-nav }}
-  <section class="section hoagies">
+  <section class="section dagwood">
     {{# latest_posts_title }}
       <h2 class="section-title">{{{ latest_posts_title }}}</h2>
     {{/ latest_posts_title }}

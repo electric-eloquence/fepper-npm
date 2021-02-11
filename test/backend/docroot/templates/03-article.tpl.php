@@ -7,7 +7,7 @@
           <header class="article-header">
             <h1>{{ article_title }}</h1>
           </header>
-          {{> compounds-block-hoagie }}
+          {{> compounds-block-dagwood }}
         </article><!--end .article-->
       </div><!--end l-main-->
 
