@@ -57,10 +57,6 @@
     "",
   "Malformed %s":
     "",
-  "Found pattern-specific listitems.json for %s":
-    "",
-  "There was an error parsing pattern-specific listitems.json for %s":
-    "",
   "Could not find optional user-defined header, usually found at %s":
     "",
   "Could not find optional user-defined footer, usually found at %s":

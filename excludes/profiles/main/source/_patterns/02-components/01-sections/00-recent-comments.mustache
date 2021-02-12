@@ -1,8 +1,8 @@
 <section class="section recent-comments">
   <h2 class="section-title">Recent Comments</h2>
   <ul class="headline-list">
-    {{# listItems.five }}
+    {{# comment_placeholders }}
       <li><a href="{{ url }}">{{ article_title }}</a>{{> 00-elements/00-text/01-time }}</li>
-    {{/ listItems.five }}
+    {{/ comment_placeholders }}
   </ul>
 </section>
