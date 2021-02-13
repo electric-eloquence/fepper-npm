@@ -9,9 +9,7 @@
           "alt": "Mountains"
         }
       },
-      "headline": {
-        "medium": "Top 10 mountain ranges for hiking"
-      }
+      "headline": "Top 10 mountain ranges for hiking"
     }
   ],
   "subs": [
@@ -23,9 +21,7 @@
           "alt": "Climber"
         }
       },
-      "headline": {
-        "short": "Extreme climbing tips"
-      }
+      "headline": "Extreme climbing tips"
     },
     {
       "url": "../04-pages-02-articles-00-article-2/04-pages-02-articles-00-article-2.html",
@@ -35,9 +31,7 @@
           "alt": "Stream hiking"
         }
       },
-      "headline": {
-        "short": "Stream hiking"
-      }
+      "headline": "Stream hiking"
     },
     {
       "url": "../04-pages-02-articles-00-article-3/04-pages-02-articles-00-article-3.html",
@@ -47,9 +41,7 @@
           "alt": "Explore hiking trails"
         }
       },
-      "headline": {
-        "short": "Explore hiking trails"
-      }
+      "headline": "Explore hiking trails"
     }
   ],
   "latest_posts_title": "Latest Posts"

@@ -1,5 +1,5 @@
 <div class="page" id="{{ template_id }}">
-  {{> 02-components/01-sections/02-header }}
+  {{> 02-components/01-sections/00-header }}
   <main role="main">
     {{# homepage? }}
       <section class="hero-and-subs">
@@ -30,7 +30,7 @@
 
       <div class="l-sidebar">
         {{# article? }}
-          {{> 02-components/01-sections/00-recent-posts }}
+          {{> 02-components/01-sections/02-recent-posts }}
         {{/ article? }}
 
         {{> 02-components/02-comments/00-recent-comments }}
