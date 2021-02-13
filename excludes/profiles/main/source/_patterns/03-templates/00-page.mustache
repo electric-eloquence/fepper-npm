@@ -6,15 +6,12 @@
         {{# hero }}
           {{> 01-compounds/01-blocks/00-block-hero }}
         {{/ hero }}
+
         {{# subs }}
           {{> 01-compounds/01-blocks/01-block-sub }}
         {{/ subs }}
       </section>
     {{/ homepage? }}
-
-    {{# article? }}
-      {{> 02-components/00-article/00-article }}
-    {{/ article? }}
 
     <div class="l-two-col">
       <div class="l-main">
@@ -26,6 +23,10 @@
           {{> 02-components/01-sections/01-dagwood }}
           {{> 02-components/03-navigation/01-pagination }}
         {{/ blog? }}
+
+        {{# article? }}
+          {{> 02-components/00-article/00-article }}
+        {{/ article? }}
       </div><!--end .l-main-->
 
       <div class="l-sidebar">
