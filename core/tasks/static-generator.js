@@ -270,6 +270,8 @@ module.exports = class {
   }
 
   deletePages() {
+    fs.ensureDirSync(this.staticPublic);
+
     diveSync(
       this.staticPublic,
       {
