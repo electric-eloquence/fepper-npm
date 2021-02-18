@@ -5,10 +5,11 @@ const fs = require('fs-extra');
 const open = require('open');
 
 module.exports = class {
-  constructor(options) {
+  constructor(options, ui) {
     this.options = options;
     this.conf = options.conf;
     this.rootDir = options.rootDir;
+    this.ui = ui;
   }
 
   timestamp() {
@@ -28,6 +29,9 @@ module.exports = class {
     const timestamp = this.timestamp();
 
     if (fs.existsSync(log)) {
+      // The reason for copying the static dir here is so the public static dir exists immediately after installation.
+      // However, we don't want to copy the entire static site on each build thereafter, only after static generation.
+      this.ui.copyStatic();
       fs.removeSync(log);
       open(origin + '/success?ts=' + timestamp);
     }
