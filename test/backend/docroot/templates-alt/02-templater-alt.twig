@@ -1,1 +1,3 @@
-<p>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
+{% if not configuration.label_display %}
+  <p {{ attributes|without('role', 'aria-labelledby') }}>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
+{% endif %}

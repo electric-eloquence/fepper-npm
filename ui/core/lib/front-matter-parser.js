@@ -1,5 +1,5 @@
 /**
- * Handle annotations and pattern state, while keeping Front Matter capability extensible.
+ * Handle annotations, pattern state, and Markdown content, while keeping Front Matter capability extensible.
  *
  * Annotations will only be supported for modified Front Matter syntax in .md files.
  * Support has been completely dropped for the chaotically documented JS (JSON?) annotation standard.
@@ -67,7 +67,7 @@ exports.main = (fileContent) => {
         continue;
       }
 
-      if (line.slice(0, 3) === 'el:') {
+      if (line.startsWith('el:')) {
         frontMatterLines[in1] = line.replace('#', '\\#');
 
         break;
@@ -88,14 +88,14 @@ exports.main = (fileContent) => {
     }
 
     if (frontMatterObj.content) {
-      // Usually, an absence of Front Matter data will result in frontMatterObj.data being an empty object.
-      // Keeping the else clause just in case.
-      /* istanbul ignore else */
-      if (frontMatterData) {
+      // The "el" field means this is an annotation.
+      if (typeof frontMatterData.el === 'string') {
         frontMatterData.annotation = marked(frontMatterObj.content);
       }
-      else {
-        frontMatterData = {annotation: marked(frontMatterObj.content)};
+
+      // The "content_key" field is meant for hydrating a tag by that value in the Feplet template.
+      if (typeof frontMatterData.content_key === 'string') {
+        frontMatterData.content = marked(frontMatterObj.content);
       }
     }
 

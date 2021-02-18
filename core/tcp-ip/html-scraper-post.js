@@ -493,7 +493,7 @@ module.exports = class {
    */
   selectorObjectify(selectorRaw, selectorIdx) {
     // DEPRECATED: The parsing of the raw selector into selector name and index should have occurred on the client-side.
-    // It is extraneous in newer Fepper versions and will be removed.
+    // It is extraneous in newer Fepper UI versions (>= v0.8.2) and will be removed from the server.
     const selectorSplit = selectorRaw.trim().split('[');
     let index;
     let name;

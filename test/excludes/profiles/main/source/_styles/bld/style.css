@@ -444,63 +444,63 @@ object {
     font-size: 2rem;
   }
 }
-.block-hoagie {
+.block-dagwood {
   width: 100%;
   border-collapse: collapse;
 }
-.block-hoagie .b-inner {
+.block-dagwood .b-inner {
   display: block;
   overflow: hidden;
 }
 @media all and (max-width: 767px) {
-  .block-hoagie .headline {
+  .block-dagwood .headline {
     font-size: 1.7rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-hoagie .headline {
+  .block-dagwood .headline {
     float: right;
     padding: 0 1.6rem;
     width: 66.66666666666667%;
   }
 }
 @media all and (min-width: 768px) {
-  .block-hoagie .headline {
+  .block-dagwood .headline {
     font-size: 2rem;
   }
 }
-.block-hoagie .b-thumb {
+.block-dagwood .b-thumb {
   float: left;
 }
 @media all and (max-width: 480px) {
-  .block-hoagie .b-thumb {
+  .block-dagwood .b-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
     float: none;
   }
-  .block-hoagie .b-thumb img {
+  .block-dagwood .b-thumb img {
     max-width: 22.5rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-hoagie .b-thumb {
+  .block-dagwood .b-thumb {
     width: 33.333333333333336%;
   }
 }
-.block-hoagie .b-text {
+.block-dagwood .b-text {
   float: right;
 }
-.block-hoagie .b-text p:first-of-type {
+.block-dagwood .b-text p:first-of-type {
   margin-top: 0;
 }
 @media all and (max-width: 480px) {
-  .block-hoagie .b-text p:first-of-type {
+  .block-dagwood .b-text p:first-of-type {
     margin-top: 0.4rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-hoagie .b-text {
+  .block-dagwood .b-text {
     width: 66.66666666666667%;
     padding: 0 1.6rem;
   }
@@ -909,7 +909,7 @@ input[type="search"]::-webkit-search-decoration {
 }
 @media all and (max-width: 480px) {
   .hero-and-subs h2,
-  .hoagies h2,
+  .dagwood h2,
   .l-sidebar h2 {
     text-align: center;
   }

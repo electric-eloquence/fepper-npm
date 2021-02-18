@@ -77,32 +77,6 @@ module.exports = class {
     return jsonData;
   }
 
-  // DEPRECATED. Renamed and moved to fepper-utils.
-  emptyFilesNotDirs(publicDir) /* istanbul ignore next */ {
-    if (!fs.existsSync(publicDir)) {
-      return;
-    }
-
-    diveSync(
-      publicDir,
-      (err, file) => {
-        // Log any errors.
-        /* istanbul ignore if */
-        if (err) {
-          this.utils.error(err);
-
-          return;
-        }
-
-        const stat = fs.statSync(file);
-
-        if (!stat.isDirectory()) {
-          fs.removeSync(file);
-        }
-      }
-    );
-  }
-
   preProcessAllPatterns(patternsDir) {
     try {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
@@ -306,27 +280,6 @@ module.exports = class {
     this.ingredients.viewallPatterns = {};
   }
 
-  // DEPRECATED. Moved to fepper-utils.
-  rmRfFilesNotDirs(dirToEmpty) /* istanbul ignore next */ {
-    this.emptyFilesNotDirs(dirToEmpty);
-  }
-
-  // DEPRECATED. In fepper-utils and will be removed from here.
-  strReplaceGlobal(haystack, needle, replacement) /* istanbul ignore next */ {
-    let haystackNew = haystack;
-    let needleIndex = needle ? haystackNew.indexOf(needle) : -1;
-
-    while (needleIndex > -1) {
-      haystackNew = haystackNew.substring(0, needleIndex) +
-        replacement +
-        haystackNew.substring(needleIndex + needle.length);
-
-      needleIndex = haystackNew.indexOf(needle);
-    }
-
-    return haystackNew;
-  }
-
   /* PUBLIC METHODS */
 
   build(options) {
@@ -381,19 +334,10 @@ module.exports = class {
   }
 
   clean() {
-    // this.rmRfFilesNotDirs is DEPRECATED.
-    // After deprecation period, permanently change conditionalObj to this.utils.
-    let conditionalObj = this;
-
-    /* istanbul ignore if */
-    if (typeof this.utils.rmRfFilesNotDirs === 'function') {
-      conditionalObj = this.utils;
-    }
-
-    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.annotations);
-    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.images);
-    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.js);
-    conditionalObj.rmRfFilesNotDirs(this.config.paths.public.css);
+    this.utils.rmRfFilesNotDirs(this.config.paths.public.annotations);
+    this.utils.rmRfFilesNotDirs(this.config.paths.public.images);
+    this.utils.rmRfFilesNotDirs(this.config.paths.public.js);
+    this.utils.rmRfFilesNotDirs(this.config.paths.public.css);
 
     fs.emptyDirSync(this.config.paths.public.patterns);
   }

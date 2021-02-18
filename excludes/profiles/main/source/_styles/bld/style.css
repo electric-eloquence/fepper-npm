@@ -440,7 +440,7 @@ a:focus {
 }
 @media all and (max-width: 480px) {
   .hero-and-subs h2,
-  .hoagies h2,
+  .dagwood h2,
   .l-sidebar h2 {
     text-align: center;
   }
@@ -661,45 +661,45 @@ svg {
     width: calc(33.333333333333336% - (3.2rem / 3));
   }
 }
-.block-hoagie {
+.block-dagwood {
   width: 100%;
 }
-.block-hoagie .b-inner {
+.block-dagwood .b-inner {
   display: block;
   overflow: hidden;
 }
 @media all and (min-width: 481px) {
-  .block-hoagie .headline,
-  .block-hoagie .b-text {
+  .block-dagwood .headline,
+  .block-dagwood .b-text {
     float: right;
     padding: 0 0 0 1.6rem;
     width: 75%;
   }
 }
-.block-hoagie .headline {
+.block-dagwood .headline {
   font-size: 1.25em;
 }
 @media all and (max-width: 480px) {
-  .block-hoagie .b-thumb {
+  .block-dagwood .b-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .block-hoagie .b-thumb img {
+  .block-dagwood .b-thumb img {
     max-width: 22.5rem;
   }
 }
 @media all and (min-width: 481px) {
-  .block-hoagie .b-thumb {
+  .block-dagwood .b-thumb {
     float: left;
     width: 25%;
   }
 }
-.block-hoagie .b-text p:first-child {
+.block-dagwood .b-text p:first-child {
   margin-top: 0;
 }
 @media all and (max-width: 480px) {
-  .block-hoagie .b-text p:first-child {
+  .block-dagwood .b-text p:first-child {
     margin-top: 0.4rem;
   }
 }
@@ -968,7 +968,7 @@ input[type="search"]::-webkit-search-decoration {
   margin-bottom: 1.6rem;
   overflow: hidden;
 }
-.section.hoagies + .pagination {
+.section.dagwood + .pagination {
   margin-top: -1.6rem;
 }
 .pagination .current {

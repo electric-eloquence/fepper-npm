@@ -27,6 +27,7 @@
       "annotations": "public/annotations",
       "css": "public/_styles",
       "cssBld": "public/_styles/bld",
+      "data": "public/data",
       "fonts": "public/_styles/bld/fonts",
       "images": "public/_assets",
       "js": "public/_scripts",

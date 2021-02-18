@@ -110,7 +110,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.type).to.equal('class');
     });
 
-    // DEPRECATED: The submission of array notation.
+    // Selection by array notation happens on the client-side, but leaving test as legacy for a sense of completeness.
     it('identifies the CSS class and index', function () {
       const selector = '.class_test-0[0]';
       const selectorObj = htmlScraperPost.selectorObjectify(selector, '0');
@@ -129,7 +129,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.type).to.equal('id');
     });
 
-    // DEPRECATED: The submission of array notation.
+    // Selection by array notation happens on the client-side, but leaving test as legacy for a sense of completeness.
     it('identifies the CSS id and index', function () {
       const selector = '#id_test-0[1]';
       const selectorObj = htmlScraperPost.selectorObjectify(selector, '1');
@@ -148,7 +148,7 @@ describe('HTML Scraper Post', function () {
       expect(selectorObj.type).to.equal('tag');
     });
 
-    // DEPRECATED: The submission of array notation.
+    // Selection by array notation happens on the client-side, but leaving test as legacy for a sense of completeness.
     it('identifies the CSS id and index', function () {
       const selector = 'h1[2]';
       const selectorObj = htmlScraperPost.selectorObjectify(selector, '2');

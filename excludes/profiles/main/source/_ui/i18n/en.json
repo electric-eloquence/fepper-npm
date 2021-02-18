@@ -23,7 +23,7 @@
     "",
   "Keyboard shortcuts":
     "",
-  "Search patterns":
+  "Pattern Search":
     "",
   "All":
     "",
@@ -56,10 +56,6 @@
   "Missing an essential file from %s":
     "",
   "Malformed %s":
-    "",
-  "Found pattern-specific listitems.json for %s":
-    "",
-  "There was an error parsing pattern-specific listitems.json for %s":
     "",
   "Could not find optional user-defined header, usually found at %s":
     "",

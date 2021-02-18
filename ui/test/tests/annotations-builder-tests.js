@@ -7,18 +7,19 @@ const {
   patternlab
 } = require('../init')();
 
-const annotationsJs = `${patternlab.config.paths.public.annotations}/annotations.js`;
-
-if (fs.existsSync(annotationsJs)) {
-  fs.removeSync(annotationsJs);
-}
-
-const annotationsJsExistsBefore = fs.existsSync(annotationsJs);
 
 describe('Annotations Builder', function () {
+  const annotationsJs = `${patternlab.config.paths.public.annotations}/annotations.js`;
   let annotations;
+  let annotationsJsExistsBefore;
 
   before(function () {
+    if (fs.existsSync(annotationsJs)) {
+      fs.removeSync(annotationsJs);
+    }
+
+    annotationsJsExistsBefore = fs.existsSync(annotationsJs);
+
     patternlab.build();
     require(annotationsJs);
 
@@ -56,28 +57,34 @@ describe('Annotations Builder', function () {
     expect(annotations[3].annotation).to.equal('<p>Tee double-you oh.</p>\n');
   });
 
-  it('parses the Front Matter files in the source patterns directory', function () {
-    expect(annotations[4].state).to.equal('complete');
-
-    const expectation5 = `<h2 id="front-matter-with-annotations">Front Matter with annotations</h2>
+  it('parses the Front Matter files for annotations in the source patterns directory', function () {
+    const expectation4 = `<h2 id="front-matter-with-annotations">Front Matter with annotations</h2>
 <p>Foo cannot get simpler than Bar, amiright?</p>
 `;
 
-    expect(annotations[5].el).to.equal('#bar');
-    expect(annotations[5].title).to.equal('Bar');
-    expect(annotations[5].annotation).to.equal(expectation5);
+    expect(annotations[4].el).to.equal('#bar');
+    expect(annotations[4].title).to.equal('Bar');
+    expect(annotations[4].annotation).to.equal(expectation4);
 
-    const expectation6 = `<h2 id="state-and-multiple-annotations">State and multiple annotations</h2>
+    const expectation5 = `<h2 id="state-and-multiple-annotations">State and multiple annotations</h2>
 <p>This pattern&#39;s .md file has both annotations and state.</p>
 `;
 
-    expect(annotations[6].el).to.equal('#title');
-    expect(annotations[6].state).to.equal('inprogress');
-    expect(annotations[6].title).to.equal('Title');
+    expect(annotations[5].el).to.equal('#title');
+    expect(annotations[5].state).to.equal('inprogress');
+    expect(annotations[5].title).to.equal('Title');
+    expect(annotations[5].annotation).to.equal(expectation5);
+
+    const expectation6 = '<p>This pattern has a message.</p>\n';
+
+    expect(annotations[6].el).to.equal('#message');
+    expect(annotations[6].title).to.equal('Message');
     expect(annotations[6].annotation).to.equal(expectation6);
 
-    expect(annotations[7].el).to.equal('#message');
-    expect(annotations[7].title).to.equal('Message');
-    expect(annotations[7].annotation).to.equal('<p>This pattern has a message.</p>\n');
+    const expectation7 = '<p>Main content</p>\n';
+
+    expect(annotations[7].el).to.equal('#main');
+    expect(annotations[7].title).to.equal('Main');
+    expect(annotations[7].annotation).to.equal(expectation7);
   });
 });

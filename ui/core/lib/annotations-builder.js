@@ -30,7 +30,7 @@ module.exports = class {
 
         const ext = path.extname(file);
 
-        if (ext === this.config.frontMatterExtension || ext === '.md') {
+        if (ext === this.config.frontMatterExtension) {
           const fileContent = fs.readFileSync(file, this.config.enc);
           annotationsArr = annotationsArr.concat(frontMatterParser.main(fileContent));
         }
@@ -42,7 +42,11 @@ module.exports = class {
       const pattern = this.ingredients.patterns[i];
 
       if (pattern.isFrontMatter && Array.isArray(pattern.frontMatterData)) {
-        annotationsArr = annotationsArr.concat(pattern.frontMatterData);
+        const tmpArray = pattern.frontMatterData.filter((frontMatter) => Boolean(frontMatter.annotation));
+
+        if (tmpArray.length) {
+          annotationsArr = annotationsArr.concat(tmpArray);
+        }
       }
     }
 

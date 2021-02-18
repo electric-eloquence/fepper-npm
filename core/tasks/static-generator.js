@@ -1,7 +1,5 @@
 'use strict';
 
-const path = require('path');
-
 const diveSync = require('diveSync');
 const fs = require('fs-extra');
 
@@ -22,6 +20,7 @@ module.exports = class {
     this.patternsPublic = this.conf.ui.paths.public.patterns;
     this.scriptsPublic = this.conf.ui.paths.public.js;
     this.rootPublic = this.conf.ui.paths.public.root;
+    this.staticPublic = this.conf.ui.paths.public.static;
     this.staticSource = this.conf.ui.paths.source.static;
     this.stylesPublic = this.conf.ui.paths.public.css;
 
@@ -80,15 +79,13 @@ module.exports = class {
       }
     }
 
+    const homepagePattern = this.patternlab.getPattern(this.conf.ui.defaultPattern);
+    const homepageLink = homepagePattern ? (homepagePattern.patternLink || '') : '';
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
-      if (
-        file.slice(-5) === '.html' &&
-        file.slice(-17) !== '.markup-only.html' &&
-        path.basename(file) !== 'index.html'
-      ) {
-        const dataJson = this.utils.data();
+      if (file.endsWith('.html') && !file.endsWith('.markup-only.html') && !file.endsWith('index.html')) {
         let regex;
         let regexStr;
         let tmpStr = fs.readFileSync(file, this.conf.enc);
@@ -101,15 +98,13 @@ module.exports = class {
 
         tmpStr = this.convertCacheBusters(tmpStr);
         tmpStr = this.convertPaths(tmpStr);
-        tmpStr = this.convertLinksHomepage(tmpStr, dataJson.homepage);
+        tmpStr = this.convertHomepageLinks(tmpStr, homepageLink);
         tmpStr = this.convertLinksSibling(tmpStr);
         tmpStr = this.utils.beautifyTemplate(tmpStr);
 
         try {
           // Copy homepage to index.html.
-          if (
-            dataJson.homepage &&
-            file.slice(-(`${dataJson.homepage}.html`.length)) === `${dataJson.homepage}.html`
+          if (homepageLink && file.endsWith(homepageLink)
           ) {
             fs.outputFileSync(`${this.staticSource}/index.html`, tmpStr);
           }
@@ -159,12 +154,12 @@ module.exports = class {
     return content.replace(/(href|src)\s*=\s*("|')..\/..\//gi, '$1=$2');
   }
 
-  convertLinksHomepage(content_, homepage) {
+  convertHomepageLinks(content_, homepageLink) {
     let content = content_;
 
-    if (homepage && content_.includes(homepage)) {
-      const homepageRegex = new RegExp('(href=")\\.\\.\\/' + homepage + '\\/' + homepage, 'gi');
-      content = content.replace(homepageRegex, '$1index');
+    if (homepageLink && content.includes(homepageLink)) {
+      const homepageRegex = new RegExp('(href=")\\.\\.\\/' + homepageLink, 'gi');
+      content = content.replace(homepageRegex, '$1index.html');
     }
 
     return content;
@@ -276,7 +271,7 @@ module.exports = class {
 
   deletePages() {
     diveSync(
-      this.staticSource,
+      this.staticPublic,
       {
         directories: true
       },
@@ -286,7 +281,7 @@ module.exports = class {
           this.utils.error(err);
         }
 
-        if (path.extname(file) === '.html') {
+        if (file.endsWith('.html')) {
           fs.removeSync(file);
         }
       }
@@ -294,16 +289,16 @@ module.exports = class {
   }
 
   main() {
-    // Delete old static site pages.
+    // Delete old static public html pages.
     this.deletePages();
 
-    try {
-      // Delete old assets, scripts, styles in static dir.
-      fs.emptyDirSync(`${this.staticSource}/${this.assetsRelative}`);
-      fs.emptyDirSync(`${this.staticSource}/${this.scriptsRelative}`);
-      fs.emptyDirSync(`${this.staticSource}/${this.stylesRelative}`);
+    // Delete old assets, scripts, styles in static public dir.
+    fs.emptyDirSync(`${this.staticPublic}/${this.assetsRelative}`);
+    fs.emptyDirSync(`${this.staticPublic}/${this.scriptsRelative}`);
+    fs.emptyDirSync(`${this.staticPublic}/${this.stylesRelative}`);
 
-      // Copy assets, scripts, styles directories.
+    try {
+      // Copy assets, scripts, styles directories to static source dir.
       this.copyAssetsDir();
       this.copyScriptsDir();
       this.copyStylesDir();

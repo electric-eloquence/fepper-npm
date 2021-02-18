@@ -1,6 +1,12 @@
-"templates_dir": |2
+'templates_dir': |2
   docroot/templates-alt
-"templates_ext": |2
+'templates_ext': |2
   twig
-"content": |2
+'# no_label\?': |2
+  {% if not configuration.label_display %}
+'block_attributes': |2
+  \{\{ attributes|without('role', 'aria-labelledby') \}\}
+'content': |2
   02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml
+'/ no_label\?': |2
+  {% endif %}

@@ -27,7 +27,7 @@ module.exports = class {
     this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
     this.mustacheBrowser = new MustacheBrowser(options, html, ui);
     this.readme = new Readme(options, html);
-    this.success = new Success(options, html);
+    this.success = new Success(options, html, this.readme);
 
     const app = express();
 
@@ -92,8 +92,7 @@ module.exports = class {
         webservedDirSplit.shift();
         app.use(
           `/${webservedDirSplit.join('/')}`,
-          // TODO: conf.backend_dir is DEPRECATED and will be removed.
-          express.static(`${this.pref.backend.backend_dir || this.conf.backend_dir}/${webservedDir}`)
+          express.static(`${this.pref.backend.backend_dir}/${webservedDir}`)
         );
       }
     }

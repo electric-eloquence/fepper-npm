@@ -47,7 +47,7 @@ describe('Pseudo-Pattern Hunter', function () {
     patternlab.patternBuilder.processPattern(altPattern);
 
     expect(basePattern.templateExtended).to.equal('<span class="test_base ">      </span>  ');
-    expect(altPattern.templateExtended).to.equal('<span class="test_base ">  alternateMessage    </span>  ');
+    expect(altPattern.templateExtended).to.equal('<span class="test_base ">  alternateMessage  atomic  </span>  ');
     expect(altPattern.templateExtended).to.not.equal(basePattern.templateExtended);
   });
 });

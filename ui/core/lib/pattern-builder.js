@@ -97,11 +97,16 @@ module.exports = class {
     pattern.isHidden = true;
     pattern.isPattern = false;
 
-    // Unset Patternlab.getPattern identifiers.
-    pattern.patternPartialPhp = '';
-    pattern.patternPartial = '';
-    pattern.relPathTrunc = '';
-    pattern.relPath = '';
+    for (let i = 0, l = pattern.frontMatterData.length; i < l; i++) {
+      if (pattern.frontMatterData[i].content_key && pattern.frontMatterData[i].content) {
+        pattern.frontMatterContent = pattern.frontMatterData[i];
+      }
+    }
+
+    // If no pattern content, unset Patternlab.getPattern identifiers.
+    if (!pattern.frontMatterContent) {
+      this.unsetIdentifiers(pattern);
+    }
   }
 
   preProcessPartials(fepletPartials) {
@@ -147,6 +152,13 @@ module.exports = class {
         }
       }
     }
+  }
+
+  unsetIdentifiers(pattern) {
+    pattern.patternPartialPhp = '';
+    pattern.patternPartial = '';
+    pattern.relPathTrunc = '';
+    pattern.relPath = '';
   }
 
   /* PUBLIC METHODS */
@@ -302,6 +314,22 @@ module.exports = class {
         }
       }
 
+      // Check if a Front Matter file exists for this pattern and whether or not the Front Matter got preprocessed yet.
+      const frontMatterRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.frontMatterExtension;
+      const frontMatterFileName = `${patternsPath}/${frontMatterRelPath}`;
+
+      if (fs.existsSync(frontMatterFileName)) {
+        const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
+
+        // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
+        if (frontMatterPattern) {
+          pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
+            frontMatterPattern.frontMatterContent.content;
+
+          this.unsetIdentifiers(frontMatterPattern);
+        }
+      }
+
       // If file is named in the syntax for variants, add data keys to dataKeysSchema, add and return pattern.
       if (this.isPseudoPatternJson(fileName)) {
         this.#patternlab.preProcessDataKeys(this.ingredients.dataKeysSchema, pattern.jsonFileData);
@@ -312,11 +340,11 @@ module.exports = class {
     }
 
     // Preprocess Front Matter files.
-    else if (ext === this.config.frontMatterExtension || ext === '.md') {
-      const mustacheFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
-      const jsonFileName =
-        `${patternsPath}/${pattern.subdir}/${pattern.fileName}` + '.json';
+    else if (ext === this.config.frontMatterExtension) {
+      const mustacheRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
+      const mustacheFileName = `${patternsPath}/${mustacheRelPath}`;
+      const jsonRelPath = `${pattern.subdir}/${pattern.fileName}` + '.json';
+      const jsonFileName = `${patternsPath}/${jsonRelPath}`;
 
       // Check for a corresponding Pattern or JSON file.
       // If it exists, preprocess Front Matter and add it to the patterns array.
@@ -325,6 +353,29 @@ module.exports = class {
 
         this.addPattern(pattern);
         this.preProcessFrontMatter(pattern);
+
+        // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
+        const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
+        const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
+
+        if (primaryPattern) {
+          this.setState(primaryPattern);
+
+          if (pattern.frontMatterContent) {
+            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
+
+          this.unsetIdentifiers(pattern);
+        }
+        else if (pseudoPattern) {
+          this.setState(pseudoPattern);
+
+          if (pattern.frontMatterContent) {
+            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
+
+          this.unsetIdentifiers(pattern);
+        }
       }
 
       return pattern;
@@ -400,8 +451,10 @@ module.exports = class {
     }
 
     // Render templateExtended whether pseudoPattern or not.
-    pattern.templateExtended =
-      pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
+    if (this.utils.deepGet(pattern, 'fepletComp.render')) {
+      pattern.templateExtended =
+        pattern.fepletComp.render(pattern.allData, this.ingredients.partials, null, this.ingredients.partialsComp);
+    }
 
     // If this is not a pseudoPattern (and therefore a basePattern), look for its pseudoPattern variants.
     if (!this.isPseudoPatternJson(pattern.relPath)) {
@@ -515,15 +568,6 @@ module.exports = class {
 
     // Check to see whether the last pattern build has been modified. If modified, write pattern files.
     if (this.ingredients.hashesOld[pattern.patternPartial] !== pattern.hash) {
-      // this.#patternlab.strReplaceGlobal is DEPRECATED.
-      // After deprecation period, permanently change conditionalObj to this.utils.
-      let conditionalObj = this.#patternlab;
-
-      /* istanbul ignore if */
-      if (typeof this.utils.strReplaceGlobal === 'function') {
-        conditionalObj = this.utils;
-      }
-
       // Write the built template to the public patterns directory.
       const cacheBusterTag = '{{ cacheBuster }}';
       const paths = this.config.paths;
@@ -534,12 +578,12 @@ module.exports = class {
         pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) + '.markup-only' + pattern.outfileExtension;
 
       const cacheBuster = this.config.cacheBust ? `?${dateNow}` : '';
-      const templateExtended = conditionalObj.strReplaceGlobal(pattern.templateExtended, cacheBusterTag, cacheBuster);
+      const templateExtended = this.utils.strReplaceGlobal(pattern.templateExtended, cacheBusterTag, cacheBuster);
 
       fs.outputFileSync(outfileMarkupOnly, templateExtended);
 
-      const patternFull = conditionalObj.strReplaceGlobal(pattern.header, cacheBusterTag, cacheBuster) +
-        templateExtended + conditionalObj.strReplaceGlobal(pattern.footer, cacheBusterTag, cacheBuster);
+      const patternFull = this.utils.strReplaceGlobal(pattern.header, cacheBusterTag, cacheBuster) +
+        templateExtended + this.utils.strReplaceGlobal(pattern.footer, cacheBusterTag, cacheBuster);
 
       // Write the full pattern page.
       fs.outputFileSync(outfileFull, patternFull);

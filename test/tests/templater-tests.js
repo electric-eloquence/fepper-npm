@@ -75,7 +75,7 @@ describe('Templater', function () {
 
     /* eslint-disable max-len */
     expect(output).to.equal(`<div class="page" id="page">
-  <a href=""><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a><section class="section hoagies">
+  <a href=""><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a><section class="section dagwood">
     <h2 class="section-title"></h2>
     <ul class="post-list">
       <?php foreach ($latest_posts as $post): ?>
@@ -124,8 +124,36 @@ describe('Templater', function () {
   });
 
   it('writes to the alternate templates directory', function () {
+    const altOutfile = templatesAlt + '/02-templater-alt.twig';
+
+    fs.unlinkSync(altOutfile);
+
+    const altOutfileExistsBefore = fs.existsSync(altOutfile);
+
+    tasks.template();
+
+    const altOutfileExistsAfter = fs.existsSync(altOutfile);
+
+    expect(altOutfileExistsBefore).to.be.false;
+    expect(altOutfileExistsAfter).to.be.true;
+  });
+
+  /* eslint-disable max-len */
+  // DEPRECATED: retaining for backward compatibility. Will be removed. In future tests, test content without escapes.
+  it('translates the old YAML syntax of escaped special regex characters in keys', function () {
     const output = fs.readFileSync(templatesAlt + '/02-templater-alt.twig', conf.enc).trim();
 
-    expect(output).to.equal('<p>02-templater-alt.yml overrides "templates_dir" and \'templates_ext\' in pref.yml</p>');
+    expect(output).to.equal(`{% if not configuration.label_display %}
+  <p {{ attributes|without('role', 'aria-labelledby') }}>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
+{% endif %}`);
+  });
+
+  it('translates the old YAML syntax of escaped curly braces in values', function () {
+    const output = fs.readFileSync(templatesAlt + '/02-templater-alt.twig', conf.enc).trim();
+
+    // eslint-disable-next-line max-len
+    expect(output).to.equal(`{% if not configuration.label_display %}
+  <p {{ attributes|without('role', 'aria-labelledby') }}>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
+{% endif %}`);
   });
 });
