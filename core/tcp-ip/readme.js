@@ -23,10 +23,10 @@ module.exports = class {
           return;
         }
 
-        let htmlMd;
+        let htmlFromMd;
 
         try {
-          htmlMd = marked(dat);
+          htmlFromMd = marked(dat);
         }
         catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);
@@ -36,10 +36,10 @@ module.exports = class {
         }
 
         // Escape curly braces so they don't get interpreted as stashes.
-        htmlMd = htmlMd.replace(/\{/g, '&lcub;');
-        htmlMd = htmlMd.replace(/\}/g, '&rcub;');
+        htmlFromMd = htmlFromMd.replace(/\{/g, '&lcub;');
+        htmlFromMd = htmlFromMd.replace(/\}/g, '&rcub;');
 
-        resolve(htmlMd);
+        resolve(htmlFromMd);
       });
     });
   }
@@ -47,9 +47,9 @@ module.exports = class {
   main() {
     return (req, res) => {
       this.getHtml()
-        .then((htmlMd) =>{
+        .then((htmlFromMd) =>{
           let outputFpt = this.html.head;
-          outputFpt += htmlMd + '\n';
+          outputFpt += htmlFromMd + '\n';
           outputFpt += this.html.foot;
 
           const output = Feplet.render(
