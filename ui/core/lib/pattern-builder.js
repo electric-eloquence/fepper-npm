@@ -342,13 +342,17 @@ module.exports = class {
     // Preprocess Front Matter files.
     else if (ext === this.config.frontMatterExtension) {
       const mustacheRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
-      const mustacheFileName = `${patternsPath}/${mustacheRelPath}`;
+      const mustacheAbsPath = `${patternsPath}/${mustacheRelPath}`;
       const jsonRelPath = `${pattern.subdir}/${pattern.fileName}` + '.json';
-      const jsonFileName = `${patternsPath}/${jsonRelPath}`;
+      const jsonAbsPath = `${patternsPath}/${jsonRelPath}`;
 
       // Check for a corresponding Pattern or JSON file.
-      // If it exists, preprocess Front Matter and add it to the patterns array.
-      if (fs.existsSync(mustacheFileName) || fs.exists(jsonFileName)) {
+      // If neither exists, do not preprocess.
+      if (!fs.existsSync(mustacheAbsPath) && !fs.existsSync(jsonAbsPath)) {
+        return null;
+      }
+      // Else preprocess Front Matter and add it to the patterns array.
+      else {
         pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
         this.addPattern(pattern);
@@ -376,9 +380,9 @@ module.exports = class {
 
           this.unsetIdentifiers(pattern);
         }
-      }
 
-      return pattern;
+        return pattern;
+      }
     }
 
     // Can ignore all non-supported files at this point.
