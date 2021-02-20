@@ -316,9 +316,9 @@ module.exports = class {
 
       // Check if a Front Matter file exists for this pattern and whether or not the Front Matter got preprocessed yet.
       const frontMatterRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.frontMatterExtension;
-      const frontMatterFileName = `${patternsPath}/${frontMatterRelPath}`;
+      const frontMatterAbsPath = `${patternsPath}/${frontMatterRelPath}`;
 
-      if (fs.existsSync(frontMatterFileName)) {
+      if (fs.existsSync(frontMatterAbsPath)) {
         const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
         // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
