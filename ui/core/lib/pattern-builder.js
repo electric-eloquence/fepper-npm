@@ -351,38 +351,37 @@ module.exports = class {
       if (!fs.existsSync(mustacheAbsPath) && !fs.existsSync(jsonAbsPath)) {
         return null;
       }
-      // Else preprocess Front Matter and add it to the patterns array.
-      else {
-        pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
-        this.addPattern(pattern);
-        this.preProcessFrontMatter(pattern);
+      // Else add to the patterns array and preprocess Front Matter. (Seems necessary to be in that order.)
+      pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
-        // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
-        const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
-        const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
+      this.addPattern(pattern);
+      this.preProcessFrontMatter(pattern);
 
-        if (primaryPattern) {
-          this.setState(primaryPattern);
+      // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
+      const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
+      const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
-          if (pattern.frontMatterContent) {
-            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
+      if (primaryPattern) {
+        this.setState(primaryPattern);
 
-          this.unsetIdentifiers(pattern);
-        }
-        else if (pseudoPattern) {
-          this.setState(pseudoPattern);
-
-          if (pattern.frontMatterContent) {
-            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
-
-          this.unsetIdentifiers(pattern);
+        if (pattern.frontMatterContent) {
+          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
 
-        return pattern;
+        this.unsetIdentifiers(pattern);
       }
+      else if (pseudoPattern) {
+        this.setState(pseudoPattern);
+
+        if (pattern.frontMatterContent) {
+          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+        }
+
+        this.unsetIdentifiers(pattern);
+      }
+
+      return pattern;
     }
 
     // Can ignore all non-supported files at this point.
