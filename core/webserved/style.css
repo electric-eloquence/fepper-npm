@@ -299,13 +299,13 @@ td {
   padding: 0.2em;
 }
 
-.cf:before,
-.cf:after {
+.cf::before,
+.cf::after {
   content: " ";
   display: table;
 }
 
-.cf:after {
+.cf::after {
   clear: both;
 }
 
