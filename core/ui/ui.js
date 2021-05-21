@@ -153,4 +153,8 @@ module.exports = class {
       }
     );
   }
+
+  getPattern(query) {
+    return this.patternlab.getPattern(query);
+  }
 };

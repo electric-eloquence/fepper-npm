@@ -100,6 +100,13 @@ module.exports = class {
     for (let i = 0, l = pattern.frontMatterData.length; i < l; i++) {
       if (pattern.frontMatterData[i].content_key && pattern.frontMatterData[i].content) {
         pattern.frontMatterContent = pattern.frontMatterData[i];
+
+        // This writes during preprocessing and well before processing, but might as well write now and not revisit.
+        fs.outputFileSync(
+          this.config.paths.public.patterns + '/' + pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) +
+          this.config.frontMatterExtension,
+          pattern.template
+        );
       }
     }
 

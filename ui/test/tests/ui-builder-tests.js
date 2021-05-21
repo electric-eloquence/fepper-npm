@@ -40,6 +40,8 @@ const expectedContent = '<span class="test_base ">      </span>    <span class="
 const expectedPatternExportContent = '<span class="test_base "> </span> <span class="test_base test_1"> </span>\n';
 
 describe('UI Builder', function () {
+  const scraperFile = `${patternlab.config.paths.source.scrape}/00-html-scraper.mustache`;
+  let scraperFileExistsBefore;
   let configClone;
 
   let patternHtmlExistsAfter;
@@ -60,6 +62,12 @@ describe('UI Builder', function () {
     if (fs.existsSync(hashesFile)) {
       fs.removeSync(hashesFile);
     }
+
+    if (fs.existsSync(scraperFile)) {
+      fs.removeSync(scraperFile);
+    }
+
+    scraperFileExistsBefore = fs.existsSync(scraperFile);
 
     patternlab.build();
 
@@ -90,6 +98,13 @@ describe('UI Builder', function () {
     expect(patternHtmlContent).to.have.string(expectedContent);
     expect(patternMarkupContent).to.equal(expectedContent);
     expect(patternMustacheContent).to.equal('{{> test-styled-molecule }}\n');
+  });
+
+  it('recreates the HTML Scraper source pattern in the event it is deleted', function () {
+    const scraperFileExistsAfter = fs.existsSync(scraperFile);
+
+    expect(scraperFileExistsBefore).to.be.false;
+    expect(scraperFileExistsAfter).to.be.true;
   });
 
   it('exports patterns to the pattern_exports directory', function () {

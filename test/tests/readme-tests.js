@@ -22,8 +22,8 @@ describe('Readme', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
-        expect(output).to.equal('HTTP 404: Not Found');
+      .then((response) => {
+        expect(response.responseText).to.equal('HTTP 404: Not Found');
         done();
       })
       .catch((err) => {
@@ -44,9 +44,9 @@ describe('Readme', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -61,7 +61,7 @@ describe('Readme', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 

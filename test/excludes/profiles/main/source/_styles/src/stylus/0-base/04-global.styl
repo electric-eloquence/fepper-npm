@@ -1,7 +1,7 @@
 html
   font-size: (100 / 1.6)%
 body
-  background: $white
+  background-color: $white
   font: 1.6em/1.5 $font-primary
   -webkit-text-size-adjust: 100%
   color: $gray-dark
@@ -19,9 +19,6 @@ h5,
 h6
   margin: 0.4rem 0
   padding: 0.4rem 0 0
-article, aside, nav, section
-  h1
-    font-size: 2em
 h1, h2
   line-height: 1.2
 h4
@@ -30,32 +27,29 @@ h5
   font-size: 1.0625em
 h6
   font-size: 1em
-p
-  margin: $space 0
 a
   color: $gray-dark
   text-decoration: none
   outline: 0
-  &:hover, &:focus
+  &:focus
     color: $gray
-hr
-  border: 0
-  height: 2px
-  background: $gray-light-1
-  margin: $space-double 0
+  @media (hover: hover)
+    &:hover
+      color: $gray
 // Completely remove from the flow and screen readers.
 .hidden
   display: none !important
   visibility: hidden !important
 // Completely remove from the flow but leave available to screen readers.
 .visually-hidden
+  border: 0 !important
+  clip: rect(1px, 1px, 1px, 1px) !important
+  padding: 0 !important
+  pointer-events: none !important
   position: absolute !important
-  overflow: hidden
-  width: 1px
-  height: 1px
-  padding: 0
-  border: 0
-  clip: rect(1px, 1px, 1px, 1px)
+  overflow: hidden !important
+  width: 1px !important
+  height: 1px !important
 // Floats
 .right
   float: right

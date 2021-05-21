@@ -107,18 +107,19 @@ describe('Mustache Browser', function () {
     expect(pattern).to.be.null;
   });
 
-  it('replaces angle brackets with HTML entities', function () {
+  it('replaces opening angle brackets with HTML entities', function () {
     const htmlBefore = '<html></html>';
     const htmlAfter = mustacheBrowser.toHtmlEntitiesAndLinks(htmlBefore);
 
-    expect(htmlBefore).to.have.string('<');
-    expect(htmlBefore).to.have.string('>');
+    expect(htmlBefore).to.have.string('<html>');
+    expect(htmlBefore).to.have.string('</html>');
     expect(htmlBefore).to.not.have.string('&lt;');
-    expect(htmlBefore).to.not.have.string('&gt;');
-    expect(htmlAfter).to.not.have.string('>');
-    expect(htmlAfter).to.not.have.string('<');
-    expect(htmlAfter).to.have.string('&lt;');
-    expect(htmlAfter).to.have.string('&gt;');
+    expect(htmlAfter).to.not.have.string('<html>');
+    expect(htmlAfter).to.not.have.string('</html>');
+    expect(htmlAfter).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span>' +
+      '<span class="token punctuation">></span></span>');
   });
 
   it('sanitizes the output of executable scripts', function () {
@@ -127,32 +128,26 @@ describe('Mustache Browser', function () {
 
     expect(scriptBefore).to.have.string('<script');
     expect(scriptBefore).to.have.string('</script');
-    expect(scriptBefore).to.not.have.string('&lt;script');
-    expect(scriptBefore).to.not.have.string('&lt;/script');
+    expect(scriptBefore).to.not.have.string('&lt;');
     expect(scriptAfter).to.not.have.string('<script');
     expect(scriptAfter).to.not.have.string('</script');
-    expect(scriptAfter).to.have.string('&lt;script');
-    expect(scriptAfter).to.have.string('&lt;/script');
+    expect(scriptAfter).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>' +
+      '<span class="token script"></span><span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>');
   });
 
-  it('beautifies the output by replacing each linebreak with a <br>', function () {
-    expect(contentBefore).to.have.string('\n');
-    expect(contentBefore).to.not.have.string('<br>');
-    expect(contentAfter).to.not.have.string('\n');
-    expect(contentAfter).to.have.string('<br>');
-  });
-
-  it('beautifies the output by replacing each indentation space with a &nbsp;', function () {
-    expect(contentBefore).to.have.string('  ');
-    expect(contentBefore).to.not.have.string('&nbsp;&nbsp;');
-    expect(contentAfter).to.not.have.string('  ');
-    expect(contentAfter).to.have.string('&nbsp;&nbsp;');
-  });
-
-  it('beautifies the output', function () {
-    expect(contentAfter).to.equal(
-      '&lt;html&gt;<br>&nbsp;&nbsp;&lt;head&gt;&lt;/head&gt;<br>&nbsp;&nbsp;&lt;body&gt;&lt;/body&gt;<br>' +
-      '&lt;/html&gt;<br>');
+  it('renders the output by replacing tags with entities and wrapping them with styling tags', function () {
+    expect(contentAfter).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>\n' +
+      '  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span>' +
+      '<span class="token punctuation">></span></span><span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>\n' +
+      '  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span>' +
+      '<span class="token punctuation">></span></span><span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span>' +
+      '<span class="token punctuation">></span></span>\n');
   });
 
   it('links Mustache partials', function () {
@@ -164,9 +159,14 @@ describe('Mustache Browser', function () {
 
     expect(htmlEntitiesAndLinks).to.have.string('<a href="');
     expect(htmlEntitiesAndLinks).to.have.string('</a>');
-    expect(htmlEntitiesAndLinks).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header }}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header }}</a><br>&lt;/header&gt;');
+    expect(htmlEntitiesAndLinks).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
   });
 
   it('strips parameters from linked Mustache partials', function () {
@@ -205,27 +205,65 @@ describe('Mustache Browser', function () {
     const htmlEntitiesAndLinks4 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache4);
     const htmlEntitiesAndLinks5 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache5);
 
-    expect(htmlEntitiesAndLinks).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header }}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks1).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header }}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header(<br>&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks2).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache }}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks3).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache }}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache(<br>&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks4).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header }}" class="fp-express">' +
-      '{{&gt; components-header(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks5).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header }}" class="fp-express">' +
-      '{{&gt; components-header(<br>&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
+    expect(htmlEntitiesAndLinks).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks1).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks2).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks3).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header.mustache(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks4).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks5).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
   });
 
   it('strips styleModifiers from linked Mustache partials', function () {
@@ -255,24 +293,57 @@ describe('Mustache Browser', function () {
     const htmlEntitiesAndLinks4 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache4);
     const htmlEntitiesAndLinks5 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache5);
 
-    expect(htmlEntitiesAndLinks).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks1).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified|stylesModified }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks2).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks3).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified|stylesModified }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks4).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks5).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified|stylesModified }}</a><br>&lt;/header&gt;');
+    expect(htmlEntitiesAndLinks).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header:styleModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks1).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header:styleModified|stylesModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks2).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks3).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks4).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks5).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified|stylesModified }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
   });
 
   it('strips parameters and styleModifiers from Mustache partials that have.string both', function () {
@@ -344,55 +415,138 @@ describe('Mustache Browser', function () {
     const htmlEntitiesAndLinks10 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache10);
     const htmlEntitiesAndLinks11 = mustacheBrowser.toHtmlEntitiesAndLinks(mustache11);
 
-    expect(htmlEntitiesAndLinks).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks1).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified(<br>&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks2).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified|stylesModified(\'partial?\': true) }}</a><br>' +
-      '&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks3).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header:styleModified|stylesModified(<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>' +
-      '&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks4).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks5).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified(<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>' +
-      '&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks6).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified|stylesModified(\'partial?\': true) }}</a><br>' +
-      '&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks7).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; 02-components/00-global/00-header.mustache}}" class="fp-express">' +
-      '{{&gt; 02-components/00-global/00-header.mustache:styleModified|stylesModified(<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>' +
-      '&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks8).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks9).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified(<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>' +
-      '&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks10).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified|stylesModified(\'partial?\': true) }}</a><br>&lt;/header&gt;');
-    expect(htmlEntitiesAndLinks11).to.equal('&lt;header class=&quot;test&quot;&gt;<br>' +
-      '&nbsp;&nbsp;<a href="?partial={{&gt; components-header}}" class="fp-express">' +
-      '{{&gt; components-header:styleModified|stylesModified(<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;\'partial?\': true,<br>&nbsp;&nbsp;&nbsp;&nbsp;\'multiline?\': true<br>' +
-      '&nbsp;&nbsp;) }}</a><br>&lt;/header&gt;');
+    expect(htmlEntitiesAndLinks).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header:styleModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks1).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header:styleModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks1).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header:styleModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks2).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks3).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header:styleModified|stylesModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks4).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks5).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks6).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks7).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks8).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> components-header:styleModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks9).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks10).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">' +
+      '{{> components-header:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
+    expect(htmlEntitiesAndLinks11).to.equal('<span class="token tag"><span class="token tag">' +
+      '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
+      '<span class="token punctuation">></span></span>\n' +
+      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified|stylesModified(\n' +
+      '    \'partial?\': true,\n' +
+      '    \'multiline?\': true\n' +
+      '  ) }}</a>\n' +
+      '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
+      '<span class="token punctuation">></span></span>');
   });
 
   it('responds with the Mustache Browser if the "partial" query param is valid', function (done) {
@@ -407,9 +561,9 @@ describe('Mustache Browser', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.have.string(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -423,54 +577,21 @@ describe('Mustache Browser', function () {
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
 
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
-<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
-<script src="../../annotations/annotations.js"></script>
-<!-- End Pattern Lab -->
-
-    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
     
   </head>
 
-  <body class="">
-    <main id="" class="mustache-browser__result">
-      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a>
-<div class="mustache-browser__paths">
-  <div id="mustache-browser__path--absolute" class="mustache-browser__path">`);
-        expect(output).to.have.string(`/test/source/_patterns/02-components/00-global/00-header.mustache</div>
-  <div id="mustache-browser__path--relative" class="mustache-browser__path">02-components/00-global/00-header.mustache</div>
-</div>
-<div class="mustache-browser__heading">
-  <h2><a
-    href="../patterns/02-components-00-global-00-header-localhost/02-components-00-global-00-header-localhost.html"
-    class="fp-express mustache-browser__pattern-link">components-header-localhost</a></h2>
-  <button id="mustache-browser__button--relative" data-copied-msg="Copied!">Copy relative path</button>
-  <button id="mustache-browser__button--absolute" data-copied-msg="Copied!">Copy absolute path</button>
-</div>
-<div class="mustache-browser__code">
-  <a href="?partial={{&gt; 00-elements/02-images/00-logo.mustache }}" class="fp-express">{{&gt; 00-elements/02-images/00-logo.mustache }}</a><br><a href="?partial={{&gt; 02-components/03-navigation/00-primary-nav }}" class="fp-express">{{&gt; 02-components/03-navigation/00-primary-nav }}</a><br>
-</div>
+  <body class="mustache-browser__body">
+    <main id="" class="mustache-browser__main">
+      <div id="message" class="message "></div>
+<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
+<a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+</code></pre>
 
     </main>
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
-  
-</script>
-
-<script>
-  // LiveReload.
-  if (location.protocol !== 'file:') {
-    const reloader = document.createElement('script');
-
-    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
-    document.body.appendChild(reloader);
-  }
-</script>
-
-<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
-<!-- End Pattern Lab -->
-
+    
   </body>
 </html>`);
         /* eslint-enable max-len */
@@ -492,9 +613,9 @@ describe('Mustache Browser', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -508,13 +629,9 @@ describe('Mustache Browser', function () {
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
 
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
-<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
-<script src="../../annotations/annotations.js"></script>
-<!-- End Pattern Lab -->
-
-    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
     
   </head>
 
@@ -522,24 +639,7 @@ describe('Mustache Browser', function () {
     <main id="" class="mustache-browser__no-result">
       <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>undefined</code>
     </main>
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
-  
-</script>
-
-<script>
-  // LiveReload.
-  if (location.protocol !== 'file:') {
-    const reloader = document.createElement('script');
-
-    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
-    document.body.appendChild(reloader);
-  }
-</script>
-
-<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
-<!-- End Pattern Lab -->
-
+    
   </body>
 </html>`);
         /* eslint-enable max-len */
@@ -562,9 +662,9 @@ describe('Mustache Browser', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="mustache-browser">
   <head>
@@ -578,13 +678,9 @@ describe('Mustache Browser', function () {
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
 
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<link rel="stylesheet" href="../../node_modules/fepper-ui/styles/pattern.css">
-<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
-<script src="../../annotations/annotations.js"></script>
-<!-- End Pattern Lab -->
-
-    <link rel="stylesheet" href="/fepper-core/mustache-browser.css">
+    
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
     
   </head>
 
@@ -592,24 +688,7 @@ describe('Mustache Browser', function () {
     <main id="" class="mustache-browser__no-result">
       <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
     </main>
-    <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
-<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
-  
-</script>
-
-<script>
-  // LiveReload.
-  if (location.protocol !== 'file:') {
-    const reloader = document.createElement('script');
-
-    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
-    document.body.appendChild(reloader);
-  }
-</script>
-
-<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
-<!-- End Pattern Lab -->
-
+    
   </body>
 </html>`);
         /* eslint-enable max-len */

@@ -21,16 +21,16 @@ class JsonForData {
 
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
-  constructor(req, res, conf, gatekeeper, html, options) {
+  constructor(req, res, fpExpress) {
     this.req = req;
     this.res = res;
-    this.conf = conf;
-    this.gatekeeper = gatekeeper;
-    this.html = html;
-    this.options = options;
-    this.appDir = options.appDir;
-    this.rootDir = options.rootDir;
-    this.utils = options.utils;
+    this.conf = fpExpress.conf;
+    this.gatekeeper = fpExpress.gatekeeper;
+    this.html = fpExpress.html;
+    this.options = fpExpress.options;
+    this.appDir = this.options.appDir;
+    this.rootDir = this.options.rootDir;
+    this.utils = this.options.utils;
 
     // Set some defaults for possibly non-existent nested request properties.
     this.filename = this.utils.deepGet(this, 'req.body.filename') || '';
@@ -580,7 +580,7 @@ module.exports = class {
   main() {
     /* istanbul ignore if */
     if (!this.gatekeeper.gatekeep(this.req)) {
-      this.gatekeeper.render(this.req, this.res);
+      this.gatekeeper.render('HTML Scraper')(this.req, this.res);
 
       return;
     }

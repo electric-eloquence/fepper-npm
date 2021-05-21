@@ -3,14 +3,21 @@
 const Feplet = require('feplet');
 
 module.exports = class {
-  constructor(options, html, readme) {
-    this.options = options;
-    this.conf = options.conf;
-    this.rootDir = options.rootDir;
-    this.utils = options.utils;
+  #fpExpress;
 
-    this.html = html;
-    this.readme = readme;
+  constructor(fpExpress) {
+    this.#fpExpress = fpExpress;
+
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.rootDir = this.options.rootDir;
+    this.utils = this.options.utils;
+
+    this.html = fpExpress.html;
+  }
+
+  get readme() {
+    return this.#fpExpress.readme;
   }
 
   main() {
@@ -107,10 +114,10 @@ module.exports = class {
             res.send(output);
           }
           else if (statusData.code === 500) {
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
+            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }
           else {
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
+            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
           }
         });
     };

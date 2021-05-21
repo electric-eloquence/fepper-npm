@@ -1,7 +1,7 @@
 <!DOCTYPE html><html id="patternlab-html" data-reactroot=""><head id="patternlab-head">
 <title id="title">Fepper</title>
 <meta charset="utf-8">
-</head><body id="patternlab-body"><header class="sg-header" role="banner"><div class="sg-nav-container" id="sg-nav-container"><a href="#" class="sg-nav-toggle">Menu</a><div class="visually-hidden" id="sg-nav-message">
+</head><body class="dock-bottom" id="patternlab-body"><header class="sg-header" role="banner"><div class="sg-nav-container" id="sg-nav-container"><a href="#" class="sg-nav-toggle">Menu</a><div class="visually-hidden" id="sg-nav-message">
 <h1>Nothing here yet!</h1>
 <ul>
   <li>Make sure there are patterns in source/_patterns</li>
@@ -80,53 +80,104 @@
     {{^ ishControlsHide.tools-shortcuts }}<li><a href="/readme#keyboard-shortcuts" class="sg-tool sg-checklist-icon sg-icon sg-icon-keyboard" target="_blank">Keyboard shortcuts</a></li>{{/ ishControlsHide.tools-shortcuts }}
   </ul>
 {{/ ishControlsHide.tools-all }}
-</li></ul></header><main>
-<div id="sg-vp-wrap" class="anim-ready">
-  <div id="sg-gen-container">
-    <iframe id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-    <div id="sg-cover"></div>
-    <div id="sg-rightpull"></div>
+</li></ul></header><main class="anim-ready" id="sg-vp-wrap">
+<div id="sg-gen-container">
+  <iframe id="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+  <div id="sg-cover"></div>
+  <div id="sg-rightpull"></div>
+</div>
+</main><aside class="sg-view-container" id="sg-view-container"><div class="sg-view-scroll-container" id="sg-annotations-container">
+  <div id="sg-annotations">
+    <div class="sg-annotation">
+      <h2>No Annotations</h2>
+      <div>There are no annotations for this pattern</div>
+    </div>
   </div>
 </div>
-</main><aside><div class="sg-view-container" id="sg-annotations-container" style="bottom:auto">
-<div id="sg-annotations-close" class="sg-view-close">
-  <a href="#" id="sg-annotations-close-btn" class="sg-view-close-btn">&#x2715;</a>
-</div>
-<div id="sg-annotations">
-  <div class="sg-annotation">
-    <h2>No Annotations</h2>
-    <div>There are no annotations for this pattern</div>
+</div><div class="sg-view-scroll-container" id="sg-code-container">
+  <div id="sg-code-pattern-info">
+    <p>
+      <span id="sg-code-pattern-info-pattern-name" class="sg-code-pattern-name"></span>
+      <code id="sg-code-pattern-info-rel-path" title="Click to copy path"></code> &nbsp;
+      <span id="sg-code-pattern-info-state"></span>
+    </p>
   </div>
-</div>
-</div><div class="sg-view-container" id="sg-code-container" style="bottom:auto">
-<div id="sg-code-close" class="sg-view-close">
-  <a href="#" id="sg-code-close-btn" class="sg-view-close-btn">&#x2715;</a>
-</div>
-<div id="sg-code-pattern-info">
-  <p>
-    <span id="sg-code-pattern-info-pattern-name" class="sg-code-pattern-name"></span> at <code id="sg-code-pattern-info-rel-path"></code> &nbsp; <span id="sg-code-pattern-info-state"></span>
-  </p>
-</div>
-<div id="sg-code-lineage" style="display: none;">
-  <p>
-    includes: <span id="sg-code-lineage-fill"></span>
-  </p>
-</div>
-<div id="sg-code-lineager" style="display: none;">
-  <p>
-    included by: <span id="sg-code-lineager-fill"></span>
-  </p>
-</div>
-<div id="sg-code-markup">
+  <div id="sg-code-lineage" style="display: none;">
+    <p>
+      includes: <span id="sg-code-lineage-fill"></span>
+    </p>
+  </div>
+  <div id="sg-code-lineager" style="display: none;">
+    <p>
+      included by: <span id="sg-code-lineager-fill"></span>
+    </p>
+  </div>
   <ul id="sg-code-tabs">
-    <li id="sg-code-title-html" class="sg-code-title">HTML</li>
-    <li id="sg-code-title-mustache" class="sg-code-title sg-code-title-active">Mustache</li>
-    <li><button id="sg-code-copy-path" class="sg-code-button" data-copied-msg="Copied!">Copy path</button></li>
+    <li id="sg-code-tab-feplet" class="sg-code-tab sg-code-tab-active" title="Browse Fepper's Mustache templates">Feplet</li>
+    <li id="sg-code-tab-markdown" class="sg-code-tab" title="Edit this pattern's Markdown content">Markdown</li>
+    <li id="sg-code-tab-requerio" class="sg-code-tab" title="Time-travel through Fepper's application states">Requerio</li>
+    <li id="sg-code-tab-git" class="sg-code-tab" title="Download and upload revisions to this project">Git</li>
   </ul>
-  <div class="sg-language-markup-container">
-    <pre><code id="sg-code-fill" class="language-markup"></code></pre>
+  <div id="sg-code-panels">
+    <iframe id="sg-code-panel-feplet" class="sg-code-panel sg-code-panel-active" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
+    <div id="sg-code-panel-markdown" class="sg-code-panel">
+      <div id="sg-code-pane-no-markdown" class="sg-code-outcome">
+        <p>There is no .md file associated with this pattern.</p>
+        <p>Please refer to <a href="/readme#markdown-content" target="_blank">the docs</a> for additional information.</p>
+      </div>
+      <div id="sg-code-pane-markdown" class="sg-code-outcome">
+        <pre id="sg-code-pre-language-markdown"><code id="sg-code-code-language-markdown" class="language-markdown"></code></pre>
+        <button id="sg-code-btn-markdown-edit" class="sg-code-btn" title="Edit this pattern's Markdown content">Edit</button>
+      </div>
+      <div id="sg-code-pane-markdown-edit" class="sg-code-outcome">
+        <textarea id="sg-code-textarea-markdown" class="language-markdown" name="markdown_edited"></textarea>
+        <button id="sg-code-btn-markdown-save" class="sg-code-btn" title="Save Markdown content">Save</button>
+      </div>
+    </div>
+    <div id="sg-code-panel-requerio" class="sg-code-panel"></div>
+    <div id="sg-code-panel-git" class="sg-code-panel"></div>
   </div>
 </div>
+</div><div class="sg-view-btns">
+<svg id="sg-view-btn-dock-left" class="sg-view-btn-dock-left sg-view-btn"
+  xmlns="http://www.w3.org/2000/svg"
+  width="72"
+  height="72"
+  viewBox="0 0 72 72"
+>
+  <rect x="4" y="-8" width="64" height="76" rx="4" ry="4" fill="transparent" stroke-width="8" />
+  <rect x="6" y="0" width="30" height="66" opacity="50%" />
+  <line x1="36" y1="0" x2="36" y2="72" stroke-width="8" />
+</svg>
+<svg id="sg-view-btn-dock-bottom" class="sg-view-btn-dock-bottom sg-view-btn"
+  xmlns="http://www.w3.org/2000/svg"
+  width="72"
+  height="72"
+  viewBox="0 0 72 72"
+>
+  <rect x="4" y="-8" width="64" height="76" rx="4" ry="4" fill="transparent" stroke-width="8" />
+  <rect x="0" y="32" width="72" height="8" />
+  <rect x="2" y="36" width="68" height="28" opacity="50%" />
+</svg>
+<svg id="sg-view-btn-dock-right" class="sg-view-btn-dock-right sg-view-btn"
+  xmlns="http://www.w3.org/2000/svg"
+  width="72"
+  height="72"
+  viewBox="0 0 72 72"
+>
+  <rect x="4" y="-8" width="64" height="76" rx="4" ry="4" fill="transparent" stroke-width="8" />
+  <line x1="36" y1="0" x2="36" y2="72" stroke-width="8" />
+  <rect x="36" y="0" width="30" height="66" opacity="50%" />
+</svg>
+<svg id="sg-view-btn-close" class="sg-view-btn-close sg-view-btn"
+  xmlns="http://www.w3.org/2000/svg"
+  width="72"
+  height="72"
+  viewBox="0 0 72 72"
+>
+  <line x1="3" y1="3" x2="69" y2="69" stroke-width="8" />
+  <line x1="69" y1="3" x2="3" y2="69" stroke-width="8" />
+</svg>
 </div></aside><footer id="patternlab-foot">
 <script src="node_modules/fepper-ui/scripts/index.js" type="module"></script>
 

@@ -10,24 +10,25 @@ const ErrorResponse = require('./error-response');
 const Gatekeeper = require('./gatekeeper');
 const HtmlScraper = require('./html-scraper');
 const HtmlScraperPost = require('./html-scraper-post');
+const MarkdownEditorPost = require('./markdown-editor-post');
 const MustacheBrowser = require('./mustache-browser');
 const Readme = require('./readme');
 const Success = require('./success');
 
 module.exports = class {
-  constructor(options, ui, html) {
+  constructor(options, html, ui) {
     this.options = options;
     this.conf = options.conf;
     this.pref = options.pref;
     this.html = html;
     this.ui = ui;
 
-    this.errorResponse = new ErrorResponse(options, html);
-    this.gatekeeper = new Gatekeeper(options, html);
-    this.htmlScraper = new HtmlScraper(options, html, this.gatekeeper);
-    this.mustacheBrowser = new MustacheBrowser(options, html, ui);
-    this.readme = new Readme(options, html);
-    this.success = new Success(options, html, this.readme);
+    this.errorResponse = new ErrorResponse(this);
+    this.gatekeeper = new Gatekeeper(this);
+    this.htmlScraper = new HtmlScraper(this);
+    this.mustacheBrowser = new MustacheBrowser(this);
+    this.readme = new Readme(this);
+    this.success = new Success(this);
 
     const app = express();
 
@@ -54,7 +55,7 @@ module.exports = class {
     app.get('/html-scraper-xhr/cors', this.htmlScraper.cors());
 
     // HTML scraper markup for gatekept forbidden page.
-    app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render());
+    app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render('HTML Scraper'));
 
     // Mustache browser.
     app.get('/mustache-browser', this.mustacheBrowser.main());
@@ -66,18 +67,29 @@ module.exports = class {
     app.get('/success', this.success.main());
 
     /* POST OPERATIONS */
+    // Instantiate new objects per post because post operations generally comprise many methods. It will be easier for
+    // the methods to deal with request data if those data are constructed as properties of the object.
+    // Ignore coverage on post operations. The methods they employ are pretty well tested.
 
     // HTML scraper and importer actions.
-    app.post('/html-scraper', (req, res) => {
-      const htmlScraperPost = new HtmlScraperPost(req, res, this.conf, this.gatekeeper, this.html, options);
+    app.post('/html-scraper', (req, res) => /* istanbul ignore next */ {
+      const htmlScraperPost = new HtmlScraperPost(req, res, this);
 
       htmlScraperPost.main();
     });
 
+    // Markdown editor actions.
+    app.post('/markdown-editor', (req, res) => /* istanbul ignore next */ {
+      const markdownEditorPost = new MarkdownEditorPost(req, res, this);
+
+      markdownEditorPost.main();
+    });
+
     /* STATIC PAGES */
 
-    // Fepper static files.
-    app.use('/fepper-core', express.static(path.resolve(__dirname, '..', 'webserved')));
+    // Fepper static files. No longer used since browser js and css are handled by fepper-ui.
+    // However, will keep this route open for possible future or custom use.
+    app.use('/webserved', express.static(path.resolve(__dirname, '..', 'webserved')));
 
     // Webserved directories.
     // Serve the backend's static files where the document root and top-level

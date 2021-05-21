@@ -1,1 +1,4 @@
-module.exports = null;
+module.exports = {
+  className: 'sg-view-container',
+  id: 'sg-view-container'
+};

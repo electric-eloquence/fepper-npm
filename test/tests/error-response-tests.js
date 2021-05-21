@@ -17,8 +17,8 @@ describe('Error Response', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
-        expect(output).to.equal(`
+      .then((response) => {
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>

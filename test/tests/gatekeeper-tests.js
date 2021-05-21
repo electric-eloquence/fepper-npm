@@ -73,16 +73,17 @@ describe('Gatekeeper', function () {
     it('responds with "forbidden" page', function (done) {
       new Promise(
         (resolve) => {
-          gatekeeper.render()(
+          gatekeeper.render('HTML Scraper')(
             {},
             responseFactory(resolve)
           );
         })
-        .then((output) => {
+        .then((response) => {
           /* eslint-disable max-len */
-          expect(output).to.equal(`
+          expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html>
+  <head><meta charset="utf-8"></head>
   <body>
 
     <section id="forbidden" class="error">
@@ -102,7 +103,45 @@ describe('Gatekeeper', function () {
   });
 
   describe('.respond()', function () {
-    it('responds with timestamp', function (done) {
+    it('responds with a 404 if no timestamp cookie submitted', function (done) {
+      new Promise(
+        (resolve) => {
+          gatekeeper.respond()(
+            {},
+            responseFactory(resolve)
+          );
+        })
+        .then((response) => {
+          expect(response.status).to.equal(404);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+
+    it('responds with a 404 if incorrect timestamp cookie submitted', function (done) {
+      new Promise(
+        (resolve) => {
+          gatekeeper.respond()(
+            {
+              cookies: {
+                fepper_ts: 42
+              }
+            },
+            responseFactory(resolve)
+          );
+        })
+        .then((response) => {
+          expect(response.status).to.equal(404);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+
+    it('responds with timestamp if correct timestamp cookie submitted', function (done) {
       new Promise(
         (resolve) => {
           gatekeeper.respond()(
@@ -114,8 +153,9 @@ describe('Gatekeeper', function () {
             responseFactory(resolve)
           );
         })
-        .then((output) => {
-          expect(output).to.equal(timestampFromFile);
+        .then((response) => {
+          expect(response.status).to.equal(200);
+          expect(response.responseText).to.equal(timestampFromFile);
           done();
         })
         .catch((err) => {

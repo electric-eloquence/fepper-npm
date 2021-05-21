@@ -5,19 +5,14 @@ const fs = require('fs-extra');
 const {html2json} = require('html2json');
 
 const {
-  fepper
+  fepper,
+  responseFactory
 } = require('../init')();
 const {
-  appDir,
   conf,
-  rootDir,
-  utils
+  rootDir
 } = fepper;
 const opener = fepper.tasks.opener;
-const {
-  gatekeeper,
-  html
-} = fepper.tcpIp.fpExpress;
 
 const HtmlScraperPost = require('../../core/tcp-ip/html-scraper-post');
 
@@ -72,6 +67,7 @@ const scrapeFile2Json = `${scrapeDir}/${scrapeFile2}.json`;
 const scrapeFile0Mustache = `${scrapeDir}/${scrapeFile0}.mustache`;
 const scrapeFile1Mustache = `${scrapeDir}/${scrapeFile1}.mustache`;
 const scrapeFile2Mustache = `${scrapeDir}/${scrapeFile2}.mustache`;
+const timestampFile = `${rootDir}/.timestamp`;
 
 describe('HTML Scraper Post', function () {
   let htmlScraperPost;
@@ -82,10 +78,7 @@ describe('HTML Scraper Post', function () {
     htmlScraperPost = new HtmlScraperPost(
       null,
       null,
-      conf,
-      gatekeeper,
-      html,
-      {appDir, rootDir, utils}
+      fepper.tcpIp.fpExpress
     );
     jsons = htmlScraperPost.htmlToJsons(htmlConst);
     scrapeLimitTimeOrig = conf.scrape.limit_time;
@@ -403,25 +396,7 @@ describe('HTML Scraper Post', function () {
   });
 
   describe('.main()', function () {
-    const timestampFile = `${global.rootDir}/.timestamp`;
     let timestampFromFile;
-
-    function responseFactory(resolve) {
-      const response = {
-        end: () => {
-          resolve(response);
-        },
-        send: (output) => {
-          resolve(output);
-        },
-        writeHead: (statusCode, statusMessage) => {
-          response.statusCode = statusCode;
-          response.statusMessage = statusMessage;
-        }
-      };
-
-      return response;
-    }
 
     before(function () {
       fs.removeSync(scrapeFile0Json);
@@ -456,18 +431,15 @@ describe('HTML Scraper Post', function () {
               }
             },
             responseFactory(resolve),
-            conf,
-            gatekeeper,
-            html,
-            {appDir, rootDir, utils}
+            fepper.tcpIp.fpExpress
           );
 
           htmlScraperPost.main();
         })
         .then((response) => {
-          expect(response.statusCode).to.equal(303);
+          expect(response.status).to.equal(303);
           // eslint-disable-next-line max-len
-          expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector_raw=');
+          expect(response.headers.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Invalid%20filename!&url=&selector_raw=');
           done();
         })
         .catch((err) => {
@@ -492,18 +464,15 @@ describe('HTML Scraper Post', function () {
                 }
               },
               responseFactory(resolve),
-              conf,
-              gatekeeper,
-              html,
-              {appDir, rootDir, utils}
+              fepper.tcpIp.fpExpress
             );
 
             htmlScraperPost.main();
           })
           .then((response) => {
-            expect(response.statusCode).to.equal(303);
+            expect(response.status).to.equal(303);
             // eslint-disable-next-line max-len
-            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector_raw=');
+            expect(response.headers.Location).to.equal('/html-scraper?msg_class=success&message=SUCCESS!%20Refresh%20the%20browser%20to%20check%20that%20your%20template%20appears%20under%20the%20%26quot%3BScrape%26quot%3B%20menu.&url=&selector_raw=');
             done();
           })
           .catch((err) => {
@@ -529,18 +498,15 @@ describe('HTML Scraper Post', function () {
                 }
               },
               responseFactory(resolve),
-              conf,
-              gatekeeper,
-              html,
-              {appDir, rootDir, utils}
+              fepper.tcpIp.fpExpress
             );
 
             htmlScraperPost.main();
           })
           .then((response) => {
-            expect(response.statusCode).to.equal(303);
+            expect(response.status).to.equal(303);
             // eslint-disable-next-line max-len
-            expect(response.statusMessage.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector_raw=');
+            expect(response.headers.Location).to.equal('/html-scraper?msg_class=error&message=ERROR!%20Too%20many%20requests%20per%20minute!&url=&selector_raw=');
             done();
           })
           .catch((err) => {
@@ -564,17 +530,14 @@ describe('HTML Scraper Post', function () {
               }
             },
             responseFactory(resolve),
-            conf,
-            gatekeeper,
-            html,
-            {appDir, rootDir, utils}
+            fepper.tcpIp.fpExpress
           );
 
           htmlScraperPost.main();
         })
-        .then((output) => {
+        .then((response) => {
           /* eslint-disable max-len */
-          expect(output).to.equal(`
+          expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -589,7 +552,7 @@ describe('HTML Scraper Post', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/html-scraper.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">
     
   </head>
 
@@ -681,17 +644,14 @@ describe('HTML Scraper Post', function () {
               }
             },
             responseFactory(resolve),
-            conf,
-            gatekeeper,
-            html,
-            {appDir, rootDir, utils}
+            fepper.tcpIp.fpExpress
           );
 
           htmlScraperPost.main();
         })
         .then((response) => {
-          expect(response.statusCode).to.equal(303);
-          expect(response.statusMessage.Location)
+          expect(response.status).to.equal(303);
+          expect(response.headers.Location)
             .to.equal('/html-scraper?msg_class=error&message=ERROR!%20Incorrect%20submission!&url=&selector_raw=');
           done();
         })

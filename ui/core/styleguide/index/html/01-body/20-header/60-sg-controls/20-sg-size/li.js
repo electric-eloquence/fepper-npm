@@ -10,31 +10,19 @@ if (typeof window === 'object') {
       uiFns,
       uiProps
     } = FEPPER_UI;
-    const bpMd = 1024; // Not to be user-configured.
-    const bpSm = 767; // Not to be user-configured.
-
-    // Remove active classes if browser is resized outside small sw.
-    // Putting this window resize listener here instead of in a more general listeners file because we want to keep the
-    // bpMd and bpSm variables in one place.
-    $orgs.window.on('resize', function () {
-      if (uiProps.sw <= bpSm || uiProps.sw > bpMd) {
-        $orgs['.sg-size'].dispatchAction('removeClass', 'active');
-        $orgs['#sg-form-label'].dispatchAction('removeClass', 'active');
-      }
-    });
 
     // Toggle hidden sg-size-options buttons at small sw.
     $orgs['#sg-form-label'].on('click', function (e) {
       e.preventDefault();
 
-      if (uiProps.sw > bpSm && uiProps.sw <= bpMd) {
+      if (uiProps.sw > uiProps.bpSm && uiProps.sw <= uiProps.bpMd) {
         $orgs['.sg-size'].dispatchAction('toggleClass', 'active');
       }
     });
 
     // Pixel input.
     $orgs['#sg-size-px'].on('keydown', function (e) {
-      let val = parseFloat($orgs['#sg-size-px'].getState().value);
+      let val = parseFloat($orgs['#sg-size-px'].getState().val);
 
       if (Number.isNaN(val) || !Number.isInteger(val)) {
         return;
@@ -58,19 +46,9 @@ if (typeof window === 'object') {
       }
     });
 
-    $orgs['#sg-size-px'].on('keyup', function () {
-      const val = parseFloat($orgs['#sg-size-px'].getState().value);
-
-      if (Number.isNaN(val) || !Number.isInteger(val)) {
-        return;
-      }
-
-      uiFns.updateSizeReading(val, 'px', 'updateEmInput');
-    });
-
     // Em input.
     $orgs['#sg-size-em'].on('keydown', function (e) {
-      let val = parseFloat($orgs['#sg-size-em'].getState().value);
+      let val = parseFloat($orgs['#sg-size-em'].getState().val);
 
       if (Number.isNaN(val)) {
         return;
@@ -93,26 +71,16 @@ if (typeof window === 'object') {
       }
     });
 
-    $orgs['#sg-size-em'].on('keyup', function () {
-      const val = parseFloat($orgs['#sg-size-em'].getState().value);
-
-      if (Number.isNaN(val)) {
-        return;
-      }
-
-      uiFns.updateSizeReading(val, 'em', 'updatePxInput');
-    });
-
     // Click whole width button.
     $orgs['#sg-size-w'].on('click', function (e) {
       e.preventDefault();
-      FEPPER_UI.patternlabViewer.goWhole();
+      FEPPER_UI.patternViewport.goWhole();
     });
 
     // Click Random Size Button.
     $orgs['#sg-size-random'].on('click', function (e) {
       e.preventDefault();
-      FEPPER_UI.patternlabViewer.goRandom();
+      FEPPER_UI.patternViewport.goRandom();
     });
 
     // Click for Disco Mode, which resizes the viewport randomly.

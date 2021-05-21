@@ -46,7 +46,7 @@ exports.Pattern = class {
 
     this.fileExtension = pathObj.ext; // '.mustache'
     this.fileName = pathObj.name; // '00-colors'
-    this.outfileExtension = '.html';
+    this.outfileExtension = patternlab.config.outfileExtension; // '.html'
     this.relPath = relPath; // '00-elements/00-global/00-colors.mustache'
     this.subdir = pathObj.dir; // '00-elements/00-global'
     this.flatPatternPath = this.subdir.replace(/\//g, '-'); // '00-elements-00-global'

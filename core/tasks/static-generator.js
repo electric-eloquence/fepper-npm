@@ -81,11 +81,16 @@ module.exports = class {
 
     const homepagePattern = this.patternlab.getPattern(this.conf.ui.defaultPattern);
     const homepageLink = homepagePattern ? (homepagePattern.patternLink || '') : '';
+    const outfileExtension = this.conf.ui.outfileExtension;
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
-      if (file.endsWith('.html') && !file.endsWith('.markup-only.html') && !file.endsWith('index.html')) {
+      if (
+        file.endsWith(outfileExtension) &&
+        !file.endsWith('.markup-only' + outfileExtension) &&
+        !file.endsWith('index.html') // Thus far, "index.html" is always hard-coded as is (not with outfileExtension).
+      ) {
         let regex;
         let regexStr;
         let tmpStr = fs.readFileSync(file, this.conf.enc);
@@ -121,7 +126,7 @@ module.exports = class {
                   outfilePath = pathParts
                     .map(pathPart => pathPart.replace(/^\d+-/, '').replace(/~/g, '-'))
                     .join('-')
-                    + '.html';
+                    + outfileExtension;
 
                   break;
                 }
@@ -166,6 +171,7 @@ module.exports = class {
   }
 
   convertLinksSibling(content_) {
+    const outfileExtension = this.conf.ui.outfileExtension;
     const content = this.patternlab.ingredients.patterns.reduce((acc_, cur) => {
       let acc = acc_;
 
@@ -178,7 +184,7 @@ module.exports = class {
           pathNew = pathParts
             .map(pathPart => pathPart.replace(/^\d+-/, '').replace(/~/g, '-'))
             .join('-')
-            + '.html';
+            + outfileExtension;
         }
         else {
           return acc;
@@ -270,8 +276,9 @@ module.exports = class {
   }
 
   deletePages() {
-    fs.ensureDirSync(this.staticPublic);
+    const outfileExtension = this.conf.ui.outfileExtension;
 
+    fs.ensureDirSync(this.staticPublic);
     diveSync(
       this.staticPublic,
       {
@@ -283,7 +290,7 @@ module.exports = class {
           this.utils.error(err);
         }
 
-        if (file.endsWith('.html')) {
+        if (file.endsWith(outfileExtension)) {
           fs.removeSync(file);
         }
       }

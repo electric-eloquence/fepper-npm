@@ -2,16 +2,21 @@
  * This wrapper div occupies all remaining viewport space after the header.
  */
 #sg-vp-wrap {
-  width: 100%;
+  background-color: #222;
+  padding-bottom: 0;
   position: fixed;
   top: 3.2rem;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  width: 100%;
   z-index: 0;
 }
-#sg-vp-wrap.anim-ready {
-  transition: padding-bottom 0.3s linear 0.1s;
+.dock-bottom #sg-vp-wrap.anim-ready {
+  transition: padding-bottom 0.3s linear;
+}
+.dock-open.dock-bottom #sg-vp-wrap {
+  padding-bottom: 50vh;
 }
 
 /**
@@ -27,6 +32,12 @@
 }
 .mobile #sg-gen-container {
   width: 100%;
+}
+.dock-left #sg-gen-container {
+  margin-right: 0;
+}
+.dock-right #sg-gen-container {
+  margin-left: 0;
 }
 
 /**
@@ -67,7 +78,7 @@
  * It is IMPERATIVE to never give this padding, border, or margin.
  */
 #sg-rightpull {
-  background: #c2c2c2;
+  background-color: #c2c2c2;
   width: 14px; /* Also hard-coded in fepper-ui. Changes here must be made there. Not meant to be user-configured. */
   float: right;
   margin: 0;
@@ -76,11 +87,11 @@
   position: relative;
 }
 #sg-rightpull:hover {
-  background: #808080;
+  background-color: #808080;
 }
 #sg-rightpull:active {
   cursor: col-resize;
-  background: #666;
+  background-color: #666;
 }
 .mobile #sg-rightpull {
   width: 0;

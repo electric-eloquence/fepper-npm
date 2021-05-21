@@ -73,6 +73,7 @@
     "marked": "^2.0.0",
     "node-fetch": "^2.6.0",
     "open": "^7.0.3",
+    "prismjs": "1.23.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "require-dir": "^0.3.2",

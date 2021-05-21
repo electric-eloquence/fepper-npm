@@ -1,13 +1,16 @@
 'use strict';
 
+const util = require('util');
+
 const fs = require('fs-extra');
 
 module.exports = class {
-  constructor(options, html) {
-    this.options = options;
-    this.conf = options.conf;
-    this.rootDir = options.rootDir;
-    this.html = html;
+  constructor(fpExpress) {
+    this.html = fpExpress.html;
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.rootDir = this.options.rootDir;
+    this.utils = this.options.utils;
   }
 
   /**
@@ -25,7 +28,7 @@ module.exports = class {
       timestampStr = fs.readFileSync(timestampFile, this.conf.enc);
     }
 
-    if (req.cookies.fepper_ts && timestampStr && req.cookies.fepper_ts === timestampStr) {
+    if (this.utils.deepGet(req, 'cookies.fepper_ts') === timestampStr) {
       return req.cookies.fepper_ts;
     }
     else {
@@ -33,30 +36,30 @@ module.exports = class {
     }
   }
 
-  render() {
+  render(subst) {
     return (req, res) => {
       let output = `
 <!DOCTYPE html>
 <html>
+  <head><meta charset="utf-8"></head>
   <body>
 `;
-      output += this.html.forbidden;
+      output += util.format(this.html.forbidden, subst);
       output += `
   </body>
 </html>`;
 
-      res.send(output);
+      res.writeHead(403).send(output);
     };
   }
 
   respond() {
     return (req, res) => {
-      /* istanbul ignore else */
       if (this.gatekeep(req)) {
-        res.send(req.cookies.fepper_ts);
+        res.writeHead(200).send(req.cookies.fepper_ts);
       }
       else {
-        res.status(404).end();
+        res.writeHead(404).end();
       }
     };
   }

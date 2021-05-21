@@ -31,13 +31,16 @@ exports.headBoilerplate = `
       <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>`;
 
 exports.head = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/style.css">');
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">');
 
-exports.headMustache = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/mustache-browser.css">');
+exports.headMustache = exports.headBoilerplate.replace(
+  '{{{ stylesheets }}}',
+  `<link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">`
+);
 
 exports.headScraper = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/fepper-core/html-scraper.css">');
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">');
 
 exports.loadingAnimation = `
       <div id="load-anim">
@@ -49,7 +52,7 @@ exports.scraperHeading = `
 
 exports.forbidden = `
     <section id="forbidden" class="error">
-      <p>${t('ERROR')}! ${t('You can only use the HTML Scraper on the machine that is running this Fepper instance!')}</p>
+      <p>${t('ERROR')}! ${t('You can only use the %s on the machine that is running this Fepper instance!')}</p>
       <p>${t('If you <em>are</em> on this machine, you may need to resync this browser with Fepper.')}</p>
       <p>${t('Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).')}</p>
     </section>`;

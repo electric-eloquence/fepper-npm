@@ -9,10 +9,6 @@ export function sgTAnnotationsClick(event) {
   const $orgs = FEPPER_UI.requerio.$orgs;
   const annotationsViewer = FEPPER_UI.annotationsViewer;
 
-  if (annotationsViewer.mustacheBrowser) {
-    return;
-  }
-
   annotationsViewer.toggleAnnotations();
 
   // If viewall, scroll to the focused pattern.
@@ -30,10 +26,6 @@ export function sgTCodeClick(event) {
 
   const $orgs = FEPPER_UI.requerio.$orgs;
   const codeViewer = FEPPER_UI.codeViewer;
-
-  if (codeViewer.mustacheBrowser) {
-    return;
-  }
 
   codeViewer.toggleCode();
 

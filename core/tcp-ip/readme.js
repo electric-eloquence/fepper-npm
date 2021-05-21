@@ -5,13 +5,13 @@ const fs = require('fs-extra');
 const marked = require('marked');
 
 module.exports = class {
-  constructor(options, html) {
-    this.options = options;
-    this.conf = options.conf;
-    this.rootDir = options.rootDir;
-    this.utils = options.utils;
+  constructor(fpExpress) {
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.rootDir = this.options.rootDir;
+    this.utils = this.options.utils;
 
-    this.html = html;
+    this.html = fpExpress.html;
   }
 
   getHtml() {
@@ -67,12 +67,12 @@ module.exports = class {
         .catch((statusData) => {
           /* istanbul ignore if */
           if (statusData.code === 500) {
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
+            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }
           else {
             this.utils.error(statusData.msg);
 
-            res.status(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
+            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
           }
         });
     };

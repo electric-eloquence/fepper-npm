@@ -3,10 +3,10 @@
 const Feplet = require('feplet');
 
 module.exports = class {
-  constructor(options, html) {
-    this.options = options;
-    this.conf = options.conf;
-    this.html = html;
+  constructor(fpExpress) {
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.html = fpExpress.html;
     this.immutableFooter = this.html.getImmutableFooter(this.conf);
   }
 
@@ -27,7 +27,11 @@ module.exports = class {
       outputFpt += this.html.foot;
       const output = Feplet.render(outputFpt, {patternlabFoot});
 
-      res.status(404).send(output);
+      // Need to set .statusCode, and not invoke .writeHead(), because the routing would have passed through
+      // express.static at this point and have already written to the header. We're trying to avoid invoking Express'
+      // res.status() because of its ambiguity with the res.status property on the client.
+      res.statusCode = 404;
+      res.send(output);
     };
   }
 };
