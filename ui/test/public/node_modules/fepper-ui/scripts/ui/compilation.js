@@ -71,7 +71,7 @@ if (typeof window === 'object') {
 
     // Pixel input.
     $orgs['#sg-size-px'].on('keydown', function (e) {
-      let val = parseFloat($orgs['#sg-size-px'].getState().value);
+      let val = parseFloat($orgs['#sg-size-px'].getState().val);
 
       if (Number.isNaN(val) || !Number.isInteger(val)) {
         return;
@@ -97,7 +97,7 @@ if (typeof window === 'object') {
 
     // Em input.
     $orgs['#sg-size-em'].on('keydown', function (e) {
-      let val = parseFloat($orgs['#sg-size-em'].getState().value);
+      let val = parseFloat($orgs['#sg-size-em'].getState().val);
 
       if (Number.isNaN(val)) {
         return;
