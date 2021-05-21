@@ -49,14 +49,14 @@ module.exports = class {
   </body>
 </html>`;
 
-      res.writeHead(403).send(output);
+      res.status(403).send(output);
     };
   }
 
   respond() {
     return (req, res) => {
       if (this.gatekeep(req)) {
-        res.writeHead(200).send(req.cookies.fepper_ts);
+        res.writeHead(200).end(req.cookies.fepper_ts);
       }
       else {
         res.writeHead(404).end();

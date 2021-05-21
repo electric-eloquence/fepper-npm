@@ -114,10 +114,10 @@ module.exports = class {
             res.send(output);
           }
           else if (statusData.code === 500) {
-            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
+            res.writeHead(statusData.code).end(this.utils.httpCodes[statusData.code] + ' - ' + statusData.msg);
           }
           else {
-            res.writeHead(statusData.code).send(this.utils.httpCodes[statusData.code] || '');
+            res.writeHead(statusData.code).end(this.utils.httpCodes[statusData.code] || '');
           }
         });
     };

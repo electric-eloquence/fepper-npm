@@ -45,7 +45,7 @@ module.exports = class {
       this.res.writeHead(200).end();
     }
     catch (err) {
-      this.res.writeHead(500).send(JSON.stringify(err, Object.getOwnPropertyNames(err)));
+      this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));
     }
   }
 };
