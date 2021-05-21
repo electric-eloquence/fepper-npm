@@ -7,7 +7,9 @@ module.exports = () => {
     fepper: new Fepper(__dirname),
     responseFactory: (resolve) => {
       const response = {
-        end: () => {
+        end: (responseText) => {
+          response.responseText = responseText;
+
           resolve(response);
         },
         send: (responseText) => {

@@ -49,7 +49,7 @@ module.exports = class {
   </body>
 </html>`;
 
-      res.status(403).send(output);
+      res.writeHead(403).end(output);
     };
   }
 
