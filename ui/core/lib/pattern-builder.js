@@ -278,8 +278,8 @@ module.exports = class {
 
       // Find and set lineages.
       this.lineageBuilder.main(pattern);
-      pattern.lineageExists = pattern.lineage.length > 0;
-      pattern.lineageRExists = pattern.lineageR.length > 0;
+      pattern.lineageExists = pattern.lineageArray.length > 0; // DEPRECATED.
+      pattern.lineageRExists = pattern.lineageRArray.length > 0; // DEPRECATED.
     }
   }
 
@@ -499,11 +499,13 @@ module.exports = class {
     // Exclude hidden lineage items from array destined for output.
     const lineage = [];
 
-    for (let i = 0, l = pattern.lineage.length; i < l; i++) {
-      const lineageItem = pattern.lineage[i];
+    if (pattern.lineage) {
+      for (let i = 0, l = pattern.lineageArray.length; i < l; i++) {
+        const lineageItem = pattern.lineageArray[i]; // DEPRECATED.
 
-      if (!lineageItem.isHidden) {
-        lineage.push(lineageItem);
+        if (!lineageItem.isHidden) {
+          lineage.push(lineageItem);
+        }
       }
     }
 
@@ -512,11 +514,13 @@ module.exports = class {
     // Exclude hidden lineageR items from array destined for output.
     const lineageR = [];
 
-    for (let i = 0, l = pattern.lineageR.length; i < l; i++) {
-      const lineageRItem = pattern.lineageR[i];
+    if (pattern.lineageR) {
+      for (let i = 0, l = pattern.lineageR.length; i < l; i++) {
+        const lineageRItem = pattern.lineageRArray[i]; // DEPRECATED.
 
-      if (!lineageRItem.isHidden) {
-        lineageR.push(lineageRItem);
+        if (!lineageRItem.isHidden) {
+          lineageR.push(lineageRItem);
+        }
       }
     }
 
