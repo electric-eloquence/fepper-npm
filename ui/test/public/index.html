@@ -120,17 +120,25 @@
 </div>
 
 <script>
-  const sgVpWrap = document.getElementById('sg-vp-wrap');
+  (function () {
+    window.addEventListener('load', () => {
+      window.FEPPER_UI.patternViewport = {
+        goRandom: window.FEPPER_UI.patternlabViewer.goRandom.bind(window.FEPPER_UI.patternlabViewer),
+        goWhole: window.FEPPER_UI.patternlabViewer.goWhole.bind(window.FEPPER_UI.patternlabViewer)
+      };
+    });
 
-  const deprecationMessage = document.createElement('code');
-  deprecationMessage.innerHTML = 'The annotations viewer requires Fepper NPM to be updated in order to work properly.';
-  deprecationMessage.style.color = 'red';
-  deprecationMessage.style.position = 'absolute';
-  deprecationMessage.style.top = 'calc(50% + 2rem)';
-  deprecationMessage.style.left = '2.8rem';
-  deprecationMessage.style.zIndex = '-1';
+    const sgVpWrap = document.getElementById('sg-vp-wrap');
+    const deprecationMessage = document.createElement('code');
+    deprecationMessage.innerHTML = 'Update Fepper UI to get this working properly.';
+    deprecationMessage.style.color = 'red';
+    deprecationMessage.style.position = 'absolute';
+    deprecationMessage.style.top = 'calc(50% + 1.7rem)';
+    deprecationMessage.style.left = '1.4rem';
+    deprecationMessage.style.zIndex = '-1';
 
-  sgVpWrap.appendChild(deprecationMessage);
+    sgVpWrap.appendChild(deprecationMessage);
+  })();
 </script>
 </div><div class="sg-view-scroll-container" id="sg-code-container">
 <div id="sg-code-pattern-info">
@@ -175,39 +183,6 @@
   <div id="sg-code-panel-requerio" class="sg-code-panel"></div>
   <div id="sg-code-panel-git" class="sg-code-panel"></div>
 </div>
-
-<pre style="display: none;"><code id="sg-code-fill" class="language-markup"></code></pre>
-<script>
-  window.html_beautify = window.html_beautify || function (encoded) {
-    const sgViewContainer = document.getElementById('sg-view-container');
-    sgViewContainer.style.bottom = '0';
-    sgViewContainer.style.width = '100%';
-    sgViewContainer.style.height = '50%';
-
-    const sgCodeContainer = document.getElementById('sg-code-container');
-    sgCodeContainer.style.opacity = '1';
-    for (let i = 0; i < sgCodeContainer.children.length; i++) {
-      const child = sgCodeContainer.children[i];
-
-      if (child.tagName === 'PRE') {
-        child.style.display = 'block';
-      }
-      else if (child.tagName !== 'SCRIPT') {
-        child.style.display = 'none';
-      }
-    }
-
-    const sgCodeFill = document.getElementById('sg-code-fill');
-    const deprecationMessage = document.createElement('code');
-    deprecationMessage.innerHTML = 'The code viewer requires Fepper NPM to be updated in order to work properly.';
-    deprecationMessage.style.color = 'red';
-    deprecationMessage.style.display = 'block';
-    deprecationMessage.style.marginBottom = '2.2rem';
-    sgCodeFill.insertAdjacentElement('beforebegin', deprecationMessage);
-
-    return encoded;
-  };
-</script>
 </div><div class="sg-view-btns">
 <svg id="sg-view-btn-dock-left" class="sg-view-btn-dock-left sg-view-btn"
   xmlns="http://www.w3.org/2000/svg"
