@@ -45,39 +45,6 @@ module.exports = {
   <div id="sg-code-panel-requerio" class="sg-code-panel"></div>
   <div id="sg-code-panel-git" class="sg-code-panel"></div>
 </div>
-<!-- DEPRECATED ELEMENTS AND SCRIPT FOR BACKWARD-COMPATIBILITY. TO BE REMOVED. -->
-<pre style="display: none;"><code id="sg-code-fill" class="language-markup"></code></pre>
-<script>
-  window.html_beautify = window.html_beautify || function (encoded) {
-    const sgViewContainer = document.getElementById('sg-view-container');
-    sgViewContainer.style.bottom = '0';
-    sgViewContainer.style.width = '100%';
-    sgViewContainer.style.height = '50%';
-
-    const sgCodeContainer = document.getElementById('sg-code-container');
-    sgCodeContainer.style.opacity = '1';
-    for (let i = 0; i < sgCodeContainer.children.length; i++) {
-      const child = sgCodeContainer.children[i];
-
-      if (child.tagName === 'PRE') {
-        child.style.display = 'block';
-      }
-      else if (child.tagName !== 'SCRIPT') {
-        child.style.display = 'none';
-      }
-    }
-
-    const sgCodeFill = document.getElementById('sg-code-fill');
-    const deprecationMessage = document.createElement('code');
-    deprecationMessage.innerHTML = '${t('The code viewer requires Fepper NPM to be updated in order to work properly.')}';
-    deprecationMessage.style.color = 'red';
-    deprecationMessage.style.display = 'block';
-    deprecationMessage.style.marginBottom = '2.2rem';
-    sgCodeFill.insertAdjacentElement('beforebegin', deprecationMessage);
-
-    return encoded;
-  };
-</script>
 `
   }
 };
