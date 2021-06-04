@@ -21,7 +21,7 @@ module.exports = {
 
     const sgVpWrap = document.getElementById('sg-vp-wrap');
     const deprecationMessage = document.createElement('code');
-    deprecationMessage.innerHTML = '${t('Update Fepper UI to get this working properly.')}';
+    deprecationMessage.innerHTML = '${t('Update Fepper UI to get this working correctly.')}';
     deprecationMessage.style.color = 'red';
     deprecationMessage.style.position = 'absolute';
     deprecationMessage.style.top = 'calc(50% + 1.7rem)';
