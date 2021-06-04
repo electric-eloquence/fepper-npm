@@ -18,7 +18,7 @@ module.exports = {
   deprecationMessage.style.color = 'red';
   deprecationMessage.style.position = 'absolute';
   deprecationMessage.style.top = 'calc(50% + 2rem)';
-  deprecationMessage.style.left = '3.2rem';
+  deprecationMessage.style.left = '2.8rem';
   deprecationMessage.style.zIndex = '-1';
 
   sgVpWrap.appendChild(deprecationMessage);

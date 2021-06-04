@@ -515,7 +515,7 @@ module.exports = class {
     const lineageR = [];
 
     if (pattern.lineageR) {
-      for (let i = 0, l = pattern.lineageR.length; i < l; i++) {
+      for (let i = 0, l = pattern.lineageRArray.length; i < l; i++) {
         const lineageRItem = pattern.lineageRArray[i]; // DEPRECATED.
 
         if (!lineageRItem.isHidden) {
