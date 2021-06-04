@@ -14,7 +14,7 @@ module.exports = {
   const sgVpWrap = document.getElementById('sg-vp-wrap');
 
   const deprecationMessage = document.createElement('code');
-  deprecationMessage.innerHTML = 'The annotations viewer requires Fepper-NPM to be updated in order to work properly.';
+  deprecationMessage.innerHTML = '${t('The annotations viewer requires Fepper NPM to be updated in order to work properly.')}';
   deprecationMessage.style.color = 'red';
   deprecationMessage.style.position = 'absolute';
   deprecationMessage.style.top = 'calc(50% + 2rem)';

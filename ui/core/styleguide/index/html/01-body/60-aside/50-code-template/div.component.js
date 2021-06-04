@@ -69,9 +69,11 @@ module.exports = {
 
     const sgCodeFill = document.getElementById('sg-code-fill');
     const deprecationMessage = document.createElement('code');
-    deprecationMessage.innerHTML = 'The code viewer requires Fepper-NPM to be updated in order to work properly.';
+    deprecationMessage.innerHTML = '${t('The code viewer requires Fepper NPM to be updated in order to work properly.')}';
     deprecationMessage.style.color = 'red';
-    sgCodeFill.insertAdjacentElement('afterend', deprecationMessage);
+    deprecationMessage.style.display = 'block';
+    deprecationMessage.style.marginBottom = '2.2rem';
+    sgCodeFill.insertAdjacentElement('beforebegin', deprecationMessage);
 
     return encoded;
   };

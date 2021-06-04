@@ -41,6 +41,12 @@
     "",
   "included by":
     "",
+  "No Annotations":
+    "",
+  "There are no annotations for this pattern":
+    "",
+  "The annotations viewer requires Fepper NPM to be updated in order to work properly.":
+    "",
   "Click to copy path":
     "",
   "Browse Fepper's Mustache templates":
@@ -61,9 +67,7 @@
     "",
   "Save":
     "",
-  "No Annotations":
-    "",
-  "There are no annotations for this pattern":
+  "The code viewer requires Fepper NPM to be updated in order to work properly.":
     "",
   "ERROR":
     "",
