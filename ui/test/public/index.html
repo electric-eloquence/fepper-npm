@@ -123,7 +123,7 @@
   const sgVpWrap = document.getElementById('sg-vp-wrap');
 
   const deprecationMessage = document.createElement('code');
-  deprecationMessage.innerHTML = 'The annotations viewer requires Fepper-NPM to be updated in order to work properly.';
+  deprecationMessage.innerHTML = 'The annotations viewer requires Fepper NPM to be updated in order to work properly.';
   deprecationMessage.style.color = 'red';
   deprecationMessage.style.position = 'absolute';
   deprecationMessage.style.top = 'calc(50% + 2rem)';
@@ -199,9 +199,11 @@
 
     const sgCodeFill = document.getElementById('sg-code-fill');
     const deprecationMessage = document.createElement('code');
-    deprecationMessage.innerHTML = 'The code viewer requires Fepper-NPM to be updated in order to work properly.';
+    deprecationMessage.innerHTML = 'The code viewer requires Fepper NPM to be updated in order to work properly.';
     deprecationMessage.style.color = 'red';
-    sgCodeFill.insertAdjacentElement('afterend', deprecationMessage);
+    deprecationMessage.style.display = 'block';
+    deprecationMessage.style.marginBottom = '2.2rem';
+    sgCodeFill.insertAdjacentElement('beforebegin', deprecationMessage);
 
     return encoded;
   };
