@@ -4,9 +4,6 @@ const Feplet = require('feplet');
 const fs = require('fs-extra');
 const Prism = require('prismjs');
 
-const backButton =
-  '<a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a>';
-
 module.exports = class {
   constructor(fpExpress) {
     this.options = fpExpress.options;
@@ -31,23 +28,25 @@ module.exports = class {
    */
   noResult(req, res, err) {
     let template = this.html.headMustache;
-    template += backButton;
+    template += '<pre><code class="language-markup" style="color: red;">';
 
     /* istanbul ignore if */
-    if (typeof err === 'string') {
-      template += err;
+    if (err) {
+      template += err.toString();
     }
     else {
-      template += '<p>There is no pattern by that name. Please check its spelling:</p><code>' + req.query.partial +
-        '</code>';
+      template +=
+        `${t('There is no pattern named')} ${req.query.partial}. ${t('Please check its spelling.')}`;
     }
 
+    template += '</code></pre>';
     template += this.html.foot;
     const output = Feplet.render(
       template,
       {
         html_class: 'mustache-browser',
         title: 'Fepper Mustache Browser',
+        body_class: 'mustache-browser__body',
         main_class: 'mustache-browser__no-result'
       }
     );
@@ -112,8 +111,14 @@ module.exports = class {
         const includerSplit0 = includer.slice(0, includerIndex);
         const includerSplit1 = includer.slice(includerIndex + 2);
         const pattern = this.ui.getPattern(relPath);
-        highlightedSplit[i] =
-          '<a href="/?p=' + pattern.patternPartial + '" target="_top">{{>' + includerSplit0 + '}}</a>' + includerSplit1;
+
+        if (pattern) {
+          highlightedSplit[i] = '<a href="/?p=' + pattern.patternPartial + '" target="_top">{{>' + includerSplit0 +
+            '}}</a>' + includerSplit1;
+        }
+        else {
+          highlightedSplit[i] = '{{>' + includerSplit0 + '}}' + includerSplit1;
+        }
       }
     }
 
@@ -180,7 +185,7 @@ module.exports = class {
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
-        this.noResult(req, res);
+        this.noResult(req, res, err);
       }
     };
   }

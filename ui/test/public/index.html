@@ -130,12 +130,12 @@
 
     const sgVpWrap = document.getElementById('sg-vp-wrap');
     const deprecationMessage = document.createElement('code');
+    deprecationMessage.id = 'deprecation-message-0.40.0';
     deprecationMessage.innerHTML = 'Update Fepper UI to make this work correctly.';
     deprecationMessage.style.color = 'red';
     deprecationMessage.style.position = 'absolute';
     deprecationMessage.style.top = 'calc(50% + 1.7rem)';
     deprecationMessage.style.left = '1.4rem';
-    deprecationMessage.style.zIndex = '-1';
 
     sgVpWrap.appendChild(deprecationMessage);
   })();

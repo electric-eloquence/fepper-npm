@@ -635,9 +635,9 @@ describe('Mustache Browser', function () {
     
   </head>
 
-  <body class="">
+  <body class="mustache-browser__body">
     <main id="" class="mustache-browser__no-result">
-      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>undefined</code>
+      <div id="message" class="message "></div><pre><code class="language-markup" style="color: red;">There is no pattern named undefined. Please check its spelling.</code></pre>
     </main>
     
   </body>
@@ -656,7 +656,7 @@ describe('Mustache Browser', function () {
         mustacheBrowser.main()(
           {
             query: {
-              partial: 'components-header-localhots'
+              partial: 'components-header-localhost'
             }
           },
           responseFactory(resolve)
@@ -684,9 +684,13 @@ describe('Mustache Browser', function () {
     
   </head>
 
-  <body class="">
-    <main id="" class="mustache-browser__no-result">
-      <div id="message" class="message "></div><a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a><p>There is no pattern by that name. Please check its spelling:</p><code>components-header-localhots</code>
+  <body class="mustache-browser__body">
+    <main id="" class="mustache-browser__main">
+      <div id="message" class="message "></div>
+<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
+<a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+</code></pre>
+
     </main>
     
   </body>
