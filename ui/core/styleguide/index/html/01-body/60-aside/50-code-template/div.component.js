@@ -22,7 +22,7 @@ module.exports = {
 </div>
 <div id="sg-code-missing-partials" style="display: none;">
   <p>
-    ${t('missing partials')}: <span id="sg-code-missing-partials-fill"></span>
+    ${t('missing')}: <span id="sg-code-missing-partials-fill"></span>
   </p>
 </div>
 <ul id="sg-code-tabs">
