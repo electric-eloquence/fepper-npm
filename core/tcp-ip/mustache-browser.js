@@ -117,7 +117,7 @@ module.exports = class {
             '}}</a>' + includerSplit1;
         }
         else {
-          highlightedSplit[i] = '{{>' + includerSplit0 + '}}' + includerSplit1;
+          highlightedSplit[i] = '<span style="color: red;">{{>' + includerSplit0 + '}}</span>' + includerSplit1;
         }
       }
     }

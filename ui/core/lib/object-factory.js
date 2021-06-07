@@ -102,6 +102,7 @@ exports.Pattern = class {
     this.lineageRArray = []; // DEPRECATED.
     this.lineageRIndex = []; // DEPRECATED.
     this.listItems = null;
+    this.missingPartials = [];
     this.pathsPublic = patternlab.config.pathsPublic;
     this.patternData = '{}';
     this.patternState = '';

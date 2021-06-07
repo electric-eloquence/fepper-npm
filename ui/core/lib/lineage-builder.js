@@ -90,6 +90,7 @@ module.exports = class {
       // Skip if no descendentPattern.
       /* istanbul ignore if */
       if (!descendentPattern) {
+        pattern.missingPartials.push(descendentPatternName);
         this.utils.error(`${t('%s is missing partial %s')}` + '\u0007', pattern.relPath, descendentPatternName);
 
         continue;

@@ -20,6 +20,11 @@ module.exports = {
     ${t('included by')}: <span id="sg-code-lineager-fill"></span>
   </p>
 </div>
+<div id="sg-code-missing-partials" style="display: none;">
+  <p>
+    ${t('missing partials')}: <span id="sg-code-missing-partials-fill"></span>
+  </p>
+</div>
 <ul id="sg-code-tabs">
   <li id="sg-code-tab-feplet" class="sg-code-tab sg-code-tab-active" title="${t('Browse Fepper\'s Mustache templates')}">Feplet</li>
   <li id="sg-code-tab-markdown" class="sg-code-tab" title="${t('Edit this pattern\'s Markdown content')}">Markdown</li>

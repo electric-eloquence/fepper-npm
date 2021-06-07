@@ -1,12 +1,14 @@
-#sg-code-pattern-info p,
-#sg-code-lineage p,
-#sg-code-lineager p {
+#sg-code-container > div > p {
   margin: 0 0 0.4rem;
 }
 
 #sg-code-lineage a,
 #sg-code-lineager a {
   text-decoration: none;
+}
+
+#sg-code-missing-partials-fill {
+  color: red;
 }
 
 .sg-code-pattern-name strong {

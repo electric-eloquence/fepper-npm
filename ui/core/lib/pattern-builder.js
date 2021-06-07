@@ -500,13 +500,11 @@ module.exports = class {
     const lineage = [];
 
     if (pattern.lineage) {
-      for (let i = 0, l = pattern.lineageArray.length; i < l; i++) {
-        const lineageItem = pattern.lineageArray[i]; // DEPRECATED.
-
+      Object.values(pattern.lineage).forEach((lineageItem) => {
         if (!lineageItem.isHidden) {
           lineage.push(lineageItem);
         }
-      }
+      });
     }
 
     const lineageExists = Boolean(lineage.length);
@@ -515,13 +513,11 @@ module.exports = class {
     const lineageR = [];
 
     if (pattern.lineageR) {
-      for (let i = 0, l = pattern.lineageRArray.length; i < l; i++) {
-        const lineageRItem = pattern.lineageRArray[i]; // DEPRECATED.
-
+      Object.values(pattern.lineageR).forEach((lineageRItem) => {
         if (!lineageRItem.isHidden) {
           lineageR.push(lineageRItem);
         }
-      }
+      });
     }
 
     const lineageRExists = Boolean(lineageR.length);
@@ -532,6 +528,7 @@ module.exports = class {
       lineageExists,
       lineageR,
       lineageRExists,
+      missingPartials: pattern.missingPartials,
       patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
       patternExtension: pattern.fileExtension,
       patternName: pattern.patternName,
