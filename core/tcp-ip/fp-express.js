@@ -10,6 +10,7 @@ const ErrorResponse = require('./error-response');
 const Gatekeeper = require('./gatekeeper');
 const HtmlScraper = require('./html-scraper');
 const HtmlScraperPost = require('./html-scraper-post');
+const GitApiPost = require('./git-integrator-post');
 const MarkdownEditorPost = require('./markdown-editor-post');
 const MustacheBrowser = require('./mustache-browser');
 const Readme = require('./readme');
@@ -34,6 +35,9 @@ module.exports = class {
 
     /* MIDDLEWARE DEPENDENCIES */
 
+    // So data sent as JSON can be parsed.
+    app.use(bodyParser.json());
+
     // So variables sent via form submission can be parsed.
     app.use(bodyParser.urlencoded({extended: true}));
 
@@ -55,7 +59,7 @@ module.exports = class {
     app.get('/html-scraper-xhr/cors', this.htmlScraper.cors());
 
     // HTML scraper markup for gatekept forbidden page.
-    app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render('HTML Scraper'));
+    app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render('the HTML Scraper'));
 
     // Mustache browser.
     app.get('/mustache-browser', this.mustacheBrowser.main());
@@ -76,6 +80,13 @@ module.exports = class {
       const htmlScraperPost = new HtmlScraperPost(req, res, this);
 
       htmlScraperPost.main();
+    });
+
+    // Git Integrator actions.
+    app.post('/git-integrator', (req, res) => /* istanbul ignore next */ {
+      const gitApiPost = new GitApiPost(req, res, this);
+
+      gitApiPost.main();
     });
 
     // Markdown editor actions.

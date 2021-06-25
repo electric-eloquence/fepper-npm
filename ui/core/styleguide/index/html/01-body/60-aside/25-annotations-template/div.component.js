@@ -3,12 +3,13 @@ module.exports = {
   id: 'sg-annotations-container',
   dangerouslySetInnerHTML: {
     __html: `
-<div id="sg-annotations">
-  <div class="sg-annotation">
+<div id="sg-annotations-na">
+  <div class="sg-annotation-na">
     <h2>${t('No Annotations')}</h2>
-    <div>${t('There are no annotations for this pattern')}</div>
+    <div><p>${t('There are no annotations for this pattern.')}</p></div>
   </div>
 </div>
+<div id="sg-annotations"></div>
 <!-- DEPRECATED SCRIPT FOR BACKWARD-COMPATIBILITY. TO BE REMOVED. -->
 <script>
   (function () {
@@ -26,12 +27,14 @@ module.exports = {
     sgVpWrap.appendChild(deprecationMessage);
 
     window.addEventListener('load', () => {
-      window.FEPPER_UI.patternViewport = {
-        goRandom: window.FEPPER_UI.patternlabViewer.goRandom.bind(window.FEPPER_UI.patternlabViewer),
-        goWhole: window.FEPPER_UI.patternlabViewer.goWhole.bind(window.FEPPER_UI.patternlabViewer)
-      };
+      if (!window.FEPPER_UI.patternViewport) {
+        window.FEPPER_UI.patternViewport = {
+          goRandom: window.FEPPER_UI.patternlabViewer.goRandom.bind(window.FEPPER_UI.patternlabViewer),
+          goWhole: window.FEPPER_UI.patternlabViewer.goWhole.bind(window.FEPPER_UI.patternlabViewer)
+        };
 
-      deprecationMessage.style.opacity = '1';
+        deprecationMessage.style.opacity = '1';
+      }
     });
   })();
 </script>

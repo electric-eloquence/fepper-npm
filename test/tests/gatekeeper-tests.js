@@ -11,6 +11,7 @@ const gatekeeper = fepper.tcpIp.fpExpress.gatekeeper;
 const opener = fepper.tasks.opener;
 
 const timestampFile = `${global.rootDir}/.timestamp`;
+const timestampLockFile = `${global.rootDir}/.timestamp.lock`;
 
 describe('Gatekeeper', function () {
   let timestampFromFile;
@@ -26,6 +27,10 @@ describe('Gatekeeper', function () {
   });
 
   describe('.gatekeep()', function () {
+    beforeEach(function () {
+      fs.removeSync(timestampLockFile);
+    });
+
     it('returns the timestamp when cookie matches timestamp file', function () {
       const timestampFromCookie = gatekeeper.gatekeep({
         cookies: {
@@ -43,7 +48,7 @@ describe('Gatekeeper', function () {
         }
       });
 
-      expect(timestampFromCookie).to.equal('');
+      expect(timestampFromCookie).to.be.undefined;
     });
 
     it('returns empty string when no cookie', function () {
@@ -52,7 +57,7 @@ describe('Gatekeeper', function () {
         }
       });
 
-      expect(timestampFromCookie).to.equal('');
+      expect(timestampFromCookie).to.be.undefined;
     });
 
     it('returns empty string when no timestamp file', function () {
@@ -63,7 +68,7 @@ describe('Gatekeeper', function () {
         }
       });
 
-      expect(timestampFromCookie).to.equal('');
+      expect(timestampFromCookie).to.be.undefined;
 
       fs.writeFileSync(timestampFile, timestampFromFile);
     });
@@ -73,7 +78,7 @@ describe('Gatekeeper', function () {
     it('responds with "forbidden" page', function (done) {
       new Promise(
         (resolve) => {
-          gatekeeper.render('HTML Scraper')(
+          gatekeeper.render('the HTML Scraper')(
             {},
             responseFactory(resolve)
           );
@@ -103,16 +108,20 @@ describe('Gatekeeper', function () {
   });
 
   describe('.respond()', function () {
-    it('responds with a 404 if no timestamp cookie submitted', function (done) {
+    it('responds with a 403 if no timestamp cookie submitted', function (done) {
       new Promise(
         (resolve) => {
           gatekeeper.respond()(
-            {},
+            {
+              query: {
+                tool: 'the HTML Scraper'
+              }
+            },
             responseFactory(resolve)
           );
         })
         .then((response) => {
-          expect(response.status).to.equal(404);
+          expect(response.status).to.equal(403);
           done();
         })
         .catch((err) => {
@@ -120,20 +129,50 @@ describe('Gatekeeper', function () {
         });
     });
 
-    it('responds with a 404 if incorrect timestamp cookie submitted', function (done) {
+    it('responds with a 403 if incorrect timestamp cookie submitted', function (done) {
       new Promise(
         (resolve) => {
           gatekeeper.respond()(
             {
               cookies: {
                 fepper_ts: 42
+              },
+              query: {
+                tool: 'the HTML Scraper'
               }
             },
             responseFactory(resolve)
           );
         })
         .then((response) => {
-          expect(response.status).to.equal(404);
+          expect(response.status).to.equal(403);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+
+    it('responds with a 403 if correct timestamp cookie submitted too soon after incorrect cookie', function (done) {
+      new Promise(
+        (resolve) => {
+          gatekeeper.respond()(
+            {
+              cookies: {
+                fepper_ts: timestampFromFile
+              },
+              query: {
+                tool: 'the HTML Scraper'
+              }
+            },
+            responseFactory(resolve)
+          );
+        })
+        .then((response) => {
+          expect(response.status).to.equal(403);
+
+          fs.removeSync(`${fepper.options.rootDir}/.timestamp.lock`);
+
           done();
         })
         .catch((err) => {
@@ -148,6 +187,9 @@ describe('Gatekeeper', function () {
             {
               cookies: {
                 fepper_ts: timestampFromFile
+              },
+              query: {
+                tool: 'the HTML Scraper'
               }
             },
             responseFactory(resolve)

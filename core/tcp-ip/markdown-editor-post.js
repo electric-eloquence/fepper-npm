@@ -18,7 +18,7 @@ module.exports = class {
 
   main() {
     if (!this.gatekeeper.gatekeep(this.req)) {
-      this.gatekeeper.render('Markdown Editor')(this.req, this.res);
+      this.gatekeeper.render('the Markdown Editor')(this.req, this.res);
 
       return;
     }
@@ -42,7 +42,7 @@ module.exports = class {
 
       fs.statSync(mdFile); // Will throw if the file doesn't exist.
       fs.writeFileSync(mdFile, this.markdownEdited);
-      this.res.writeHead(200).end();
+      this.res.sendStatus(200);
     }
     catch (err) {
       this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));

@@ -23,7 +23,7 @@ module.exports = class {
   cors() /* istanbul ignore next */ {
     return (req, res) => {
       if (!this.gatekeeper.gatekeep(req)) {
-        this.gatekeeper.render('HTML Scraper')(req, res);
+        this.gatekeeper.render('the HTML Scraper')(req, res);
 
         return;
       }
@@ -47,7 +47,7 @@ module.exports = class {
         })
         .catch((err) => {
           this.utils.error(err);
-          res.writeHead(500).end();
+          res.sendStatus(500);
         });
     };
   }
@@ -56,7 +56,7 @@ module.exports = class {
     return (req, res) => {
       /* istanbul ignore if */
       if (!this.gatekeeper.gatekeep(req)) {
-        this.gatekeeper.render('HTML Scraper')(req, res);
+        this.gatekeeper.render('the HTML Scraper')(req, res);
 
         return;
       }

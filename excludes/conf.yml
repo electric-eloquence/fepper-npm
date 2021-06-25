@@ -8,3 +8,6 @@ kill_zombies: true
 
 app_dir: node_modules/fepper
 extend_dir: extend
+
+# Git Integrator will be overidden by manual selection in the UI.
+git_integrator: false

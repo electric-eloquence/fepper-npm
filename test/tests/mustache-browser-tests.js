@@ -588,6 +588,7 @@ describe('Mustache Browser', function () {
       <div id="message" class="message "></div>
 <pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
 <a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+<span style="color: red;">{{> 02-components/no-result }}</span>
 </code></pre>
 
     </main>
@@ -689,8 +690,58 @@ describe('Mustache Browser', function () {
       <div id="message" class="message "></div>
 <pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
 <a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+<span style="color: red;">{{> 02-components/no-result }}</span>
 </code></pre>
 
+    </main>
+    
+  </body>
+</html>`);
+        /* eslint-enable max-len */
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('responds with a No Result page if the "partial" query param is does not match a pattern', function (done) {
+    new Promise(
+      (resolve) => {
+        mustacheBrowser.main()(
+          {
+            query: {
+              partial: 'components-no-result'
+            }
+          },
+          responseFactory(resolve)
+        );
+      })
+      .then((response) => {
+        /* eslint-disable max-len */
+        expect(response.responseText).to.equal(`
+<!DOCTYPE html>
+<html class="mustache-browser">
+  <head>
+    <title id="title">Fepper Mustache Browser</title>
+    <meta charset="utf-8">
+
+    <!-- Disable cache -->
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+
+    
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
+    
+  </head>
+
+  <body class="mustache-browser__body">
+    <main id="" class="mustache-browser__no-result">
+      <div id="message" class="message "></div><pre><code class="language-markup" style="color: red;">There is no pattern named components-no-result. Please check its spelling.</code></pre>
     </main>
     
   </body>

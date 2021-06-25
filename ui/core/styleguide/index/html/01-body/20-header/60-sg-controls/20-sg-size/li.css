@@ -1,5 +1,5 @@
 .sg-controls .sg-input:active, .sg-controls .sg-input:focus {
-  outline: 0;
+  outline: none;
   background-color: #999;
   color: #000;
 }

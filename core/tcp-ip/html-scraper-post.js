@@ -580,7 +580,7 @@ module.exports = class {
   main() {
     /* istanbul ignore if */
     if (!this.gatekeeper.gatekeep(this.req)) {
-      this.gatekeeper.render('HTML Scraper')(this.req, this.res);
+      this.gatekeeper.render('the HTML Scraper')(this.req, this.res);
 
       return;
     }

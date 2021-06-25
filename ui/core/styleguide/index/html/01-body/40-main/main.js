@@ -7,22 +7,9 @@ if (typeof window === 'object') {
   document.addEventListener('DOMContentLoaded', () => {
     const $orgs = FEPPER_UI.requerio.$orgs;
     const {
-      annotationsViewer,
-      codeViewer,
       uiFns,
       uiProps
     } = FEPPER_UI;
-
-    // Ensure that if a new pattern or viewall is loaded, that annotations or code viewer is turned on as appropriate.
-    $orgs['#sg-viewport'].on('load', function () {
-      if (annotationsViewer.annotationsActive) {
-        $orgs['#sg-viewport'][0].contentWindow.postMessage({annotationsToggle: 'on'}, uiProps.targetOrigin);
-      }
-
-      if (codeViewer.codeActive) {
-        $orgs['#sg-viewport'][0].contentWindow.postMessage({codeToggle: 'on'}, uiProps.targetOrigin);
-      }
-    });
 
     $orgs['#sg-rightpull'].on('mouseenter', function () {
       $orgs['#sg-cover'].dispatchAction('addClass', 'shown-by-rightpull-hover');

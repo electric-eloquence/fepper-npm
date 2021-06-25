@@ -115,6 +115,51 @@ describe('Markdown Editor Post', function () {
         });
     });
 
+    it('responds with a 403 if correct timestamp cookie submitted too soon after incorrect cookie', function (done) {
+      new Promise(
+        (resolve) => {
+          const markdownEditorPost = new MarkdownEditorPost(
+            {
+              body: {
+              },
+              cookies: {
+                fepper_ts: timestampFromFile
+              }
+            },
+
+            responseFactory(resolve),
+            fepper.tcpIp.fpExpress
+          );
+
+          markdownEditorPost.main();
+        })
+        .then((response) => {
+          expect(response.status).to.equal(403);
+          /* eslint-disable max-len */
+          expect(response.responseText).to.equal(`
+<!DOCTYPE html>
+<html>
+  <head><meta charset="utf-8"></head>
+  <body>
+
+    <section id="forbidden" class="error">
+      <p>ERROR! You can only use the Markdown Editor on the machine that is running this Fepper instance!</p>
+      <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+    </section>
+  </body>
+</html>`);
+
+          fs.removeSync(`${global.rootDir}/.timestamp.lock`);
+
+          /* eslint-enable max-len */
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+
     it('responds with a 500 if no markdown_edited submitted', function (done) {
       new Promise(
         (resolve) => {

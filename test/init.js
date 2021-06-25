@@ -17,6 +17,11 @@ module.exports = () => {
 
           resolve(response);
         },
+        sendStatus: (status) => {
+          response.status = status;
+
+          resolve(response);
+        },
         writeHead: (status, headers) => {
           response.status = status;
           response.headers = headers;
