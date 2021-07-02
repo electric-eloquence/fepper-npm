@@ -67,7 +67,7 @@ module.exports = {
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
     <div id="sg-code-pane-git-na" class="sg-code-pane">
-      <pre>${t('Git has not been set up for this project.')}</pre>
+      <code>${t('Git has not been set up for this project.')}</code>
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">
@@ -88,7 +88,11 @@ module.exports = {
     </div>
     <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t('Disable Git Integrator')}">${t('Disable Git')}</button>
   </div>
-  <div id="sg-code-panel-requerio" class="sg-code-panel"></div>
+  <div id="sg-code-panel-requerio" class="sg-code-panel">
+    <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
+      <code>${t('The Requerio Time-Traveler is a work in progress. Please stay tuned as it comes to life!')}</code>
+    </div>
+  </div>
 </div>
 `
   }

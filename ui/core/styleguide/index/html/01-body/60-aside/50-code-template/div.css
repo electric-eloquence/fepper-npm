@@ -230,9 +230,10 @@
   display: none;
 }
 
-#sg-code-pane-git-na pre {
-  padding-top: 1.4rem;
-  padding-bottom: 1.4rem;
+#sg-code-pane-git-na code,
+#sg-code-pane-requerio-placeholder code {
+  display: block;
+  padding: 1.4rem;
 }
 
 #sg-code-radio-git {
