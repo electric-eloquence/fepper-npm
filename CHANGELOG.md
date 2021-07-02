@@ -1,5 +1,13 @@
 # Fepper NPM Changelog
 
+### v0.40.0
+* Code Viewer added dock-left and dock-right options
+* Mustache Browser no longer opens in main panel of UI
+* Mustache Browser reloads pattern in main panel of UI when following linked partials
+* Markdown can be viewed in Code Viewer
+* Markdown can be edited in Code Viewer
+* Code Viewer can integrate with Git when editing Markdown
+
 ### v0.39.0
 * Copying data.json to public directory
 * Fetching success page branding image from fepper.io
