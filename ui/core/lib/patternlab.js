@@ -51,6 +51,7 @@ module.exports = class {
     this.config.cwd = cwd;
     this.config.appDir = appDir;
     this.config.enc = utils.deepGet(global, 'conf.enc') || 'utf8';
+    this.config.gitIntegrator = utils.deepGet(global, 'conf.git_integrator') || false;
     this.config.useListItems = false;
 
     this.utils = utils;
@@ -382,7 +383,7 @@ ${t('Use:')}
 ${t('Tasks:')}
     fp ui:build         ${t('Build the patterns and output them to the public directory')}
     fp ui:clean         ${t('Delete all patterns in the public directory')}
-    fp ui:compile       ${t('Compile the Fepper User Interface from its components')}
+    fp ui:compile       ${t('Compile the user interface from its components')}
     fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
     fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into the browser without a refresh)')}
 `;

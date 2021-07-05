@@ -3,10 +3,10 @@
 const Feplet = require('feplet');
 
 module.exports = class {
-  constructor(options, html) {
-    this.options = options;
-    this.conf = options.conf;
-    this.html = html;
+  constructor(fpExpress) {
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.html = fpExpress.html;
     this.immutableFooter = this.html.getImmutableFooter(this.conf);
   }
 
@@ -27,7 +27,7 @@ module.exports = class {
       outputFpt += this.html.foot;
       const output = Feplet.render(outputFpt, {patternlabFoot});
 
-      res.status(404).send(output);
+      res.writeHead(404).end(output);
     };
   }
 };

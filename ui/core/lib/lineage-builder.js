@@ -1,3 +1,12 @@
+// DEPRECATION NOTICE.
+// THE FOLLOWING PROPERTIES ARE DEPRECATED.
+// .lineageArray
+// .lineageExists
+// .lineageIndex
+// .lineageRArray
+// .lineageRExists
+// .lineageRIndex
+
 'use strict';
 
 let t;
@@ -63,9 +72,12 @@ module.exports = class {
 
     // Find the {{> template-name }} within patterns.
     const partialsArr = this.partialTagScan(pattern.fepletParse, []);
+    pattern.lineage = partialsArr.length ? {} : null;
 
     for (let i = 0, l = partialsArr.length; i < l; i++) {
       const descendentPatternName = this.matchPattern(partialsArr[i]);
+      const lineageKeys = pattern.lineage ? Object.keys(pattern.lineage) : [];
+      const lineageRKeys = pattern.lineageR ? Object.keys(pattern.lineageR) : [];
 
       // Skip if no descendentPatternName.
       /* istanbul ignore if */
@@ -78,18 +90,19 @@ module.exports = class {
       // Skip if no descendentPattern.
       /* istanbul ignore if */
       if (!descendentPattern) {
-        this.utils.error(`${t('%s is missing partial %s')}`, pattern.relPath, descendentPatternName);
+        pattern.missingPartials.push(descendentPatternName);
+        this.utils.error(`${t('%s is missing partial %s')}` + '\u0007', pattern.relPath, descendentPatternName);
 
         continue;
       }
 
       // Skip if descendentPattern has already been indexed.
-      if (pattern.lineageIndex.indexOf(descendentPattern.patternPartial) > -1) {
+      if (lineageKeys.includes(descendentPattern.patternPartial)) {
         continue;
       }
 
       // Add to lineageIndex.
-      pattern.lineageIndex.push(descendentPattern.patternPartial);
+      pattern.lineageIndex.push(descendentPattern.patternPartial); // DEPRECATED.
 
       // Create the more complex lineage object.
       const l = {
@@ -102,15 +115,16 @@ module.exports = class {
         l.lineageState = descendentPattern.patternState;
       }
 
-      pattern.lineage.push(l);
+      pattern.lineageArray.push(l); // DEPRECATED.
+      pattern.lineage[descendentPattern.patternPartial] = l;
 
       // Only add to lineageRIndex if it hadn't been indexed before.
       /* istanbul ignore if */
-      if (descendentPattern.lineageRIndex.indexOf(pattern.patternPartial) > -1) {
+      if (lineageRKeys.includes(pattern.patternPartial)) {
         continue;
       }
 
-      descendentPattern.lineageRIndex.push(pattern.patternPartial);
+      descendentPattern.lineageRIndex.push(pattern.patternPartial); // DEPRECATED.
 
       // Create the more complex lineage object in reverse.
       const lr = {
@@ -123,7 +137,12 @@ module.exports = class {
         lr.lineageState = pattern.patternState;
       }
 
-      descendentPattern.lineageR.push(lr);
+      if (descendentPattern.lineageR === null) {
+        descendentPattern.lineageR = {};
+      }
+
+      descendentPattern.lineageR[pattern.patternPartial] = lr;
+      descendentPattern.lineageRArray.push(lr); // DEPRECATED.
     }
   }
 };

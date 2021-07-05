@@ -2,19 +2,17 @@
 
 const Feplet = require('feplet');
 const fs = require('fs-extra');
-
-const backButton =
-  '<a href="#" class="fp-express mustache-browser__back" onclick="window.history.back();return false;">&#8678;</a>';
+const Prism = require('prismjs');
 
 module.exports = class {
-  constructor(options, html, ui) {
-    this.options = options;
-    this.conf = options.conf;
-    this.html = html;
+  constructor(fpExpress) {
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.html = fpExpress.html;
     this.immutableHeader = this.html.getImmutableHeader(this.conf);
     this.immutableFooter = this.html.getImmutableFooter(this.conf);
-    this.ui = ui;
-    this.utils = options.utils;
+    this.ui = fpExpress.ui;
+    this.utils = this.options.utils;
   }
 
   getPattern(queryPartial) {
@@ -30,34 +28,26 @@ module.exports = class {
    */
   noResult(req, res, err) {
     let template = this.html.headMustache;
-    template += backButton;
+    template += '<pre><code class="language-markup" style="color: red;">';
 
     /* istanbul ignore if */
-    if (typeof err === 'string') {
-      template += err;
+    if (err) {
+      template += err.toString();
     }
     else {
-      template += '<p>There is no pattern by that name. Please check its spelling:</p><code>' + req.query.partial +
-        '</code>';
+      template +=
+        `${t('There is no pattern named')} ${req.query.partial}. ${t('Please check its spelling.')}`;
     }
 
+    template += '</code></pre>';
     template += this.html.foot;
-    const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
-    const patternlabFoot = Feplet.render(
-      this.immutableFooter,
-      {
-        portReloader: this.conf.livereload_port,
-        portServer: this.conf.express_port
-      }
-    );
     const output = Feplet.render(
       template,
       {
         html_class: 'mustache-browser',
         title: 'Fepper Mustache Browser',
-        patternlabHead,
-        main_class: 'mustache-browser__no-result',
-        patternlabFoot
+        body_class: 'mustache-browser__body',
+        main_class: 'mustache-browser__no-result'
       }
     );
 
@@ -89,33 +79,50 @@ module.exports = class {
   /**
    * Make angle brackets, indentation, and newlines viewable as HTML and hotlink partials.
    *
-   * @param {string} data - HTML/Mustache.
+   * @param {string} code - Feplet.
    * @returns {string} Viewable and linkable code.
    */
-  toHtmlEntitiesAndLinks(data) {
-    let entitiesAndLinks = data.replace(/"/g, '&quot;');
-    entitiesAndLinks = entitiesAndLinks.replace(/</g, '&lt;');
-    entitiesAndLinks = entitiesAndLinks.replace(/>/g, '&gt;');
-    // Link.
-    entitiesAndLinks =
-      entitiesAndLinks.replace(/\{\{&gt;[\S\s]*?\}\}/g, '<a href="?partial=$&" class="fp-express">$&</a>');
-    // Strip parameters.
-    // eslint-disable-next-line no-useless-escape
-    entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^\(]*)\([^"]*\)([^"]*\}\})/g, '$1$2');
-    // Strip styleModifiers. Even after styleModifier deprecation and removal, leave the next line intact.
-    entitiesAndLinks = entitiesAndLinks.replace(/(<a href="\?partial=[^"]*):[^"]*(\}\})/g, '$1$2');
-    // Render indentation whitespace as HTML entities.
-    entitiesAndLinks = entitiesAndLinks.replace(/^ /gm, '&nbsp;');
-    entitiesAndLinks = entitiesAndLinks.replace(/^\t/gm, '&nbsp;&nbsp;&nbsp;&nbsp;');
+  toHtmlEntitiesAndLinks(code) {
+    const highlighted = Prism.highlight(code, Prism.languages.markup, 'markup');
+    const highlightedSplit = highlighted.split('{{>');
 
-    while (/^(&nbsp;)+ /m.test(entitiesAndLinks) || /^(&nbsp;)+\t/m.test(entitiesAndLinks)) {
-      entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+) /gm, '$1&nbsp;');
-      entitiesAndLinks = entitiesAndLinks.replace(/^((?:&nbsp;)+)\t/gm, '$1&nbsp;&nbsp;&nbsp;&nbsp;');
+    for (let i = 0; i < highlightedSplit.length; i++) {
+      if (i === 0 && highlighted.indexOf('{{>') !== 0) {
+        continue;
+      }
+
+      const includer = highlightedSplit[i];
+      const endStashIndex = includer.indexOf('}}');
+
+      if (endStashIndex > -1) {
+        let relPath = includer.slice(0, endStashIndex).trim();
+
+        // Strip parameters.
+        if (relPath.includes('(')) {
+          relPath = relPath.slice(0, relPath.indexOf('('));
+        }
+
+        // Strip styleModifiers. Even after styleModifier deprecation and removal, leave the next line intact.
+        if (relPath.includes(':')) {
+          relPath = relPath.slice(0, relPath.indexOf(':'));
+        }
+
+        const includerIndex = includer.indexOf('}}');
+        const includerSplit0 = includer.slice(0, includerIndex);
+        const includerSplit1 = includer.slice(includerIndex + 2);
+        const pattern = this.ui.getPattern(relPath);
+
+        if (pattern) {
+          highlightedSplit[i] = '<a href="/?p=' + pattern.patternPartial + '" target="_top">{{>' + includerSplit0 +
+            '}}</a>' + includerSplit1;
+        }
+        else {
+          highlightedSplit[i] = '<span style="color: red;">{{>' + includerSplit0 + '}}</span>' + includerSplit1;
+        }
+      }
     }
 
-    entitiesAndLinks = entitiesAndLinks.replace(/\n/g, '<br>');
-
-    return entitiesAndLinks;
+    return highlightedSplit.join('');
   }
 
   main() {
@@ -137,10 +144,6 @@ module.exports = class {
           return;
         }
 
-        // In the case of pseudo-patterns, title and link to the pseudo-pattern while showing the code to its main.
-        const patternLink = pattern.patternLink;
-        const patternPartial = pattern.patternPartial;
-
         if (pattern.pseudoPatternPartial) {
           pattern = this.ui.patternlab.getPattern(pattern.pseudoPatternPartial);
         }
@@ -159,41 +162,18 @@ module.exports = class {
 
           // Render the output with HTML head and foot.
           let template = this.html.headMustache;
-          template += backButton;
           template += `
-<div class="mustache-browser__paths">
-  <div id="mustache-browser__path--absolute" class="mustache-browser__path">${fullPath}</div>
-  <div id="mustache-browser__path--relative" class="mustache-browser__path">${pattern.relPath}</div>
-</div>
-<div class="mustache-browser__heading">
-  <h2><a
-    href="../${this.conf.ui.pathsPublic.patterns}/${patternLink}"
-    class="fp-express mustache-browser__pattern-link">${patternPartial}</a></h2>
-  <button id="mustache-browser__button--relative" data-copied-msg="${t('Copied!')}">${t('Copy relative path')}</button>
-  <button id="mustache-browser__button--absolute" data-copied-msg="${t('Copied!')}">${t('Copy absolute path')}</button>
-</div>
-<div class="mustache-browser__code">
-  {{{ entitiesAndLinks }}}
-</div>
+<pre><code class="language-markup">{{{ entitiesAndLinks }}}</code></pre>
 `;
           template += this.html.foot;
-          const patternlabHead = Feplet.render(this.immutableHeader, this.conf.ui);
-          const patternlabFoot = Feplet.render(
-            this.immutableFooter,
-            {
-              portReloader: this.conf.livereload_port,
-              portServer: this.conf.express_port
-            }
-          );
           const output = Feplet.render(
             template,
             {
               html_class: 'mustache-browser',
               title: 'Fepper Mustache Browser',
-              patternlabHead,
-              main_class: 'mustache-browser__result',
-              entitiesAndLinks,
-              patternlabFoot
+              body_class: 'mustache-browser__body',
+              main_class: 'mustache-browser__main',
+              entitiesAndLinks
             }
           );
 
@@ -205,7 +185,7 @@ module.exports = class {
       }
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
-        this.noResult(req, res);
+        this.noResult(req, res, err);
       }
     };
   }

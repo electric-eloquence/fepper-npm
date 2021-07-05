@@ -37,17 +37,71 @@
     "",
   "Check the console for JavaScript errors":
     "",
+  "No Annotations":
+    "",
+  "There are no annotations for this pattern.":
+    "",
+  "Click to copy path":
+    "",
   "includes":
     "",
   "included by":
     "",
-  "Copy path":
+  "missing":
     "",
-  "Copied!":
+  "Browse Fepper's Mustache templates":
     "",
-  "No Annotations":
+  "Edit this pattern's Markdown content":
     "",
-  "There are no annotations for this pattern":
+  "Download and upload revisions to this project":
+    "",
+  "Time-travel through this pattern's application states":
+    "",
+  "There is no .md file associated with this pattern.":
+    "",
+  "Please refer to <a href=\"/readme#markdown-content\" target=\"_blank\">the docs</a> for additional information.":
+    "",
+  "Edit":
+    "",
+  "Save Markdown content":
+    "",
+  "Save":
+    "",
+  "Please describe this edit:":
+    "",
+  "Commit this revision":
+    "",
+  "Commit":
+    "",
+  "Cancel":
+    "",
+  "Git has not been set up for this project.":
+    "",
+  "Git Integrator:":
+    "",
+  "OFF":
+    "",
+  "ON":
+    "",
+  "Fepper's Markdown Editor offers integration with Git.":
+    "",
+  "By integrating Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.":
+    "",
+  "It will commit and push changes each time a Markdown edit is saved.":
+    "",
+  "However, if a team member pushes changes to a Markdown file while it is being edited by someone else, there is a chance that a merge conflict will occur.":
+    "",
+  "It is beyond the scope of Fepper to resolve merge conflicts. A developer must do that.":
+    "",
+  "Strategies to avoid merge conflicts:":
+    "",
+  "Communicate and agree that only one person edits a file at a time.":
+    "",
+  "Restrict editors to their own Git branch, which a developer will merge into a main branch.":
+    "",
+  "Disable Git Integrator":
+    "",
+  "Disable Git":
     "",
   "ERROR":
     "",
@@ -81,7 +135,7 @@
     "",
   "Delete all patterns in the public directory":
     "",
-  "Compile the Fepper User Interface from its components":
+  "Compile the user interface from its components":
     "",
   "Copy frontend files (_assets, _scripts, _styles) to the public directory":
     "",
@@ -167,7 +221,11 @@
     "",
   "Fepper HTML Scraper":
     "",
-  "You can only use the HTML Scraper on the machine that is running this Fepper instance!":
+  "There is no pattern named":
+    "",
+  "Please check its spelling.":
+    "",
+  "You can only use %s on the machine that is running this Fepper instance!":
     "",
   "If you <em>are</em> on this machine, you may need to resync this browser with Fepper.":
     "",

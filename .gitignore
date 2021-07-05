@@ -5,6 +5,7 @@
 .DS_Store
 .coveralls.yml
 .nyc_output/
+.timestamp*
 /excludes/profiles/base/source/_data/data.json
 /excludes/profiles/main/source/_data/data.json
 ignore/

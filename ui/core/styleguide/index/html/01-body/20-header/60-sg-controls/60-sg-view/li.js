@@ -9,16 +9,7 @@ export function sgTAnnotationsClick(event) {
   const $orgs = FEPPER_UI.requerio.$orgs;
   const annotationsViewer = FEPPER_UI.annotationsViewer;
 
-  if (annotationsViewer.mustacheBrowser) {
-    return;
-  }
-
   annotationsViewer.toggleAnnotations();
-
-  // If viewall, scroll to the focused pattern.
-  if (annotationsViewer.viewall && annotationsViewer.annotationsActive) {
-    annotationsViewer.scrollViewall();
-  }
 
   $orgs['#sg-view'].dispatchAction('removeClass', 'active');
   $orgs['#sg-t-toggle'].dispatchAction('removeClass', 'active');
@@ -31,16 +22,7 @@ export function sgTCodeClick(event) {
   const $orgs = FEPPER_UI.requerio.$orgs;
   const codeViewer = FEPPER_UI.codeViewer;
 
-  if (codeViewer.mustacheBrowser) {
-    return;
-  }
-
   codeViewer.toggleCode();
-
-  // If viewall, scroll to the focused pattern.
-  if (codeViewer.viewall && codeViewer.codeActive) {
-    codeViewer.scrollViewall();
-  }
 
   $orgs['#sg-view'].dispatchAction('removeClass', 'active');
   $orgs['#sg-t-toggle'].dispatchAction('removeClass', 'active');

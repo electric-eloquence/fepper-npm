@@ -15,7 +15,7 @@ module.exports = class {
   timestamp() {
     const timestamp = Date.now().toString();
 
-    // Write timestamp to file system to validate browser is on same machine to prevent attacks with HTML scraper from
+    // Write timestamp to file system to validate browser is on same machine to prevent attacks with HTML POSTS from
     // another machine.
     fs.outputFileSync(`${this.rootDir}/.timestamp`, timestamp);
 

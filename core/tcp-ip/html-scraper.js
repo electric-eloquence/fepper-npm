@@ -4,19 +4,26 @@ const Feplet = require('feplet');
 const fetch = require('node-fetch');
 
 module.exports = class {
-  constructor(options, html, gatekeeper) {
-    this.options = options;
-    this.conf = options.conf;
-    this.utils = options.utils;
+  #fpExpress;
 
-    this.html = html;
-    this.gatekeeper = gatekeeper;
+  constructor(fpExpress) {
+    this.#fpExpress = fpExpress;
+
+    this.options = fpExpress.options;
+    this.conf = this.options.conf;
+    this.utils = this.options.utils;
+
+    this.html = fpExpress.html;
+  }
+
+  get gatekeeper() {
+    return this.#fpExpress.gatekeeper;
   }
 
   cors() /* istanbul ignore next */ {
     return (req, res) => {
       if (!this.gatekeeper.gatekeep(req)) {
-        this.gatekeeper.render(req, res);
+        this.gatekeeper.render('the HTML Scraper')(req, res);
 
         return;
       }
@@ -35,12 +42,12 @@ module.exports = class {
             res.send(output);
           }
           else {
-            res.status(output).end();
+            res.writeHead(output).end();
           }
         })
         .catch((err) => {
           this.utils.error(err);
-          res.status(500).end();
+          res.sendStatus(500);
         });
     };
   }
@@ -49,7 +56,7 @@ module.exports = class {
     return (req, res) => {
       /* istanbul ignore if */
       if (!this.gatekeeper.gatekeep(req)) {
-        this.gatekeeper.render()(req, res);
+        this.gatekeeper.render('the HTML Scraper')(req, res);
 
         return;
       }

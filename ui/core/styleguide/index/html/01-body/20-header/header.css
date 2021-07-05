@@ -3,7 +3,7 @@
  * resizing items, and tools.
  */
 .sg-header {
-  background: #000;
+  background-color: #000;
   color: #fff;
   font-family: Helvetica, "Nimbus Sans L", "Liberation Sans", Roboto, sans-serif;
   text-transform: uppercase;
@@ -31,7 +31,7 @@
 }
 .sg-header a:hover, .sg-header a:focus, .sg-header a.active {
   color: #fff;
-  background: #222;
+  background-color: #222;
 }
 @media all and (min-width: 1281px) {
   .sg-header a {

@@ -80,8 +80,17 @@ module.exports = class {
       );
     }
 
+    const scraperFile = `${this.source.scrape}/00-html-scraper.mustache`;
     // Omit scrape directory from viewalls.
     const scrapeTypeName = this.source.scrape.replace(`${this.source.patterns}/`, '').replace(/^\d*-/, '');
+
+    // Replace the HTML Scraper pattern if the directory exists and the file has been deleted.
+    if (fs.existsSync(this.source.scrape) && !fs.existsSync(scraperFile)) {
+      fs.outputFileSync(
+        scraperFile,
+        '<script src="../../node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>\n'
+      );
+    }
 
     // Process patterns and viewall in the same nested loop.
     // This way, memory can be freed for both at the end of each loop.

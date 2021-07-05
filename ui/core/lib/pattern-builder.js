@@ -100,6 +100,13 @@ module.exports = class {
     for (let i = 0, l = pattern.frontMatterData.length; i < l; i++) {
       if (pattern.frontMatterData[i].content_key && pattern.frontMatterData[i].content) {
         pattern.frontMatterContent = pattern.frontMatterData[i];
+
+        // This writes during preprocessing and well before processing, but might as well write now and not revisit.
+        fs.outputFileSync(
+          this.config.paths.public.patterns + '/' + pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) +
+          this.config.frontMatterExtension,
+          pattern.template
+        );
       }
     }
 
@@ -271,8 +278,8 @@ module.exports = class {
 
       // Find and set lineages.
       this.lineageBuilder.main(pattern);
-      pattern.lineageExists = pattern.lineage.length > 0;
-      pattern.lineageRExists = pattern.lineageR.length > 0;
+      pattern.lineageExists = pattern.lineageArray.length > 0; // DEPRECATED.
+      pattern.lineageRExists = pattern.lineageRArray.length > 0; // DEPRECATED.
     }
   }
 
@@ -316,9 +323,9 @@ module.exports = class {
 
       // Check if a Front Matter file exists for this pattern and whether or not the Front Matter got preprocessed yet.
       const frontMatterRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.frontMatterExtension;
-      const frontMatterFileName = `${patternsPath}/${frontMatterRelPath}`;
+      const frontMatterAbsPath = `${patternsPath}/${frontMatterRelPath}`;
 
-      if (fs.existsSync(frontMatterFileName)) {
+      if (fs.existsSync(frontMatterAbsPath)) {
         const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
         // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
@@ -342,40 +349,43 @@ module.exports = class {
     // Preprocess Front Matter files.
     else if (ext === this.config.frontMatterExtension) {
       const mustacheRelPath = `${pattern.subdir}/${pattern.fileName}` + this.config.patternExtension;
-      const mustacheFileName = `${patternsPath}/${mustacheRelPath}`;
+      const mustacheAbsPath = `${patternsPath}/${mustacheRelPath}`;
       const jsonRelPath = `${pattern.subdir}/${pattern.fileName}` + '.json';
-      const jsonFileName = `${patternsPath}/${jsonRelPath}`;
+      const jsonAbsPath = `${patternsPath}/${jsonRelPath}`;
 
       // Check for a corresponding Pattern or JSON file.
-      // If it exists, preprocess Front Matter and add it to the patterns array.
-      if (fs.existsSync(mustacheFileName) || fs.exists(jsonFileName)) {
-        pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
+      // If neither exists, do not preprocess.
+      if (!fs.existsSync(mustacheAbsPath) && !fs.existsSync(jsonAbsPath)) {
+        return null;
+      }
 
-        this.addPattern(pattern);
-        this.preProcessFrontMatter(pattern);
+      // Else add to the patterns array and preprocess Front Matter. (Seems necessary to be in that order.)
+      pattern.template = fs.readFileSync(`${patternsPath}/${relPath}`, this.config.enc);
 
-        // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
-        const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
-        const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
+      this.addPattern(pattern);
+      this.preProcessFrontMatter(pattern);
 
-        if (primaryPattern) {
-          this.setState(primaryPattern);
+      // If the primary or pseudo-pattern got preprocessed before this file, copy over the relevant data.
+      const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
+      const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
-          if (pattern.frontMatterContent) {
-            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
+      if (primaryPattern) {
+        this.setState(primaryPattern);
 
-          this.unsetIdentifiers(pattern);
+        if (pattern.frontMatterContent) {
+          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
-        else if (pseudoPattern) {
-          this.setState(pseudoPattern);
 
-          if (pattern.frontMatterContent) {
-            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
+        this.unsetIdentifiers(pattern);
+      }
+      else if (pseudoPattern) {
+        this.setState(pseudoPattern);
 
-          this.unsetIdentifiers(pattern);
+        if (pattern.frontMatterContent) {
+          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
+
+        this.unsetIdentifiers(pattern);
       }
 
       return pattern;
@@ -489,12 +499,12 @@ module.exports = class {
     // Exclude hidden lineage items from array destined for output.
     const lineage = [];
 
-    for (let i = 0, l = pattern.lineage.length; i < l; i++) {
-      const lineageItem = pattern.lineage[i];
-
-      if (!lineageItem.isHidden) {
-        lineage.push(lineageItem);
-      }
+    if (pattern.lineage) {
+      Object.values(pattern.lineage).forEach((lineageItem) => {
+        if (!lineageItem.isHidden) {
+          lineage.push(lineageItem);
+        }
+      });
     }
 
     const lineageExists = Boolean(lineage.length);
@@ -502,12 +512,12 @@ module.exports = class {
     // Exclude hidden lineageR items from array destined for output.
     const lineageR = [];
 
-    for (let i = 0, l = pattern.lineageR.length; i < l; i++) {
-      const lineageRItem = pattern.lineageR[i];
-
-      if (!lineageRItem.isHidden) {
-        lineageR.push(lineageRItem);
-      }
+    if (pattern.lineageR) {
+      Object.values(pattern.lineageR).forEach((lineageRItem) => {
+        if (!lineageRItem.isHidden) {
+          lineageR.push(lineageRItem);
+        }
+      });
     }
 
     const lineageRExists = Boolean(lineageR.length);
@@ -518,6 +528,7 @@ module.exports = class {
       lineageExists,
       lineageR,
       lineageRExists,
+      missingPartials: pattern.missingPartials,
       patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
       patternExtension: pattern.fileExtension,
       patternName: pattern.patternName,

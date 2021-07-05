@@ -43,9 +43,9 @@ describe('HTML Scraper', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
       <div id="message" class="message test-message">Test message</div>
       <div id="load-anim">
@@ -90,9 +90,9 @@ describe('HTML Scraper', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -107,7 +107,7 @@ describe('HTML Scraper', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/html-scraper.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">
     
   </head>
 

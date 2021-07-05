@@ -5,6 +5,21 @@
     margin-top: 0
   p:last-child
     margin-bottom: 0
+// Block Hero and Subs
+.block-hero,
+.block-sub
+  .inner
+    display: block
+    position: relative
+  .b-text
+    color: $white
+  .headline
+    font-size: 1.25em
+  @media all and (min-width: $bp-small) and (max-width: $bp-sm-max)
+    width: calc(50% - 0.4rem)
+  @media all and (max-width: $bp-sm-max)
+    .headline
+      line-height: 1.1
 // Block Hero
 .block-hero
   margin-bottom: $space-half
@@ -19,7 +34,7 @@
       height: 8.7rem
   @media all and (max-width: $bp-sm-max)
     .b-text
-      background: $dimmer
+      background-color: $dimmer
       overflow: hidden
     .headline
       margin-bottom: 0
@@ -47,19 +62,19 @@
     position: relative
     width: 100%
     .b-text
-      background: $dim
+      background-color: $dim
       position: absolute
       bottom: 0
       left: 0
       width: 100%
       padding: $space-and-half $space-half
+    .headline
+      font-size: 1.5em
 // Block Sub
 .block-sub
   position: relative
   margin-bottom: $space-half
   position: relative
-  .headline
-    font-size: 1.8rem
   .b-thumb
     position: relative
     z-index: 0
@@ -70,61 +85,38 @@
     bottom: 0
     left: 0
     width: 100%
-    background: $dim
+    background-color: $dim
     padding: $space-half
   @media all and (min-width: $bp-med)
     padding-top: $space-half
-    width: "calc(%s - (%s / 3))" % ($column-width-narrow $space-double)
-    .headline
-      font-size: 2rem
+    width: "calc(%s - (%s / 3))" % ($column-width-one-third $space-double)
 // Block Dagwood
 .block-dagwood
   width: 100%
-  border-collapse: collapse
   .b-inner
     display: block
     overflow: hidden
-  .headline
-    @media all and (max-width: $bp-sm-max)
-      font-size: 1.7rem
+  .headline,
+  .b-text
     @media all and (min-width: $bp-small)
       float: right
-      padding: 0 $space
-      width: $column-width-wide
-    @media all and (min-width: $bp-med)
-      font-size: 2rem
+      padding: 0 0 0 $space
+      width: $column-width-three-quarters
+  .headline
+    font-size: 1.25em
   .b-thumb
-    float: left
     @media all and (max-width: $bp-xs-max)
       display: flex
       align-items: center
       justify-content: center
-      float: none
       img
         max-width: 22.5rem
     @media all and (min-width: $bp-small)
-      width: $column-width-narrow
+      float: left
+      width: $column-width-one-quarter
   .b-text
-    float: right
-    p:first-of-type
+    p:first-child
       margin-top: 0
     @media all and (max-width: $bp-xs-max)
-      p:first-of-type
+      p:first-child
         margin-top: $space-quarter
-    @media all and (min-width: $bp-small)
-      width: $column-width-wide
-      padding: 0 $space
-// Block Hero and Subs
-.block-hero,
-.block-sub
-  .inner
-    display: block
-    position: relative
-  .b-text
-    color: $white
-  @media all and (min-width: $bp-small) and (max-width: $bp-sm-max)
-    width: calc(50% - 0.4rem)
-  @media all and (max-width: $bp-sm-max)
-    .headline
-      font-size: 1.7rem
-      line-height: 1.1

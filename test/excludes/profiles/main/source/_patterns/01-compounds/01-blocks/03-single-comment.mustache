@@ -1,9 +1,13 @@
-<li class="block">
-  <div class="comment-meta">
+<li class="comment-block">
+  <div class="comment-avatar">
     {{> elements-avatar }}
-    <a class="comment-name" href="#">{{ name.first }} {{ name.last }}</a>
   </div>
   <div class="comment-text">
-    <p class="{{ styleModifier }}">{{ description }}</p>
+    <div class="comment-meta">
+      <a class="comment-name" href="#"><b>{{ name.first }} {{ name.last }}</b></a> says:
+    </div>
+    <div class="comment-content">
+      <p>{{ comment_body }}</p>
+    </div>
   </div>
 </li>

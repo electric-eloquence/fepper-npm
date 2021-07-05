@@ -31,8 +31,8 @@ describe('Success', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
-        expect(output).to.equal(`
+      .then((response) => {
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -47,7 +47,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 
@@ -88,9 +88,9 @@ describe('Success', function () {
           responseFactory(resolve)
         );
       })
-      .then((output) => {
+      .then((response) => {
         /* eslint-disable max-len */
-        expect(output).to.equal(`
+        expect(response.responseText).to.equal(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -105,7 +105,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 
@@ -156,9 +156,9 @@ describe('Success', function () {
             responseFactory(resolve)
           );
         })
-        .then((output) => {
+        .then((response) => {
           /* eslint-disable max-len */
-          expect(output).to.have.string(`
+          expect(response.responseText).to.have.string(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -173,7 +173,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 
@@ -183,10 +183,10 @@ describe('Success', function () {
       <p>To open the UI, click here: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
       <p>The following documentation is also available in Fepper&apos;s README.md:</p><p>`);
-          expect(output).to.not.have.string(githubSrc);
-          expect(output).to.have.string(`<img
+          expect(response.responseText).to.not.have.string(githubSrc);
+          expect(response.responseText).to.have.string(`<img
   src="https://fepper.io/_assets/src/fepper-branding.svg?`);
-          expect(output).to.have.string(`</p>
+          expect(response.responseText).to.have.string(`</p>
 
 
     </main>
@@ -221,9 +221,9 @@ describe('Success', function () {
             responseFactory(resolve)
           );
         })
-        .then((output) => {
+        .then((response) => {
           /* eslint-disable max-len */
-          expect(output).to.have.string(`
+          expect(response.responseText).to.have.string(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -238,7 +238,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 
@@ -248,10 +248,10 @@ describe('Success', function () {
       <p>To open the UI, click here: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
       <p>The following documentation is also available in Fepper&apos;s README.md:</p><p>`);
-          expect(output).to.not.have.string(githubSrc);
-          expect(output).to.have.string(`<img
+          expect(response.responseText).to.not.have.string(githubSrc);
+          expect(response.responseText).to.have.string(`<img
   src="https://fepper.io/_assets/src/fepper-branding.svg?distro=main&distro_v=0.0.0`);
-          expect(output).to.have.string(`</p>
+          expect(response.responseText).to.have.string(`</p>
 
 
     </main>
@@ -287,9 +287,9 @@ describe('Success', function () {
             responseFactory(resolve)
           );
         })
-        .then((output) => {
+        .then((response) => {
           /* eslint-disable max-len */
-          expect(output).to.have.string(`
+          expect(response.responseText).to.have.string(`
 <!DOCTYPE html>
 <html class="">
   <head>
@@ -304,7 +304,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/fepper-core/style.css">
+    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
     
   </head>
 
@@ -314,10 +314,10 @@ describe('Success', function () {
       <p>To open the UI, click here: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></p>
       <p>To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.</p>
       <p>The following documentation is also available in Fepper&apos;s README.md:</p><p>`);
-          expect(output).to.not.have.string(githubSrc);
-          expect(output).to.have.string(`<img
+          expect(response.responseText).to.not.have.string(githubSrc);
+          expect(response.responseText).to.have.string(`<img
   src="https://fepper.io/_assets/src/fepper-branding.svg?distro=main&distro_v=0.0.0&npm_v=${options.npm.version}&ui_v=0.0.0&utils_v=${options.utils.version}">`);
-          expect(output).to.have.string(`</p>
+          expect(response.responseText).to.have.string(`</p>
 
 
     </main>

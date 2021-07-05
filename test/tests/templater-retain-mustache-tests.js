@@ -53,6 +53,7 @@ describe('Templater retaining Mustache', function () {
     expect(output).to.equal(`<div class="page" id="page">
   {{# img }}{{# logo }}<a href="{{ url }}"><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a>{{/ logo }}{{/ img }}
 {{> backend-primary-nav }}
+  {{> 02-components/no-result }}
   <section class="section dagwood">
     {{# latest_posts_title }}
       <h2 class="section-title">{{{ latest_posts_title }}}</h2>
@@ -91,6 +92,7 @@ describe('Templater retaining Mustache', function () {
     expect(output).to.equal(`<div class="page" id="page">
   {{# img }}{{# logo }}<a href="{{ url }}"><img src="../../_assets/src/logo.png" class="logo" alt="Logo Alt Text"></a>{{/ logo }}{{/ img }}
 {{> 02-components/03-navigation/00-primary-nav }}
+  {{> 02-components/no-result }}
   {{> backend-footer }}
 </div>`);
     /* eslint-enable max-len */
