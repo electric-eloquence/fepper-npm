@@ -194,7 +194,7 @@ module.exports = class {
     outputFpt += this.html.landingBody;
     outputFpt += this.html.helpText;
     outputFpt += this.html.scraperStage;
-    outputFpt += '\n      <script src ="/node_modules/fepper-ui/scripts/pattern/html-scraper-dhtml.js"></script>';
+    outputFpt += '\n      <script src ="/webserved/html-scraper-dhtml.js"></script>';
     outputFpt += this.html.foot;
 
     const patternlabFoot = Feplet.render(

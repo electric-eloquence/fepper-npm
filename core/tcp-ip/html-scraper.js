@@ -99,10 +99,10 @@ module.exports = class {
 
   main() {
     return (req, res) => {
-      // Gatekept by fepper-ui/scripts/pattern/html-scraper-ajax.js.
+      // Gatekept by /webserved/html-scraper-ajax.js.
 
       let outputFpt = this.html.headScraper;
-      outputFpt += '\n      <script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>';
+      outputFpt += '\n      <script src="/webserved/html-scraper-ajax.js"></script>';
       outputFpt += this.html.foot;
 
       let patternlabFoot;
