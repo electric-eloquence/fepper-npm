@@ -177,6 +177,7 @@ module.exports = class {
       // Retain these keys so patterns can continue to be looked up.
       switch (key) {
         case 'hash':
+        case 'pathsPublic':
         case 'patternLink':
         case 'patternPartialPhp':
         case 'patternPartial':

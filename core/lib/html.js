@@ -33,11 +33,16 @@ exports.headBoilerplate = `
 exports.head = exports.headBoilerplate
   .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">');
 
-exports.headMustache = exports.headBoilerplate.replace(
-  '{{{ stylesheets }}}',
-  `<link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">`
-);
+exports.headMustache = exports.headBoilerplate
+  .replace(
+    '{{{ stylesheets }}}',
+    `<link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">`
+  )
+  .replace(
+    '{{{ scripts }}}',
+    '<script src="/webserved/mustache-browser.js"></script>'
+  );
 
 exports.headScraper = exports.headBoilerplate
   .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">');
