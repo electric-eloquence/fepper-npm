@@ -114,7 +114,7 @@ describe('HTML Scraper', function () {
   <body class="">
     <main id="fepper-html-scraper" class="">
       <div id="message" class="message "></div>
-      <script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+      <script src="/webserved/html-scraper-ajax.js"></script>
     </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">

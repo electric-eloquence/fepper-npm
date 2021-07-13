@@ -604,7 +604,7 @@ describe('HTML Scraper Post', function () {
         <p>Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.</p>
       </div>
       <iframe id="scraper__stage" sandbox="allow-same-origin allow-scripts"></iframe>
-      <script src ="/node_modules/fepper-ui/scripts/pattern/html-scraper-dhtml.js"></script>
+      <script src ="/webserved/html-scraper-dhtml.js"></script>
     </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
