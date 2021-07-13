@@ -98,8 +98,7 @@ module.exports = class {
 
     /* STATIC PAGES */
 
-    // Fepper static files. No longer used since browser js and css are handled by fepper-ui.
-    // However, will keep this route open for possible future or custom use.
+    // Static files relevant to fp-express and fepper-npm. Keep these responsibly segregated from fepper-ui.
     app.use('/webserved', express.static(path.resolve(__dirname, '..', 'webserved')));
 
     // Webserved directories.

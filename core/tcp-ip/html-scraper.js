@@ -101,7 +101,7 @@ module.exports = class {
     return (req, res) => {
       // Gatekept by /webserved/html-scraper-ajax.js.
 
-      let outputFpt = this.html.headScraper;
+      let outputFpt = this.html.headPattern;
       outputFpt += '\n      <script src="/webserved/html-scraper-ajax.js"></script>';
       outputFpt += this.html.foot;
 

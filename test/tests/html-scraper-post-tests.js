@@ -552,8 +552,12 @@ describe('HTML Scraper Post', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">
-    
+    <link rel="stylesheet" href="/webserved/pattern.css">
+    <link rel="stylesheet" href="/_styles/bld/style.css">
+    <link rel="stylesheet" href="/webserved/html-scraper.css">
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/annotations/annotations.js"></script>
+    <script src="/_scripts/src/variables.styl" type="text/javascript"></script>
   </head>
 
   <body class="">
