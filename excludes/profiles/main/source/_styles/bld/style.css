@@ -789,11 +789,6 @@ input[type="search"]::-webkit-search-decoration {
 .inline-search-results-form {
   width: 100%;
 }
-@media all and (min-width: 768px) {
-  .inline-search-results-form {
-    width: 82%;
-  }
-}
 .inline-search-results-form fieldset,
 .inline-search-results-form .inline-container {
   position: relative;
@@ -805,6 +800,11 @@ input[type="search"]::-webkit-search-decoration {
   right: 0;
   z-index: 1;
   width: auto;
+}
+@media all and (min-width: 768px) {
+  .inline-search-results-form {
+    width: 82%;
+  }
 }
 .search-form fieldset {
   float: left;
