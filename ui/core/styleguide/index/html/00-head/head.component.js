@@ -23,7 +23,6 @@ module.exports = {
 <script src="node_modules/he/he.js"></script>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/mousetrap/mousetrap.min.js"></script>
-<script src="node_modules/prismjs/prism.js"></script>
 <script src="node_modules/redux/dist/redux.min.js"></script>
 <script src="node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
 <script src="node_modules/universal-cookie/umd/universalCookie.min.js"></script>
