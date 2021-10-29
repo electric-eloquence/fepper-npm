@@ -51,7 +51,7 @@ module.exports = {
       <div></div><div></div><div></div><div></div>
     </div>
     <div id="sg-code-pane-markdown-commit" class="sg-code-pane">
-      <label id="sg-code-label-commit-message" for="sg-code-textarea-commit-message">${t('Please describe this edit:')}</label>
+      <label id="sg-code-label-commit-message" for="sg-code-textarea-commit-message">${t('Please enter a commit message that describes this edit:')}</label>
       <textarea id="sg-code-textarea-commit-message" name="commit_message"></textarea>
       <button id="sg-code-btn-markdown-commit" class="sg-code-btn" title="${t('Commit this revision')}">${t('Commit')}</button>
       <button id="sg-code-btn-markdown-commit-cancel" class="sg-code-btn" title="${t('Cancel')}">${t('Cancel')}</button>
@@ -67,7 +67,7 @@ module.exports = {
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
     <div id="sg-code-pane-git-na" class="sg-code-pane">
-      <code>${t('Git has not been set up for this project.')}</code>
+      <code>${t('Git has not been properly set up for this project.')}</code>
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">

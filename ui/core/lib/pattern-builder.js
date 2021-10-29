@@ -177,6 +177,7 @@ module.exports = class {
       // Retain these keys so patterns can continue to be looked up.
       switch (key) {
         case 'hash':
+        case 'pathsPublic':
         case 'patternLink':
         case 'patternPartialPhp':
         case 'patternPartial':
@@ -560,8 +561,8 @@ module.exports = class {
     pattern.footer = footer;
 
     if (this.config.hashPatterns) {
-      // MD4 is not used for cryptographic purposes here, only for string comparison.
-      pattern.hash = crypto.createHash('md4').update(
+      // SHA1 is not used for cryptographic purposes here, only for string comparison.
+      pattern.hash = crypto.createHash('sha1').update(
         pattern.header + pattern.templateExtended + pattern.footer
       ).digest('base64');
     }

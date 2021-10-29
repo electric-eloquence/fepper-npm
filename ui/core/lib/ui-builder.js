@@ -88,7 +88,7 @@ module.exports = class {
     if (fs.existsSync(this.source.scrape) && !fs.existsSync(scraperFile)) {
       fs.outputFileSync(
         scraperFile,
-        '<script src="../../node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>\n'
+        '<script src="../../webserved/html-scraper-ajax.js"></script>\n'
       );
     }
 

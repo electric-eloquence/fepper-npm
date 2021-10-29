@@ -67,7 +67,7 @@
     "",
   "Save":
     "",
-  "Please describe this edit:":
+  "Please enter a commit message that describes this edit:":
     "",
   "Commit this revision":
     "",
@@ -75,7 +75,7 @@
     "",
   "Cancel":
     "",
-  "Git has not been set up for this project.":
+  "Git has not been properly set up for this project.":
     "",
   "Git Integrator:":
     "",

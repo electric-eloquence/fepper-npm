@@ -1,0 +1,14 @@
+.mustache-browser {
+  font-size: 62.5%;
+}
+.mustache-browser__body {
+  font-size: 1.3rem;
+  margin: 0;
+}
+.mustache-browser__body pre {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+.language-markup a {
+  color: cornflowerblue;
+}

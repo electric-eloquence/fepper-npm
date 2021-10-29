@@ -31,16 +31,41 @@ exports.headBoilerplate = `
       <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>`;
 
 exports.head = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">');
+  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/webserved/core.css">');
 
-exports.headMustache = exports.headBoilerplate.replace(
-  '{{{ stylesheets }}}',
-  `<link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">`
-);
+exports.headMustache = exports.headBoilerplate
+  .replace(
+    '{{{ stylesheets }}}',
+    `<link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">`
+  )
+  .replace(
+    '{{{ scripts }}}',
+    '<script src="/webserved/mustache-browser.js"></script>'
+  );
+
+exports.headPattern = exports.headBoilerplate
+  .replace(
+    '{{{ stylesheets }}}',
+    `<link rel="stylesheet" href="/webserved/pattern.css">
+    <link rel="stylesheet" href="/_styles/bld/style.css">`)
+  .replace(
+    '{{{ scripts }}}',
+    `<script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/annotations/annotations.js"></script>
+    <script src="/_scripts/src/variables.styl" type="text/javascript"></script>`);
 
 exports.headScraper = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">');
+  .replace(
+    '{{{ stylesheets }}}',
+    `<link rel="stylesheet" href="/webserved/pattern.css">
+    <link rel="stylesheet" href="/_styles/bld/style.css">
+    <link rel="stylesheet" href="/webserved/html-scraper.css">`)
+  .replace(
+    '{{{ scripts }}}',
+    `<script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/annotations/annotations.js"></script>
+    <script src="/_scripts/src/variables.styl" type="text/javascript"></script>`);
 
 exports.loadingAnimation = `
       <div id="load-anim">

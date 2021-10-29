@@ -1,0 +1,129 @@
+/**
+ * Copyright (c) 2013 Brad Frost, http://bradfrostweb.com & Dave Olsen, http://dmolsen.com
+ *
+ * .sg-main, .sg-pattern and its children are viewall selectors.
+ * .annotation-tip is the primary annotation selector.
+ */
+.sg-main {
+  margin: 0 auto;
+  max-width: 1152px;
+  min-width: 320px;
+  padding: 3.2rem 0.8rem 0;
+  position: relative;
+}
+
+.sg-pattern {
+  clear: both;
+  margin-bottom: 2em;
+}
+
+.sg-pattern-head {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.sg-pattern-head:empty {
+  padding: 0;
+}
+
+.sg-pattern-category-title,
+.sg-pattern-title {
+  font-family: Helvetica, "Nimbus Sans L", "Liberation Sans", Roboto, sans-serif;
+  position: relative;
+  z-index: 100;
+}
+.sg-pattern-category-title {
+  line-height: 1.2;
+  margin: 0.4rem 0;
+  padding: 0.4rem 0 0;
+}
+.sg-pattern-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 2.8rem;
+  margin: 0;
+  padding: 0;
+}
+.sg-pattern-title > * {
+  display: inline-block;
+}
+.sg-pattern-title .sg-pattern-state {
+  font-weight: normal;
+}
+.sg-pattern-title .sg-pattern-state:after {
+  margin-left: 0.4rem;
+}
+
+.sg-pattern-link {
+  background-color: #fff;
+  color: #008;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sg-pattern-link:hover, .sg-pattern-link:focus {
+  color: #808080;
+}
+
+.sg-pattern-type {
+  text-transform: uppercase;
+}
+
+.sg-pattern-info-toggles {
+  display: flex;
+}
+
+.sg-pattern-info-toggle {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-top-left-radius: 0.6rem;
+  border-top-right-radius: 0.6rem;
+  color: #808080;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 1rem 0.9rem 0.9rem 1rem;
+  position: relative;
+  text-decoration: none;
+}
+.sg-pattern-info-toggle:hover,
+.sg-pattern-info-toggle:focus,
+.sg-pattern-info-toggle.focused {
+  background: #eee;
+  color: #000;
+}
+
+.sg-pattern-toggle-annotations {
+  padding-right: 0.4rem;
+  width: 3.5rem;
+}
+
+.sg-pattern-example {
+  position: relative;
+}
+/* In case there are floats in the example. */
+.sg-pattern-example::after {
+  clear: both;
+  content: " ";
+  display: table;
+}
+
+/* Use px not rem for .annotation-tip */
+.annotation-tip {
+  background: #444;
+  border-radius: 13px;
+  color: #fff;
+  cursor: context-menu;
+  display: block;
+  font-family: Helvetica, "Nimbus Sans L", "Liberation Sans", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 26px;
+  margin-top: 1px;
+  margin-left: -10px;
+  position: absolute;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  z-index: 100;
+}

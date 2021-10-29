@@ -61,7 +61,7 @@ describe('Readme', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/core.css">
+    <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
 

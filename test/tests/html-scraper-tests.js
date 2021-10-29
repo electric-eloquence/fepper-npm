@@ -107,14 +107,17 @@ describe('HTML Scraper', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/html-scraper.css">
-    
+    <link rel="stylesheet" href="/webserved/pattern.css">
+    <link rel="stylesheet" href="/_styles/bld/style.css">
+    <script src="/node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="/annotations/annotations.js"></script>
+    <script src="/_scripts/src/variables.styl" type="text/javascript"></script>
   </head>
 
   <body class="">
     <main id="fepper-html-scraper" class="">
       <div id="message" class="message "></div>
-      <script src="node_modules/fepper-ui/scripts/pattern/html-scraper-ajax.js"></script>
+      <script src="/webserved/html-scraper-ajax.js"></script>
     </main>
     <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
 <script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">

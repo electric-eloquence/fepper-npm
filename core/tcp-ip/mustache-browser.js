@@ -84,14 +84,14 @@ module.exports = class {
    */
   toHtmlEntitiesAndLinks(code) {
     const highlighted = Prism.highlight(code, Prism.languages.markup, 'markup');
-    const highlightedSplit = highlighted.split('{{>');
+    const highlightedSpl = highlighted.split('{{>');
 
-    for (let i = 0; i < highlightedSplit.length; i++) {
+    for (let i = 0; i < highlightedSpl.length; i++) {
       if (i === 0 && highlighted.indexOf('{{>') !== 0) {
         continue;
       }
 
-      const includer = highlightedSplit[i];
+      const includer = highlightedSpl[i];
       const endStashIndex = includer.indexOf('}}');
 
       if (endStashIndex > -1) {
@@ -108,21 +108,22 @@ module.exports = class {
         }
 
         const includerIndex = includer.indexOf('}}');
-        const includerSplit0 = includer.slice(0, includerIndex);
-        const includerSplit1 = includer.slice(includerIndex + 2);
+        const includerSpl0 = includer.slice(0, includerIndex);
+        const includerSpl1 = includer.slice(includerIndex + 2);
         const pattern = this.ui.getPattern(relPath);
 
         if (pattern) {
-          highlightedSplit[i] = '<a href="/?p=' + pattern.patternPartial + '" target="_top">{{>' + includerSplit0 +
-            '}}</a>' + includerSplit1;
+          highlightedSpl[i] = '<a href="/?p=' + pattern.patternPartial + '" target="_top" data-path="' +
+            `${pattern.pathsPublic.patterns}/${pattern.patternLink}` + '" data-patternpartial="' +
+            pattern.patternPartial + '" class="mustache-browser__link">{{>' + includerSpl0 + '}}</a>' + includerSpl1;
         }
         else {
-          highlightedSplit[i] = '<span style="color: red;">{{>' + includerSplit0 + '}}</span>' + includerSplit1;
+          highlightedSpl[i] = '<span style="color: red;">{{>' + includerSpl0 + '}}</span>' + includerSpl1;
         }
       }
     }
 
-    return highlightedSplit.join('');
+    return highlightedSpl.join('');
   }
 
   main() {

@@ -164,7 +164,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header }}</a>\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
   });
@@ -188,9 +191,10 @@ describe('Mustache Browser', function () {
     'multiline?': true
   ) }}
 </header>`;
-    const mustache4 = `<header class="test">
-  {{> components-header('partial?': true) }}
-</header>`;
+    const mustache4 = '<header class="test">\n  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header(\'partial?\': true) }}</a>\n</header>';
     const mustache5 = `<header class="test">
   {{> components-header(
     'partial?': true,
@@ -210,7 +214,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -219,7 +225,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -230,7 +239,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -239,7 +250,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header.mustache(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header.mustache(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -250,7 +264,27 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header(\'partial?\': true) }}</a>\n' +
+      '  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> ' +
+      '<span class="token attr-name">href</span><span class="token attr-value">' +
+      '<span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>' +
+      '/?p=components-header<span class="token punctuation">"</span></span> <span class="token attr-name">target' +
+      '</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>_top<span class="token punctuation">"</span></span> ' +
+      '<span class="token attr-name">data-path</span><span class="token attr-value">' +
+      '<span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>' +
+      'patterns/02-components-00-global-00-header/02-components-00-global-00-header.html' +
+      '<span class="token punctuation">"</span></span> <span class="token attr-name">data-patternpartial</span>' +
+      '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
+      '<span class="token punctuation">"</span>components-header<span class="token punctuation">"</span></span> ' +
+      '<span class="token attr-name">class</span><span class="token attr-value">' +
+      '<span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>' +
+      'mustache-browser__link<span class="token punctuation">"</span></span><span class="token punctuation">></span>' +
+      '</span><a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header(\'partial?\': true) }}</a><span class="token tag">' +
+      '<span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">>' +
+      '</span></span>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
     expect(htmlEntitiesAndLinks5).to.equal('<span class="token tag"><span class="token tag">' +
@@ -258,7 +292,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">{{> components-header(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -298,7 +334,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header:styleModified }}</a>\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header:styleModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
     expect(htmlEntitiesAndLinks1).to.equal('<span class="token tag"><span class="token tag">' +
@@ -306,7 +345,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header:styleModified|stylesModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -315,7 +356,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -324,7 +367,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -333,7 +378,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified }}</a>\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> components-header:styleModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
     expect(htmlEntitiesAndLinks5).to.equal('<span class="token tag"><span class="token tag">' +
@@ -341,7 +389,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified|stylesModified }}</a>\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> components-header:styleModified|stylesModified }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
   });
@@ -419,7 +470,9 @@ describe('Mustache Browser', function () {
       '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
-      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header:styleModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -427,7 +480,9 @@ describe('Mustache Browser', function () {
       '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
-      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header:styleModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
@@ -439,7 +494,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> 02-components/00-global/00-header:styleModified(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> 02-components/00-global/00-header:styleModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -449,7 +507,9 @@ describe('Mustache Browser', function () {
       '<span class="token punctuation">&lt;</span>header</span> <span class="token attr-name">class</span>' +
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
-      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top">' +
+      '<span class="token punctuation">></span></span>\n  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -458,7 +518,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header:styleModified|stylesModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
@@ -470,7 +532,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -479,7 +543,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
@@ -491,7 +557,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -500,7 +568,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> 02-components/00-global/00-header.mustache:styleModified|stylesModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
@@ -512,7 +582,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> components-header:styleModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -521,7 +593,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">{{> components-header:styleModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -532,7 +606,9 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
       '{{> components-header:styleModified|stylesModified(\'partial?\': true) }}</a>\n' +
       '<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span>' +
       '<span class="token punctuation">></span></span>');
@@ -541,7 +617,10 @@ describe('Mustache Browser', function () {
       '<span class="token attr-value"><span class="token punctuation attr-equals">=</span>' +
       '<span class="token punctuation">"</span>test<span class="token punctuation">"</span></span>' +
       '<span class="token punctuation">></span></span>\n' +
-      '  <a href="/?p=components-header" target="_top">{{> components-header:styleModified|stylesModified(\n' +
+      '  <a href="/?p=components-header" target="_top" ' +
+      'data-path="patterns/02-components-00-global-00-header/02-components-00-global-00-header.html" ' +
+      'data-patternpartial="components-header" class="mustache-browser__link">' +
+      '{{> components-header:styleModified|stylesModified(\n' +
       '    \'partial?\': true,\n' +
       '    \'multiline?\': true\n' +
       '  ) }}</a>\n' +
@@ -578,16 +657,16 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
-    
+    <link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">
+    <script src="/webserved/mustache-browser.js"></script>
   </head>
 
   <body class="mustache-browser__body">
     <main id="" class="mustache-browser__main">
       <div id="message" class="message "></div>
-<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
-<a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top" data-path="patterns/00-elements-02-images-00-logo/00-elements-02-images-00-logo.html" data-patternpartial="elements-logo" class="mustache-browser__link">{{> 00-elements/02-images/00-logo.mustache }}</a>
+<a href="/?p=components-primary-nav" target="_top" data-path="patterns/02-components-03-navigation-00-primary-nav/02-components-03-navigation-00-primary-nav.html" data-patternpartial="components-primary-nav" class="mustache-browser__link">{{> 02-components/03-navigation/00-primary-nav }}</a>
 <span style="color: red;">{{> 02-components/no-result }}</span>
 </code></pre>
 
@@ -631,9 +710,9 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
-    
+    <link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">
+    <script src="/webserved/mustache-browser.js"></script>
   </head>
 
   <body class="mustache-browser__body">
@@ -680,16 +759,16 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
-    
+    <link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">
+    <script src="/webserved/mustache-browser.js"></script>
   </head>
 
   <body class="mustache-browser__body">
     <main id="" class="mustache-browser__main">
       <div id="message" class="message "></div>
-<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top">{{> 00-elements/02-images/00-logo.mustache }}</a>
-<a href="/?p=components-primary-nav" target="_top">{{> 02-components/03-navigation/00-primary-nav }}</a>
+<pre><code class="language-markup"><a href="/?p=elements-logo" target="_top" data-path="patterns/00-elements-02-images-00-logo/00-elements-02-images-00-logo.html" data-patternpartial="elements-logo" class="mustache-browser__link">{{> 00-elements/02-images/00-logo.mustache }}</a>
+<a href="/?p=components-primary-nav" target="_top" data-path="patterns/02-components-03-navigation-00-primary-nav/02-components-03-navigation-00-primary-nav.html" data-patternpartial="components-primary-nav" class="mustache-browser__link">{{> 02-components/03-navigation/00-primary-nav }}</a>
 <span style="color: red;">{{> 02-components/no-result }}</span>
 </code></pre>
 
@@ -734,9 +813,9 @@ describe('Mustache Browser', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/prism-twilight.css">
-    <link rel="stylesheet" href="/node_modules/fepper-ui/styles/mustache-browser.css">
-    
+    <link rel="stylesheet" href="/webserved/prism-twilight.css">
+    <link rel="stylesheet" href="/webserved/mustache-browser.css">
+    <script src="/webserved/mustache-browser.js"></script>
   </head>
 
   <body class="mustache-browser__body">
