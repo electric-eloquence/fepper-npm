@@ -167,7 +167,7 @@ module.exports = class {
         if (ymlFile && stat1 && stat1.isFile()) {
           try {
             const yml = fs.readFileSync(ymlFile, this.conf.enc);
-            const data = yaml.safeLoad(yml);
+            const data = yaml.load(yml);
 
             if (typeof data[frontendDataKey] === 'string') {
               targetDir = this.utils.backendDirCheck(data[frontendDataKey]);
