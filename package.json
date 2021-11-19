@@ -80,10 +80,10 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.16.3",
     "chai": "4.x",
     "coveralls": "3.x",
-    "eslint": "7.x",
+    "eslint": "8.x",
     "husky": "4.x",
     "json-eval": "*",
     "mocha": "8.x",
