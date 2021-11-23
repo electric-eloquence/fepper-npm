@@ -13,7 +13,7 @@ const isWindows = (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 
 
 try {
   const yml = fs.readFileSync(confFile, enc);
-  const conf = yaml.safeLoad(yml);
+  const conf = yaml.load(yml);
   let killZombies = isWindows ? false : conf.kill_zombies;
 
   // Don't run this loop (or kill zombies) if Windows.

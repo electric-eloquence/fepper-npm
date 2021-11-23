@@ -166,7 +166,7 @@ module.exports = class {
       // Read YAML file and store keys/values in tokens object.
       try {
         const yml = fs.readFileSync(ymlFile, this.conf.enc);
-        data = yaml.safeLoad(yml);
+        data = yaml.load(yml);
 
         if (typeof data.templates_dir === 'string') {
           templatesDir = this.utils.backendDirCheck(data.templates_dir);

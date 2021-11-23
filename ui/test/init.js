@@ -10,7 +10,7 @@ module.exports = () => {
   try {
     if (!global.conf) {
       const yml = fs.readFileSync(`${slash(__dirname)}/conf.yml`, 'utf8');
-      global.conf = yaml.safeLoad(yml);
+      global.conf = yaml.load(yml);
     }
   }
   catch {
