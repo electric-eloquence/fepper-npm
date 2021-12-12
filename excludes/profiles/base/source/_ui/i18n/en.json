@@ -77,7 +77,7 @@
     "",
   "Git has not been properly set up for this project.":
     "",
-  "Git Integrator:":
+  "Git Interface:":
     "",
   "OFF":
     "",
@@ -99,7 +99,7 @@
     "",
   "Restrict editors to their own Git branch, which a developer will merge into a main branch.":
     "",
-  "Disable Git Integrator":
+  "Disable Git Interface":
     "",
   "Disable Git":
     "",

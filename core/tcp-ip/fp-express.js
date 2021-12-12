@@ -10,7 +10,7 @@ const ErrorResponse = require('./error-response');
 const Gatekeeper = require('./gatekeeper');
 const HtmlScraper = require('./html-scraper');
 const HtmlScraperPost = require('./html-scraper-post');
-const GitApiPost = require('./git-integrator-post');
+const GitApiPost = require('./git-interface-post');
 const MarkdownEditorPost = require('./markdown-editor-post');
 const MustacheBrowser = require('./mustache-browser');
 const Readme = require('./readme');
@@ -82,8 +82,8 @@ module.exports = class {
       htmlScraperPost.main();
     });
 
-    // Git Integrator actions.
-    app.post('/git-integrator', (req, res) => /* istanbul ignore next */ {
+    // Git Interface actions.
+    app.post('/git-interface', (req, res) => /* istanbul ignore next */ {
       const gitApiPost = new GitApiPost(req, res, this);
 
       gitApiPost.main();

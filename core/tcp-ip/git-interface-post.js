@@ -126,7 +126,7 @@ module.exports = class {
 
   main() {
     if (!this.gatekeeper.gatekeep(this.req)) {
-      this.gatekeeper.render('the Git Integrator')(this.req, this.res);
+      this.gatekeeper.render('the Git Interface')(this.req, this.res);
 
       return;
     }

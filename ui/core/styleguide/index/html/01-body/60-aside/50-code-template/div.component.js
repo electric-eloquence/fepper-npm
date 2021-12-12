@@ -71,7 +71,7 @@ module.exports = {
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">
-        <legend id="sg-code-radio-git-legend">${t('Git Integrator:')}</legend>
+        <legend id="sg-code-radio-git-legend">${t('Git Interface:')}</legend>
         <input id="sg-code-radio-git-off" class="sg-code-radio-git" name="sg-code-radio-git" type="radio" checked><label>${t('OFF')}</label>
         <input id="sg-code-radio-git-on" class="sg-code-radio-git" name="sg-code-radio-git" type="radio"><label>${t('ON')}</label>
       </form>
@@ -86,7 +86,7 @@ module.exports = {
         <li>${t('Restrict editors to their own Git branch, which a developer will merge into a main branch.')}</li>
       </ul>
     </div>
-    <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t('Disable Git Integrator')}">${t('Disable Git')}</button>
+    <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t('Disable Git Interface')}">${t('Disable Git')}</button>
   </div>
   <div id="sg-code-panel-requerio" class="sg-code-panel">
     <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
