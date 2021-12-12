@@ -90,7 +90,7 @@ module.exports = {
   </div>
   <div id="sg-code-panel-requerio" class="sg-code-panel">
     <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
-      <code>${t('The Requerio Time-Traveler is a work in progress. Please stay tuned as it comes to life!')}</code>
+      <code>${t('The Requerio Inspector is a work in progress. Please stay tuned as it comes to life!')}</code>
     </div>
   </div>
 </div>
