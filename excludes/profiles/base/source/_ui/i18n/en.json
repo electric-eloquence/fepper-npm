@@ -75,7 +75,7 @@
     "",
   "Cancel":
     "",
-  "Git does not appear to have been set up (or authenticated) for this project.":
+  "Cannot interface with Git. Either Git is not set up, authentication is failing, or there is a network outage.":
     "",
   "Git Interface:":
     "",
