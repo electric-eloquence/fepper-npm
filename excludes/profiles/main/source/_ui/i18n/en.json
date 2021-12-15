@@ -83,21 +83,19 @@
     "",
   "ON":
     "",
-  "Fepper's Markdown Editor offers integration with Git.":
+  "Fepper's Markdown Editor can interface with Git.":
     "",
-  "By integrating Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.":
+  "When interfaced with Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.":
     "",
   "It will commit and push changes each time a Markdown edit is saved.":
     "",
   "However, if a team member pushes changes to a Markdown file while it is being edited by someone else, there is a chance that a merge conflict will occur.":
     "",
-  "It is beyond the scope of Fepper to resolve merge conflicts. A developer must do that.":
-    "",
   "Strategies to avoid merge conflicts:":
     "",
   "Communicate and agree that only one person edits a file at a time.":
     "",
-  "Restrict editors to their own Git branch, which a developer will merge into a main branch.":
+  "Restrict editors to their own Git branch, which must get synced regularly with the main branch.":
     "",
   "Disable Git Interface":
     "",

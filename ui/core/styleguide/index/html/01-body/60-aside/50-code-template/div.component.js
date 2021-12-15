@@ -75,15 +75,14 @@ module.exports = {
         <input id="sg-code-radio-git-off" class="sg-code-radio-git" name="sg-code-radio-git" type="radio" checked><label>${t('OFF')}</label>
         <input id="sg-code-radio-git-on" class="sg-code-radio-git" name="sg-code-radio-git" type="radio"><label>${t('ON')}</label>
       </form>
-      <p>${t('Fepper\'s Markdown Editor offers integration with Git.')}</p>
-      <p>${t('By integrating Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.')}</p>
+      <p>${t('Fepper\'s Markdown Editor can interface with Git.')}</p>
+      <p>${t('When interfaced with Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.')}</p>
       <p>${t('It will commit and push changes each time a Markdown edit is saved.')}</p>
       <p>${t('However, if a team member pushes changes to a Markdown file while it is being edited by someone else, there is a chance that a merge conflict will occur.')}</p>
-      <p>${t('It is beyond the scope of Fepper to resolve merge conflicts. A developer must do that.')}</p>
       <p>${t('Strategies to avoid merge conflicts:')}</p>
       <ul>
         <li>${t('Communicate and agree that only one person edits a file at a time.')}</li>
-        <li>${t('Restrict editors to their own Git branch, which a developer will merge into a main branch.')}</li>
+        <li>${t('Restrict editors to their own Git branch, which must get synced regularly with the main branch.')}</li>
       </ul>
     </div>
     <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t('Disable Git Interface')}">${t('Disable Git')}</button>
