@@ -67,7 +67,7 @@ module.exports = {
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
     <div id="sg-code-pane-git-na" class="sg-code-pane">
-      <code>${t('Git has not been properly set up for this project.')}</code>
+      <code>${t('Git does not appear to have been set up (or authenticated) for this project.')}</code>
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">
