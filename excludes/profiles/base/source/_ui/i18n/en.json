@@ -229,7 +229,7 @@
     "",
   "If you <em>are</em> on this machine, you may need to resync this browser with Fepper.":
     "",
-  "Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).":
+  "Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).":
     "",
   "URL:":
     "",
