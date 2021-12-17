@@ -237,7 +237,18 @@
 #sg-code-pane-git-na code,
 #sg-code-pane-requerio-placeholder code {
   display: block;
-  padding: 1.4rem;
+  padding-right: 1.4rem;
+  padding-left: 1.4rem;
+}
+#sg-code-pane-requerio-placeholder code {
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
+}
+#sg-code-pane-git-na code:first-child {
+  padding-top: 1.4rem;
+}
+#sg-code-pane-git-na code:last-child {
+  padding-bottom: 1.4rem;
 }
 
 #sg-code-radio-git {
