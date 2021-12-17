@@ -141,7 +141,24 @@ module.exports = class {
     childProcessExec = this[args0].bind(this);
 
     process.chdir(this.rootDir);
-    childProcessExec()
+    new Promise(
+      (resolve, reject) => {
+        execFile('gh', ['auth', 'status'], (err, stdout, stderr) => {
+          if (err || stderr) {
+console.warn(err)
+console.warn(stderr)
+            this.rejectErr(reject, err, stdout, stderr);
+          }
+          else {
+console.warn(stdout)
+
+            resolve();
+          }
+        });
+      })
+      .then(() => {
+        return childProcessExec();
+      })
       .then((output) => {
         process.chdir(this.appDir);
         this.res.send(output);
