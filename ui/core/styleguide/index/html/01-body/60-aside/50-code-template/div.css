@@ -244,10 +244,10 @@
   padding-top: 1.4rem;
   padding-bottom: 1.4rem;
 }
-#sg-code-pane-git-na code:first-child {
+#sg-code-pane-git-na > *:first-child {
   padding-top: 1.4rem;
 }
-#sg-code-pane-git-na a:last-child {
+#sg-code-pane-git-na > *:last-child {
   padding-bottom: 1.4rem;
 }
 
