@@ -75,7 +75,9 @@
     "",
   "Cancel":
     "",
-  "Cannot interface with Git. Either Git is not set up, authentication is failing, or there is a network outage.":
+  "Cannot interface with Git.":
+    "",
+  "Please view the instructions on getting interfaced.":
     "",
   "Git Interface:":
     "",

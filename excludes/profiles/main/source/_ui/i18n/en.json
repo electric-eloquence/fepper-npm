@@ -55,7 +55,7 @@
     "",
   "Download and upload revisions to this project":
     "",
-  "Time-travel through this pattern's application states":
+  "Inspect this pattern's Requerio states":
     "",
   "There is no .md file associated with this pattern.":
     "",
@@ -75,7 +75,9 @@
     "",
   "Cancel":
     "",
-  "Git does not appear to have been set up (or authenticated) for this project.":
+  "Cannot interface with Git.":
+    "",
+  "Please view the instructions on getting interfaced.":
     "",
   "Git Interface:":
     "",

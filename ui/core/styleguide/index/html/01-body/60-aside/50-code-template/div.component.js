@@ -67,7 +67,9 @@ module.exports = {
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
     <div id="sg-code-pane-git-na" class="sg-code-pane">
-      <code>${t('Cannot interface with Git. Either Git is not set up, authentication is failing, or there is a network outage.')}</code>
+      <code>${t('Cannot interface with Git.')}</code>
+      <a href="/readme#code-viewer" target="_blank"><code>${t('Please view the instructions on getting interfaced.')}</code></a>
+      <code id="sg-code-code-git-error"></code>
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">
