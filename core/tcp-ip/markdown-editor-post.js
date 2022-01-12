@@ -40,8 +40,12 @@ module.exports = class {
       const mdFile = this.conf.ui.paths.source.patterns + '/' +
         this.relPath.slice(0, -(this.conf.ui.patternExtension.length)) + this.conf.ui.frontMatterExtension;
 
-      fs.statSync(mdFile); // Will throw if the file doesn't exist.
-      fs.writeFileSync(mdFile, this.markdownEdited);
+      const markdownCurrent = fs.readFileSync(mdFile, this.conf.enc); // Will throw if the file doesn't exist.
+
+      if (markdownCurrent !== this.markdownEdited) {
+        fs.writeFileSync(mdFile, this.markdownEdited);
+      }
+
       this.res.sendStatus(200);
     }
     catch (err) {

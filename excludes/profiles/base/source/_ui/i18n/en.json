@@ -163,6 +163,26 @@
     "",
   "Cannot GET %s":
     "",
+  "Command failed:":
+    "",
+  "*** Please tell me who you are.":
+    "",
+  "Run":
+    "",
+  "  git config --global user.email \"you@example.com\"":
+    "",
+  "  git config --global user.name \"Your Name\"":
+    "",
+  "to set your account's default identity.":
+    "",
+  "The Git Interface only works over HTTPS.":
+    "",
+  "Please check the protocol of this project's remote address.":
+    "",
+  "The Git Interface requires Internet access.":
+    "",
+  "GitHub CLI is not installed.":
+    "",
   "SUCCESS":
     "",
   "Refresh the browser to check that your template appears under the &quot;Scrape&quot; menu.":

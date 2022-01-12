@@ -4,6 +4,8 @@
 
 const {execFile} = require('child_process');
 
+const fetch = require('node-fetch');
+
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
   constructor(req, res, fpExpress) {
@@ -131,30 +133,117 @@ module.exports = class {
       return;
     }
 
-    let args0 = this.req.body.args[0];
+    const identityMessage = `${t('Command failed:')}` + ' \n' +
+      `${t('*** Please tell me who you are.')}` + ' \n' +
+      `${t('Run')}` + ' \n' +
+      `${t('  git config --global user.email "you@example.com"')}` + ' \n' +
+      `${t('  git config --global user.name "Your Name"')}` + ' \n' +
+      `${t('to set your account\'s default identity.')}`;
+    let args0 = this.req.body.args && this.req.body.args[0];
     let childProcessExec;
 
-    if (this.req.body.args[0].startsWith('--')) {
+    if (typeof args0 === 'string' && this.req.body.args[0].startsWith('--')) {
       args0 = this.req.body.args[0].slice(2);
     }
 
-    childProcessExec = this[args0].bind(this);
+    childProcessExec = args0 ? this[args0].bind(this) : () => Promise.resolve('');
 
     process.chdir(this.rootDir);
     new Promise(
       (resolve, reject) => {
-        execFile('gh', ['auth', 'status'], (err, stdout, stderr) => {
+        execFile('git', ['remote', '--verbose'], (err, stdout, stderr) => {
           if (err || stderr) {
-console.warn(err)
-console.warn(stderr)
             this.rejectErr(reject, err, stdout, stderr);
           }
           else {
-console.warn(stdout)
-
-            resolve();
+            if (/^\w+\shttps:/.test(stdout)) {
+              resolve();
+            }
+            else {
+              reject({
+                message: `${t('Command failed:')}` + ' \n' +
+                  `${t('The Git Interface only works over HTTPS.')}` + ' \n' +
+                  `${t('Please check the protocol of this project\'s remote address.')}`
+              });
+            }
           }
         });
+      })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => {
+            execFile('git', ['config', '--get', 'user.email'], (err, stdout, stderr) => {
+              if (stderr) {
+                this.rejectErr(reject, err, stdout, stderr);
+              }
+              else if (err) {
+                reject({
+                  message: identityMessage
+                });
+              }
+              else if (stdout.trim()) {
+                resolve();
+              }
+              else {
+                reject({
+                  message: identityMessage
+                });
+              }
+            });
+          });
+      })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => {
+            execFile('git', ['config', '--get', 'user.name'], (err, stdout, stderr) => {
+              if (stderr) {
+                this.rejectErr(reject, err, stdout, stderr);
+              }
+              else if (err) {
+                reject({
+                  message: identityMessage
+                });
+              }
+              else if (stdout.trim()) {
+                resolve();
+              }
+              else {
+                reject({
+                  message: identityMessage
+                });
+              }
+            });
+          });
+      })
+      .then(() => {
+        return fetch('https://api.github.com/zen');
+      })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+        else {
+          return response.json();
+        }
+      })
+      .then((output) => {
+        if (typeof output === 'string') {
+          return new Promise(
+            (resolve, reject) => {
+              execFile('gh', ['auth', 'status'], (err, stdout, stderr) => {
+                // Only check for err. The success response is piped to stderr.
+                if (err) {
+                  this.rejectErr(reject, err, stdout, stderr);
+                }
+                else {
+                  resolve();
+                }
+              });
+            });
+        }
+        else {
+          return Promise.reject(output);
+        }
       })
       .then(() => {
         return childProcessExec();
@@ -171,6 +260,13 @@ console.warn(stdout)
           this.res.writeHead(501).end(err);
         }
         else {
+          if (err.name === 'FetchError' && err.code === 'ENOTFOUND') {
+            err.message = `${t('Command failed:')}` + ' \n' + `${t('The Git Interface requires Internet access.')}`;
+          }
+          else if (err.cmd === 'gh auth status' && err.code === 'ENOENT') {
+            err.message = `${t('Command failed:')}` + ' \n' + `${t('GitHub CLI is not installed.')}`;
+          }
+
           this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));
         }
       });
