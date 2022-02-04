@@ -2,7 +2,7 @@
 
 /* istanbul ignore file */
 
-const {execFile} = require('child_process');
+const {exec, execFile} = require('child_process');
 
 const fetch = require('node-fetch');
 
@@ -22,7 +22,16 @@ module.exports = class {
   add() {
     return new Promise(
       (resolve, reject) => {
-        execFile('git', [this.req.body.args[0], '.'], (err, stdout, stderr) => {
+        const {args} = this.req.body;
+
+        if (this.req.body.rel_path) {
+          args[1] = this.conf.ui.paths.source.patterns + '/' + this.req.body.rel_path;
+        }
+        else {
+          args[1] = '.';
+        }
+
+        execFile('git', args, (err, stdout, stderr) => {
           if (err || stderr) {
             this.rejectErr(reject, err, stdout, stderr);
           }
@@ -95,7 +104,7 @@ module.exports = class {
   remote() {
     return new Promise(
       (resolve, reject) => {
-        execFile('git', [this.req.body.args[0]], (err, stdout, stderr) => {
+        execFile('git', this.req.body.args, (err, stdout, stderr) => {
           if (stderr.startsWith('fatal:')) {
             // Since we are looking for this specific stderr string from the shell, pass err as null.
             this.rejectErr(reject, null, stdout, stderr);
@@ -133,8 +142,7 @@ module.exports = class {
       return;
     }
 
-    const identityMessage = `${t('Command failed:')}` + ' \n' +
-      `${t('*** Please tell me who you are.')}` + ' \n' +
+    const identityMessage = `${t('*** Please tell me who you are.')}` + ' \n' +
       `${t('Run')}` + ' \n' +
       `${t('  git config --global user.email "you@example.com"')}` + ' \n' +
       `${t('  git config --global user.name "Your Name"')}` + ' \n' +
@@ -151,7 +159,9 @@ module.exports = class {
     process.chdir(this.rootDir);
     new Promise(
       (resolve, reject) => {
-        execFile('git', ['remote', '--verbose'], (err, stdout, stderr) => {
+        const cmd = 'git remote --verbose';
+
+        exec(cmd, (err, stdout, stderr) => {
           if (err || stderr) {
             this.rejectErr(reject, err, stdout, stderr);
           }
@@ -161,7 +171,7 @@ module.exports = class {
             }
             else {
               reject({
-                message: `${t('Command failed:')}` + ' \n' +
+                message: `${t('Command failed:')} ${cmd}` + ' \n' +
                   `${t('The Git Interface only works over HTTPS.')}` + ' \n' +
                   `${t('Please check the protocol of this project\'s remote address.')}`
               });
@@ -172,13 +182,15 @@ module.exports = class {
       .then(() => {
         return new Promise(
           (resolve, reject) => {
-            execFile('git', ['config', '--get', 'user.email'], (err, stdout, stderr) => {
+            const cmd = 'git config --get user.email';
+
+            exec(cmd, (err, stdout, stderr) => {
               if (stderr) {
                 this.rejectErr(reject, err, stdout, stderr);
               }
               else if (err) {
                 reject({
-                  message: identityMessage
+                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
                 });
               }
               else if (stdout.trim()) {
@@ -186,7 +198,8 @@ module.exports = class {
               }
               else {
                 reject({
-                  message: identityMessage
+                  cmd,
+                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
                 });
               }
             });
@@ -195,13 +208,15 @@ module.exports = class {
       .then(() => {
         return new Promise(
           (resolve, reject) => {
-            execFile('git', ['config', '--get', 'user.name'], (err, stdout, stderr) => {
+            const cmd = 'git config --get user.name';
+
+            exec(cmd, (err, stdout, stderr) => {
               if (stderr) {
                 this.rejectErr(reject, err, stdout, stderr);
               }
               else if (err) {
                 reject({
-                  message: identityMessage
+                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
                 });
               }
               else if (stdout.trim()) {
@@ -209,7 +224,7 @@ module.exports = class {
               }
               else {
                 reject({
-                  message: identityMessage
+                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
                 });
               }
             });
@@ -260,11 +275,18 @@ module.exports = class {
           this.res.writeHead(501).end(err);
         }
         else {
-          if (err.name === 'FetchError' && err.code === 'ENOTFOUND') {
-            err.message = `${t('Command failed:')}` + ' \n' + `${t('The Git Interface requires Internet access.')}`;
+          const cmd = (typeof err.cmd === 'string') ? err.cmd : '';
+
+          if (err.name === 'FetchError') {
+            if (err.code === 'ENOTFOUND' || err.code === 'EAI_AGAIN') {
+              err.message = `${t('Command failed:')} ${cmd}` + ` \n${t('The Git Interface requires Internet access.')}`;
+            }
+            else {
+              err.message = `${t('Command failed:')} ${cmd}` + ` \n${err.name}: ${err.message}`;
+            }
           }
           else if (err.cmd === 'gh auth status' && err.code === 'ENOENT') {
-            err.message = `${t('Command failed:')}` + ' \n' + `${t('GitHub CLI is not installed.')}`;
+            err.message = `${t('Command failed:')} ${cmd}` + ` \n${t('GitHub CLI is not installed.')}`;
           }
 
           this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));

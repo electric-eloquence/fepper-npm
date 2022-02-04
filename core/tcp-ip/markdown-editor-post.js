@@ -13,7 +13,7 @@ module.exports = class {
     this.utils = this.options.utils;
 
     this.markdownEdited = this.utils.deepGet(this, 'req.body.markdown_edited');
-    this.relPath = this.utils.deepGet(this, 'req.body.rel_path');
+    this.markdownSource = this.utils.deepGet(this, 'req.body.markdown_source');
   }
 
   main() {
@@ -24,29 +24,29 @@ module.exports = class {
     }
 
     try {
-      const testEditedMarkdown = 'typeof this.markdownEdited !== \'string\'';
-      const testRelPath = 'typeof this.relPath !== \'string\'';
+      const testMarkdownEdited = 'typeof this.markdownEdited !== \'string\'';
+      const testMarkdownSource = 'typeof this.markdownSource !== \'string\'';
 
       // eslint-disable-next-line no-eval
-      if (eval(testEditedMarkdown)) {
-        throw new Error(testEditedMarkdown);
+      if (eval(testMarkdownEdited)) {
+        throw new Error(testMarkdownEdited);
       }
 
       // eslint-disable-next-line no-eval
-      if (eval(testRelPath)) {
-        throw new Error(testRelPath);
+      if (eval(testMarkdownSource)) {
+        throw new Error(testMarkdownSource);
       }
 
-      const mdFile = this.conf.ui.paths.source.patterns + '/' +
-        this.relPath.slice(0, -(this.conf.ui.patternExtension.length)) + this.conf.ui.frontMatterExtension;
-
-      const markdownCurrent = fs.readFileSync(mdFile, this.conf.enc); // Will throw if the file doesn't exist.
+      const markdownFile = this.conf.ui.paths.source.patterns + '/' + this.markdownSource;
+      const markdownCurrent = fs.readFileSync(markdownFile, this.conf.enc); // Will throw if the file doesn't exist.
 
       if (markdownCurrent !== this.markdownEdited) {
-        fs.writeFileSync(mdFile, this.markdownEdited);
+        fs.writeFileSync(markdownFile, this.markdownEdited);
+        this.res.sendStatus(200); // OK.
       }
-
-      this.res.sendStatus(200);
+      else {
+        this.res.sendStatus(304); // Not modified.
+      }
     }
     catch (err) {
       this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));

@@ -91,7 +91,16 @@ module.exports = class {
   }
 
   preProcessFrontMatter(pattern) {
-    pattern.frontMatterData = frontMatterParser.main(pattern.template);
+    try {
+      pattern.frontMatterData = frontMatterParser.main(pattern.template);
+    }
+    catch (err) {
+      this.utils.error(pattern.relPath);
+      this.utils.error(err);
+
+      return;
+    }
+
     pattern.frontMatterRelPathTrunc = pattern.relPathTrunc;
     pattern.isFrontMatter = true;
     pattern.isHidden = true;
@@ -330,7 +339,11 @@ module.exports = class {
         const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
         // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
-        if (frontMatterPattern) {
+        if (
+          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content') &&
+          frontMatterPattern
+        ) {
           pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
             frontMatterPattern.frontMatterContent.content;
 
@@ -370,23 +383,28 @@ module.exports = class {
       const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
       const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
-      if (primaryPattern) {
-        this.setState(primaryPattern);
+      if (
+        this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
+        this.utils.deepGet(pattern, 'frontMatterContent.content')
+      ) {
+        if (primaryPattern) {
+          this.setState(primaryPattern);
 
-        if (pattern.frontMatterContent) {
-          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          if (pattern.frontMatterContent) {
+            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
+
+          this.unsetIdentifiers(pattern);
         }
+        else if (pseudoPattern) {
+          this.setState(pseudoPattern);
 
-        this.unsetIdentifiers(pattern);
-      }
-      else if (pseudoPattern) {
-        this.setState(pseudoPattern);
+          if (pattern.frontMatterContent) {
+            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          }
 
-        if (pattern.frontMatterContent) {
-          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
+          this.unsetIdentifiers(pattern);
         }
-
-        this.unsetIdentifiers(pattern);
       }
 
       return pattern;
