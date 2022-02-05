@@ -383,28 +383,29 @@ module.exports = class {
       const primaryPattern = this.#patternlab.getPattern(mustacheRelPath);
       const pseudoPattern = this.#patternlab.getPattern(jsonRelPath);
 
-      if (
-        this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
-        this.utils.deepGet(pattern, 'frontMatterContent.content')
-      ) {
-        if (primaryPattern) {
-          this.setState(primaryPattern);
+      if (primaryPattern) {
+        this.setState(primaryPattern);
 
-          if (pattern.frontMatterContent) {
-            primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
-
-          this.unsetIdentifiers(pattern);
+        if (
+          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(pattern, 'frontMatterContent.content')
+        ) {
+          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
-        else if (pseudoPattern) {
-          this.setState(pseudoPattern);
 
-          if (pattern.frontMatterContent) {
-            pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-          }
+        this.unsetIdentifiers(pattern);
+      }
+      else if (pseudoPattern) {
+        this.setState(pseudoPattern);
 
-          this.unsetIdentifiers(pattern);
+        if (
+          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(pattern, 'frontMatterContent.content')
+        ) {
+          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
+
+        this.unsetIdentifiers(pattern);
       }
 
       return pattern;
