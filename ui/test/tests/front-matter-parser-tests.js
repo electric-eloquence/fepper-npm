@@ -453,5 +453,71 @@ Dagwood
 
       patternlab.resetConfig(configOrig);
     });
+
+    it('gracefully handles exceptions when trying to parse Front Matter', function () {
+      const malformedMd = `${patternlab.config.paths.source.patterns}/01-test1/09-front-matter.md`;
+
+      fs.copySync(`${malformedMd}-malformed`, malformedMd);
+      patternlab.build();
+
+      const malformedMdStr = fs.readFileSync(malformedMd, patternlab.config.enc);
+      const publicHtml = patternlab.config.paths.public.patterns +
+        '/01-test1-09-front-matter/01-test1-09-front-matter.html';
+      const publicHtmlStr = fs.readFileSync(publicHtml, patternlab.config.enc);
+
+      expect(malformedMdStr).to.have.string('content_key: "content\n');
+      /* eslint-disable max-len */
+      expect(publicHtmlStr).to.equal(`<!DOCTYPE html>
+<html class="">
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="generator" content="Fepper Front End Prototyper (http://fepper.io)">
+
+  <!-- Disable cache -->
+  <meta http-equiv="cache-control" content="max-age=0">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+  <meta http-equiv="pragma" content="no-cache">
+
+  <!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<link rel="stylesheet" href="../../webserved/pattern.css">
+<script src="../../node_modules/mousetrap/mousetrap.min.js"></script>
+<script src="../../annotations/annotations.js"></script>
+<!-- End Pattern Lab -->
+
+
+  <link rel="stylesheet" href="../../_styles/bld/style.css" media="all">
+</head>
+<body class="">
+<div class="content"></div>  
+<!-- Begin Pattern Lab (Required for Pattern Lab to run properly) -->
+<script type="text/json" id="sg-pattern-data-footer" class="sg-pattern-data">
+  {"lineage":[],"lineageExists":false,"lineageR":[],"lineageRExists":false,"missingPartials":[],"patternDesc":"","patternExtension":".mustache","patternName":"Front Matter","patternPartial":"test1-front-matter","patternState":"","portReloader":35729,"portServer":3000}
+</script>
+
+<script>
+  // LiveReload.
+  if (location.protocol !== 'file:') {
+    const reloader = document.createElement('script');
+
+    reloader.setAttribute('src', location.protocol + '//' + location.hostname + ':35729/livereload.js');
+    document.body.appendChild(reloader);
+  }
+</script>
+
+<script src="../../node_modules/fepper-ui/scripts/pattern/index.js" type="module"></script>
+<!-- End Pattern Lab -->
+
+
+  <script src="../../_scripts/src/variables.styl" type="text/javascript"></script>
+</body>
+</html>
+`);
+      /* eslint-enable max-len */
+      fs.removeSync(malformedMd);
+    });
   });
 });
