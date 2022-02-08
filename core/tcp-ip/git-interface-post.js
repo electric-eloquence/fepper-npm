@@ -119,22 +119,6 @@ module.exports = class {
       });
   }
 
-  version() {
-    return new Promise(
-      (resolve, reject) => {
-        execFile('git', [this.req.body.args[0]], (err, stdout, stderr) => {
-          if (!stdout.startsWith('git version')) {
-            // We want to return a 501 Not Implemented status if Git is not installed.
-            // Pass err as null so stderr gets picked up as a string.
-            this.rejectErr(reject, null, stdout, stderr);
-          }
-          else {
-            resolve(stdout);
-          }
-        });
-      });
-  }
-
   main() {
     if (!this.gatekeeper.gatekeep(this.req)) {
       this.gatekeeper.render('the Git Interface')(this.req, this.res);
