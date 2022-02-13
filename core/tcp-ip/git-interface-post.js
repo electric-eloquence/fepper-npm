@@ -256,7 +256,7 @@ module.exports = class {
 
         if (typeof err === 'string') {
           // Status 501: Not implemented.
-          this.res.writeHead(501).end(err);
+          this.res.writeHead(501).end(`{"message":"${t('Command failed:')} ${cmd} \n${err}"}`);
         }
         else {
           const cmd = (typeof err.cmd === 'string') ? err.cmd : '';
