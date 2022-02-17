@@ -80,12 +80,12 @@ exports.main = (fileContent) => {
     if (frontMatterData && frontMatterObj.content) {
       // The "el" field means this is an annotation.
       if (typeof frontMatterData.el === 'string') {
-        frontMatterData.annotation = marked(frontMatterObj.content);
+        frontMatterData.annotation = marked.parse(frontMatterObj.content);
       }
 
       // The "content_key" field is meant for hydrating a tag by that value in the Feplet template.
       if (typeof frontMatterData.content_key === 'string') {
-        frontMatterData.content = marked(frontMatterObj.content);
+        frontMatterData.content = marked.parse(frontMatterObj.content);
       }
     }
 
