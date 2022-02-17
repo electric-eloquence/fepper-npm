@@ -133,6 +133,7 @@ module.exports = class {
       `${t('to set your account\'s default identity.')}`;
     let args0 = this.req.body.args && this.req.body.args[0];
     let childProcessExec;
+    let cmd;
 
     if (typeof args0 === 'string' && this.req.body.args[0].startsWith('--')) {
       args0 = this.req.body.args[0].slice(2);
@@ -143,7 +144,7 @@ module.exports = class {
     process.chdir(this.rootDir);
     new Promise(
       (resolve, reject) => {
-        const cmd = 'git remote --verbose';
+        cmd = 'git remote --verbose';
 
         exec(cmd, (err, stdout, stderr) => {
           if (err || stderr) {
@@ -166,7 +167,7 @@ module.exports = class {
       .then(() => {
         return new Promise(
           (resolve, reject) => {
-            const cmd = 'git config --get user.email';
+            cmd = 'git config --get user.email';
 
             exec(cmd, (err, stdout, stderr) => {
               if (stderr) {
@@ -192,7 +193,7 @@ module.exports = class {
       .then(() => {
         return new Promise(
           (resolve, reject) => {
-            const cmd = 'git config --get user.name';
+            cmd = 'git config --get user.name';
 
             exec(cmd, (err, stdout, stderr) => {
               if (stderr) {
@@ -259,7 +260,7 @@ module.exports = class {
           this.res.writeHead(501).end(`{"message":"${t('Command failed:')} ${cmd} \n${err}"}`);
         }
         else {
-          const cmd = (typeof err.cmd === 'string') ? err.cmd : '';
+          cmd = (typeof err.cmd === 'string') ? err.cmd : '';
 
           if (err.name === 'FetchError') {
             if (err.code === 'ENOTFOUND' || err.code === 'EAI_AGAIN') {
