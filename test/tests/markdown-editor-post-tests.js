@@ -61,7 +61,7 @@ describe('Markdown Editor Post', function () {
     <section id="forbidden" class="error">
       <p>ERROR! You can only use the Markdown Editor on the machine that is running this Fepper instance!</p>
       <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).</p>
     </section>
   </body>
 </html>`);
@@ -103,7 +103,7 @@ describe('Markdown Editor Post', function () {
     <section id="forbidden" class="error">
       <p>ERROR! You can only use the Markdown Editor on the machine that is running this Fepper instance!</p>
       <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).</p>
     </section>
   </body>
 </html>`);
@@ -145,7 +145,7 @@ describe('Markdown Editor Post', function () {
     <section id="forbidden" class="error">
       <p>ERROR! You can only use the Markdown Editor on the machine that is running this Fepper instance!</p>
       <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).</p>
     </section>
   </body>
 </html>`);
@@ -166,7 +166,7 @@ describe('Markdown Editor Post', function () {
           const markdownEditorPost = new MarkdownEditorPost(
             {
               body: {
-                rel_path: '04-pages/00-homepage.mustache'
+                markdown_source: '04-pages/00-homepage.md'
               },
               cookies: {
                 fepper_ts: timestampFromFile
@@ -188,7 +188,7 @@ describe('Markdown Editor Post', function () {
         });
     });
 
-    it('responds with a 500 if no rel_path submitted', function (done) {
+    it('responds with a 500 if no markdown_source submitted', function (done) {
       new Promise(
         (resolve) => {
           const markdownEditorPost = new MarkdownEditorPost(
@@ -208,7 +208,7 @@ describe('Markdown Editor Post', function () {
         })
         .then((response) => {
           expect(response.status).to.equal(500);
-          expect(JSON.parse(response.responseText).message).to.equal('typeof this.relPath !== \'string\'');
+          expect(JSON.parse(response.responseText).message).to.equal('typeof this.markdownSource !== \'string\'');
           done();
         })
         .catch((err) => {
@@ -216,14 +216,14 @@ describe('Markdown Editor Post', function () {
         });
     });
 
-    it('responds with a 500 if no markdown file in file system', function (done) {
+    it('responds with a 500 if no Markdown file in file system', function (done) {
       new Promise(
         (resolve) => {
           const markdownEditorPost = new MarkdownEditorPost(
             {
               body: {
                 markdown_edited: markdownEdited,
-                rel_path: '04-pages/00-homepage.mustache'
+                markdown_source: '04-pages/00-homepage.md'
               },
               cookies: {
                 fepper_ts: timestampFromFile
@@ -237,7 +237,7 @@ describe('Markdown Editor Post', function () {
         })
         .then((response) => {
           expect(response.status).to.equal(500);
-          expect(JSON.parse(response.responseText).message).to.include('ENOENT: no such file or directory, stat');
+          expect(JSON.parse(response.responseText).message).to.include('ENOENT: no such file or directory');
           done();
         })
         .catch((err) => {
@@ -245,7 +245,55 @@ describe('Markdown Editor Post', function () {
         });
     });
 
-    it('responds with a 200 if correct data were posted and markdown file exists', function (done) {
+    it('responds with a 304 if correct data were posted, the Markdown file exists, but the Markdown was not edited\
+', function (done) {
+      let mdFileContentsBefore;
+
+      new Promise(
+        (resolve, reject) => {
+          fs.copy(`${mdFile}-bak`, mdFile, (err) => {
+            if (err) {
+              reject(err);
+            }
+
+            mdFileContentsBefore = fs.readFileSync(mdFile, enc);
+
+            resolve();
+          });
+        })
+        .then(() => {
+          return new Promise((resolve) => {
+            const markdownEditorPost = new MarkdownEditorPost(
+              {
+                body: {
+                  markdown_edited: mdFileContentsBefore,
+                  markdown_source: '04-pages/00-homepage.md'
+                },
+                cookies: {
+                  fepper_ts: timestampFromFile
+                }
+              },
+              responseFactory(resolve),
+              fepper.tcpIp.fpExpress
+            );
+
+            markdownEditorPost.main();
+          });
+        })
+        .then((response) => {
+          const mdFileContentsAfter = fs.readFileSync(mdFile, enc);
+
+          expect(response.status).to.equal(304);
+          expect(mdFileContentsBefore).to.equal(mdFileContentsAfter);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+
+    it('responds with a 200 if correct data were posted, the Markdown file exists, and the Markdown was edited\
+', function (done) {
       let mdFileContentsBefore;
 
       new Promise(
@@ -266,7 +314,7 @@ describe('Markdown Editor Post', function () {
               {
                 body: {
                   markdown_edited: markdownEdited,
-                  rel_path: '04-pages/00-homepage.mustache'
+                  markdown_source: '04-pages/00-homepage.md'
                 },
                 cookies: {
                   fepper_ts: timestampFromFile

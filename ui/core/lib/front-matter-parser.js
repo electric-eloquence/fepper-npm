@@ -1,15 +1,5 @@
 /**
  * Handle annotations, pattern state, and Markdown content, while keeping Front Matter capability extensible.
- *
- * Annotations will only be supported for modified Front Matter syntax in .md files.
- * Support has been completely dropped for the chaotically documented JS (JSON?) annotation standard.
- * @see {@link https://patternlab.io/docs/adding-annotations/}
- *
- * JS annotation pain points:
- *   - Earlier versions of Pattern Lab for Node used true JavaScript code beginning with "var comments =".
- *   - Trying to parse such user-created non-strict JavaScript is asking for trouble.
- *   - The documentation page shows pure JSON.
- *   - The documentation page does not explain how to make multiple annotations.
  */
 'use strict';
 
@@ -87,15 +77,15 @@ exports.main = (fileContent) => {
       }
     }
 
-    if (frontMatterObj.content) {
+    if (frontMatterData && frontMatterObj.content) {
       // The "el" field means this is an annotation.
       if (typeof frontMatterData.el === 'string') {
-        frontMatterData.annotation = marked(frontMatterObj.content);
+        frontMatterData.annotation = marked.parse(frontMatterObj.content);
       }
 
       // The "content_key" field is meant for hydrating a tag by that value in the Feplet template.
       if (typeof frontMatterData.content_key === 'string') {
-        frontMatterData.content = marked(frontMatterObj.content);
+        frontMatterData.content = marked.parse(frontMatterObj.content);
       }
     }
 

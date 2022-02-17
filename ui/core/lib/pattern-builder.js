@@ -91,7 +91,16 @@ module.exports = class {
   }
 
   preProcessFrontMatter(pattern) {
-    pattern.frontMatterData = frontMatterParser.main(pattern.template);
+    try {
+      pattern.frontMatterData = frontMatterParser.main(pattern.template);
+    }
+    catch (err) {
+      this.utils.error(pattern.relPath);
+      this.utils.error(err);
+
+      return;
+    }
+
     pattern.frontMatterRelPathTrunc = pattern.relPathTrunc;
     pattern.isFrontMatter = true;
     pattern.isHidden = true;
@@ -330,7 +339,11 @@ module.exports = class {
         const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
         // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
-        if (frontMatterPattern) {
+        if (
+          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content') &&
+          frontMatterPattern
+        ) {
           pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
             frontMatterPattern.frontMatterContent.content;
 
@@ -373,7 +386,10 @@ module.exports = class {
       if (primaryPattern) {
         this.setState(primaryPattern);
 
-        if (pattern.frontMatterContent) {
+        if (
+          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(pattern, 'frontMatterContent.content')
+        ) {
           primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
 
@@ -382,7 +398,10 @@ module.exports = class {
       else if (pseudoPattern) {
         this.setState(pseudoPattern);
 
-        if (pattern.frontMatterContent) {
+        if (
+          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
+          this.utils.deepGet(pattern, 'frontMatterContent.content')
+        ) {
           pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
         }
 

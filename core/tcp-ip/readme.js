@@ -26,7 +26,7 @@ module.exports = class {
         let htmlFromMd;
 
         try {
-          htmlFromMd = marked(dat);
+          htmlFromMd = marked.parse(dat);
         }
         catch (err1) /* istanbul ignore next */ {
           this.utils.error(err1);

@@ -149,7 +149,7 @@
   <li id="sg-code-tab-feplet" class="sg-code-tab sg-code-tab-active" title="Browse Fepper's Mustache templates">Feplet</li>
   <li id="sg-code-tab-markdown" class="sg-code-tab" title="Edit this pattern's Markdown content">Markdown</li>
   <li id="sg-code-tab-git" class="sg-code-tab" title="Download and upload revisions to this project">Git</li>
-  <li id="sg-code-tab-requerio" class="sg-code-tab" title="Time-travel through this pattern's application states">Requerio</li>
+  <li id="sg-code-tab-requerio" class="sg-code-tab" title="Inspect this pattern's Requerio states">Requerio</li>
 </ul>
 <div id="sg-code-panels">
   <iframe id="sg-code-panel-feplet" class="sg-code-panel sg-code-panel-active" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
@@ -187,30 +187,31 @@
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
     <div id="sg-code-pane-git-na" class="sg-code-pane">
-      <code>Git has not been properly set up for this project.</code>
+      <p>Ready to version control?</p>
+      <p><a href="/readme#code-viewer" target="_blank">Instructions on interfacing with Git.</a></p>
+      <div id="sg-code-message-git-na"></div>
     </div>
     <div id="sg-code-pane-git" class="sg-code-pane">
       <form id="sg-code-radio-git">
-        <legend id="sg-code-radio-git-legend">Git Integrator:</legend>
+        <legend id="sg-code-radio-git-legend">Git Interface:</legend>
         <input id="sg-code-radio-git-off" class="sg-code-radio-git" name="sg-code-radio-git" type="radio" checked><label>OFF</label>
         <input id="sg-code-radio-git-on" class="sg-code-radio-git" name="sg-code-radio-git" type="radio"><label>ON</label>
       </form>
-      <p>Fepper's Markdown Editor offers integration with Git.</p>
-      <p>By integrating Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.</p>
+      <p>Fepper's Markdown Editor can interface with Git.</p>
+      <p>When interfaced with Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.</p>
       <p>It will commit and push changes each time a Markdown edit is saved.</p>
       <p>However, if a team member pushes changes to a Markdown file while it is being edited by someone else, there is a chance that a merge conflict will occur.</p>
-      <p>It is beyond the scope of Fepper to resolve merge conflicts. A developer must do that.</p>
       <p>Strategies to avoid merge conflicts:</p>
       <ul>
         <li>Communicate and agree that only one person edits a file at a time.</li>
-        <li>Restrict editors to their own Git branch, which a developer will merge into a main branch.</li>
+        <li>Restrict editors to their own Git branch, which must get synced regularly with the main branch.</li>
       </ul>
     </div>
-    <button id="sg-code-btn-git-disable" class="sg-code-btn" title="Disable Git Integrator">Disable Git</button>
+    <button id="sg-code-btn-git-disable" class="sg-code-btn" title="Disable Git Interface">Disable Git</button>
   </div>
   <div id="sg-code-panel-requerio" class="sg-code-panel">
     <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
-      <code>The Requerio Time-Traveler is a work in progress. Please stay tuned as it comes to life!</code>
+      <code>The Requerio Inspector is a work in progress. Please stay tuned as it comes to life!</code>
     </div>
   </div>
 </div>

@@ -55,7 +55,7 @@
     "",
   "Download and upload revisions to this project":
     "",
-  "Time-travel through this pattern's application states":
+  "Inspect this pattern's Requerio states":
     "",
   "There is no .md file associated with this pattern.":
     "",
@@ -75,31 +75,31 @@
     "",
   "Cancel":
     "",
-  "Git has not been properly set up for this project.":
+  "Ready to version control?":
     "",
-  "Git Integrator:":
+  "Instructions on interfacing with Git.":
+    "",
+  "Git Interface:":
     "",
   "OFF":
     "",
   "ON":
     "",
-  "Fepper's Markdown Editor offers integration with Git.":
+  "Fepper's Markdown Editor can interface with Git.":
     "",
-  "By integrating Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.":
+  "When interfaced with Git, Fepper will automatically pull edits made by other team members each time the Markdown Editor is opened.":
     "",
   "It will commit and push changes each time a Markdown edit is saved.":
     "",
   "However, if a team member pushes changes to a Markdown file while it is being edited by someone else, there is a chance that a merge conflict will occur.":
     "",
-  "It is beyond the scope of Fepper to resolve merge conflicts. A developer must do that.":
-    "",
   "Strategies to avoid merge conflicts:":
     "",
   "Communicate and agree that only one person edits a file at a time.":
     "",
-  "Restrict editors to their own Git branch, which a developer will merge into a main branch.":
+  "Restrict editors to their own Git branch, which must get synced regularly with the main branch.":
     "",
-  "Disable Git Integrator":
+  "Disable Git Interface":
     "",
   "Disable Git":
     "",
@@ -162,6 +162,26 @@
   "Listening on port %s":
     "",
   "Cannot GET %s":
+    "",
+  "Command failed:":
+    "",
+  "*** Please tell me who you are.":
+    "",
+  "Run":
+    "",
+  "  git config --global user.email \"you@example.com\"":
+    "",
+  "  git config --global user.name \"Your Name\"":
+    "",
+  "to set your account's default identity.":
+    "",
+  "The Git Interface only works over HTTPS.":
+    "",
+  "Please check the protocol of this project's remote address.":
+    "",
+  "The Git Interface requires Internet access.":
+    "",
+  "GitHub CLI is not installed.":
     "",
   "SUCCESS":
     "",
@@ -229,7 +249,7 @@
     "",
   "If you <em>are</em> on this machine, you may need to resync this browser with Fepper.":
     "",
-  "Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).":
+  "Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).":
     "",
   "URL:":
     "",

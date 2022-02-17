@@ -51,7 +51,7 @@ module.exports = class {
     this.config.cwd = cwd;
     this.config.appDir = appDir;
     this.config.enc = utils.deepGet(global, 'conf.enc') || 'utf8';
-    this.config.gitIntegrator = utils.deepGet(global, 'conf.git_integrator') || false;
+    this.config.gitInterface = utils.deepGet(global, 'conf.git_interface') || false;
     this.config.useListItems = false;
 
     this.utils = utils;

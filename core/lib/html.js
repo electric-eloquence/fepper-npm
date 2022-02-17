@@ -79,7 +79,7 @@ exports.forbidden = `
     <section id="forbidden" class="error">
       <p>${t('ERROR')}! ${t('You can only use %s on the machine that is running this Fepper instance!')}</p>
       <p>${t('If you <em>are</em> on this machine, you may need to resync this browser with Fepper.')}</p>
-      <p>${t('Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).')}</p>
+      <p>${t('Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).')}</p>
     </section>`;
 
 exports.landingBody = `

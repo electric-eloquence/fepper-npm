@@ -94,7 +94,7 @@ describe('Gatekeeper', function () {
     <section id="forbidden" class="error">
       <p>ERROR! You can only use the HTML Scraper on the machine that is running this Fepper instance!</p>
       <p>If you <em>are</em> on this machine, you may need to resync this browser with Fepper.</p>
-      <p>Please go to the command line and quit this Fepper instance. Then run <code>fp</code> (not <code>fp restart</code>).</p>
+      <p>Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).</p>
     </section>
   </body>
 </html>`);
