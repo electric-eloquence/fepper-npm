@@ -61,7 +61,7 @@
     "fepper-utils": "^1.4.4",
     "fs-extra": "^10.0.0",
     "gray-matter": "^4.0.0",
-    "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts@3.9.17",
+    "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts@3.9.18",
     "gulp-livereload": "^4.0.1",
     "he": "1.1.0",
     "html2json": "^1.0.2",
