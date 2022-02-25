@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.40.1
+* Upgraded prismjs dependency
+
 ### v0.40.0
 * Code Viewer added dock-left and dock-right options
 * Mustache Browser no longer opens in main panel of UI
