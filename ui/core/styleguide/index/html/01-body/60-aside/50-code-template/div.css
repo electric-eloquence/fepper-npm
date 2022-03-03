@@ -240,6 +240,7 @@
   overflow-x: scroll;
 }
 #sg-code-pane-markdown-console pre {
+  font-family: Consolas, Menlo, 'Andale Mono', 'Ubuntu Mono', monospace;
   margin-top: 1.4rem;
 }
 
