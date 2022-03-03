@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.40.3
+* Improved font in Git Interface
+
 ### v0.40.2
 * Improved font sizing in Git Interface
 
