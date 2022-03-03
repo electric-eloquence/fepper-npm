@@ -243,10 +243,13 @@
   margin-top: 1.4rem;
 }
 
+#sg-code-console-markdown-log,
+#sg-code-console-markdown-error {
+  font-size: 1.3rem;
+}
 #sg-code-console-markdown-log {
   color: white;
 }
-
 #sg-code-console-markdown-error {
   color: red;
 }
