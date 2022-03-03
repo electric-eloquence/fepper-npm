@@ -245,6 +245,7 @@
 
 #sg-code-console-markdown-log,
 #sg-code-console-markdown-error {
+  font-family: Consolas, Menlo, 'Andale Mono', 'Ubuntu Mono', monospace;
   font-size: 1.3rem;
 }
 #sg-code-console-markdown-log {
