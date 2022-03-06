@@ -2,6 +2,7 @@
 
 ### v0.40.3
 * Improved font in Git Interface
+* Git Interface diffs before committing
 
 ### v0.40.2
 * Improved font sizing in Git Interface
