@@ -56,6 +56,26 @@ module.exports = class {
       });
   }
 
+  diff() {
+    return new Promise(
+      (resolve, reject) => {
+        const {args} = this.req.body;
+
+        if (this.req.body.rel_path) {
+          args[1] = this.conf.ui.paths.source.patterns + '/' + this.req.body.rel_path;
+        }
+
+        execFile('git', args, (err, stdout, stderr) => {
+          if (err || stderr) {
+            this.rejectErr(reject, err, stdout, stderr);
+          }
+          else {
+            resolve(stdout);
+          }
+        });
+      });
+  }
+
   pull() {
     return new Promise(
       (resolve, reject) => {

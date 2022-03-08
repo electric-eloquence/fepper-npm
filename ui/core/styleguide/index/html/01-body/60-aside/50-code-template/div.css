@@ -105,12 +105,10 @@
 #sg-code-pane-git-na pre {
   font-size: 1.3rem;
   line-height: 1.5;
-  padding: 0.6rem 1.3rem;
+  padding-bottom: 0.7rem;
 }
 
 .sg-code-pane-content-warning {
-  background-color: #200800;
-  border: 1px solid #800000;
   color: red;
 }
 
@@ -237,7 +235,7 @@
 }
 
 #sg-code-pane-markdown-console {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 #sg-code-pane-markdown-console pre {
   font-family: Consolas, Menlo, 'Andale Mono', 'Ubuntu Mono', monospace;
