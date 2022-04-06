@@ -76,7 +76,7 @@ exports.scraperHeading = `
       <h1 id="scraper__heading">${t('Fepper HTML Scraper')}</h1>`;
 
 exports.forbidden = `
-    <section id="forbidden" class="error">
+    <section id="forbidden" class="error forbidden gatekept">
       <p>${t('ERROR')}! ${t('You can only use %s on the machine that is running this Fepper instance!')}</p>
       <p>${t('If you <em>are</em> on this machine, you may need to resync this browser with Fepper.')}</p>
       <p>${t('Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).')}</p>
