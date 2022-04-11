@@ -61,7 +61,8 @@ module.exports = class {
     // If the pattern is new, we must register it with various data structures!
     if (isNew) {
       if (this.config.debug) {
-        this.utils.log(`${t('Found new pattern %s')}`, pattern.patternPartial);
+        // eslint-disable-next-line quotes
+        this.utils.log(`${t("Found new pattern %s")}`, pattern.patternPartial);
       }
 
       this.ingredients.patterns.push(pattern);
@@ -322,11 +323,13 @@ module.exports = class {
           pattern.jsonFileData = JSON5.parse(jsonFileStr);
 
           if (this.config.debug) {
-            this.utils.log(`${t('Found pattern-specific JSON data for %s')}`, pattern.patternPartial);
+            // eslint-disable-next-line quotes
+            this.utils.log(`${t("Found pattern-specific JSON data for %s")}`, pattern.patternPartial);
           }
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error(`${t('There was an error parsing pattern-specific JSON for %s')}`, pattern.relPath);
+          // eslint-disable-next-line quotes
+          this.utils.error(`${t("There was an error parsing pattern-specific JSON for %s")}`, pattern.relPath);
           this.utils.error(err);
         }
       }

@@ -121,7 +121,7 @@ module.exports = class {
       const output = Feplet.render(
         outputFpt,
         {
-          title: t('Fepper HTML Scraper'),
+          title: t("Fepper HTML Scraper"), // eslint-disable-line quotes
           main_id: 'fepper-html-scraper',
           msg_class: this.utils.deepGet(req, 'query.msg_class') || '',
           message: this.utils.deepGet(req, 'query.message') || '',

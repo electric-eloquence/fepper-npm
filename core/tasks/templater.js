@@ -230,7 +230,8 @@ module.exports = class {
         // Write translated templates.
         const dest = this.templatesWrite(mustacheFile, srcDirParam, templatesDir, templatesExt, codeTranslated);
 
-        let message = t('Template %s translated');
+        // eslint-disable-next-line quotes
+        let message = t("Template %s translated");
         message = message.replace('%s', '\x1b[36m' + dest.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
 
         this.utils.log(message);

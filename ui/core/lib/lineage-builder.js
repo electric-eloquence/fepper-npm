@@ -91,7 +91,8 @@ module.exports = class {
       /* istanbul ignore if */
       if (!descendentPattern) {
         pattern.missingPartials.push(descendentPatternName);
-        this.utils.error(`${t('%s is missing partial %s')}` + '\u0007', pattern.relPath, descendentPatternName);
+        // eslint-disable-next-line quotes
+        this.utils.error(`${t("%s is missing partial %s")}` + '\u0007', pattern.relPath, descendentPatternName);
 
         continue;
       }

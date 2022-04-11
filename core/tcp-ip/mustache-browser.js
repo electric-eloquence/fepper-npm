@@ -36,7 +36,8 @@ module.exports = class {
     }
     else {
       template +=
-        `${t('There is no pattern named')} ${req.query.partial}. ${t('Please check its spelling.')}`;
+        // eslint-disable-next-line quotes
+        `${t("There is no pattern named")} ${req.query.partial}. ${t("Please check its spelling.")}`;
     }
 
     template += '</code></pre>';

@@ -72,42 +72,46 @@ exports.loadingAnimation = `
         <div></div><div></div><div></div><div></div>
       </div>`;
 
+/* eslint-disable quotes */
 exports.scraperHeading = `
-      <h1 id="scraper__heading">${t('Fepper HTML Scraper')}</h1>`;
+      <h1 id="scraper__heading">${t("Fepper HTML Scraper")}</h1>`;
 
 exports.forbidden = `
     <section id="forbidden" class="error forbidden gatekept">
-      <p>${t('ERROR')}! ${t('You can only use %s on the machine that is running this Fepper instance!')}</p>
-      <p>${t('If you <em>are</em> on this machine, you may need to resync this browser with Fepper.')}</p>
-      <p>${t('Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).')}</p>
+      <p>${t("ERROR")}! ${t("You can only use %s on the machine that is running this Fepper instance!")}</p>
+      <p>${t("If you <em>are</em> on this machine, you may need to resync this browser with Fepper.")}</p>
+      <p>${t("Please go to the command line and quit this Fepper instance. Then run fp (not fp restart).")}</p>
     </section>`;
 
 exports.landingBody = `
       <form id="scraper__targeter" action="/html-scraper" method="post" name="targeter">
         <div>
-          <label for="url">${t('URL:')}</label>
+          <label for="url">${t("URL:")}</label>
           <input name="url" type="text" value="{{{ url }}}">
         </div>
         <div>
-          <label for="selector_raw">${t('Selector:')}</label>
+          <label for="selector_raw">${t("Selector:")}</label>
           <input name="selector_raw" type="text" value="{{ selector_raw }}">
           <input name="selector" type="hidden" value="{{ selector }}">
           <input name="index" type="hidden" value="{{ index }}">
         </div>
         <textarea name="html2json"></textarea>
-        <input id="scraper__targeter__submit" name="submit_targeter" type="submit" value="${t('Submit')}">
+        <input id="scraper__targeter__submit" name="submit_targeter" type="submit" value="${t("Submit")}">
         {{{ help_buttons }}}
       </form>`;
 
-exports.helpButtons = `<button id="help-hide">${t('Hide')}</button><button id="help-show">${t('Help')}</button>`;
+exports.helpButtons = `<button id="help-hide">${t("Hide")}</button><button id="help-show">${t("Help")}</button>`;
+/* eslint-enable quotes */
 
 exports.helpText = `
       <div id="help-text">{{{ help_text }}}      </div>`;
 
+/* eslint-disable quotes */
 exports.scraperHelpText = `
         <p></p>
-        <p>${t('Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.')}</p>
-        <p>${t('Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.')}</p>\n`;
+        <p>${t("Use this tool to scrape and import .mustache templates and .json data files from actual web pages, preferably the actual backend CMS that Fepper is prototyping for. Simply enter the URL of the page you wish to scrape. Then, enter the CSS selector you wish to target (prepended with &quot;#&quot; for IDs and &quot;.&quot; for classes). Classnames and tagnames may be appended with array index notation ([n]). Otherwise, the Scraper will scrape all elements of that class or tag sequentially. Such a loosely targeted scrape will save many of the targeted fields to the .json file, but will only save the first instance of the target to a .mustache template.")}</p>
+        <p>${t("Upon submit, you should be able to review the scraped output on the subsequent page. If the output looks correct, enter a filename and submit again. The Scraper will save .mustache and .json files by that name in your patterns&apos; scrape directory, also viewable under the Scrape menu of the toolbar.")}</p>\n`;
+/* eslint-enable quotes */
 
 exports.scraperStage = `
       <iframe id="scraper__stage" sandbox="allow-same-origin allow-scripts"></iframe>`;
@@ -118,31 +122,35 @@ exports.reviewerPrefix = `
 exports.reviewerSuffix = `
       </div>`;
 
+/* eslint-disable quotes */
 exports.importerPrefix = `
-      <h3>${t('Does this HTML look right?')}</h3>
+      <h3>${t("Does this HTML look right?")}</h3>
       <form id="scraper__importer" action="/html-scraper" method="post" name="importer">
-        <div>${t('Yes, import into Fepper.')}</div>
-        <label for="filename">${t('Enter a filename to save this under (extension not necessary):')}</label>
+        <div>${t("Yes, import into Fepper.")}</div>
+        <label for="filename">${t("Enter a filename to save this under (extension not necessary):")}</label>
         <input name="filename" type="text" value="">
         <input name="url" type="hidden" value="{{{ url }}}">
         <input name="selector_raw" type="hidden" value="{{ selector_raw }}">
         <textarea name="html2json"></textarea>
         <textarea name="mustache">`;
+/* eslint-enable quotes */
 
 exports.json = `
         </textarea>
         <textarea name="json">`;
 
+/* eslint-disable quotes */
 exports.importerSuffix = `
         </textarea>
-        <input id="scraper__importer__submit" name="submit_importer" type="submit" value="${t('Submit')}">
+        <input id="scraper__importer__submit" name="submit_importer" type="submit" value="${t("Submit")}">
       </form>
-      <h3>${t('Otherwise, correct the URL and selector and submit again.')}</h3>`;
+      <h3>${t("Otherwise, correct the URL and selector and submit again.")}</h3>`;
 
 exports.success = `
-      <p>${t('To open the UI, click here:')} <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
-      <p>${t('To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.')}</p>
-      <p>${t('The following documentation is also available in Fepper&apos;s README.md:')}</p>`;
+      <p>${t("To open the UI, click here:")} <a href="http://{{ origin }}{{ search }}" target="_blank">http://{{ origin }}</a></p>
+      <p>${t("To halt Fepper, go to the command prompt where Fepper is running and press ctrl+c.")}</p>
+      <p>${t("The following documentation is also available in Fepper&apos;s README.md:")}</p>`;
+/* eslint-enable quotes */
 
 exports.foot = `
     </main>

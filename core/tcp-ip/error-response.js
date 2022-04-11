@@ -21,8 +21,10 @@ module.exports = class {
       );
 
       let outputFpt = this.html.headBoilerplate;
-      outputFpt = outputFpt.replace('{{ title }}', t('ERROR'));
-      outputFpt += `\n      <pre>${t('Cannot GET %s')}</pre>`;
+      /* eslint-disable quotes */
+      outputFpt = outputFpt.replace('{{ title }}', t("ERROR"));
+      outputFpt += `\n      <pre>${t("Cannot GET %s")}</pre>`;
+      /* eslint-enable quotes */
       outputFpt = outputFpt.replace('%s', req.url);
       outputFpt += this.html.foot;
       const output = Feplet.render(outputFpt, {patternlabFoot});
