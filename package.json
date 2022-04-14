@@ -8,6 +8,7 @@
   },
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "i18n": "node run/verify-i18n.js",
     "test:eslint:core": "eslint core",
     "test:eslint:extend": "eslint excludes/profiles/base/extend excludes/profiles/main/extend",
     "test:eslint:frontend": "eslint excludes/profiles/main/source/_scripts/src",
@@ -19,7 +20,7 @@
     "test:mocha:core": "mocha test/tests",
     "test:mocha:ui": "mocha ui/test/tests",
     "test:mocha": "nyc mocha test/tests ui/test/tests",
-    "test": "node run/verify-i18n.js && npm run test:eslint && npm run test:mocha"
+    "test": "npm run i18n && npm run test:eslint && npm run test:mocha"
   },
   "husky": {
     "hooks": {
