@@ -212,7 +212,7 @@ module.exports = class {
             fs.copySync(file, targetFilePath);
           }
 
-          let message = 'Copied %s to %s';
+          let message = t("Copied %s to %s");
           message = message.replace('%s', '\x1b[36m' + file.replace(this.rootDir, '').replace(/^\//, '') + '\x1b[0m');
           message = message.replace('%s', '\x1b[36m' + targetFilePath.replace(this.rootDir, '').replace(/^\//, '') +
             '\x1b[0m');
