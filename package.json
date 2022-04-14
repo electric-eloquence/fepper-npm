@@ -19,7 +19,7 @@
     "test:mocha:core": "mocha test/tests",
     "test:mocha:ui": "mocha ui/test/tests",
     "test:mocha": "nyc mocha test/tests ui/test/tests",
-    "test": "npm run test:eslint && npm run test:mocha"
+    "test": "node run/verify-i18n.js && npm run test:eslint && npm run test:mocha"
   },
   "husky": {
     "hooks": {

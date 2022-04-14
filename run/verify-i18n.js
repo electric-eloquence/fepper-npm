@@ -87,6 +87,5 @@ Object.keys(i18nKeyCount).forEach((key) => {
     }
 
     utils.log(key);
-    utils.log();
   }
 });
