@@ -75,8 +75,7 @@ module.exports = class {
         Feplet.render(this.viewallBuilder.viewallTemplateHead, this.ingredients.data);
 
       this.ingredients.viewallPatterns.viewall = new objectFactory.PatternViewall(
-        // Naming the HTML file viewall.html instead of index.html to allow naming a Type "viewall" however unlikely.
-        `${this.public.patterns}/viewall/viewall.html`,
+        `${this.public.patterns}/viewall/index.html`,
         this.viewallBuilder.viewallPageHead
       );
     }

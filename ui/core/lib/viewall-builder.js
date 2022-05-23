@@ -299,7 +299,7 @@ module.exports = class {
     }
 
     // Add viewall to patternPaths.
-    this.ingredients.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/viewall.html`;
+    this.ingredients.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/index.html`;
   }
 
   readViewallTemplates() {
