@@ -73,11 +73,15 @@ module.exports = class {
 
       this.viewallBuilder.viewallPageHead = firstPattern.header +
         Feplet.render(this.viewallBuilder.viewallTemplateHead, this.ingredients.data);
-
       this.ingredients.viewallPatterns.viewall = new objectFactory.PatternViewall(
         `${this.public.patterns}/viewall/index.html`,
         this.viewallBuilder.viewallPageHead
       );
+      this.ingredients.viewallPatterns.viewall.content =
+        this.ingredients.viewallPatterns.viewall.content.replace(
+          '<div class="sg-main" role="main">',
+          '<div class="sg-main" role="main" data-patternpartial="viewall">'
+        );
     }
 
     const scraperFile = `${this.source.scrape}/00-html-scraper.mustache`;
@@ -103,6 +107,12 @@ module.exports = class {
           `${this.public.patterns}/${patternType.flatPatternPath}/index.html`,
           this.viewallBuilder.viewallPageHead
         );
+        this.ingredients.viewallPatterns[patternType.flatPatternPath].content =
+          this.ingredients.viewallPatterns[patternType.flatPatternPath].content.replace(
+            '<div class="sg-main" role="main">',
+            '<div class="sg-main" role="main" data-patternpartial="' + patternType.patternPartial + '">'
+          );
+
         this.viewallBuilder.buildViewallTypeHead(patternType);
       }
 
@@ -164,6 +174,12 @@ module.exports = class {
             `${this.public.patterns}/${patternSubType.flatPatternPath}/index.html`,
             this.viewallBuilder.viewallPageHead
           );
+          this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content =
+            this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content.replace(
+              '<div class="sg-main" role="main">',
+              '<div class="sg-main" role="main" data-patternpartial="' + patternSubType.patternPartial + '">'
+            );
+
           this.viewallBuilder.buildViewallSubTypeHead(patternSubType, patternType);
         }
 
