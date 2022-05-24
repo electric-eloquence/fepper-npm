@@ -19,7 +19,7 @@
         <a
           href="{{ pathsPublic.patterns }}/{{ patternLink }}"
           class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}"
-          data-patternpartial="{{ patternPartial }}"
+          data-pattern-partial="{{ patternPartial }}"
         >{{ patternName }}</a>
       </li>
     {{/ patternSubTypeItems }}
@@ -30,13 +30,13 @@
       <a
         href="{{ pathsPublic.patterns }}/{{ patternLink }}"
         class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}"
-        data-patternpartial="{{ patternPartial }}"
+        data-pattern-partial="{{ patternPartial }}"
       >{{ patternName }}</a>
     </li>
   {{/ patternTypeItems }}
   </ul></li>
 {{/ patternTypes }}
-<li><a href="{{ pathsPublic.patterns }}/viewall/index.html" class="sg-pop" data-patternpartial="viewall">All</a></li>
+<li><a href="{{ pathsPublic.patterns }}/viewall/index.html" class="sg-pop" data-pattern-partial="viewall">All</a></li>
 </ul></div><ul class="sg-controls visually-hidden" id="sg-controls"><li class="sg-size">
 <div class="sg-current-size">
   <form id="sg-form">

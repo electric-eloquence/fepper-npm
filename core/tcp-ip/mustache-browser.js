@@ -115,7 +115,7 @@ module.exports = class {
 
         if (pattern) {
           highlightedSpl[i] = '<a href="/?p=' + pattern.patternPartial + '" target="_top" data-path="' +
-            `${pattern.pathsPublic.patterns}/${pattern.patternLink}` + '" data-patternpartial="' +
+            `${pattern.pathsPublic.patterns}/${pattern.patternLink}` + '" data-pattern-partial="' +
             pattern.patternPartial + '" class="mustache-browser__link">{{>' + includerSpl0 + '}}</a>' + includerSpl1;
         }
         else {
