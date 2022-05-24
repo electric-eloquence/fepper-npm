@@ -80,7 +80,7 @@ module.exports = class {
       this.ingredients.viewallPatterns.viewall.content =
         this.ingredients.viewallPatterns.viewall.content.replace(
           '<div class="sg-main" role="main">',
-          '<div class="sg-main" role="main" data-patternpartial="viewall">'
+          '<div class="sg-main" role="main" data-pattern-partial="viewall">'
         );
     }
 
@@ -110,7 +110,7 @@ module.exports = class {
         this.ingredients.viewallPatterns[patternType.flatPatternPath].content =
           this.ingredients.viewallPatterns[patternType.flatPatternPath].content.replace(
             '<div class="sg-main" role="main">',
-            '<div class="sg-main" role="main" data-patternpartial="' + patternType.patternPartial + '">'
+            '<div class="sg-main" role="main" data-pattern-partial="' + patternType.patternPartial + '">'
           );
 
         this.viewallBuilder.buildViewallTypeHead(patternType);
@@ -177,7 +177,7 @@ module.exports = class {
           this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content =
             this.ingredients.viewallPatterns[patternSubType.flatPatternPath].content.replace(
               '<div class="sg-main" role="main">',
-              '<div class="sg-main" role="main" data-patternpartial="' + patternSubType.patternPartial + '">'
+              '<div class="sg-main" role="main" data-pattern-partial="' + patternSubType.patternPartial + '">'
             );
 
           this.viewallBuilder.buildViewallSubTypeHead(patternSubType, patternType);
