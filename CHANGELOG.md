@@ -1,6 +1,9 @@
 # Fepper NPM Changelog
 
 ### v0.40.4
+* Added keyboard shortcuts to dock the code/annotations viewer
+* Added keyboard shortcuts to switch between tabs/panels in code viewer
+* Annotations viewer persists when viewed in halfMode
 
 ### v0.40.3
 * Improved font in Git Interface
