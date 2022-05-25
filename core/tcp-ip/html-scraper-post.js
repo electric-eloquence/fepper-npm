@@ -148,7 +148,8 @@ module.exports = class {
 
       // this.conf.scrape.limit_time set in fepper-utils.
       if (scrapeFileAge < this.conf.scrape.limit_time) {
-        this.redirectWithMsg('error', `${t('ERROR')}! ${this.conf.scrape.limit_error_msg}`);
+        // eslint-disable-next-line quotes
+        this.redirectWithMsg('error', `${t("ERROR")}! ${this.conf.scrape.limit_error_msg}`);
 
         return;
       }
@@ -158,8 +159,10 @@ module.exports = class {
       fs.outputFileSync(scrapeDir + '/' + filename + '.mustache', fileMustache);
       fs.outputFileSync(scrapeDir + '/' + filename + '.json', fileJson);
 
-      let message = `${t('SUCCESS')}! `;
-      message += `${t('Refresh the browser to check that your template appears under the &quot;Scrape&quot; menu.')}`;
+      /* eslint-disable quotes */
+      let message = `${t("SUCCESS")}! `;
+      message += `${t("Refresh the browser to check that your template appears under the &quot;Scrape&quot; menu.")}`;
+      /* eslint-enable quotes */
 
       this.redirectWithMsg('success', message);
     }
@@ -208,7 +211,7 @@ module.exports = class {
     const output = Feplet.render(
       outputFpt,
       {
-        title: t('Fepper HTML Scraper'),
+        title: t("Fepper HTML Scraper"), // eslint-disable-line quotes
         main_id: 'fepper-html-scraper',
         msg_class: msgClass,
         message,
@@ -469,8 +472,8 @@ module.exports = class {
         mustache = this.jsonToMustache(jsonForMustache, jsonForData);
       }
       else {
-        // eslint-disable-next-line max-len
-        message = `${t('WARNING')}! ${t('The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML spec. This will prevent Fepper from writing its data into a JSON file.')}`;
+        // eslint-disable-next-line max-len, quotes
+        message = `${t("WARNING")}! ${t("The HTML at that URL and selector contains code (probably SVG or XML) defined outside the HTML spec. This will prevent Fepper from writing its data into a JSON file.")}`;
         msgClass = 'warning';
         mustache = targetSingle;
       }
@@ -593,7 +596,8 @@ module.exports = class {
       let filename;
 
       if (!this.filenameValidate(this.filename)) {
-        this.redirectWithMsg('error', `${t('ERROR')}! ${t('Invalid filename!')}`);
+        // eslint-disable-next-line quotes
+        this.redirectWithMsg('error', `${t("ERROR")}! ${t("Invalid filename!")}`);
 
         return;
       }
@@ -623,9 +627,11 @@ module.exports = class {
       catch (err) /* istanbul ignore next */ {
         this.utils.error(err);
 
-        message = `${t('ERROR')}! `;
+        /* eslint-disable quotes */
+        message = `${t("ERROR")}! `;
         // eslint-disable-next-line max-len
-        message += `${t('The HTML at that URL and selector could not be parsed. Make sure it is well formed and syntactically correct.')}`;
+        message += `${t("The HTML at that URL and selector could not be parsed. Make sure it is well formed and syntactically correct.")}`;
+        /* eslint-enable quotes */
 
         this.redirectWithMsg('error', message);
 
@@ -634,9 +640,11 @@ module.exports = class {
 
       /* istanbul ignore if */
       if (!html2jsonObj || !html2jsonObj.child || !html2jsonObj.child.length) {
-        message = `${t('ERROR')}! `;
+        /* eslint-disable quotes */
+        message = `${t("ERROR")}! `;
         // eslint-disable-next-line max-len
-        message += `${t('The HTML at that URL and selector could not be scraped. Make sure that they are reachable and syntactically correct.')}`;
+        message += `${t("The HTML at that URL and selector could not be scraped. Make sure that they are reachable and syntactically correct.")}`;
+        /* eslint-enable quotes */
 
         this.redirectWithMsg('error', message);
 
@@ -653,7 +661,8 @@ module.exports = class {
     // If no form variables sent, redirect back with GET.
     else {
       try {
-        this.redirectWithMsg('error', `${t('ERROR')}! ${t('Incorrect submission!')}`);
+        // eslint-disable-next-line quotes
+        this.redirectWithMsg('error', `${t("ERROR")}! ${t("Incorrect submission!")}`);
 
         return;
       }

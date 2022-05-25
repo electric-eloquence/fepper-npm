@@ -7,7 +7,7 @@ const {
   patternlab
 } = require('../init')();
 
-const viewallViewall = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
+const viewallViewall = `${patternlab.config.paths.public.patterns}/viewall/index.html`;
 const patternTypeViewall = `${patternlab.config.paths.public.patterns}/00-test/index.html`;
 const patternSubTypeViewall = `${patternlab.config.paths.public.patterns}/00-test-sub/index.html`;
 
@@ -48,7 +48,7 @@ describe('Viewall Builder', function () {
     patternSubTypeViewallContent = fs.readFileSync(patternSubTypeViewall, patternlab.config.enc);
   });
 
-  it('writes viewall.html', function () {
+  it('writes viewall/index.html', function () {
     expect(viewallViewallExistsBefore).to.be.false;
 
     expect(viewallViewallExistsAfter).to.be.true;
@@ -69,7 +69,7 @@ describe('Viewall Builder', function () {
     expect(patternSubTypeViewallContent).to.have.string(identifyingTag);
   });
 
-  it('overrides viewall.html with custom code', function () {
+  it('overrides viewall/index.html with custom code', function () {
     expect(viewallViewallContent).to.have.string('<h1>foo</h1>');
     expect(viewallViewallContent).to.have.string('<h2>bar</h2>');
     expect(viewallViewallContent).to.have.string('<h3>baz</h3>');

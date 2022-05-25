@@ -58,10 +58,6 @@
   background-color: #600000;
 }
 
-#sg-code-tab-requerio {
-  display: none;
-}
-
 #sg-code-panels {
   background-color: #000;
   border-radius: 0.6rem;
@@ -256,11 +252,6 @@
 
 #sg-code-btn-markdown-continue {
   display: none;
-}
-
-#sg-code-pane-requerio-placeholder code {
-  display: block;
-  padding: 1.4rem;
 }
 
 #sg-code-radio-git {

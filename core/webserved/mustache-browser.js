@@ -14,7 +14,7 @@
         const messageObj = {
           event: 'patternlab.updatePath',
           path: link.dataset.path,
-          patternPartial: link.dataset.patternpartial
+          patternPartial: link.dataset.patternPartial
         };
         const targetOrigin =
           (window.location.protocol === 'file:') ? '*' : window.location.protocol + '//' + window.location.host;

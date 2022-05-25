@@ -146,11 +146,13 @@ module.exports = class {
       return;
     }
 
-    const identityMessage = `${t('*** Please tell me who you are.')}` + ' \n' +
-      `${t('Run')}` + ' \n' +
-      `${t('  git config --global user.email "you@example.com"')}` + ' \n' +
-      `${t('  git config --global user.name "Your Name"')}` + ' \n' +
-      `${t('to set your account\'s default identity.')}`;
+    /* eslint-disable quotes */
+    const identityMessage = `${t("*** Please tell me who you are.")}` + ' \n' +
+      `${t("Run")}` + ' \n' +
+      `${t("  git config --global user.email \"you@example.com\"")}` + ' \n' +
+      `${t("  git config --global user.name \"Your Name\"")}` + ' \n' +
+      `${t("to set your account's default identity.")}`;
+    /* eslint-enable quotes */
     let args0 = this.req.body.args && this.req.body.args[0];
     let childProcessExec;
     let cmd;
@@ -176,9 +178,11 @@ module.exports = class {
             }
             else {
               reject({
-                message: `${t('Command failed:')} ${cmd}` + ' \n' +
-                  `${t('The Git Interface only works over HTTPS.')}` + ' \n' +
-                  `${t('Please check the protocol of this project\'s remote address.')}`
+                /* eslint-disable quotes */
+                message: `${t("Command failed:")} ${cmd}` + ' \n' +
+                  `${t("The Git Interface only works over HTTPS.")}` + ' \n' +
+                  `${t("Please check the protocol of this project's remote address.")}`
+                /* eslint-enable quotes */
               });
             }
           }
@@ -195,7 +199,8 @@ module.exports = class {
               }
               else if (err) {
                 reject({
-                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
+                  // eslint-disable-next-line quotes
+                  message: `${t("Command failed:")} ${cmd}` + ` \n${identityMessage}`
                 });
               }
               else if (stdout.trim()) {
@@ -204,7 +209,8 @@ module.exports = class {
               else {
                 reject({
                   cmd,
-                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
+                  // eslint-disable-next-line quotes
+                  message: `${t("Command failed:")} ${cmd}` + ` \n${identityMessage}`
                 });
               }
             });
@@ -221,7 +227,8 @@ module.exports = class {
               }
               else if (err) {
                 reject({
-                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
+                  // eslint-disable-next-line quotes
+                  message: `${t("Command failed:")} ${cmd}` + ` \n${identityMessage}`
                 });
               }
               else if (stdout.trim()) {
@@ -229,7 +236,8 @@ module.exports = class {
               }
               else {
                 reject({
-                  message: `${t('Command failed:')} ${cmd}` + ` \n${identityMessage}`
+                  // eslint-disable-next-line quotes
+                  message: `${t("Command failed:")} ${cmd}` + ` \n${identityMessage}`
                 });
               }
             });
@@ -277,21 +285,25 @@ module.exports = class {
 
         if (typeof err === 'string') {
           // Status 501: Not implemented.
-          this.res.writeHead(501).end(`{"message":"${t('Command failed:')} ${cmd} \n${err}"}`);
+          // eslint-disable-next-line quotes
+          this.res.writeHead(501).end(`{"message":"${t("Command failed:")} ${cmd} \n${err}"}`);
         }
         else {
           cmd = (typeof err.cmd === 'string') ? err.cmd : '';
 
           if (err.name === 'FetchError') {
             if (err.code === 'ENOTFOUND' || err.code === 'EAI_AGAIN') {
-              err.message = `${t('Command failed:')} ${cmd}` + ` \n${t('The Git Interface requires Internet access.')}`;
+              // eslint-disable-next-line quotes
+              err.message = `${t("Command failed:")} ${cmd}` + ` \n${t("The Git Interface requires Internet access.")}`;
             }
             else {
-              err.message = `${t('Command failed:')} ${cmd}` + ` \n${err.name}: ${err.message}`;
+              // eslint-disable-next-line quotes
+              err.message = `${t("Command failed:")} ${cmd}` + ` \n${err.name}: ${err.message}`;
             }
           }
           else if (err.cmd === 'gh auth status' && err.code === 'ENOENT') {
-            err.message = `${t('Command failed:')} ${cmd}` + ` \n${t('GitHub CLI is not installed.')}`;
+            // eslint-disable-next-line quotes
+            err.message = `${t("Command failed:")} ${cmd}` + ` \n${t("GitHub CLI is not installed.")}`;
           }
 
           this.res.writeHead(500).end(JSON.stringify(err, Object.getOwnPropertyNames(err)));

@@ -94,7 +94,8 @@ module.exports = class {
     }
 
     // Update global npm.
-    this.utils.log(`${t('Running npm --global update on fepper-cli...')}`);
+    // eslint-disable-next-line quotes
+    this.utils.log(`${t("Running npm --global update on fepper-cli...")}`);
 
     const fepperCliVersions = parseNpmOutdated('fepper-cli', ['--global']);
 
@@ -105,7 +106,8 @@ module.exports = class {
         spawnSync(this.binNpm, ['install', '--global', 'fepper-cli'], {stdio: 'inherit'});
       }
       else {
-        this.utils.log(`${t('Running this command again as root/Administrator...')}`);
+        // eslint-disable-next-line quotes
+        this.utils.log(`${t("Running this command again as root/Administrator...")}`);
         spawnSync('sudo', [this.binNpm, 'uninstall', '--global', 'fepper-cli']);
         spawnSync('sudo', [this.binNpm, 'install', '--global', 'fepper-cli'], {stdio: 'inherit'});
       }
@@ -113,7 +115,8 @@ module.exports = class {
 
     // Update core npms.
     process.chdir(this.rootDir);
-    this.utils.log(`${t('Running npm update in %s...')}`, path.resolve(this.rootDir));
+    // eslint-disable-next-line quotes
+    this.utils.log(`${t("Running npm update in %s...")}`, path.resolve(this.rootDir));
 
     // Find the latest fepper-npm release and update if updatable.
     const fepperVersions = parseNpmOutdated('fepper');
@@ -161,7 +164,8 @@ module.exports = class {
     // Update extension npms.
     if (fs.existsSync(this.extendDir)) {
       process.chdir(this.extendDir);
-      this.utils.log(`${t('Running npm update in %s...')}`, path.resolve(this.extendDir));
+      // eslint-disable-next-line quotes
+      this.utils.log(`${t("Running npm update in %s...")}`, path.resolve(this.extendDir));
 
       // If the fp-stylus extension is installed, find the latest release and update if updatable.
       const extendPackageJson = fs.readJsonSync('./package.json', {throws: false});
@@ -183,7 +187,8 @@ module.exports = class {
 
     // Update public dir npms.
     process.chdir(this.publicDir);
-    this.utils.log(`${t('Running npm update in %s...')}`, path.resolve(this.publicDir));
+    // eslint-disable-next-line quotes
+    this.utils.log(`${t("Running npm update in %s...")}`, path.resolve(this.publicDir));
 
     // Find the latest feplet release and update if updatable.
     const fepletVersions = parseNpmOutdated('feplet');

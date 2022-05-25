@@ -53,7 +53,8 @@ module.exports = class {
     if (this.ingredients.patternTypes.length && this.isViewallValid) {
       if (
         this.ingredients.patternTypes[0].patternTypeItems.length &&
-        this.ingredients.patternTypes[0].patternTypeItems[0].patternName !== t('View All')
+        // eslint-disable-next-line quotes
+        this.ingredients.patternTypes[0].patternTypeItems[0].patternName !== t("View All")
       ) {
         isFirstPatternSubType = false;
         firstPattern = this.ingredients.patternTypes[0].patternTypeItems[0].pattern;
@@ -72,10 +73,8 @@ module.exports = class {
 
       this.viewallBuilder.viewallPageHead = firstPattern.header +
         Feplet.render(this.viewallBuilder.viewallTemplateHead, this.ingredients.data);
-
       this.ingredients.viewallPatterns.viewall = new objectFactory.PatternViewall(
-        // Naming the HTML file viewall.html instead of index.html to allow naming a Type "viewall" however unlikely.
-        `${this.public.patterns}/viewall/viewall.html`,
+        `${this.public.patterns}/viewall/index.html`,
         this.viewallBuilder.viewallPageHead
       );
     }
@@ -103,6 +102,7 @@ module.exports = class {
           `${this.public.patterns}/${patternType.flatPatternPath}/index.html`,
           this.viewallBuilder.viewallPageHead
         );
+
         this.viewallBuilder.buildViewallTypeHead(patternType);
       }
 
@@ -111,7 +111,8 @@ module.exports = class {
       for (let in1 = 0, le1 = patternType.patternTypeItems.length; in1 < le1; in1++) {
         const patternTypeItem = patternType.patternTypeItems[in1];
 
-        if (patternTypeItem.patternName === t('View All')) {
+        // eslint-disable-next-line quotes
+        if (patternTypeItem.patternName === t("View All")) {
           continue;
         }
 
@@ -163,6 +164,7 @@ module.exports = class {
             `${this.public.patterns}/${patternSubType.flatPatternPath}/index.html`,
             this.viewallBuilder.viewallPageHead
           );
+
           this.viewallBuilder.buildViewallSubTypeHead(patternSubType, patternType);
         }
 
@@ -171,7 +173,8 @@ module.exports = class {
         for (let in2 = 0, le2 = patternSubType.patternSubTypeItems.length; in2 < le2; in2++) {
           const patternSubTypeItem = patternSubType.patternSubTypeItems[in2];
 
-          if (patternSubTypeItem.patternName === t('View All')) {
+          // eslint-disable-next-line quotes
+          if (patternSubTypeItem.patternName === t("View All")) {
             continue;
           }
 

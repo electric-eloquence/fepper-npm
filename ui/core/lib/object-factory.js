@@ -118,7 +118,8 @@ exports.PatternItem = class {
     this.pattern = pattern;
 
     if (name === 'View All') {
-      this.patternName = t('View All');
+      // eslint-disable-next-line quotes
+      this.patternName = t("View All");
       this.patternLink = `${pattern.flatPatternPath}/index.html`;
 
       if (pattern.patternSubType) {

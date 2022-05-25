@@ -78,9 +78,9 @@ describe('Patternlab', function () {
 
     it('replaces cacheBuster tags with empty string in viewalls', function () {
       // viewallOrig should have been written by previous test.
-      const viewallOrig = `${configOrigClone.paths.public.patterns}/viewall/viewall.html`;
+      const viewallOrig = `${configOrigClone.paths.public.patterns}/viewall/index.html`;
       const viewallOrigContent = fs.readFileSync(viewallOrig, patternlab.config.enc);
-      const viewallAlt = `${patternlab.config.paths.public.patterns}/viewall/viewall.html`;
+      const viewallAlt = `${patternlab.config.paths.public.patterns}/viewall/index.html`;
       const viewallAltContent = fs.readFileSync(viewallAlt, patternlab.config.enc);
       const scriptTagStr = '<script src="../../annotations/annotations.js"></script>';
       const scriptTagRegex = /<script src="\.\.\/\.\.\/annotations\/annotations\.js\?\d+"><\/script>/;

@@ -83,7 +83,8 @@ module.exports = class {
       this.ingredients.data = this.buildPatternData(this.config.paths.source.data);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR')}: ${t('Missing or malformed %s!')}`, `${this.config.paths.source.data}/data.json`);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("ERROR")}: ${t("Missing or malformed %s!")}`, `${this.config.paths.source.data}/data.json`);
       this.utils.error(err);
     }
 
@@ -94,7 +95,8 @@ module.exports = class {
       this.ingredients.footer = fs.readFileSync(`${immutableDir}/immutable-footer.mustache`, this.config.enc);
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR')}: ${t('Missing an essential file from %s')}`, immutableDir);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("ERROR")}: ${t("Missing an essential file from %s")}`, immutableDir);
       this.utils.error(err);
     }
 
@@ -129,7 +131,8 @@ module.exports = class {
           this.ingredients.listItems = JSON5.parse(listItemsStr);
         }
         catch (err) /* istanbul ignore next */ {
-          this.utils.error(`${t('ERROR')}: ${t('Malformed %s')}`, listItemsFile);
+          // eslint-disable-next-line quotes
+          this.utils.error(`${t("ERROR")}: ${t("Malformed %s")}`, listItemsFile);
           this.utils.error(err);
         }
       }
@@ -149,14 +152,16 @@ module.exports = class {
             pattern.listItems = JSON5.parse(jsonFileStr);
 
             if (this.config.debug) {
-              this.utils.log(`${t('Found pattern-specific listitems.json for %s')}`, pattern.patternPartial);
+              // eslint-disable-next-line quotes
+              this.utils.log(`${t("Found pattern-specific listitems.json for %s")}`, pattern.patternPartial);
             }
 
             this.listItemsBuilder.listItemsBuild(pattern);
             this.utils.extendButNotOverride(pattern.jsonFileData.listItems, this.ingredients.data.listItems);
           }
           catch (err) /* istanbul ignore next */ {
-            this.utils.error(`${t('There was an error parsing pattern-specific listitems.json for %s')}`,
+            // eslint-disable-next-line quotes
+            this.utils.error(`${t("There was an error parsing pattern-specific listitems.json for %s")}`,
               pattern.relPath);
             this.utils.error(err);
           }
@@ -202,7 +207,8 @@ module.exports = class {
         this.utils.warn(err);
 
         let warnHead =
-          `${t('Could not find optional user-defined header, usually found at %s')}`;
+          // eslint-disable-next-line quotes
+          `${t("Could not find optional user-defined header, usually found at %s")}`;
 
         utils.warn(warnHead, './source/_meta/_00-head.mustache');
       }
@@ -227,7 +233,8 @@ module.exports = class {
         this.utils.warn(err);
 
         let warnFoot =
-          `${t('Could not find optional user-defined footer, usually found at %s')}`;
+          // eslint-disable-next-line quotes
+          `${t("Could not find optional user-defined footer, usually found at %s")}`;
 
         this.utils.warn(warnFoot, './source/_meta/_01-foot.mustache');
       }
@@ -299,8 +306,10 @@ module.exports = class {
     // Throw error if compilation fails.
     /* istanbul ignore if */
     if (!fs.existsSync(indexHtml)) {
-      utils.error(`${t('There is no public/index.html, which means the UI needs to be compiled')}`);
-      utils.log(`${t('Please run fp ui:compile')}`);
+      /* eslint-disable quotes */
+      utils.error(`${t("There is no public/index.html, which means the UI needs to be compiled")}`);
+      utils.log(`${t("Please run fp ui:compile")}`);
+      /* eslint-enable quotes */
 
       throw new Error('ENOENT');
     }
@@ -330,7 +339,8 @@ module.exports = class {
     if (this.config.debug) {
       const used = process.memoryUsage().heapUsed / 1024 / 1024;
 
-      this.utils.log(`${t('The build used approximately %s')}`, `${Math.round(used * 100) / 100} MB`);
+      // eslint-disable-next-line quotes
+      this.utils.log(`${t("The build used approximately %s")}`, `${Math.round(used * 100) / 100} MB`);
     }
   }
 
@@ -374,19 +384,21 @@ module.exports = class {
   }
 
   help() {
+    /* eslint-disable quotes */
     let out = `
-${t('User Interface CLI')}
+${t("User Interface CLI")}
 
-${t('Use:')}
-    <${t('task')}> [<${t('additional args')}>... [-d | --debug]]
+${t("Use:")}
+    <${t("task")}> [<${t("additional args")}>... [-d | --debug]]
 
-${t('Tasks:')}
-    fp ui:build         ${t('Build the patterns and output them to the public directory')}
-    fp ui:clean         ${t('Delete all patterns in the public directory')}
-    fp ui:compile       ${t('Compile the user interface from its components')}
-    fp ui:copy          ${t('Copy frontend files (_assets, _scripts, _styles) to the public directory')}
-    fp ui:copy-styles   ${t('Copy _styles to the public directory (for injection into the browser without a refresh)')}
+${t("Tasks:")}
+    fp ui:build         ${t("Build the patterns and output them to the public directory")}
+    fp ui:clean         ${t("Delete all patterns in the public directory")}
+    fp ui:compile       ${t("Compile the user interface from its components")}
+    fp ui:copy          ${t("Copy frontend files (_assets, _scripts, _styles) to the public directory")}
+    fp ui:copy-styles   ${t("Copy _styles to the public directory (for injection into the browser without a refresh)")}
 `;
+    /* eslint-enable quotes */
 
     this.utils.info(out);
   }
@@ -418,7 +430,8 @@ ${t('Tasks:')}
     }
     else {
       /* istanbul ignore next */
-      this.utils.error(`${t('Invalid config object!')}`);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("Invalid config object!")}`);
     }
   }
 };

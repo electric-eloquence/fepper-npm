@@ -28,7 +28,8 @@ module.exports = class {
 
       if (this.config.debug) {
         this.utils.log(
-          `${t('Found pseudo-pattern %s - variant of %s')}`,
+          // eslint-disable-next-line quotes
+          `${t("Found pseudo-pattern %s - variant of %s")}`,
           pseudoPattern.patternPartial,
           pattern.patternPartial
         );

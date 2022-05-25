@@ -123,11 +123,13 @@ module.exports = class {
 
     if (viewallSplit.length < 3) {
       /* istanbul ignore next */
-      this.utils.error(`${t('The partials list in viewall.mustache must have valid opening and closing tags!')}`);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("The partials list in viewall.mustache must have valid opening and closing tags!")}`);
     }
     else if (viewallSplit.length > 3) {
       /* istanbul ignore next */
-      this.utils.error(`${t('There can be only one partials list in viewall.mustache!')}`);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("There can be only one partials list in viewall.mustache!")}`);
     }
     else {
       this.viewallTemplateHead = viewallSplit[0];
@@ -297,7 +299,7 @@ module.exports = class {
     }
 
     // Add viewall to patternPaths.
-    this.ingredients.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/viewall.html`;
+    this.ingredients.patternPaths['viewall'] = `${this.pathsPublic.patterns}/viewall/index.html`;
   }
 
   readViewallTemplates() {
@@ -354,7 +356,8 @@ module.exports = class {
       }
     }
     catch (err) /* istanbul ignore next */ {
-      this.utils.error(`${t('ERROR')}: ${t('Missing an essential file from %s')}`, viewallCoreDir);
+      // eslint-disable-next-line quotes
+      this.utils.error(`${t("ERROR")}: ${t("Missing an essential file from %s")}`, viewallCoreDir);
       this.utils.error(err);
     }
   }

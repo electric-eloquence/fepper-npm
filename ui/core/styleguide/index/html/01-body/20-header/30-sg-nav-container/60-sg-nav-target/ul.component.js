@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 module.exports = {
   className: 'sg-nav visually-hidden',
   id: 'sg-nav-target',
@@ -12,7 +13,7 @@ module.exports = {
         <a
           href="{{ pathsPublic.patterns }}/{{ patternLink }}"
           class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}"
-          data-patternpartial="{{ patternPartial }}"
+          data-pattern-partial="{{ patternPartial }}"
         >{{ patternName }}</a>
       </li>
     {{/ patternSubTypeItems }}
@@ -23,13 +24,13 @@ module.exports = {
       <a
         href="{{ pathsPublic.patterns }}/{{ patternLink }}"
         class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}"
-        data-patternpartial="{{ patternPartial }}"
+        data-pattern-partial="{{ patternPartial }}"
       >{{ patternName }}</a>
     </li>
   {{/ patternTypeItems }}
   </ul></li>
 {{/ patternTypes }}
-<li><a href="{{ pathsPublic.patterns }}/viewall/viewall.html" class="sg-pop" data-patternpartial="viewall">${t('All')}</a></li>
+<li><a href="{{ pathsPublic.patterns }}/viewall/index.html" class="sg-pop" data-pattern-partial="viewall">${t("All")}</a></li>
 `
   }
 };
