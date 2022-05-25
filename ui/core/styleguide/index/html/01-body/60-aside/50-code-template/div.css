@@ -254,11 +254,6 @@
   display: none;
 }
 
-#sg-code-pane-requerio-placeholder code {
-  display: block;
-  padding: 1.4rem;
-}
-
 #sg-code-radio-git {
   display: flex;
   align-items: flex-start;

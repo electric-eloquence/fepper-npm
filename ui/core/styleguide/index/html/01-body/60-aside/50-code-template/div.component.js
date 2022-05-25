@@ -90,11 +90,13 @@ module.exports = {
     </div>
     <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t("Disable Git Interface")}">${t("Disable Git")}</button>
   </div>
+  <!--
   <div id="sg-code-panel-requerio" class="sg-code-panel">
     <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
       <code>${t("The Requerio Inspector is a work in progress. Please stay tuned as it comes to life!")}</code>
     </div>
   </div>
+  -->
 </div>
 `
   }
