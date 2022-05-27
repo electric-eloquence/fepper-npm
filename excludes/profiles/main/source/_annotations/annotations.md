@@ -17,7 +17,7 @@ that toggles the main navigation on small screens. Once the screen size is large
 enough to accommodate the nav, we show the main navigation links and hide the 
 menu anchor.
 
-~*~
+~*~ # Annotations separator.
 
 ---
 el: .search-form
