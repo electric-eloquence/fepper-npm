@@ -59,7 +59,7 @@
     "diveSync": "^0.3.0",
     "express": "^4.16.3",
     "feplet": "^1.2.4",
-    "fepper-utils": "^1.4.4",
+    "fepper-utils": "^1.4.5",
     "fs-extra": "^10.0.0",
     "gray-matter": "^4.0.0",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts@3.9.18",
