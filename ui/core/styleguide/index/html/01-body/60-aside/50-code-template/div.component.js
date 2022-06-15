@@ -52,7 +52,7 @@ module.exports = {
       <div></div><div></div><div></div><div></div>
     </div>
     <div id="sg-code-pane-markdown-commit" class="sg-code-pane">
-      <label id="sg-code-label-commit-message" for="sg-code-textarea-commit-message">${t("Please enter a commit message that describes this edit:")}</label>
+      <label id="sg-code-label-commit-message" for="sg-code-textarea-commit-message">${t("Please enter a Git commit message that describes this edit:")}</label>
       <textarea id="sg-code-textarea-commit-message" name="commit_message"></textarea>
       <button id="sg-code-btn-markdown-commit" class="sg-code-btn" title="${t("Commit this revision")}">${t("Commit")}</button>
       <button id="sg-code-btn-markdown-commit-cancel" class="sg-code-btn" title="${t("Cancel")}">${t("Cancel")}</button>
