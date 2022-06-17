@@ -165,15 +165,29 @@ function extensionsPush(taskName, argsArr, tasksArr = []) {
   }
 }
 
+// Check if argument matches a task. If not, output help info.
+if (
+  process.argv[4] !== 'default' &&
+  !Object.keys(gulp.tasks).includes(process.argv[4])
+) {
+  global.fepper.tasks.helper.main();
+
+  // Exit before gulp outputs that the task is not in the gulpfile.
+  // Those not familar with gulp might find this confusing.
+  // eslint-disable-next-line no-process-exit
+  process.exit();
+}
+
 // Declare gulp tasks.
 
+// Primary task when fp (or any of its aliases) is entered without an argument is to launch and open in browser.
 gulp.task('default', function (cb) {
   const args = [];
 
   args.push('once');
 
   // TCP-IP overrides must run before the Express app starts listening and gulp starts watching the file system in order
-  // to live reload changes.
+  // to LiveReload changes.
   extensionsPush('tcp-ip', args);
   args.push(['tcp-ip-load:listen', 'tcp-ip-reload:listen']);
 
