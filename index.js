@@ -78,10 +78,11 @@ else {
     if (arg === '-d' || arg === '--debug') {
       process.env.DEBUG = true;
     }
-    else if (arg === '--help') {
+    else if (arg === '-h' || arg === '--help') {
       argv.push('help');
     }
-    else if (arg === '-v' || arg === '--version') {
+    // Additional conditions to suppress showing gulp version.
+    else if (arg.startsWith('-v') || arg === '--v' || arg === '--version') {
       argv.push('version');
     }
     else {
