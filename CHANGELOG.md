@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.40.6
+* Fixed bug where fp command doesn't recognize many tasks
+
 ### v0.40.5
 * Better behavior for default fp task to better help with typos
 
