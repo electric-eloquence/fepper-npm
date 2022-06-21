@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.40.5
+* Better behavior for default fp task to better help with typos
+
 ### v0.40.4
 * Added keyboard shortcuts to dock the code/annotations viewer
 * Added keyboard shortcuts to switch between tabs/panels in code viewer
