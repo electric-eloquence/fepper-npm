@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.41.0
+* Added Requerio Inspector to UI to inspect JavaScript state of patterns
+
 ### v0.40.6
 * Fixed bug where fp command doesn't recognize many tasks
 
