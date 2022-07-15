@@ -9,7 +9,9 @@ const requerio = window.requerio = new Requerio($, Redux, $organisms);
 
 requerio.init();
 
-requerio.$orgs['#toggler'].on('click', function (e) {
-  e.preventDefault();
-  requerio.$orgs['#nav'].dispatchAction('toggleClass', 'toggled-on');
-});
+if (requerio.$orgs['#toggler']) {
+  requerio.$orgs['#toggler'].on('click', function (e) {
+    e.preventDefault();
+    requerio.$orgs['#nav'].dispatchAction('toggleClass', 'toggled-on');
+  });
+}

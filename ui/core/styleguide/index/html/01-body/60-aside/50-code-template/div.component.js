@@ -95,7 +95,7 @@ module.exports = {
     <div id="sg-code-pane-requerio-na" class="sg-code-pane sg-code-pane-na">
       <p>${t("Use the Requerio Inspector to display the real-time JavaScript state of elements in your site!")}</p>
       <p>${t("The demo site packaged with <a href='https://github.com/electric-eloquence/fepper' target='_blank'>Fepper's main distro</a> serves as documentation for setup and use.")}</p>
-      <p>${t("You can also view this documentation on <a href='' target='_blank'>Fepper's website</a>.")}</p>
+      <p>${t("You can also view this documentation on <a href='https://fepper.io/docpage--requerio-inspector.html' target='_blank'>Fepper's website</a>.")}</p>
     </div>
     <div id="sg-code-pane-requerio" class="sg-code-pane">
       <ul id="sg-code-tree-requerio-help" class="sg-code-tree-requerio">
