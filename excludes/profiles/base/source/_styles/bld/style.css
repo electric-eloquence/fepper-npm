@@ -33,3 +33,10 @@ section,
 summary {
   display: block;
 }
+#nav {
+  text-decoration: none;
+}
+#nav.toggled-on em {
+  font-style: normal;
+  text-decoration: underline;
+}

@@ -20,11 +20,10 @@ const utils = require('fepper-utils');
 const t = utils.t;
 
 const AnnotationsBuilder = require('./annotations-builder');
+// ListItems are a legacy relic of Pattern Lab complete with inconsistent casing of names.
 // CamelCasing "ListItems" (and "listItems") for the purpose of naming within code.
 // Using all-lowercase, non-delimited "listitems" for naming filenames.
-// Documented (probably unintentionally) by Pattern Lab at
-// https://patternlab.io/docs/data-listitems.html
-const ListItemsBuilder = require('./listitems-builder');
+const ListItemsBuilder = require('./listitems-builder'); // DEPRECATED.
 const LineageBuilder = require('./lineage-builder');
 const PatternBuilder = require('./pattern-builder');
 const PseudoPatternBuilder = require('./pseudo-pattern-builder');
@@ -52,7 +51,7 @@ module.exports = class {
     this.config.appDir = appDir;
     this.config.enc = utils.deepGet(global, 'conf.enc') || 'utf8';
     this.config.gitInterface = utils.deepGet(global, 'conf.git_interface') || false;
-    this.config.useListItems = false;
+    this.config.useListItems = false; // DEPRECATED.
 
     this.utils = utils;
 
@@ -60,7 +59,7 @@ module.exports = class {
     this.resetIngredients();
 
     this.annotationsBuilder = new AnnotationsBuilder(this);
-    this.listItemsBuilder = new ListItemsBuilder(this);
+    this.listItemsBuilder = new ListItemsBuilder(this); // DEPRECATED.
     this.lineageBuilder = new LineageBuilder(this);
     this.patternBuilder = new PatternBuilder(this);
     this.pseudoPatternBuilder = new PseudoPatternBuilder(this);
@@ -121,6 +120,7 @@ module.exports = class {
       }
     );
 
+    // DEPRECATED.
     if (this.config.useListItems) {
       const listItemsFile = `${this.config.paths.source.data}/listitems.json`;
 
@@ -137,8 +137,10 @@ module.exports = class {
         }
       }
 
+      // DEPRECATED.
       const patternsPath = this.config.paths.source.patterns;
 
+      // DEPRECATED.
       for (let i = 0, l = this.ingredients.patterns.length; i < l; i++) {
         const pattern = this.ingredients.patterns[i];
 
@@ -183,6 +185,7 @@ module.exports = class {
   }
 
   preProcessDataAndParams() {
+    // DEPRECATED.
     if (this.config.useListItems) {
       this.listItemsBuilder.listItemsBuild(this.ingredients);
     }
@@ -271,7 +274,7 @@ module.exports = class {
     this.ingredients.footer = '';
     this.ingredients.hashesNew = {};
     this.ingredients.hashesOld = {};
-    this.ingredients.listItems = {};
+    this.ingredients.listItems = {}; // DEPRECATED.
     this.ingredients.partials = {};
     this.ingredients.partialsComp = {};
     this.ingredients.patternPaths = {};
@@ -408,7 +411,7 @@ ${t("Tasks:")}
       this.config = this.utils.extendButNotOverride(config, this.config);
 
       this.annotationsBuilder.config = this.config;
-      this.listItemsBuilder.config = this.config;
+      this.listItemsBuilder.config = this.config; // DEPRECATED.
       this.lineageBuilder.config = this.config;
       this.patternBuilder.config = this.config;
       this.pseudoPatternBuilder.config = this.config;

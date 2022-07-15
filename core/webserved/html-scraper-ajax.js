@@ -34,12 +34,10 @@
         let main = d.getElementById('fepper-html-scraper');
 
         if (main) {
-          // DEPRECATED as of 2020-12-08. To be replaced.
           const message = doc.getElementById('message') || emptyFrag;
           const loadAnim = doc.getElementById('load-anim') || emptyFrag;
-          const heading = doc.getElementById('scraper-heading');
-          // Get last form on page. Older Fepper versions didn't identify it by name.
-          const targeter = doc.forms[doc.forms.length - 1]; // Allow fully logged failure if this returns null.
+          const heading = doc.getElementById('scraper__heading');
+          const targeter = doc.getElementById('scraper__targeter');
           const helpText = doc.getElementById('help-text') || emptyFrag;
           const stage = doc.getElementById('scraper__stage') || emptyFrag;
 
@@ -49,20 +47,7 @@
           }
 
           main.appendChild(loadAnim);
-
-          if (!main.getElementsByClassName('scraper-heading').length) {
-            if (heading) {
-              main.appendChild(heading);
-            }
-            else {
-              const heading = d.createElement('h1');
-              heading.id = 'scraper__heading';
-              heading.innerHTML = 'Fepper HTML Scraper';
-
-              main.appendChild(heading);
-            }
-          }
-
+          main.appendChild(heading);
           main.appendChild(targeter);
           main.appendChild(helpText);
           main.appendChild(stage);

@@ -64,7 +64,7 @@
     "gray-matter": "^4.0.0",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts",
     "gulp-livereload": "^4.0.1",
-    "he": "1.1.0",
+    "he": "1.2.0",
     "html2json": "^1.0.2",
     "js-yaml": "^4.1.0",
     "json5": "0.5.1",

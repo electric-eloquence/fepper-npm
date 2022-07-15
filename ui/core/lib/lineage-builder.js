@@ -1,12 +1,3 @@
-// DEPRECATION NOTICE.
-// THE FOLLOWING PROPERTIES ARE DEPRECATED.
-// .lineageArray
-// .lineageExists
-// .lineageIndex
-// .lineageRArray
-// .lineageRExists
-// .lineageRIndex
-
 'use strict';
 
 let t;
@@ -102,9 +93,6 @@ module.exports = class {
         continue;
       }
 
-      // Add to lineageIndex.
-      pattern.lineageIndex.push(descendentPattern.patternPartial); // DEPRECATED.
-
       // Create the more complex lineage object.
       const l = {
         lineagePattern: descendentPattern.patternPartial,
@@ -116,16 +104,13 @@ module.exports = class {
         l.lineageState = descendentPattern.patternState;
       }
 
-      pattern.lineageArray.push(l); // DEPRECATED.
       pattern.lineage[descendentPattern.patternPartial] = l;
 
-      // Only add to lineageRIndex if it hadn't been indexed before.
+      // Only add if it hasn't been indexed before.
       /* istanbul ignore if */
       if (lineageRKeys.includes(pattern.patternPartial)) {
         continue;
       }
-
-      descendentPattern.lineageRIndex.push(pattern.patternPartial); // DEPRECATED.
 
       // Create the more complex lineage object in reverse.
       const lr = {
@@ -143,7 +128,6 @@ module.exports = class {
       }
 
       descendentPattern.lineageR[pattern.patternPartial] = lr;
-      descendentPattern.lineageRArray.push(lr); // DEPRECATED.
     }
   }
 };

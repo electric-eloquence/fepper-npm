@@ -137,23 +137,4 @@ describe('Templater', function () {
     expect(altOutfileExistsBefore).to.be.false;
     expect(altOutfileExistsAfter).to.be.true;
   });
-
-  /* eslint-disable max-len */
-  // DEPRECATED: retaining for backward compatibility. Will be removed. In future tests, test content without escapes.
-  it('translates the old YAML syntax of escaped special regex characters in keys', function () {
-    const output = fs.readFileSync(templatesAlt + '/02-templater-alt.twig', conf.enc).trim();
-
-    expect(output).to.equal(`{% if not configuration.label_display %}
-  <p {{ attributes|without('role', 'aria-labelledby') }}>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
-{% endif %}`);
-  });
-
-  it('translates the old YAML syntax of escaped curly braces in values', function () {
-    const output = fs.readFileSync(templatesAlt + '/02-templater-alt.twig', conf.enc).trim();
-
-    // eslint-disable-next-line max-len
-    expect(output).to.equal(`{% if not configuration.label_display %}
-  <p {{ attributes|without('role', 'aria-labelledby') }}>02-templater-alt.yml overrides "templates_dir" and 'templates_ext' in pref.yml</p>
-{% endif %}`);
-  });
 });

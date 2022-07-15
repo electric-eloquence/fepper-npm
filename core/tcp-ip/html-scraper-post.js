@@ -234,10 +234,10 @@ module.exports = class {
    * @returns {string} Sanitized HTML.
    */
   htmlSanitize(html_) {
-    let html = html_.replace(/<script(.*?)>/g, '<code$1>');
-    html = html.replace(/<\/script(.*?)>/g, '</code$1>');
-    html = html.replace(/<textarea(.*?)>/g, '<figure$1>');
-    html = html.replace(/<\/textarea(.*?)>/g, '</figure$1>');
+    let html = html_.replace(/<script([^>]*)>/g, '<code$1>');
+    html = html.replace(/<\/script([^>]*)>/g, '</code$1>');
+    html = html.replace(/<textarea([^>]*)>/g, '<figure$1>');
+    html = html.replace(/<\/textarea([^>]*)>/g, '</figure$1>');
 
     return html;
   }
@@ -490,20 +490,17 @@ module.exports = class {
   /**
    * Objectify raw selector string.
    *
-   * @param {string} selectorRaw - CSS selector plus optional array index. DEPRECATED. To be renamed "selector".
+   * @param {string} selectorRaw - CSS selector plus optional array index.
    * @param {string} selectorIdx - The index at which to select from an array of CSS selections.
    * @returns {object} CSS selector, its index, and type.
    */
   selectorObjectify(selectorRaw, selectorIdx) {
-    // DEPRECATED: The parsing of the raw selector into selector name and index should have occurred on the client-side.
-    // It is extraneous in newer Fepper UI versions (>= v0.8.2) and will be removed from the server.
     const selectorSplit = selectorRaw.trim().split('[');
     let index;
     let name;
     let type;
 
     if (selectorSplit[1]) {
-      // DEPRECATED
       if (/^\d+\]$/.test(selectorSplit[1])) {
         index = selectorSplit[1].slice(0, -1);
       }

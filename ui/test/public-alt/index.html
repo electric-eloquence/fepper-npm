@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 </head><body class="dock-bottom" id="patternlab-body"><header class="sg-header" role="banner"><div class="sg-nav-container" id="sg-nav-container"><a href="#" class="sg-nav-toggle">Menu</a><div class="visually-hidden" id="sg-nav-message">
 <h1>Nothing here yet!</h1>
-<ul>
+<ul id="sg-nav-message-test">
   <li>Make sure there are patterns in source/_patterns</li>
   <li>Run fp ui:compile</li>
   <li>Run fp restart</li>
@@ -94,34 +94,6 @@
   </div>
 </div>
 <div id="sg-annotations"></div>
-
-<script>
-  (function () {
-    const sgVpWrap = document.getElementById('sg-vp-wrap');
-    const deprecationMessage = document.createElement('code');
-    deprecationMessage.id = 'deprecation-message-0.40.0';
-    deprecationMessage.innerHTML = 'Update Fepper UI to make this work correctly.';
-    deprecationMessage.style.color = 'red';
-    deprecationMessage.style.opacity = '0';
-    deprecationMessage.style.position = 'absolute';
-    deprecationMessage.style.top = 'calc(50% + 1.7rem)';
-    deprecationMessage.style.left = '1.4rem';
-    deprecationMessage.style.transition = 'opacity 1s';
-
-    sgVpWrap.appendChild(deprecationMessage);
-
-    window.addEventListener('load', () => {
-      if (!window.FEPPER_UI.patternViewport) {
-        window.FEPPER_UI.patternViewport = {
-          goRandom: window.FEPPER_UI.patternlabViewer.goRandom.bind(window.FEPPER_UI.patternlabViewer),
-          goWhole: window.FEPPER_UI.patternlabViewer.goWhole.bind(window.FEPPER_UI.patternlabViewer)
-        };
-
-        deprecationMessage.style.opacity = '1';
-      }
-    });
-  })();
-</script>
 </div><div class="sg-view-scroll-container" id="sg-code-container">
 <div id="sg-code-pattern-info">
   <p>
@@ -149,12 +121,12 @@
   <li id="sg-code-tab-feplet" class="sg-code-tab sg-code-tab-active" title="Browse Fepper's Mustache templates">Feplet</li>
   <li id="sg-code-tab-markdown" class="sg-code-tab" title="Edit this pattern's Markdown content">Markdown</li>
   <li id="sg-code-tab-git" class="sg-code-tab" title="Download and upload revisions to this project">Git</li>
-  
+  <li id="sg-code-tab-requerio" class="sg-code-tab" title="Inspect this pattern's Requerio states">Requerio</li>
 </ul>
 <div id="sg-code-panels">
   <iframe id="sg-code-panel-feplet" class="sg-code-panel sg-code-panel-active" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
   <div id="sg-code-panel-markdown" class="sg-code-panel">
-    <div id="sg-code-pane-markdown-na" class="sg-code-pane" style="display: block;">
+    <div id="sg-code-pane-markdown-na" class="sg-code-pane sg-code-pane-na" style="display: block;">
       <p>There is no .md file associated with this pattern.</p>
       <p>Please refer to <a href="/readme#markdown-content" target="_blank">the docs</a> for additional information.</p>
     </div>
@@ -186,7 +158,7 @@
     </div>
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
-    <div id="sg-code-pane-git-na" class="sg-code-pane">
+    <div id="sg-code-pane-git-na" class="sg-code-pane sg-code-pane-na">
       <p>Ready to version control?</p>
       <p><a href="/readme#code-viewer" target="_blank">Instructions on interfacing with Git.</a></p>
       <div id="sg-code-message-git-na"></div>
@@ -209,7 +181,40 @@
     </div>
     <button id="sg-code-btn-git-disable" class="sg-code-btn" title="Disable Git Interface">Disable Git</button>
   </div>
-  
+  <div id="sg-code-panel-requerio" class="sg-code-panel">
+    <div id="sg-code-pane-requerio-na" class="sg-code-pane sg-code-pane-na">
+      <p>Use the Requerio Inspector to display the real-time JavaScript state of elements in your site!</p>
+      <p>The demo site packaged with <a href='https://github.com/electric-eloquence/fepper' target='_blank'>Fepper's main distro</a> serves as documentation for setup and use.</p>
+      <p>You can also view this documentation on <a href='' target='_blank'>Fepper's website</a>.</p>
+    </div>
+    <div id="sg-code-pane-requerio" class="sg-code-pane">
+      <ul id="sg-code-tree-requerio-help" class="sg-code-tree-requerio">
+        <li class="sg-code-tree-requerio sg-code-tree-requerio-branch">
+          <span class="clickable">How to dispatch actions in your browser's Developer Tools:</span>
+          <ul class="sg-code-tree-requerio sg-code-tree-requerio-branch">
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>Use your cursor to inspect the Requerio organism you wish to dispatch actions on.</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>This should open the Inspector or Elements tab of the Developer Tools.</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>Click the adjacent tab to open the Console of the Developer Tools.</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>Enter the following example in the Console:</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>requerio.$orgs['#nav'].dispatchAction('css', {backgroundColor: 'green'})</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>If not on the default demo site, or if the #nav element doesn't exist, replace '#nav' with your own selector, and the arguments with your own arguments.</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>The state change should show up below.</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+><a href="https://github.com/electric-eloquence/requerio#readme" target="_blank">Main Requerio docs.</a></li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+><a href="https://github.com/electric-eloquence/requerio/blob/dev/docs/methods.md" target="_blank">Action methods and their arguments.</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div><div class="sg-view-btns">
 <svg id="sg-view-btn-dock-left" class="sg-view-btn-dock-left sg-view-btn"

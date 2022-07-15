@@ -244,10 +244,18 @@ module.exports = class {
     /* istanbul ignore if */
     if (fs.existsSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) {
       fs.ensureDirSync(`${this.config.paths.public.styleguide}/${requerioDir}`);
-      fs.copySync(
-        `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
-        `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
-      );
+
+      // Check that one Requerio file is not symbolically linked to another when developing and debugging.
+      if (
+        !fs.existsSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`) ||
+        JSON.stringify(fs.statSync(`${this.config.paths.public.root}/${requerioDir}/${requerioFile}`)) !==
+        JSON.stringify(fs.statSync(`${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`))
+      ) {
+        fs.copySync(
+          `${this.config.paths.public.root}/${requerioDir}/${requerioFile}`,
+          `${this.config.paths.public.styleguide}/${requerioDir}/${requerioFile}`
+        );
+      }
     }
 
     // Delete old compiled styles.

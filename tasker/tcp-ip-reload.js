@@ -50,7 +50,7 @@ gulp.task('tcp-ip-reload:watch', function () {
   gulp.watch(srcDir.cssBld + '/**/*.css', ['ui:copy-styles:bld']);
   gulp.watch(srcDir.cssBld + '/**/!(*.css)', ['ui:copy-styles:other']);
   gulp.watch(srcDir.data + '/_data.json', ['data']);
-  gulp.watch(srcDir.data + '/listitems.json', ['ui:build']);
+  gulp.watch(srcDir.data + '/listitems.json', ['ui:build']); // DEPRECATED.
   gulp.watch(srcDir.images + '/**/*', ['ui:copy-assets']);
   gulp.watch(srcDir.js + '/**/*', ['ui:copy-scripts']);
   gulp.watch(srcDir.meta + '/**/*', ['ui:compile']);
