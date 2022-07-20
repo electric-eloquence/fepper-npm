@@ -36,7 +36,7 @@ if (typeof window === 'object') {
     $orgs['#sg-t-annotations'].on('click', sgTAnnotationsClick);
     $orgs['#sg-t-code'].on('click', sgTCodeClick);
 
-    // Click handler for "Open in new window" link.
+    // Click handler for "Open in new tab" link.
     // Do not use Event.preventDefault().
     $orgs['#sg-raw'].on('click', function () {
       $orgs['#sg-view'].dispatchAction('removeClass', 'active');
