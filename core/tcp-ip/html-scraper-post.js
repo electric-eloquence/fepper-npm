@@ -585,7 +585,7 @@ module.exports = class {
       return;
     }
 
-    // HTML importer action on submission of filename.
+    // Importer action on submission of filename.
     // This condition needs to be first since it will be submitted with the other fields populated.
     if (this.filename) {
 
@@ -609,7 +609,7 @@ module.exports = class {
       this.filesWrite(scrapeDir, filename, fileMustache, fileJson);
     }
 
-    // HTML scraper action on submission of URL.
+    // Scraper action on submission of URL.
     else if (
       this.url.trim() &&
       this.selector.trim() &&

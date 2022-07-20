@@ -22,7 +22,7 @@
 
   const emptyFrag = new DocumentFragment();
 
-  // First, make sure the HTML scraper is being requested from the same machine that's running the Express app.
+  // First, make sure the HTML Scraper is being requested from the same machine that's running the Express app.
   fetch('/gatekeeper?tool=the+HTML+Scraper')
     .then(() => fetch('/html-scraper-xhr' + window.location.search))
     .then((response) => response.text())

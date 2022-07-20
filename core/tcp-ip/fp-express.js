@@ -46,22 +46,22 @@ module.exports = class {
 
     /* GET OPERATIONS */
 
-    // HTML scraper AJAX gatekeeper response.
+    // HTML Scraper AJAX gatekeeper response.
     app.get('/gatekeeper', this.gatekeeper.respond());
 
-    // HTML scraper form.
+    // HTML Scraper form.
     app.get('/html-scraper', this.htmlScraper.main());
 
-    // HTML scraper AJAX for populating user pages.
+    // HTML Scraper AJAX for populating user pages.
     app.get('/html-scraper-xhr', this.htmlScraper.xhr());
 
-    // HTML scraper cross-origin requests of HTML for scraping.
+    // HTML Scraper cross-origin requests of HTML for scraping.
     app.get('/html-scraper-xhr/cors', this.htmlScraper.cors());
 
-    // HTML scraper markup for gatekept forbidden page.
+    // HTML Scraper markup for gatekept forbidden page.
     app.get('/html-scraper-xhr/forbidden', this.gatekeeper.render('the HTML Scraper'));
 
-    // Mustache browser.
+    // Mustache Browser.
     app.get('/mustache-browser', this.mustacheBrowser.main());
 
     // Readme page.
@@ -75,7 +75,7 @@ module.exports = class {
     // the methods to deal with request data if those data are constructed as properties of the object.
     // Ignore coverage on post operations. The methods they employ are pretty well tested.
 
-    // HTML scraper and importer actions.
+    // HTML Scraper actions.
     app.post('/html-scraper', (req, res) => /* istanbul ignore next */ {
       const htmlScraperPost = new HtmlScraperPost(req, res, this);
 
@@ -89,7 +89,7 @@ module.exports = class {
       gitApiPost.main();
     });
 
-    // Markdown editor actions.
+    // Markdown Editor actions.
     app.post('/markdown-editor', (req, res) => /* istanbul ignore next */ {
       const markdownEditorPost = new MarkdownEditorPost(req, res, this);
 
