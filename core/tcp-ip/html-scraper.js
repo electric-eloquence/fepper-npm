@@ -1,7 +1,6 @@
 'use strict';
 
 const Feplet = require('feplet');
-const fetch = require('node-fetch');
 
 module.exports = class {
   #fpExpress;
