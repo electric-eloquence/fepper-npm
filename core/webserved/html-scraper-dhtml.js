@@ -5,9 +5,7 @@
   const loadAnim = d.getElementById('load-anim');
   const message = d.getElementById('message');
   const stage = d.getElementById('scraper__stage');
-  // Targeter is the last form on the HTML Scraper page. Older Fepper versions didn't identify it by name.
-  // DEPRECATED as of 2020-12-08: anonymous form.
-  const targeter = d.forms.targeter || d.forms[d.forms.length - 1];
+  const targeter = d.getElementById('scraper__targeter');
 
   function fetchCors(url_) {
     let url;
@@ -165,30 +163,29 @@
   });
 
   // Show/hide help text.
-  // DEPRECATED as of 2020-12-08: #help-button and #hide-button selectors.
-  const helpButton = d.getElementById('help-button') || d.getElementById('help-show');
-  const hideButton = d.getElementById('hide-button') || d.getElementById('help-hide');
+  const helpShowButton = d.getElementById('help-show');
+  const helpHideButton = d.getElementById('help-hide');
   let helpText;
 
-  if (helpButton) {
-    helpButton.addEventListener('click', (e) => {
+  if (helpShowButton) {
+    helpShowButton.addEventListener('click', (e) => {
       e.preventDefault();
 
       helpText = helpText || d.getElementById('help-text') || {style: {}};
       helpText.style.visibility = 'visible';
-      helpButton.style.display = 'none';
-      hideButton.style.display = 'block';
+      helpShowButton.style.display = 'none';
+      helpHideButton.style.display = 'block';
     });
   }
 
-  if (hideButton) {
-    hideButton.addEventListener('click', (e) => {
+  if (helpHideButton) {
+    helpHideButton.addEventListener('click', (e) => {
       e.preventDefault();
 
       helpText = helpText || d.getElementById('help-text') || {style: {}};
       helpText.style.visibility = 'hidden';
-      hideButton.style.display = 'none';
-      helpButton.style.display = 'block';
+      helpHideButton.style.display = 'none';
+      helpShowButton.style.display = 'block';
     });
   }
 

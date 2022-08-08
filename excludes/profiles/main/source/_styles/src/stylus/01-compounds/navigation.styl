@@ -1,0 +1,58 @@
+.nav
+  &__menu
+    list-style-type: none
+    .caret
+      display: inline
+      vertical-align: top
+      svg
+        display: inline
+        fill: #363636
+        width: 1.7rem
+        height: 1.7rem
+    .caret--up
+      display: none
+  &__submenu
+    max-height: 0
+    overflow: hidden
+    padding-left: 2rem
+    transition: max-height 0.2s linear
+    &-container.active
+      .caret--down
+        display: none
+      .caret--up
+        display: inline
+      .nav__submenu
+        max-height: $nav-submenu-height
+.javascript-developers
+  .nav__submenu
+    max-height: $nav-submenu-height
+    &-toggle
+      pointer-events: none
+      .caret
+        display: none
+#nav__menu
+  padding-left: 0
+.sidebar-toggle-for-small-vp
+  background-color: transparent
+  border: 0
+  cursor: pointer
+  display: none
+  line-height: 1
+  outline: 0
+  padding: 0
+  position: absolute
+  top: 1rem
+  right: 0
+  svg
+    fill: #bbb
+    width: 5rem
+    height: 5rem
+  @media all and (max-width: $bp-sm-max)
+    display: block
+    .caret--right
+      display: none
+    &.active
+      .caret--left
+        display: none
+      .caret--right
+        display: block

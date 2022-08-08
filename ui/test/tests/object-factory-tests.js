@@ -51,11 +51,7 @@ describe('Object Factory', function () {
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.null;
-      expect(p.lineageArray).to.be.an.instanceof(Array);
-      expect(p.lineageIndex).to.be.an.instanceof(Array);
       expect(p.lineageR).to.be.null;
-      expect(p.lineageRArray).to.be.an.instanceof(Array);
-      expect(p.lineageRIndex).to.be.an.instanceof(Array);
       expect(p.listItems).to.be.null;
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
@@ -102,11 +98,7 @@ describe('Object Factory', function () {
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.null;
-      expect(p.lineageArray).to.be.an.instanceof(Array);
-      expect(p.lineageIndex).to.be.an.instanceof(Array);
       expect(p.lineageR).to.be.null;
-      expect(p.lineageRArray).to.be.an.instanceof(Array);
-      expect(p.lineageRIndex).to.be.an.instanceof(Array);
       expect(p.listItems).to.be.null;
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');
@@ -152,11 +144,7 @@ describe('Object Factory', function () {
       expect(p.isPseudoPattern).to.be.false;
       expect(p.jsonFileData).to.be.an.instanceof(Object);
       expect(p.lineage).to.be.null;
-      expect(p.lineageArray).to.be.an.instanceof(Array);
-      expect(p.lineageIndex).to.be.an.instanceof(Array);
       expect(p.lineageR).to.be.null;
-      expect(p.lineageRArray).to.be.an.instanceof(Array);
-      expect(p.lineageRIndex).to.be.an.instanceof(Array);
       expect(p.listItems).to.be.null;
       expect(p.patternState).to.equal('');
       expect(p.template).to.equal('');

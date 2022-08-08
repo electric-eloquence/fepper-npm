@@ -15,6 +15,7 @@ function isPatternHidden(pattern, config) {
   // documented by Pattern Lab and is unlikely to change. Fepper will document this as "styleguideExcludes" nonetheless.
   // "styleGuideExcludes" will not be deprecated unless the Pattern Lab documentation changes.
   // Return true if the pattern is configured to be excluded in patternlab-config.json.
+  // @see {@link https://patternlab.io/docs/editing-the-configuration-options/}
   const styleguideExcludes = config.styleguideExcludes || config.styleGuideExcludes || [];
 
   if (Array.isArray(styleguideExcludes) && styleguideExcludes.length) {
@@ -96,11 +97,7 @@ exports.Pattern = class {
     this.isPseudoPattern = false;
     this.jsonFileData = {};
     this.lineage = null;
-    this.lineageArray = []; // DEPRECATED.
-    this.lineageIndex = []; // DEPRECATED.
     this.lineageR = null;
-    this.lineageRArray = []; // DEPRECATED.
-    this.lineageRIndex = []; // DEPRECATED.
     this.listItems = null;
     this.missingPartials = [];
     this.pathsPublic = patternlab.config.pathsPublic;

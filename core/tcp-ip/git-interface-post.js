@@ -4,8 +4,6 @@
 
 const {exec, execFile} = require('child_process');
 
-const fetch = require('node-fetch');
-
 // Exporting module.exports as a class so req and res can be responsibly scoped to the "this" keyword.
 module.exports = class {
   constructor(req, res, fpExpress) {

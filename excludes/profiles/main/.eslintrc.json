@@ -1,0 +1,11 @@
+{
+  "globals": {
+    "$": true,
+    "Redux": true,
+    "Requerio": true,
+    "window": true
+  },
+  "rules": {
+    "strict": 0
+  }
+}

@@ -1,6 +1,6 @@
 /**
  * @file ui/core/styleguide/index//html/01-body/20-header/60-sg-controls/60-sg-view/li.js
- * @description Annotations and code viewer toggles.
+ * @description Annotations and Code Viewer toggles.
  */
 // Annotations toggle click handler.
 export function sgTAnnotationsClick(event) {
@@ -36,7 +36,7 @@ if (typeof window === 'object') {
     $orgs['#sg-t-annotations'].on('click', sgTAnnotationsClick);
     $orgs['#sg-t-code'].on('click', sgTCodeClick);
 
-    // Click handler for "Open in new window" link.
+    // Click handler for "Open in new tab" link.
     // Do not use Event.preventDefault().
     $orgs['#sg-raw'].on('click', function () {
       $orgs['#sg-view'].dispatchAction('removeClass', 'active');

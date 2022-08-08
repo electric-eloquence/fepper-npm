@@ -1,0 +1,25 @@
+article
+  min-height: 'calc(100vh - %s)' % $header-height
+  padding: 0 1.5rem 2rem 4rem
+  width: 'calc(100vw - %s)' % $nav-width
+  @media all and (max-width: $bp-md-max)
+    width: 'calc(100vw - %s)' % $nav-width-small
+  @media all and (max-width: $bp-sm-max)
+    padding-right: 1.5rem
+    padding-left: 1.5rem
+    width: auto
+.nav
+  background-color: rgb(250, 230, 230)
+  font-weight: 500
+  padding: 1.7rem 0 0 3rem
+  width: $nav-width
+  @media all and (max-width: $bp-md-max)
+    width: $nav-width-small
+  @media all and (max-width: $bp-sm-max)
+    height: 100%
+    position: absolute
+    top: 0
+    right: -($nav-width-small)
+    transition: right 0.2s linear
+    &.active
+      right: 0

@@ -12,6 +12,7 @@
 [![Mac Build Status][mac-image]][mac-url]
 [![Windows Build Status][windows-image]][windows-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
+![Node Version](https://img.shields.io/node/v/fepper.svg)
 [![License][license-image]][license-url]
 
 ### This is the npm that powers these Fepper prototypers:
@@ -33,7 +34,7 @@ on power-usage of Fepper.
 
 ### <a id="under-the-hood"></a>Under the Hood
 
-#### Minimum supported Node.js version 12.0.0
+#### Minimum supported Node.js version 18.0.0
 
 To just run a Node.js implementation of Pattern Lab, instantiate a `patternlab` 
 object as follows:

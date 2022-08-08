@@ -53,6 +53,9 @@
     "url": "https://github.com/electric-eloquence/fepper-npm/issues"
   },
   "homepage": "https://fepper.io/",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "body-parser": "^1.6.3",
     "cookie-parser": "^1.4.3",
@@ -64,12 +67,11 @@
     "gray-matter": "^4.0.0",
     "gulp": "https://github.com/electric-eloquence/gulp/tarball/v3-lts@3.9.18",
     "gulp-livereload": "^4.0.1",
-    "he": "1.1.0",
+    "he": "1.2.0",
     "html2json": "^1.0.2",
     "js-yaml": "^4.1.0",
     "json5": "0.5.1",
     "marked": "^4.0.10",
-    "node-fetch": "^2.6.7",
     "open": "^7.0.3",
     "prismjs": "1.27.0",
     "react": "^16.13.1",

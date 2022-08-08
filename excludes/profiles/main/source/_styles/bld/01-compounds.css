@@ -1,0 +1,49 @@
+
+/* line 297 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+
+/* line 1 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/extend/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+.sidebar-toggle-for-small-vp {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: none;
+  line-height: 1;
+  outline: 0;
+  padding: 0;
+  position: absolute;
+  top: 1rem;
+  right: 0;
+}
+
+/* line 12 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+.sidebar-toggle-for-small-vp svg {
+  fill: #bbb;
+  width: 5rem;
+  height: 5rem;
+}
+@media all and (max-width: $bp-sm-max) {
+
+/* line 16 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+  .sidebar-toggle-for-small-vp {
+    display: block;
+  }
+
+/* line 18 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+  .sidebar-toggle-for-small-vp .caret--right {
+    display: none;
+  }
+
+/* line 20 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+
+/* line 21 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+  .sidebar-toggle-for-small-vp.active .caret--left {
+    display: none;
+  }
+
+/* line 23 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/01-compounds.styl */
+  .sidebar-toggle-for-small-vp.active .caret--right {
+    display: block;
+  }
+}

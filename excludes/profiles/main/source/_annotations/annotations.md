@@ -16,13 +16,3 @@ of space. We're dealing with this situation by creating a simple menu anchor
 that toggles the main navigation on small screens. Once the screen size is large 
 enough to accommodate the nav, we show the main navigation links and hide the 
 menu anchor.
-
-~*~ # Annotations separator.
-
----
-el: .search-form
-title: Search
----
-Search is an incredibly important priority, especially for mobile. It is a great 
-idea to give users the ability to jump directly to what they are looking for 
-without forcing them to wade through your site's navigation.

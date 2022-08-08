@@ -30,12 +30,13 @@ module.exports = {
   <li id="sg-code-tab-feplet" class="sg-code-tab sg-code-tab-active" title="${t("Browse Fepper's Mustache templates")}">Feplet</li>
   <li id="sg-code-tab-markdown" class="sg-code-tab" title="${t("Edit this pattern's Markdown content")}">Markdown</li>
   <li id="sg-code-tab-git" class="sg-code-tab" title="${t("Download and upload revisions to this project")}">Git</li>
-  <!--<li id="sg-code-tab-requerio" class="sg-code-tab" title="${t("Inspect this pattern's Requerio states")}">Requerio</li>-->
+  <li id="sg-code-tab-requerio" class="sg-code-tab" title="${t("Inspect this pattern's Requerio states")}">Requerio</li>
 </ul>
 <div id="sg-code-panels">
   <iframe id="sg-code-panel-feplet" class="sg-code-panel sg-code-panel-active" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
   <div id="sg-code-panel-markdown" class="sg-code-panel">
-    <div id="sg-code-pane-markdown-na" class="sg-code-pane" style="display: block;">
+` /* Using inline css on the following line so js can use logic which unsets the rule instead of resetting it. */ +
+`    <div id="sg-code-pane-markdown-na" class="sg-code-pane sg-code-pane-na" style="display: block;">
       <p>${t("There is no .md file associated with this pattern.")}</p>
       <p>${t("Please refer to <a href=\"/readme#markdown-content\" target=\"_blank\">the docs</a> for additional information.")}</p>
     </div>
@@ -67,7 +68,7 @@ module.exports = {
     </div>
   </div>
   <div id="sg-code-panel-git" class="sg-code-panel">
-    <div id="sg-code-pane-git-na" class="sg-code-pane">
+    <div id="sg-code-pane-git-na" class="sg-code-pane sg-code-pane-na">
       <p>${t("Ready to version control?")}</p>
       <p><a href="/readme#code-viewer" target="_blank">${t("Instructions on interfacing with Git.")}</a></p>
       <div id="sg-code-message-git-na"></div>
@@ -90,13 +91,42 @@ module.exports = {
     </div>
     <button id="sg-code-btn-git-disable" class="sg-code-btn" title="${t("Disable Git Interface")}">${t("Disable Git")}</button>
   </div>
-  <!--
   <div id="sg-code-panel-requerio" class="sg-code-panel">
-    <div id="sg-code-pane-requerio-placeholder" class="sg-code-pane" style="display: block;">
-      <code>${t("The Requerio Inspector is a work in progress. Please stay tuned as it comes to life!")}</code>
+    <div id="sg-code-pane-requerio-na" class="sg-code-pane sg-code-pane-na">
+      <p>${t("Use the Requerio Inspector to display the real-time JavaScript state of elements in your site!")}</p>
+      <p>${t("The demo site packaged with <a href='https://github.com/electric-eloquence/fepper/releases' target='_blank'>Fepper's main distro</a> serves as documentation for setup and use.")}</p>
+      <p>${t("You can also view this documentation on <a href='https://fepper.io/docpage--requerio-inspector.html' target='_blank'>Fepper's website</a>.")}</p>
+    </div>
+    <div id="sg-code-pane-requerio" class="sg-code-pane">
+      <ul id="sg-code-tree-requerio-help" class="sg-code-tree-requerio">
+        <li class="sg-code-tree-requerio sg-code-tree-requerio-branch">
+          <span class="clickable">${t("How to dispatch actions in your browser's Developer Tools:")}</span>
+          <ul class="sg-code-tree-requerio sg-code-tree-requerio-branch">
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("Use your cursor to inspect the Requerio organism you wish to dispatch actions on.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("This should open the Inspector or Elements tab of the Developer Tools.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("Click the adjacent tab to open the Console of the Developer Tools.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("Enter the following example in the Console:")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("requerio.$orgs['#nav'].dispatchAction('css', {backgroundColor: 'green'})")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("The state change should be immediately visible.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("If the nav is hidden because the viewport is too narrow, either widen the viewport, or click the sidebar toggle to show the nav.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("If not on the default demo site, or if the #nav element doesn't exist, replace '#nav' with your own selector, and the arguments with your own arguments.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+><a href="https://github.com/electric-eloquence/requerio#readme" target="_blank">${t("Main Requerio docs.")}</a></li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+><a href="https://github.com/electric-eloquence/requerio/blob/dev/docs/methods.md" target="_blank">${t("Action methods and their arguments.")}</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
-  -->
 </div>
 `
   }

@@ -320,10 +320,7 @@ gulp.task('template', function (cb) {
 });
 
 // Check if argument matches a task. If not, output help info.
-if (
-  process.argv[4] !== 'default' &&
-  !Object.keys(gulp.tasks).includes(process.argv[4])
-) {
+if (!Object.keys(gulp.tasks).includes(process.argv[4])) {
   global.fepper.tasks.helper.main();
 
   // Exit before gulp outputs that the task is not in the gulpfile.

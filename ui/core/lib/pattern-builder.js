@@ -102,6 +102,7 @@ module.exports = class {
       return;
     }
 
+    let frontMatterContentLength = 0;
     pattern.frontMatterRelPathTrunc = pattern.relPathTrunc;
     pattern.isFrontMatter = true;
     pattern.isHidden = true;
@@ -109,19 +110,19 @@ module.exports = class {
 
     for (let i = 0, l = pattern.frontMatterData.length; i < l; i++) {
       if (pattern.frontMatterData[i].content_key && pattern.frontMatterData[i].content) {
-        pattern.frontMatterContent = pattern.frontMatterData[i];
-
         // This writes during preprocessing and well before processing, but might as well write now and not revisit.
         fs.outputFileSync(
           this.config.paths.public.patterns + '/' + pattern.patternLink.slice(0, -(pattern.outfileExtension.length)) +
           this.config.frontMatterExtension,
           pattern.template
         );
+
+        frontMatterContentLength++;
       }
     }
 
-    // If no pattern content, unset Patternlab.getPattern identifiers.
-    if (!pattern.frontMatterContent) {
+    // If no relevant content, unset Patternlab.getPattern identifiers from Front Matter file.
+    if (!frontMatterContentLength) {
       this.unsetIdentifiers(pattern);
     }
   }
@@ -289,8 +290,6 @@ module.exports = class {
 
       // Find and set lineages.
       this.lineageBuilder.main(pattern);
-      pattern.lineageExists = pattern.lineageArray.length > 0; // DEPRECATED.
-      pattern.lineageRExists = pattern.lineageRArray.length > 0; // DEPRECATED.
     }
   }
 
@@ -341,16 +340,20 @@ module.exports = class {
       if (fs.existsSync(frontMatterAbsPath)) {
         const frontMatterPattern = this.#patternlab.getPattern(frontMatterRelPath);
 
-        // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
-        if (
-          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content_key') &&
-          this.utils.deepGet(frontMatterPattern, 'frontMatterContent.content') &&
-          frontMatterPattern
-        ) {
-          pattern.jsonFileData[frontMatterPattern.frontMatterContent.content_key] =
-            frontMatterPattern.frontMatterContent.content;
+        if (frontMatterPattern) {
+          for (let i = 0; i < frontMatterPattern.frontMatterData.length; i++) {
+            // If the Front Matter pattern got preprocessed before this file, copy its relevant data.
+            if (
+              this.utils.deepGet(frontMatterPattern, `frontMatterData.${i}.content_key`) &&
+              this.utils.deepGet(frontMatterPattern, `frontMatterData.${i}.content`) &&
+              frontMatterPattern
+            ) {
+              pattern.jsonFileData[frontMatterPattern.frontMatterData[i].content_key] =
+                frontMatterPattern.frontMatterData[i].content;
 
-          this.unsetIdentifiers(frontMatterPattern);
+              this.unsetIdentifiers(frontMatterPattern);
+            }
+          }
         }
       }
 
@@ -389,26 +392,30 @@ module.exports = class {
       if (primaryPattern) {
         this.setState(primaryPattern);
 
-        if (
-          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
-          this.utils.deepGet(pattern, 'frontMatterContent.content')
-        ) {
-          primaryPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-        }
+        for (let i = 0; i < pattern.frontMatterData.length; i++) {
+          if (
+            this.utils.deepGet(pattern, `frontMatterData.${i}.content_key`) &&
+            this.utils.deepGet(pattern, `frontMatterData.${i}.content`)
+          ) {
+            primaryPattern.jsonFileData[pattern.frontMatterData[i].content_key] = pattern.frontMatterData[i].content;
+          }
 
-        this.unsetIdentifiers(pattern);
+          this.unsetIdentifiers(pattern);
+        }
       }
       else if (pseudoPattern) {
         this.setState(pseudoPattern);
 
-        if (
-          this.utils.deepGet(pattern, 'frontMatterContent.content_key') &&
-          this.utils.deepGet(pattern, 'frontMatterContent.content')
-        ) {
-          pseudoPattern.jsonFileData[pattern.frontMatterContent.content_key] = pattern.frontMatterContent.content;
-        }
+        for (let i = 0; i < pattern.frontMatterData.length; i++) {
+          if (
+            this.utils.deepGet(pattern, `frontMatterData.${i}.content_key`) &&
+            this.utils.deepGet(pattern, `frontMatterData.${i}.content`)
+          ) {
+            pseudoPattern.jsonFileData[pattern.frontMatterData[i].content_key] = pattern.frontMatterData[i].content;
+          }
 
-        this.unsetIdentifiers(pattern);
+          this.unsetIdentifiers(pattern);
+        }
       }
 
       return pattern;

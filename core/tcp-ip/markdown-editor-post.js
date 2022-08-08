@@ -39,9 +39,11 @@ module.exports = class {
 
       const markdownFile = this.conf.ui.paths.source.patterns + '/' + this.markdownSource;
       const markdownCurrent = fs.readFileSync(markdownFile, this.conf.enc); // Will throw if the file doesn't exist.
+      let markdownSanitized = this.markdownEdited.replace(/<script([^>]*)>/g, '&lt;script$1&gt;');
+      markdownSanitized = markdownSanitized.replace(/<\/script([^>]*)>/g, '&lt;/script$1&gt;');
 
       if (markdownCurrent !== this.markdownEdited) {
-        fs.writeFileSync(markdownFile, this.markdownEdited);
+        fs.writeFileSync(markdownFile, markdownSanitized);
         this.res.sendStatus(200); // OK.
       }
       else {
