@@ -1,0 +1,16 @@
+
+/* line 297 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/03-templates.styl */
+
+/* line 1 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/extend/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/03-templates.styl */
+main {
+  display: flex;
+  max-width: $bp-lg-max;
+}
+
+/* line 4 : /Users/ee/Sites/Vagrant/VHosts/electric-eloquence/fepper-0-dev/source/_styles/src/stylus/03-templates.styl */
+main ul {
+  padding-left: 0;
+  list-style-position: inside;
+}

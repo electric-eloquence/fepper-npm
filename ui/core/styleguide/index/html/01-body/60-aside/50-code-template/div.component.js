@@ -113,9 +113,11 @@ module.exports = {
             <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
 >${t("requerio.$orgs['#nav'].dispatchAction('css', {backgroundColor: 'green'})")}</li>
             <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
->${t("If not on the default demo site, or if the #nav element doesn't exist, replace '#nav' with your own selector, and the arguments with your own arguments.")}</li>
+>${t("The state change should be immediately visible.")}</li>
             <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
->${t("The state change should show up below.")}</li>
+>${t("If the nav is hidden because the viewport is too narrow, either widen the viewport, or click the sidebar toggle to show the nav.")}</li>
+            <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
+>${t("If not on the default demo site, or if the #nav element doesn't exist, replace '#nav' with your own selector, and the arguments with your own arguments.")}</li>
             <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"
 ><a href="https://github.com/electric-eloquence/requerio#readme" target="_blank">${t("Main Requerio docs.")}</a></li>
             <li class="sg-code-tree-requerio sg-code-tree-requerio-node sg-code-tree-requerio-leaf"

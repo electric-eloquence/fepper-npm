@@ -1,0 +1,7 @@
+{{> components-header }}
+<main id="main" class="main {{# javascript_developers? }}javascript-developers{{/ javascript_developers? }}" role="main">
+  {{> components-article }}
+  {{^ homepage? }}
+    {{> components-sidebar }}
+  {{/ homepage? }}
+</main>

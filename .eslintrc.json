@@ -13,6 +13,9 @@
   "globals": {
     "t": true
   },
+  "overrides": [{
+    "files": ["*.cjs"]
+  }],
   "rules": {
     // error
     "array-bracket-spacing": [2, "never"],

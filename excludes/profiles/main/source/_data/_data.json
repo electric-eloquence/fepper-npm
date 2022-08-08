@@ -1,4 +1,12 @@
 {
   "html_title": "Fepper",
-  "url": "#"
+  "url": "#",
+  "img": {
+    "logo": {
+      "src": "../../_assets/src/fepper-branding.png",
+      "alt": "Fepper Demo Site"
+    }
+  },
+  "logo_title": "Fepper Demo Site",
+  "main_content": "<h2>Lorem Ipsum</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Tortor consequat id porta nibh venenatis cras. Scelerisque purus semper eget duis at. Malesuada fames ac turpis egestas sed.</p><p>Mauris vestibulum rutrum purus eget feugiat. Ut semper nisi id efficitur aliquet. Aenean sit amet mauris sit amet sapien malesuada posuere. Fusce iaculis metus at felis ornare, quis sollicitudin massa auctor. Duis bibendum odio vel ante scelerisque, vel ultricies sem aliquam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam erat volutpat. Nam neque elit, euismod at magna sit amet, vehicula efficitur lorem.</p><p>Aenean ac nisi vel nisl mattis malesuada nec non nibh. Nunc eu congue diam. Donec nec eros elit. Nam lobortis condimentum turpis elementum convallis. Suspendisse potenti. Vivamus non iaculis est, nec vehicula odio. Cras risus nulla, pretium sed varius in, consequat in nulla. Suspendisse tempor urna eget fermentum iaculis. Proin tristique porta justo sed facilisis. Mauris blandit auctor urna sed placerat.</p>"
 }
