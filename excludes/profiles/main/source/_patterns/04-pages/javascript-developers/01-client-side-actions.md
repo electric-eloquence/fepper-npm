@@ -5,7 +5,7 @@ content_key: main_content
 
 Open `source/_scripts/src/requerio-app.cjs` in a text editor or IDE. The first 
 declaration defines the `$organisms` object which will be submitted to the 
-`Requerio` constructor. `$` is jQuery. That and Redux were written to the 
+`Requerio` constructor. `$` is jQuery. That and `Redux` were written to the 
 `window` object when those packages were initialized earlier in the page-load. 
 After Requerio gets initialized, two event listeners get created. The event 
 listener we're concerned with is the one added to the 
