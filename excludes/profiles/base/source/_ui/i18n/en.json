@@ -191,9 +191,11 @@
     "",
   "Use the Requerio Inspector to display the real-time JavaScript state of elements in your site!":
     "",
+  "<a href='/?p=pages-requerio-inspector-basics'>Click here to view the demo.</a>":
+    "",
   "The demo site packaged with <a href='https://github.com/electric-eloquence/fepper/releases' target='_blank'>Fepper's main distro</a> serves as documentation for setup and use.":
     "",
-  "You can also view this documentation on <a href='https://fepper.io/docpage--requerio-inspector.html' target='_blank'>Fepper's website</a>.":
+  "You can also view documentation on <a href='https://fepper.io/docpage--requerio-inspector.html' target='_blank'>Fepper's website</a>.":
     "",
   "How to dispatch actions in your browser's Developer Tools:":
     "",
