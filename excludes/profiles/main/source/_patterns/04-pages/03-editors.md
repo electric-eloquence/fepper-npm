@@ -4,7 +4,7 @@ content_key: main_content
 # For Editors
 
 Fepper gives Editors the ability to edit Markdown files directly in the UI. 
-Click the eyeball icon on the right side of the menu. Then click "CODE". The 
+Click the eyeball icon on the right side of the top menu. Then click "CODE". The 
 Code Viewer will open and, by default, will show the Feplet pane. Click on the 
 "Markdown" tab and if the pattern has an associated `.md` file, its Markdown 
 will be displayed. It can be edited by clicking the "Edit" button. If the 
