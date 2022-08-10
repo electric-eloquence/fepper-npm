@@ -61,6 +61,7 @@ describe('Readme', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/font-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>

@@ -47,6 +47,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/fonts-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
@@ -105,6 +106,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/fonts-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
@@ -173,6 +175,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/fonts-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
@@ -238,6 +241,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/fonts-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
@@ -304,6 +308,7 @@ describe('Success', function () {
     <meta http-equiv="pragma" content="no-cache">
 
     
+    <link rel="stylesheet" href="/webserved/fonts-offline.css">
     <link rel="stylesheet" href="/webserved/core.css">
     
   </head>
