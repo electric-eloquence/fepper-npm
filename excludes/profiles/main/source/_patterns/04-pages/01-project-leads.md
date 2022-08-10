@@ -32,7 +32,7 @@ local.
 
 The Code Viewer also gives JavaScript Developers the ability to inspect state. 
 If application state is managed through Requerio, upon opening the Requerio pane 
-of the Code Viewer, Developers can hover over the state tree and hightlight the 
+of the Code Viewer, Developers can hover over the state tree and highlight the 
 corresponding element. The state tree will display changes to state in real 
 time. This demo site also gives examples of server-side Node.js testing, which 
 are state-driven.

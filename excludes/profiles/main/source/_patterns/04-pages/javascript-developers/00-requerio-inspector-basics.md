@@ -6,7 +6,7 @@ content_key: main_content
 This demo site has its client-side application state managed by Requerio. To 
 inspect the application state of this page, click the eyeball icon on the right 
 side of the top menu. Then click "CODE". After the Code Viewer opens, click on 
-the "Requerio" tab. You can then hover over the state tree and hightlight the 
+the "Requerio" tab. You can then hover over the state tree and highlight the 
 corresponding element. (HTML elements given state are referred to as 
 "organisms".) The state tree will display changes to state in real time.
 
