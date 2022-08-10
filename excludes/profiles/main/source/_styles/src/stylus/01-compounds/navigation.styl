@@ -16,13 +16,17 @@
     overflow: hidden
     padding-left: 1.5rem
     transition: max-height 0.2s linear
-    &-container.active
-      .caret--down
-        display: none
-      .caret--up
-        display: inline
-      .nav__submenu
-        max-height: $nav-submenu-height
+    &-container
+      background: $pink
+      &.active
+        .caret--down
+          display: none
+        .caret--up
+          display: inline
+        .nav__submenu
+          max-height: $nav-submenu-height
+    &-toggle
+      background: $pink
 .javascript-developers
   .nav__submenu
     max-height: $nav-submenu-height
@@ -33,7 +37,7 @@
 #nav__menu
   padding-left: 0
 .sidebar-toggle-for-small-vp
-  background-color: transparent
+  background-color: white
   border: 0
   cursor: pointer
   display: none

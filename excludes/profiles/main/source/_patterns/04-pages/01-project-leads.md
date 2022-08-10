@@ -39,5 +39,5 @@ are state-driven.
 
 If after prototyping, you reach a point of completion and don't need further 
 complexity, you can output a fully operational website by running `fp static` 
-on the command line. The static site will be built out in the `public/static` 
+on the command line. The static site will be built out to the `public/static` 
 directory.
