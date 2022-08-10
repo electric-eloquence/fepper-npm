@@ -64,11 +64,15 @@ html {
 
 body {
   background: white;
-  font-family: Helvetica, "Nimbus Sans L", "Liberation Sans", Roboto, sans-serif;
-  font-size: 1.6em;
-  line-height: 1.5;
+  font: 1.6em/1.5 "Fira Sans", sans-serif;
   -webkit-text-size-adjust: 100%;
-  color: #333333;
+  color: #363636;
+}
+
+code {
+  background-color: #eee;
+  font-family: Menlo, "Lucida Console", "DejaVu Sans Mono", "Liberation Mono", "Roboto Mono", monospace;
+  font-size: 0.875em;
 }
 
 main {
@@ -96,7 +100,7 @@ main {
 }
 
 a {
-  color: #333333;
+  color: #363636;
   text-decoration: none;
   outline: 0;
 }
@@ -247,7 +251,7 @@ textarea {
 
 button,
 input[type="submit"] {
-  background: #333333;
+  background: #363636;
   border: 1px solid gray;
   color: white;
   cursor: pointer;
