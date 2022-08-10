@@ -31,7 +31,11 @@ exports.headBoilerplate = `
       <div id="message" class="message {{ msg_class }}">{{{ message }}}</div>`;
 
 exports.head = exports.headBoilerplate
-  .replace('{{{ stylesheets }}}', '<link rel="stylesheet" href="/webserved/core.css">');
+  .replace(
+    '{{{ stylesheets }}}',
+    `<link rel="stylesheet" href="/webserved/fonts-offline.css">
+    <link rel="stylesheet" href="/webserved/core.css">`
+  );
 
 exports.headMustache = exports.headBoilerplate
   .replace(
