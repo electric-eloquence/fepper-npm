@@ -4,9 +4,9 @@ content_key: main_content
 # For JavaScript Developers
 
 This demo site has its client-side application state managed by Requerio. To 
-inspect the application state of the homepage, click the eyeball icon on the 
-right side of the menu. Then click "CODE". Click on the "Requerio" tab in the 
-open Code Viewer. You can then hover over the state tree and hightlight the 
+inspect the application state of this page, click the eyeball icon on the right 
+side of the top menu. Then click "CODE". After the Code Viewer opens, click on 
+the "Requerio" tab. You can then hover over the state tree and hightlight the 
 corresponding element. (HTML elements given state are referred to as 
 "organisms".) The state tree will display changes to state in real time.
 
@@ -18,14 +18,14 @@ Developer Tools:
 * This should open the Inspector or Elements tab of the Developer Tools.
 * Click the adjacent tab to open the Console of the Developer Tools.
 * Enter the following example in the Console:
-* `requerio.$orgs['#nav'].dispatchAction('css', {backgroundColor: 'green'})`
+* <code id="requerio-dispatch">requerio.$orgs['#nav'].dispatchAction('css', {backgroundColor: 'green'})</code>
 * The state change should be immediately visible.
 * If the nav is hidden because the viewport is too narrow, either widen the 
   viewport, or click the sidebar toggle to show the nav.
 * If not on this demo site, or if the `#nav` element doesn't exist, replace 
   `'#nav'` with your own selector, and the arguments with your own arguments.
 * Action methods and their arguments:<br>
-  <a href="https://github.com/electric-eloquence/requerio/blob/dev/docs/methods.md"
+  <a id="requerio-methods" href="https://github.com/electric-eloquence/requerio/blob/dev/docs/methods.md"
   target="_blank">https://github.com/electric-eloquence/requerio/blob/dev/docs/methods.md
   </a>
 

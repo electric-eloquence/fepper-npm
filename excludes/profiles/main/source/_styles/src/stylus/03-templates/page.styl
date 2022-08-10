@@ -1,7 +1,10 @@
 main
   display: flex
+  margin: 0 auto
   max-width: $bp-lg-max
   position: relative
   ul
     padding-left: 0
     list-style-position: inside
+  @media all and (max-width: $bp-sm-max)
+    overflow: hidden

@@ -4,7 +4,7 @@ content_key: main_content
 # For Coding Designers
 
 Those skilled with HTML and CSS, and with an eye for design, can be delegated 
-to work on patterns, without having to edit the same file as others assigned 
+to work on patterns, without having to edit the same file as others assigned to 
 different tasks.
 
 The "patterns" are located in the `source/_patterns` directory on the file 
@@ -25,6 +25,7 @@ to patterns or styles on the file system and automatically reload them in the
 Browser. However, if you use your browser's Developer Tools to inspect an 
 element or its styles, the UI will generally reload the data in the Developer 
 Tools any time there is a change, making you lose your place, and forcing you to 
-re-inspect. Instead, click the eyeball icon, then click "OPEN IN NEW TAB". The 
-pattern will load in a new tab without the UI. It will still LiveReload changes, 
-but this will not cause you to lose your place in the Developer Tools.
+re-inspect. Instead, click the eyeball icon on the right side of the top menu. 
+Then click "OPEN IN NEW TAB". The pattern will load in a new tab without the UI. 
+It will still LiveReload changes, but this will not cause you to lose your place 
+in the Developer Tools.

@@ -22,7 +22,7 @@ to categorize styles in a directory structure resembling the patterns in
 `source/_patterns`.
 
 Fepper also gives Editors the ability to edit Markdown files directly in the UI. 
-Click the eyeball icon on the right side of the menu. Then click "CODE". By 
+Click the eyeball icon on the right side of the top menu. Then click "CODE". By 
 default, the Code Viewer shows the Feplet pane. You can view the Feplet code of 
 the pattern, and even navigate through the linked tags. Click on the "Markdown" 
 tab and if the pattern has an associated `.md` file, its Markdown will be 
@@ -39,5 +39,5 @@ are state-driven.
 
 If after prototyping, you reach a point of completion and don't need further 
 complexity, you can output a fully operational website by running `fp static` 
-on the command line. The static site will be built out in the `public/static` 
+on the command line. The static site will be built out to the `public/static` 
 directory.
