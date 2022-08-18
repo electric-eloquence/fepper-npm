@@ -1,5 +1,5 @@
 article
-  min-height: 'calc(100vh - %s)' % $header-height
+  min-height: 'calc(100vh - %s - %s)' % ($header-height $footer-height)
   padding: 0 1.5rem 2rem 4rem
   width: 'calc(100vw - %s)' % $nav-width
   @media all and (max-width: $bp-md-max)
@@ -28,3 +28,11 @@ article
     transition: right 0.2s linear
     &.active
       right: 0
+footer
+  background-color: black
+  color: white
+  height: $footer-height
+  padding: 3rem 1.5rem
+  position: relative
+  text-align: center
+  width: 100%
