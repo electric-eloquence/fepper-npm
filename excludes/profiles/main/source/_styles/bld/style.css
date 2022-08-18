@@ -155,7 +155,7 @@ header {
   }
 }
 article {
-  min-height: calc(100vh - 21.5rem);
+  min-height: calc(100vh - 21.5rem - 8.4rem);
   padding: 0 1.5rem 2rem 4rem;
   width: calc(100vw - 28.8rem);
 }
@@ -204,6 +204,15 @@ article {
   .nav.active {
     right: 0;
   }
+}
+footer {
+  background-color: #000;
+  color: #fff;
+  height: 8.4rem;
+  padding: 3rem 1.5rem;
+  position: relative;
+  text-align: center;
+  width: 100%;
 }
 main {
   display: flex;
