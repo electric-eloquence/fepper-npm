@@ -19,7 +19,7 @@
 
 * [Fepper Main](https://github.com/electric-eloquence/fepper) - main distribution.
 * [Fepper Base](https://github.com/electric-eloquence/fepper-base) - no 
-  unnecessary assets, styles, demo pages, or 
+  unnecessary assets, styles, demo website, or 
   <a href="https://www.npmjs.com/package/fp-stylus" target="_blank">fp-stylus</a> 
   extension.
 * [Fepper for Drupal](https://github.com/electric-eloquence/fepper-drupal) - 
