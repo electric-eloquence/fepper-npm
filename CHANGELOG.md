@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.41.1
+* Updated JSON5
+
 ### v0.41.0
 * Added Requerio Inspector to UI to inspect JavaScript state of patterns
 
