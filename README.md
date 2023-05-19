@@ -99,14 +99,16 @@ Additions (so long as they are correctly nested) will also be recognized.
 A working example of UI customization can be found at 
 <a href="https://github.com/electric-eloquence/fepper-drupal/blob/dev/source/_ui/index/html/00-head/head.component.js" target="_blank">
 https&colon;//github.com/electric-eloquence/fepper-drupal/blob/dev/source/_ui/index/html/00-head/head.component.js</a>. 
-The Fepper for Drupal project overrides its HTML title to read "Fepper D8" 
-instead of "Fepper". In order to do so, it has the `head.component.js` module 
-nested in directories that correspond to the tags that nest the `head` HTML 
-element. Both `head.component.js` and its nesting directories must be named 
+The Fepper for Drupal project overrides its HTML title to read "Fepper for 
+Drupal" instead of "Fepper". In order to do so, it has the `head.component.js` 
+module nested in directories that correspond to the tags that nest the `head` 
+HTML element. Both `head.component.js` and its nesting directories must be named 
 similarly to their corresponding elements. `.component.js` indicates that the 
-file is a module to be rendered by React. 
-<a href="https://reactjs.org/docs/dom-elements.html" target="_blank">
-It must export properties that `React.createElement()` understands</a>. 
+file is a module to be rendered by React. It must export 
+<a href="https://react.dev/reference/react-dom/components/common" target="_blank">
+an object of props</a> consumable as 
+<a href="https://react.dev/reference/react/createElement" target="_blank">
+the second parameter to `React.createElement()`</a>. 
 The numeric prefix to `00-head` orders it to precede `01-body`, even though 
 "body" precedes "head" alphabetically.
 
@@ -128,8 +130,8 @@ to UI scripts can be added to `source/_scripts/ui-extender.js`.
 
 Similarly, generic modifications to UI CSS can be added to 
 `source/_styles/pattern-scaffolding.css`. (The file is named this way to adhere 
-to <a href="https://patternlab.io/docs/pattern-states.html" target="_blank"> 
-the Pattern Lab documentation on pattern states</a>. It should not be relied on 
+to <a href="https://patternlab.io/docs/using-pattern-states/#heading-adding-customized-states" target="_blank">
+the Pattern Lab documentation on custom pattern states</a>. It should not be relied on 
 for pattern scaffolding.)
 
 View All markup can also be overridden by copying the .mustache files in 
