@@ -169,7 +169,15 @@ module.exports = class {
         const content = fs.readFileSync(pathFull, this.config.enc);
 
         if (this.styleExtsSupported.indexOf(ext) > -1) {
-          fs.appendFileSync(`${this.styleguidePath}/styles/ui${ext}`, content);
+          const styleFile = `${this.styleguidePath}/styles/ui${ext}`;
+
+          // Windows CI unexpectedly stopped creating non-existent files for appendFileSync().
+          if (fs.existsSync(styleFile)) {
+            fs.appendFileSync(styleFile, content);
+          }
+          else {
+            fs.writeFileSync(styleFile, content);
+          }
         }
         else if (ext === '.js' && item.slice(-13) !== '.component.js') {
           fs.appendFileSync(`${this.styleguidePath}/scripts/ui/compilation${ext}`, `\n${content}`);
