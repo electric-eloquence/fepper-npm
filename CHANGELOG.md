@@ -1,5 +1,8 @@
 # Fepper NPM Changelog
 
+### v0.41.2
+* Changed standard Node.js procedure to accommodate Windows
+
 ### v0.41.1
 * Updated JSON5
 
