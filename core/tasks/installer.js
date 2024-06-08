@@ -46,7 +46,7 @@ module.exports = class {
       process.chdir(this.extendDir);
       // eslint-disable-next-line quotes
       this.utils.log(`${t("Working directory changed to %s")}`, path.resolve(this.extendDir));
-      spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
+      spawnSync(this.binNpm, ['install'], {shell: true, stdio: 'inherit'});
     }
 
     // Run npm install in public dir if no public/node_modules dir.
@@ -55,7 +55,7 @@ module.exports = class {
       process.chdir(this.publicDir);
       // eslint-disable-next-line quotes
       this.utils.log(`${t("Working directory changed to %s")}`, path.resolve(this.publicDir));
-      spawnSync(this.binNpm, ['install'], {stdio: 'inherit'});
+      spawnSync(this.binNpm, ['install'], {shell: true, stdio: 'inherit'});
     }
 
     // Finish up.
